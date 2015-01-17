@@ -1,1 +1,0 @@
-java -jar ..\vendor\SaxonHE9-6-0-3J\saxon9he.jar -s:test.xml -xsl:test.xsl -o:result.xml

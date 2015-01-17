@@ -10,7 +10,7 @@ exports.config = {
 
 exports.api = {
 	login: '/login',
-	logout: '/login',
+	logout: '/logout',
 	sitemap: '/sitemap'
 };
 
