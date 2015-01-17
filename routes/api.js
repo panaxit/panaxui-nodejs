@@ -2,8 +2,13 @@ var express = require('express');
 var router = express.Router();
 
 var sql = require('mssql');
+var fs = require('fs');
+var libxslt = require('libxslt');
+
 var panaxdb = require('../panaxdb.js');
 var panaxui = require('../panaxui.js');
+
+module.exports = router;
 
 /* GET API descriptor */
 router.get('/', function (req, res, next) {
@@ -21,7 +26,7 @@ router.post(panaxui.api.login, function login(req, res, next) {
 			return next(err);
 		}
 		if (!req.body.username || !req.body.password) {
-			return next({message: "Error: Not logged in"});
+			return next({message: "Error: Missing username or password"});
 		}
 
 		/* SQL Request */
@@ -35,9 +40,6 @@ router.post(panaxui.api.login, function login(req, res, next) {
 				return next(err);
 			}
 
-console.dir(panaxui.config.username)
-console.dir(panaxui.config.password)
-console.dir(recordsets)
 			/* Set session data */
 			req.session.userId = recordsets[0][0].userId;
 			
@@ -56,7 +58,7 @@ console.dir(recordsets)
 });
 
 /* GET logout */
-router.get(panaxui.api.logout, function login(req, res) {
+router.get(panaxui.api.logout, function logout(req, res) {
 
 	/* Clear session */
 	req.session.userId = null;
@@ -68,4 +70,54 @@ router.get(panaxui.api.logout, function login(req, res) {
 	});
 });
 
-module.exports = router;
+/* GET sitemap */
+router.get(panaxui.api.sitemap, function sitemap(req, res, next) {
+
+	/* Connect to MSSQL */
+	sql.connect(panaxdb.config, function (err) {
+
+		/* Error handling */
+		if (err) {
+			return next(err);
+		}
+		if (!req.session.userId) {
+			return next({message: "Error: Not logged in"});
+		}
+
+		/* SQL Request */
+		var sql_req = new sql.Request();
+
+		sql_req.query("[$Security].UserSitemap @@IdUser=" + req.session.userId, function (err, recordset) {
+
+			/* Error handling for SQL Request */
+			if (err) {
+				return next(err);
+			}
+
+			/* XSLT Transformation */
+			var xsl = fs.readFileSync('xsl/sitemap.xsl', 'utf8');
+			var xml = recordset[0][''];
+
+			libxslt.parse(xsl, function(err, stylesheet) {
+				/* Error handling for XSLT  Parsing */
+				if (err) {
+					return next(err);
+				}
+				stylesheet.apply(xml, function(err, result) {
+					/* Error handling for XSLT  Transformation */
+					if (err) {
+						return next(err);
+					}
+					/* HACK: Remove first "<?xml..." line manually */
+					if (result.indexOf('<?xml') == 0) {
+						var tmp = result.split('\n');
+						tmp.splice(0, 1);
+						result = tmp.join('\n');
+					}
+					/* JSON Response */
+					res.json(JSON.parse(result));
+				});
+			});
+		});
+	});
+});
