@@ -1,10 +1,7 @@
 var express = require('express');
 var router = express.Router();
-
 var sql = require('mssql');
-var fs = require('fs');
-var libxslt = require('libxslt');
-
+var xslt = require('../xslt.js');
 var panaxdb = require('../panaxdb.js');
 var panaxui = require('../panaxui.js');
 
@@ -94,30 +91,8 @@ router.get(panaxui.api.sitemap, function sitemap(req, res, next) {
 				return next(err);
 			}
 
-			/* XSLT Transformation */
-			var xsl = fs.readFileSync('xsl/sitemap.xsl', 'utf8');
-			var xml = recordset[0][''];
-
-			libxslt.parse(xsl, function(err, stylesheet) {
-				/* Error handling for XSLT  Parsing */
-				if (err) {
-					return next(err);
-				}
-				stylesheet.apply(xml, function(err, result) {
-					/* Error handling for XSLT  Transformation */
-					if (err) {
-						return next(err);
-					}
-					/* HACK: Remove first "<?xml..." line manually */
-					if (result.indexOf('<?xml') == 0) {
-						var tmp = result.split('\n');
-						tmp.splice(0, 1);
-						result = tmp.join('\n');
-					}
-					/* JSON Response */
-					res.json(JSON.parse(result));
-				});
-			});
+			/* XSLT Transformation XML to JSON Response */
+			xslt.render(res, recordset[0][''], 'sitemap', next);
 		});
 	});
 });
