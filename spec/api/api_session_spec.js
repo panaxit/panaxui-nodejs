@@ -9,8 +9,10 @@ var	hostname = panaxui.config.hostname,
 	port = panaxui.config.port,
 	url = 'http://' + hostname + ':' + port + '/api';
 
+var session_cookie;
+
 /**
- * Test login
+ * Test Login
  */
 frisby.create('Login')
 	.post(url + panaxui.api.login, {
@@ -35,18 +37,16 @@ frisby.create('Login')
 .toss();	
 
 /**
- * Test get sitemap when logged in
+ * Test Get Sitemap (when logged in)
  */
 function get_sitemap(err, res, body) {
 
 	// ToDo: Should be stateless: https://github.com/vlucas/frisby/issues/36
+	// Grab returned session cookie
+    session_cookie = res.headers['set-cookie'][0].split(';')[0];
 
-	//  Grab returned session cookie
-    var cookie = res.headers['set-cookie'][0].split(';')[0];
-	console.dir(cookie);
-
-	frisby.create('Get sitemap')
-	    .addHeader('Cookie', cookie) // Pass session cookie with each request
+	frisby.create('Get Sitemap')
+	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
 		.get(url + panaxui.api.sitemap)
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
@@ -60,13 +60,33 @@ function get_sitemap(err, res, body) {
 			success: Boolean,
 			data: Array
 		})
+		.after(read_entity) // Chain tests (sync http requests)
+	.toss()
+}
+
+/**
+ * Test Read Entity (when logged in)
+ */
+function read_entity(err, res, body) {
+
+	frisby.create('Read Entity')
+	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
+		.get(url + panaxui.api.read)
+		.expectStatus(200)
+		.expectHeaderContains('content-type', 'application/json')
+		.expectJSON({
+			success: true
+		})
+		.expectJSONTypes({
+			success: Boolean
+		})
 		.after(logout) // Chain tests (sync http requests)
 	.toss()
 }
 
 
 /**
- * Test logout
+ * Test Logout
  */
 function logout(err, res, body) {
 	frisby.create('Logout')
@@ -84,10 +104,16 @@ function logout(err, res, body) {
 }
 
 /**
- * Test logout
+ * Test Fail Read Entity (when logged out)
+ * ToDo
  */
+
+/**
+ * Test Fail Sitemap (when logged out)
+ */
+
 function fail_sitemap(err, res, body) {
-	frisby.create('Fail sitemap')
+	frisby.create('Fail Sitemap')
 		.get(url + panaxui.api.sitemap)
 		.expectStatus(500)
 		.expectHeaderContains('content-type', 'application/json')
