@@ -38,7 +38,15 @@ frisby.create('Login')
  * Test get sitemap when logged in
  */
 function get_sitemap(err, res, body) {
+
+	// ToDo: Should be stateless: https://github.com/vlucas/frisby/issues/36
+
+	//  Grab returned session cookie
+    var cookie = res.headers['set-cookie'][0].split(';')[0];
+	console.dir(cookie);
+
 	frisby.create('Get sitemap')
+	    .addHeader('Cookie', cookie) // Pass session cookie with each request
 		.get(url + panaxui.api.sitemap)
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
@@ -71,15 +79,23 @@ function logout(err, res, body) {
 		.expectJSONTypes({
 			success: Boolean
 		})
-		//.after(fail_sitemap) // Chain tests (sync http requests)
+		.after(fail_sitemap) // Chain tests (sync http requests)
 	.toss();
 }
 
 /**
  * Test logout
  */
-// function fail_sitemap(err, res, body) {
-// 	frisby.create('Fail sitemap')
-
-// 	.toss();
-// }
+function fail_sitemap(err, res, body) {
+	frisby.create('Fail sitemap')
+		.get(url + panaxui.api.sitemap)
+		.expectStatus(500)
+		.expectHeaderContains('content-type', 'application/json')
+		.expectJSON({
+			success: false
+		})
+		.expectJSONTypes({
+			success: Boolean
+		})
+	.toss();
+}
