@@ -9,7 +9,7 @@ describe("XSLT", function() {
 		xml_result = fs.readFileSync('spec/fixtures/result.xml', 'utf8');
 
 	it("should parse XSL", function (done) {
-		fs.readFile('views/xsl/sitemap.xsl', 'utf8', function (err, xsl) {
+		fs.readFile('xsl/sitemap.xsl', 'utf8', function (err, xsl) {
 			libxslt.parse(xsl, function(err, stylesheet) {
 				expect(err).toBeFalsy();
 				done();
@@ -27,7 +27,6 @@ describe("XSLT", function() {
 						if(!err) {
 							expect(result).toEqual(xml_result);
 						}
-						console.log(result);
 						done();
 					});
 				});

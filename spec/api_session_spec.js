@@ -3,7 +3,7 @@
  */
 
 var frisby = require('frisby');
-var	panaxui = require('../../panaxui');
+var	panaxui = require('../panaxui');
 
 var	hostname = panaxui.config.hostname,
 	port = panaxui.config.port,
@@ -84,6 +84,10 @@ function read_entity(err, res, body) {
 	.toss()
 }
 
+/**
+ * Test Read Entity Data (when logged in)
+ * ToDo
+ */
 
 /**
  * Test Logout

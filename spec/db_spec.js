@@ -7,7 +7,7 @@ describe("PanaxDB MSSQL", function () {
 	var sql = require('mssql'),
 		panaxdb = require('../panaxdb'),
 		panaxui = require('../panaxui'),
-		md5 = panaxui.md5;
+		util = require('../util');
 
 	var userId;
 
@@ -37,7 +37,7 @@ describe("PanaxDB MSSQL", function () {
 			var sql_req = new sql.Request();
 
 			sql_req.input('username', sql.VarChar, panaxui.config.username);
-			sql_req.input('password', sql.VarChar, md5(panaxui.config.password));
+			sql_req.input('password', sql.VarChar, util.md5(panaxui.config.password));
 
 			sql_req.execute("[$Security].Authenticate", function (err, recordsets, returnValue) {
 				expect(err).toBeFalsy();
