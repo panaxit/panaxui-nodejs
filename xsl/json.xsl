@@ -34,6 +34,7 @@
 	<xsl:template match="*[@dataType='table']" mode="json">
 		"total": "<xsl:value-of select="@totalRecords"/>"
 		, "success": true
+		, "action": "data"
 		, "catalog": {
 		"dbId": "<xsl:value-of select="@dbId"/>"
 		,"catalogName": "<xsl:value-of select="@Table_Schema"/>.<xsl:value-of select="@Table_Name"/>"

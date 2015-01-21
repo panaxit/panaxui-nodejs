@@ -87,7 +87,7 @@ router.get('/sitemap', function sitemap(req, res, next) {
 						return next(err);
 					}
 
-					res.json(JSON.parse(util.sanitize_json_str(result)));
+					res.json(JSON.parse(util.sanitizeJSONString(result)));
 				});
 			});
 		});
@@ -143,7 +143,7 @@ router.get('/read', function read(req, res, next) {
 			var xmlDoc = libxmljs.parseXml(recordset[0]['']);
 
 			var sLocation = [
-				"../cache/app",
+				"cache/app",
 				'/' + xmlDoc.root().attr("dbId").value(),
 				'/' + xmlDoc.root().attr("lang").value(),
 				'/' + xmlDoc.root().attr("Table_Schema").value(),
@@ -190,6 +190,7 @@ router.get('/read', function read(req, res, next) {
 								// CONSOLE.LOG Created file: sFileName
 								res.json({
 									success: true,
+									action: "rebuild",
 									catalog: {
 										dbId: xmlDoc.root().attr("dbId").value(),
 										catalogName: xmlDoc.root().attr("Table_Schema").value() + '.' + xmlDoc.root().attr("Table_Name").value(),
@@ -216,7 +217,7 @@ router.get('/read', function read(req, res, next) {
 							if (err) 
 								return next(err);
 
-							res.json(JSON.parse(util.sanitize_json_str(result)));
+							res.json(JSON.parse(util.sanitizeJSONString(result)));
 						});
 					});
 				});

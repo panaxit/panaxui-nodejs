@@ -1,18 +1,36 @@
 /**
- * API Session Tests
+ * API Session Testing
+ *
+ * Timing Scenario:
+ *
+ * Login
+ * 		Get Sitemap
+ * 		Create Entity
+ * 		Read Data
+ * Logout
+ * 		Fail Read Data
+ * 		Fail Get Sitemap
+ * 		
  */
-
 var frisby = require('frisby');
 var	panaxui = require('../panaxui');
+var	util = require('../util');
 
 var	hostname = panaxui.config.hostname,
 	port = panaxui.config.port,
 	url = 'http://' + hostname + ':' + port;
 
+/**
+ * Before All
+ */
+// Remove previous generated files
+util.deleteFolderRecursive("cache");
+// Global session cookie to be passed with each request
 var session_cookie;
 
 /**
  * Test Login
+ * (when logged out)
  */
 frisby.create('Login')
 	.post(url + '/api/login', {
@@ -37,7 +55,8 @@ frisby.create('Login')
 .toss();	
 
 /**
- * Test Get Sitemap (when logged in)
+ * Test Get Sitemap
+ * (when logged in)
  */
 function get_sitemap(err, res, body) {
 
@@ -60,40 +79,69 @@ function get_sitemap(err, res, body) {
 			success: Boolean,
 			data: Array
 		})
-		.after(read_entity) // Chain tests (sync http requests)
+		.after(create_entity) // Chain tests (sync http requests)
 	.toss()
 }
 
 /**
- * Test Read Entity (when logged in)
+ * Test Create Entity @ first call
+ * (when logged in)
  */
-function read_entity(err, res, body) {
+function create_entity(err, res, body) {
 
-	frisby.create('Read Entity')
+	frisby.create('Create Entity @ first call')
 	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
 		.get(url + '/api/read?catalogName=dbo.Empleado')
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
-			success: true
+			success: true,
+			action: "rebuild"
 		})
 		.expectJSONTypes({
-			success: Boolean
+			success: Boolean,
+			action: String
+			//catalog // ToDo: Special catalog verification?
+		})
+		.after(read_data) // Chain tests (sync http requests)
+	.toss()
+}
+
+/**
+ * Test Read Data of existing entity
+ * (when logged in)
+ */
+function read_data(err, res, body) {
+
+	frisby.create('Read Data of existing entity')
+	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
+		.get(url + '/api/read?catalogName=dbo.Empleado')
+		.expectStatus(200)
+		.expectHeaderContains('content-type', 'application/json')
+		.expectJSON({
+			success: true,
+			action: "data"
+		})
+		.expectJSONTypes({
+			success: Boolean,
+			action: String
+			// ToDo: Extra keys verification?
+			//total:
+			//catalog
+			//metadata:
+			//data
 		})
 		.after(logout) // Chain tests (sync http requests)
 	.toss()
 }
 
 /**
- * Test Read Entity Data (when logged in)
- * ToDo
- */
-
-/**
  * Test Logout
+ * (when logged in)
  */
 function logout(err, res, body) {
 	frisby.create('Logout')
+	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
 		.get(url + '/api/logout')
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
@@ -103,21 +151,38 @@ function logout(err, res, body) {
 		.expectJSONTypes({
 			success: Boolean
 		})
+		.after(fail_read) // Chain tests (sync http requests)
+	.toss();
+}
+
+/**
+ * Test Fail Read Data of existing entity
+ * (when logged out)
+ * ToDo
+ */
+function fail_read(err, res, body) {
+	frisby.create('Fail Read Data of existing entity')
+	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
+		.get(url + '/api/read?catalogName=dbo.Empleado')
+		.expectStatus(500)
+		.expectHeaderContains('content-type', 'application/json')
+		.expectJSON({
+			success: false
+		})
+		.expectJSONTypes({
+			success: Boolean
+		})
 		.after(fail_sitemap) // Chain tests (sync http requests)
 	.toss();
 }
 
 /**
- * Test Fail Read Entity (when logged out)
- * ToDo
+ * Test Fail Get Sitemap
+ * (when logged out)
  */
-
-/**
- * Test Fail Sitemap (when logged out)
- */
-
 function fail_sitemap(err, res, body) {
-	frisby.create('Fail Sitemap')
+	frisby.create('Fail Get Sitemap')
+	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
 		.get(url + '/api/sitemap')
 		.expectStatus(500)
 		.expectHeaderContains('content-type', 'application/json')
