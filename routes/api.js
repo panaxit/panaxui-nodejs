@@ -4,7 +4,6 @@ var sql = require('mssql');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var libxslt = require('libxslt');
-var libxmljs = require('libxmljs');
 var panaxdb = require('../panaxdb.js');
 var util = require('../util.js');
 
@@ -140,7 +139,7 @@ router.get('/read', function read(req, res, next) {
 			if (err)
 				return next(err);
 			// CONSOLE.LOG EXEC [$Ver:Beta_12].getXmlData...
-			var xmlDoc = libxmljs.parseXml(recordset[0]['']);
+			var xmlDoc = libxslt.libxmljs.parseXml(recordset[0]['']);
 
 			var sLocation = [
 				"cache/app",
