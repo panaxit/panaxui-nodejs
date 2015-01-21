@@ -84,6 +84,10 @@ function read_entity(err, res, body) {
 	.toss()
 }
 
+/**
+ * Test Read Entity Data (when logged in)
+ * ToDo
+ */
 
 /**
  * Test Logout
