@@ -7,7 +7,7 @@ var	panaxui = require('../../panaxui');
 
 var	hostname = panaxui.config.hostname,
 	port = panaxui.config.port,
-	url = 'http://' + hostname + ':' + port + '/api';
+	url = 'http://' + hostname + ':' + port;
 
 var session_cookie;
 
@@ -15,7 +15,7 @@ var session_cookie;
  * Test Login
  */
 frisby.create('Login')
-	.post(url + panaxui.api.login, {
+	.post(url + '/api/login', {
 		username: panaxui.config.username,
 		password: panaxui.config.password
 	})
@@ -47,7 +47,7 @@ function get_sitemap(err, res, body) {
 
 	frisby.create('Get Sitemap')
 	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
-		.get(url + panaxui.api.sitemap)
+		.get(url + '/api/sitemap')
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
@@ -71,7 +71,7 @@ function read_entity(err, res, body) {
 
 	frisby.create('Read Entity')
 	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
-		.get(url + panaxui.api.read)
+		.get(url + '/api/read?catalogName=dbo.Empleado')
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
@@ -90,7 +90,7 @@ function read_entity(err, res, body) {
  */
 function logout(err, res, body) {
 	frisby.create('Logout')
-		.get(url + panaxui.api.logout)
+		.get(url + '/api/logout')
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
@@ -114,7 +114,7 @@ function logout(err, res, body) {
 
 function fail_sitemap(err, res, body) {
 	frisby.create('Fail Sitemap')
-		.get(url + panaxui.api.sitemap)
+		.get(url + '/api/sitemap')
 		.expectStatus(500)
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
