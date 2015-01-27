@@ -1,36 +1,25 @@
 /**
  * API Session Testing
  *
- * Timing Scenario:
- *
- * Login
- * 		Get Sitemap
- * 		Create Entity
- * 		Read Data
- * Logout
- * 		Fail Read Data
- * 		Fail Get Sitemap
- * 		
+ * 1. Login
+ * 2. Get Sitemap
+ * 3. Logout
+ * 4. Fail Sitemap
  */
 var frisby = require('frisby');
 var	panaxui = require('../panaxui');
-var	util = require('../util');
 
 var	hostname = panaxui.config.hostname,
 	port = panaxui.config.port,
 	url = 'http://' + hostname + ':' + port;
 
-/**
- * Before All
- */
-// Remove previous generated files
-util.deleteFolderRecursive("cache");
 // Global session cookie to be passed with each request
 var session_cookie;
 
 /**
  * Test Login
  * (when logged out)
+ * Chained Tests Entrypoint
  */
 frisby.create('Login')
 	.post(url + '/api/login', {
@@ -41,6 +30,7 @@ frisby.create('Login')
 	.expectHeaderContains('content-type', 'application/json')
 	.expectJSON({
 		success: true,
+		action: 'login',
 		// data: {
 		// 	userId: //ToDo: Special userId verification?
 		// }
@@ -51,8 +41,8 @@ frisby.create('Login')
 			userId: String
 		}
 	})
-	.after(get_sitemap) // Chain tests (sync http requests)
-.toss();	
+	.after(get_sitemap)
+.toss();
 
 /**
  * Test Get Sitemap
@@ -71,6 +61,7 @@ function get_sitemap(err, res, body) {
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
 			success: true
+			//ToDo: action: 'sitemap'
 		})
 		.expectJSONLength('data', function (val) {
 			expect(val).toBeGreaterThan(0); // Custom matcher callback
@@ -79,59 +70,7 @@ function get_sitemap(err, res, body) {
 			success: Boolean,
 			data: Array
 		})
-		.after(create_entity) // Chain tests (sync http requests)
-	.toss()
-}
-
-/**
- * Test Create Entity @ first call
- * (when logged in)
- */
-function create_entity(err, res, body) {
-
-	frisby.create('Create Entity @ first call')
-	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
-		.get(url + '/api/read?catalogName=dbo.Empleado')
-		.expectStatus(200)
-		.expectHeaderContains('content-type', 'application/json')
-		.expectJSON({
-			success: true,
-			action: "rebuild"
-		})
-		.expectJSONTypes({
-			success: Boolean,
-			action: String
-			//catalog // ToDo: Special catalog verification?
-		})
-		.after(read_data) // Chain tests (sync http requests)
-	.toss()
-}
-
-/**
- * Test Read Data of existing entity
- * (when logged in)
- */
-function read_data(err, res, body) {
-
-	frisby.create('Read Data of existing entity')
-	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
-		.get(url + '/api/read?catalogName=dbo.Empleado')
-		.expectStatus(200)
-		.expectHeaderContains('content-type', 'application/json')
-		.expectJSON({
-			success: true,
-			action: "data"
-		})
-		.expectJSONTypes({
-			success: Boolean,
-			action: String
-			// ToDo: Extra keys verification?
-			//total:
-			//catalog
-			//metadata:
-			//data
-		})
-		.after(logout) // Chain tests (sync http requests)
+		.after(logout)
 	.toss()
 }
 
@@ -146,33 +85,13 @@ function logout(err, res, body) {
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
-			success: true
+			success: true,
+			action: 'logout'
 		})
 		.expectJSONTypes({
 			success: Boolean
 		})
-		.after(fail_read) // Chain tests (sync http requests)
-	.toss();
-}
-
-/**
- * Test Fail Read Data of existing entity
- * (when logged out)
- * ToDo
- */
-function fail_read(err, res, body) {
-	frisby.create('Fail Read Data of existing entity')
-	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
-		.get(url + '/api/read?catalogName=dbo.Empleado')
-		.expectStatus(500)
-		.expectHeaderContains('content-type', 'application/json')
-		.expectJSON({
-			success: false
-		})
-		.expectJSONTypes({
-			success: Boolean
-		})
-		.after(fail_sitemap) // Chain tests (sync http requests)
+		.after(fail_sitemap)
 	.toss();
 }
 
