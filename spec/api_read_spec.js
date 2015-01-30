@@ -25,7 +25,7 @@ var session_cookie;
  * Login Entrypoint
  */
 frisby.create('Login')
-	.post(url + '/api/login', {
+	.post(url + '/api/session/login', {
 		username: panaxui.config.username,
 		password: panaxui.config.password
 	})
@@ -118,7 +118,7 @@ function read_html_filetemplate(err, res, body) {
 function logout(err, res, body) {
 	frisby.create('Logout')
 	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
-		.get(url + '/api/logout')
+		.get(url + '/api/session/logout')
 		.expectStatus(200)
 		.after(fail_read)
 	.toss();

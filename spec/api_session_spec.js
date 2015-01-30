@@ -22,7 +22,7 @@ var session_cookie;
  * Chained Tests Entrypoint
  */
 frisby.create('Login')
-	.post(url + '/api/login', {
+	.post(url + '/api/session/login', {
 		username: panaxui.config.username,
 		password: panaxui.config.password
 	})
@@ -56,7 +56,7 @@ function get_sitemap(err, res, body) {
 
 	frisby.create('Get Sitemap')
 	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
-		.get(url + '/api/sitemap')
+		.get(url + '/api/session/sitemap')
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
@@ -81,7 +81,7 @@ function get_sitemap(err, res, body) {
 function logout(err, res, body) {
 	frisby.create('Logout')
 	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
-		.get(url + '/api/logout')
+		.get(url + '/api/session/logout')
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
@@ -102,7 +102,7 @@ function logout(err, res, body) {
 function fail_sitemap(err, res, body) {
 	frisby.create('Fail Get Sitemap')
 	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
-		.get(url + '/api/sitemap')
+		.get(url + '/api/session/sitemap')
 		.expectStatus(500)
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({

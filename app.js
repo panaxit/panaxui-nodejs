@@ -6,8 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
-var routes = require('./routes/index');
+var index = require('./routes/index');
 var api = require('./routes/api');
+var api_session = require('./routes/api_session');
+var api_build = require('./routes/api_build');
+var api_read = require('./routes/api_read');
 
 var app = express();
 
@@ -28,8 +31,12 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
+// routes
+app.use('/', index);
 app.use('/api', api);
+app.use('/api/session', api_session);
+app.use('/api/build', api_build);
+app.use('/api/read', api_read);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
