@@ -7,10 +7,10 @@
  * 4. Fail Sitemap
  */
 var frisby = require('frisby');
-var	panaxui = require('../panaxui');
+var	panax = require('../panax');
 
-var	hostname = panaxui.config.hostname,
-	port = panaxui.config.port,
+var	hostname = panax.ui.config.hostname,
+	port = panax.ui.config.port,
 	url = 'http://' + hostname + ':' + port;
 
 // Global session cookie to be passed with each request
@@ -23,8 +23,8 @@ var session_cookie;
  */
 frisby.create('Login')
 	.post(url + '/api/session/login', {
-		username: panaxui.config.username,
-		password: panaxui.config.password
+		username: panax.ui.config.username,
+		password: panax.ui.config.password
 	})
 	.expectStatus(200)
 	.expectHeaderContains('content-type', 'application/json')

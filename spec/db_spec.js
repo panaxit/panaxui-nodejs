@@ -2,24 +2,23 @@
  * DB Jasmine tests
  */
 
-describe("PanaxDB MSSQL", function () {
+describe("panax.db MSSQL", function () {
 
 	var sql = require('mssql'),
-		panaxdb = require('../panaxdb'),
-		panaxui = require('../panaxui'),
+		panax = require('../panax'),
 		util = require('../util');
 
 	var userId;
 
 	it("should connect", function (done) {
-		sql.connect(panaxdb.config, function (err) {
+		sql.connect(panax.db.config, function (err) {
 			expect(err).toBeFalsy();
 			done();
 		});
 	});
 
 	it("should execute SQL queries", function (done) {
-		sql.connect(panaxdb.config, function (err) {
+		sql.connect(panax.db.config, function (err) {
 			var sql_req = new sql.Request();
 
 			sql_req.query('select 1 as number', function (err, recordset) {
@@ -33,11 +32,11 @@ describe("PanaxDB MSSQL", function () {
 	});
 
 	it("should [$Security].Authenticate", function (done) {
-		sql.connect(panaxdb.config, function (err) {
+		sql.connect(panax.db.config, function (err) {
 			var sql_req = new sql.Request();
 
-			sql_req.input('username', sql.VarChar, panaxui.config.username);
-			sql_req.input('password', sql.VarChar, util.md5(panaxui.config.password));
+			sql_req.input('username', sql.VarChar, panax.ui.config.username);
+			sql_req.input('password', sql.VarChar, util.md5(panax.ui.config.password));
 
 			sql_req.execute("[$Security].Authenticate", function (err, recordsets, returnValue) {
 				expect(err).toBeFalsy();
@@ -51,7 +50,7 @@ describe("PanaxDB MSSQL", function () {
 	});
 
 	it("should get sitemap with '[$Security].UserSitemap'", function (done) {
-		sql.connect(panaxdb.config, function (err) {
+		sql.connect(panax.db.config, function (err) {
 			var sql_req = new sql.Request();
 
 			sql_req.query("[$Security].UserSitemap @@IdUser="+userId, function (err, recordsets, returnValue) {

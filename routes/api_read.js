@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var sql = require('mssql');
-var panaxdb = require('../panaxdb.js');
+var panax = require('../panax');
 
 var fs = require('fs');
 var libxslt = require('libxslt');
 var pate = require('node-pate');
 
 var util = require('../util.js');
-var formatter = require('../format_lib.js');
+var formatter = require('../format_lib');
 
 module.exports = router;
 
@@ -59,7 +59,7 @@ router.get('/', function read(req, res, next) {
 		'@lang=' + (req.query.lang || (req.session.lang || 'DEFAULT'))
 	];
 
-	sql.connect(panaxdb.config, function (err) {
+	sql.connect(panax.db.config, function (err) {
 		if (err)
 			return next(err);
 

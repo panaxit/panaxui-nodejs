@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var sql = require('mssql');
-var panaxdb = require('../panaxdb.js');
+var panax = require('../panax');
 
+var path = require('path');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var libxslt = require('libxslt');
@@ -29,16 +30,16 @@ router.get('/', function read(req, res, next) {
 	if (!req.query.catalogName)
 		return next({message: "Error: No catalogName supplied"});
 
-	req.query.output = req.query.output || 'extjs'; // ExtJS is default GUI Output
+	output = (req.query.output || 'extjs').toLowerCase(); // ExtJS is default GUI Output
 
-	if (req.query.output.toLowerCase() != 'extjs')
-		return next({message: "Error: Output '" + req.query.output + "' not supported"});
+	if (output != 'extjs')
+		return next({message: "Error: Output '" + output + "' not supported"});
 
 	var sql_args = [
 		'@@IdUser=' + req.session.userId,
 		'@TableName=' + "'" + req.query.catalogName + "'",
 
-		'@output=' + req.query.output,
+		'@output=' + output,
 		'@rebuild=' + (req.query.rebuild || 'DEFAULT'),
 		'@getData=' + (req.query.getData || '0'),
 		'@getStructure=' + (req.query.getStructure || '1'),
@@ -56,7 +57,7 @@ router.get('/', function read(req, res, next) {
 		'@lang=' + (req.query.lang || (req.session.lang || 'DEFAULT'))
 	];
 
-	sql.connect(panaxdb.config, function (err) {
+	sql.connect(panax.db.config, function (err) {
 		if (err)
 			return next(err);
 
@@ -79,16 +80,18 @@ router.get('/', function read(req, res, next) {
 				controlType: xmlDoc.root().attr("controlType").value()
 			};
 
-			var sLocation = [
-				"cache/app",
-				'/' + catalog.dbId,
-				'/' + catalog.lang,
-				'/' + catalog.Table_Schema,
-				'/' + catalog.Table_Name,
-				'/' + catalog.mode
-			].join('');
+			var sLocation = path.join(
+				panax.ui.guis[output].root,
+				"cache", "app",
+				catalog.dbId,
+				catalog.lang,
+				catalog.Table_Schema,
+				catalog.Table_Name,
+				catalog.mode
+			);
+			console.log(sLocation)
 
-			var sFileName = sLocation + '/' + catalog.controlType + '.js';
+			var sFileName = path.join(sLocation, catalog.controlType + '.js');
 
 			if(fs.existsSync(sFileName) && !req.query.rebuild) { // CONSOLE.LOG Already existing file: sFileName
 				res.json({
@@ -105,7 +108,7 @@ router.get('/', function read(req, res, next) {
 				if(!fs.existsSync(sLocation))
 					mkdirp(sLocation);
 				// CONSOLE.LOG Missing folder: sLocation
-				libxslt.parseFile('xsl/' + req.query.output + '.xsl', function (err, stylesheet) {
+				libxslt.parseFile('xsl/' + output + '.xsl', function (err, stylesheet) {
 					if (err)
 						return next(err);
 

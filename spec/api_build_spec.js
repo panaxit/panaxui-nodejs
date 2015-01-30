@@ -9,16 +9,14 @@
  * 6. Fail Build ExtJS GUI
  */
 var frisby = require('frisby');
+var path = require('path');
+var fs = require('fs');
 var	util = require('../util');
-var	panaxui = require('../panaxui');
-var	panaxdb = require('../panaxdb');
+var	panax = require('../panax');
 
-var	hostname = panaxui.config.hostname,
-	port = panaxui.config.port,
+var	hostname = panax.ui.config.hostname,
+	port = panax.ui.config.port,
 	url = 'http://' + hostname + ':' + port;
-
-// Remove previous generated files
-util.deleteFolderRecursive("cache");
 
 // Global session cookie to be passed with each request
 var session_cookie;
@@ -28,8 +26,8 @@ var session_cookie;
  */
 frisby.create('Login')
 	.post(url + '/api/session/login', {
-		username: panaxui.config.username,
-		password: panaxui.config.password
+		username: panax.ui.config.username,
+		password: panax.ui.config.password
 	})
 	.expectStatus(200)
 	.after(build_extjs_gui)
@@ -45,6 +43,11 @@ function build_extjs_gui(err, res, body) {
 	// Grab returned session cookie
     session_cookie = res.headers['set-cookie'][0].split(';')[0];
 
+	// Remove previous generated files
+	var sLocation = path.join(panax.ui.guis['extjs'].root, "cache");
+	if(fs.existsSync(sLocation))
+		util.deleteFolderRecursive(sLocation);
+
 	frisby.create('Build ExtJS GUI')
 	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
 		.get(url + '/api/build?catalogName=dbo.Empleado&ouput=extjs')
@@ -54,7 +57,7 @@ function build_extjs_gui(err, res, body) {
 			success: true,
 			action: "built",
 			catalog: {
-				dbId: panaxdb.config.database,
+				dbId: panax.db.config.database,
 				Table_Schema: "dbo",
 				Table_Name: "Empleado",
 				//mode:
@@ -93,7 +96,7 @@ function rebuild_extjs_gui(err, res, body) {
 			success: true,
 			action: "built",
 			catalog: {
-				dbId: panaxdb.config.database,
+				dbId: panax.db.config.database,
 				Table_Schema: "dbo",
 				Table_Name: "Empleado",
 				//mode:
@@ -133,7 +136,7 @@ function existing_extjs_gui(err, res, body) {
 			action: "existing",
 			//filename:
 			catalog: {
-				dbId: panaxdb.config.database,
+				dbId: panax.db.config.database,
 				Table_Schema: "dbo",
 				Table_Name: "Empleado",
 				//mode:

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var sql = require('mssql');
-var panaxdb = require('../panaxdb.js');
+var panax = require('../panax.js');
 
 var libxslt = require('libxslt');
 
@@ -18,7 +18,7 @@ router.post('/login', function login(req, res, next) {
 	if (!req.body.password)
 		return next({message: "Error: Missing password"});
 
-	sql.connect(panaxdb.config, function (err) {
+	sql.connect(panax.db.config, function (err) {
 		if (err)
 			return next(err);
 
@@ -66,7 +66,7 @@ router.get('/sitemap', function sitemap(req, res, next) {
 	if (!req.session.userId)
 		return next({message: "Error: Not logged in"});
 
-	sql.connect(panaxdb.config, function (err) {
+	sql.connect(panax.db.config, function (err) {
 		if (err)
 			return next(err);
 

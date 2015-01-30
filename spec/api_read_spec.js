@@ -10,12 +10,11 @@
  */
 var frisby = require('frisby');
 var	util = require('../util');
-var	panaxui = require('../panaxui');
-var	panaxdb = require('../panaxdb');
+var	panax = require('../panax');
 var querystring = require("querystring");
 
-var	hostname = panaxui.config.hostname,
-	port = panaxui.config.port,
+var	hostname = panax.ui.config.hostname,
+	port = panax.ui.config.port,
 	url = 'http://' + hostname + ':' + port;
 
 // Global session cookie to be passed with each request
@@ -26,8 +25,8 @@ var session_cookie;
  */
 frisby.create('Login')
 	.post(url + '/api/session/login', {
-		username: panaxui.config.username,
-		password: panaxui.config.password
+		username: panax.ui.config.username,
+		password: panax.ui.config.password
 	})
 	.expectStatus(200)
 	.after(read_json_data)
@@ -59,7 +58,7 @@ function read_json_data(err, res, body) {
 			success: true,
 			action: "data",
 			catalog: {
-				dbId: panaxdb.config.database,
+				dbId: panax.db.config.database,
 				catalogName: 'dbo.Empleado'
 				//mode:
 				//controlType:
