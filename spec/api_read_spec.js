@@ -3,15 +3,16 @@
  *
  * 1. Login
  * 2. Read JSON DATA
- * 3. Read HTML Data
- * 4. Read HTML with FileTemplate
- * 5. Logout
- * 6. Fail Read Data
+ * 3. Read HTML FileTemplate
+ * 5. ToDo: Read HTML DATA
+ * 6. Logout
+ * 7. Fail Read DATA
  */
 var frisby = require('frisby');
 var	util = require('../util');
 var	panaxui = require('../panaxui');
 var	panaxdb = require('../panaxdb');
+var querystring = require("querystring");
 
 var	hostname = panaxui.config.hostname,
 	port = panaxui.config.port,
@@ -42,12 +43,19 @@ function read_json_data(err, res, body) {
 	// Grab returned session cookie
     session_cookie = res.headers['set-cookie'][0].split(';')[0];
 
+	var query = querystring.stringify({
+		catalogName: "dbo.Empleado",
+		filters: "'id=1'",
+		output: "json"
+	})
+
 	frisby.create('Read JSON DATA')
 	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
-		.get(url + '/api/read?catalogName=dbo.Empleado&ouput=json')
+		.get(url + '/api/read?' + query)
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
+			total: "1",
 			success: true,
 			action: "data",
 			catalog: {
@@ -71,33 +79,38 @@ function read_json_data(err, res, body) {
 			},
 			data: Array
 			// ToDo: Extra keys verification?
-			//total:
 			//metadata:
 		})
-		.after(read_html_filetemplate_data)
+		.after(read_html_filetemplate)
 	.toss()
 }
 
 /**
- * Test Read HTML DATA (html.xsl)
+ * Test Read HTML FileTemplate
  * (when logged in)
  */
-// ToDo
+function read_html_filetemplate(err, res, body) {
 
-/**
- * Test Read HTML with FileTemplate (using node-pate)
- * (when logged in)
- */
-function read_html_filetemplate_data(err, res, body) {
+	var query = querystring.stringify({
+		catalogName: "dbo.Empleado",
+		controlType: "fileTemplate",
+		filters: "'id=1'",
+		output: "html"
+	})
 
-	frisby.create('Read HTML with FileTemplate (using node-pate)')
+	frisby.create('Read HTML FileTemplate')
 	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
-		.get(url + '/api/read?catalogName=dbo.Empleado&controlType=fileTemplate&ouput=html')
+		.get(url + '/api/read?' + query)
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'text/html')
 		.after(logout)
 	.toss()
 }
+
+/**
+ * ToDo: Test Read HTML DATA (html.xsl)
+ * (when logged in)
+ */
 
 /**
  * Logout
@@ -112,7 +125,7 @@ function logout(err, res, body) {
 }
 
 /**
- * Test Fail Read Data of existing entity
+ * Test Fail Read DATA of existing entity
  * (when logged out)
  */
 function fail_read(err, res, body) {
