@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
+var panax = require('./panax');
+
 var index = require('./routes/index');
 var api = require('./routes/api');
 var api_session = require('./routes/api_session');
@@ -30,6 +32,11 @@ app.use(session({
     saveUninitialized: true
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+//GUIs static webserver
+panax.ui.enabled_guis.forEach(function (gui, index, arr) {
+    app.use('/gui/' + gui, express.static(panax.ui.guis[gui].root));
+});
 
 // routes
 app.use('/', index);

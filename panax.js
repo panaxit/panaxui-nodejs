@@ -1,3 +1,5 @@
+var path = require('path');
+
 /**
  * PanaxDB
  */
@@ -31,7 +33,7 @@ exports.ui = {
 	guis: {
 		// Ext JS 5
 		extjs: {
-			root: __dirname + '/../Beta_12.9/extjs' // '../panaxui-gui-extjs5'
+			root: path.join(__dirname, '..', 'panaxui-extjs')
 		}
 	}
 };
