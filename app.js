@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
-var panax = require('./panax');
+var panax = require('./config/panax');
 
 var index = require('./routes/index');
 var api = require('./routes/api');

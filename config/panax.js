@@ -7,7 +7,8 @@ exports.db = {
 
 	config: {
 		server: 'localhost',
-		database: 'Showcase',
+		//database: 'Showcase',
+		database: 'Demo12.6feb2015',
 		user: 'sa',
 		password: 'zama'
 	}
