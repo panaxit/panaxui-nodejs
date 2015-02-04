@@ -31,9 +31,6 @@ frisby.create('Login')
 	.expectJSON({
 		success: true,
 		action: 'login',
-		// data: {
-		// 	userId: //ToDo: Special userId verification?
-		// }
 	})
 	.expectJSONTypes({
 		success: Boolean,

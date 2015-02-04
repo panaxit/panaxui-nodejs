@@ -79,7 +79,6 @@ function read_json_data(err, res, body) {
 				//lang: String
 			},
 			data: Array
-			// ToDo: Extra keys verification?
 			//metadata:
 		})
 		.after(read_html_filetemplate)

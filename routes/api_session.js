@@ -33,7 +33,6 @@ router.post('/login', function login(req, res, next) {
 
 			req.session.userId = recordsets[0][0].userId;
 			//ToDo: oCn.execute "IF EXISTS(SELECT 1 FROM INFORMATION_SCHEMA.ROUTINES IST WHERE routine_schema IN ('$Application') AND ROUTINE_NAME IN ('OnStartUp')) BEGIN EXEC [$Application].OnStartUp END"
-			//ToDo: sqlRequest.query("...", function (err, recordset) {...
 
 			res.json({
 				success: true,

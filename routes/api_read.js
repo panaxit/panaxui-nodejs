@@ -34,7 +34,7 @@ router.get('/', function read(req, res, next) {
 
 	req.query.output = req.query.output || 'json'; // JSON is default output
 
-	if (req.query.output.toLowerCase() != 'json' && req.query.output.toLowerCase() != 'html') // ToDo: || req.query.output.toLowerCase() != 'xml'
+	if (req.query.output.toLowerCase() != 'json' && req.query.output.toLowerCase() != 'html')
 		return next({message: "Error: Output '" + req.query.output + "' not supported"});
 
 	var sql_args = [
