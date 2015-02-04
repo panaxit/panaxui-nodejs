@@ -2,13 +2,13 @@
  * DB Jasmine tests
  */
 
+var sql = require('mssql');
+var panax = require('../config/panax');
+var util = require('../lib/util');
+
+var userId;
+
 describe("panax.db MSSQL", function () {
-
-	var sql = require('mssql'),
-		panax = require('../panax'),
-		util = require('../util');
-
-	var userId;
 
 	it("should connect", function (done) {
 		sql.connect(panax.db.config, function (err) {
@@ -53,7 +53,7 @@ describe("panax.db MSSQL", function () {
 		sql.connect(panax.db.config, function (err) {
 			var sql_req = new sql.Request();
 
-			sql_req.query("[$Security].UserSitemap @@IdUser="+userId, function (err, recordsets, returnValue) {
+			sql_req.query("[$Security].UserSitemap @@UserId="+userId, function (err, recordsets, returnValue) {
 				expect(err).toBeFalsy();
 				done();
 			});

@@ -9,8 +9,8 @@
  * 7. Fail Read DATA
  */
 var frisby = require('frisby');
-var	util = require('../util');
-var	panax = require('../panax');
+var	util = require('../lib/util');
+var	panax = require('../config/panax');
 var querystring = require("querystring");
 
 var	hostname = panax.ui.config.hostname,
@@ -65,7 +65,9 @@ function read_json_data(err, res, body) {
 				//lang:
 			}
 		})
-		//.expectJSONLength('data', 1) ToDo: Test Data length > 0
+		.expectJSONLength('data', function (val) {
+			expect(val).toBe(1); // Custom matcher callback
+		})
 		.expectJSONTypes({
 			success: Boolean,
 			action: String,

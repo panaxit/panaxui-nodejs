@@ -2,13 +2,13 @@
  * XSLT Jasmine tests
  */
 
-describe("XSLT", function() {
+var fs = require('fs');
+var util = require('../lib/util');
+var libxslt = require('libxslt');
+var xml_result = fs.readFileSync('spec/fixtures/result.xml', 'utf8');
+var json_result = fs.readFileSync('spec/fixtures/result.json', 'utf8');
 
-	var fs = require('fs'),
-		util = require('../util'), 
-		libxslt = require('libxslt'),
-		xml_result = fs.readFileSync('spec/fixtures/result.xml', 'utf8'),
-		json_result = fs.readFileSync('spec/fixtures/result.json', 'utf8');
+describe("XSLT", function() {
 
 	it("should parse XSL", function (done) {
 		fs.readFile('xsl/sitemap.xsl', 'utf8', function (err, xsl) {

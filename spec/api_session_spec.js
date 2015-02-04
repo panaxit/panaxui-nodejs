@@ -7,7 +7,7 @@
  * 4. Fail Sitemap
  */
 var frisby = require('frisby');
-var	panax = require('../panax');
+var	panax = require('../config/panax');
 
 var	hostname = panax.ui.config.hostname,
 	port = panax.ui.config.port,
@@ -60,14 +60,15 @@ function get_sitemap(err, res, body) {
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
-			success: true
-			//ToDo: action: 'sitemap'
+			success: true,
+			action: 'sitemap'
 		})
 		.expectJSONLength('data', function (val) {
 			expect(val).toBeGreaterThan(0); // Custom matcher callback
 		})
 		.expectJSONTypes({
 			success: Boolean,
+			action: String,
 			data: Array
 		})
 		.after(logout)

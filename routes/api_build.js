@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var sql = require('mssql');
-var panax = require('../panax');
+var panax = require('../config/panax');
 
 var path = require('path');
 var fs = require('fs');
@@ -36,7 +36,7 @@ router.get('/', function read(req, res, next) {
 		return next({message: "Error: Output '" + output + "' not supported"});
 
 	var sql_args = [
-		'@@IdUser=' + req.session.userId,
+		'@@UserId=' + req.session.userId,
 		'@TableName=' + "'" + req.query.catalogName + "'",
 
 		'@output=' + output,
@@ -63,13 +63,23 @@ router.get('/', function read(req, res, next) {
 
 		var sql_req = new sql.Request();
 		//sql_req.verbose = true;
+		var sql_str = 'EXEC [$Ver:Beta_12].getXmlData ' + sql_args.join(', ');
 
-		sql_req.query('EXEC [$Ver:Beta_12].getXmlData ' + sql_args.join(', '), function (err, recordset) {
+		sql_req.query(sql_str, function (err, recordset) {
 			if (err)
 				return next(err);
-			// CONSOLE.LOG EXEC [$Ver:Beta_12].getXmlData...
+
+			console.info('# /api/build - sql_str: ' + sql_str);
+
 			var xml = recordset[0][''];
+
+			if(!xml)
+				return next({message: "Error: Missing Data XML"});
+
 			var xmlDoc = libxslt.libxmljs.parseXml(xml);
+
+			if(!xmlDoc)
+				return next({message: "Error: Parsing XML"});
 
 			var catalog = {
 				dbId: xmlDoc.root().attr("dbId").value(),
@@ -89,25 +99,31 @@ router.get('/', function read(req, res, next) {
 				catalog.Table_Name,
 				catalog.mode
 			);
-			console.log(sLocation)
 
 			var sFileName = path.join(sLocation, catalog.controlType + '.js');
 
-			if(fs.existsSync(sFileName) && !req.query.rebuild) { // CONSOLE.LOG Already existing file: sFileName
+			// ToDo: Use Async functions?
+			if(fs.existsSync(sFileName) && !req.query.rebuild) {
+				console.info('# /api/build - Already existing file: ' + sFileName);
 				res.json({
 					success: true,
 					action: "existing",
 					filename: sFileName,
 					catalog: catalog
 				});
-			} else { 
-				// CONSOLE.LOG (Re-)Building file: sFileName
-				if(fs.existsSync(sFileName))
-					fs.unlinkSync(sFileName); 
-				// CONSOLE.LOG Deleted file: sFileName
-				if(!fs.existsSync(sLocation))
+			} else {
+				if(fs.existsSync(sFileName)) {
+					fs.unlinkSync(sFileName);
+					console.info('# /api/build - Deleted file: ' + sFileName);
+				}
+
+				console.info('# /api/build - Building file: ' + sFileName);
+
+				if(!fs.existsSync(sLocation)) {
 					mkdirp(sLocation);
-				// CONSOLE.LOG Missing folder: sLocation
+					console.info('# /api/build - Mkdirp folder: ' + sLocation);
+				}
+
 				libxslt.parseFile('xsl/' + output + '.xsl', function (err, stylesheet) {
 					if (err)
 						return next(err);

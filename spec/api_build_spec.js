@@ -11,8 +11,8 @@
 var frisby = require('frisby');
 var path = require('path');
 var fs = require('fs');
-var	util = require('../util');
-var	panax = require('../panax');
+var	util = require('../lib/util');
+var	panax = require('../config/panax');
 
 var	hostname = panax.ui.config.hostname,
 	port = panax.ui.config.port,

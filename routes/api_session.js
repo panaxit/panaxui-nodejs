@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var sql = require('mssql');
-var panax = require('../panax.js');
+var panax = require('../config/panax.js');
 
 var libxslt = require('libxslt');
 
-var util = require('../util.js');
+var util = require('../lib/util.js');
 
 module.exports = router;
 
@@ -72,20 +72,35 @@ router.get('/sitemap', function sitemap(req, res, next) {
 
 		var sql_req = new sql.Request();
 
-		sql_req.query("[$Security].UserSitemap @@IdUser=" + req.session.userId, function (err, recordset) {
+		sql_req.query("[$Security].UserSitemap @@UserId=" + req.session.userId, function (err, recordset) {
 			if (err)
 				return next(err);
+
+			var xml = recordset[0]['xmlQuery'];
+
+			if(!xml)
+				return next({message: "Error: Missing Sitemap XML"});
 
 			libxslt.parseFile('xsl/sitemap.xsl', function (err, stylesheet) {
 				if (err)
 					return next(err);
 
-				stylesheet.apply(recordset[0][''], function (err, result) {
-					if (err) {
+				stylesheet.apply(xml, function (err, result) {
+					if (err)
 						return next(err);
+					
+					try {
+						res.json({
+							success: true,
+							action: "sitemap",
+							data: JSON.parse(util.sanitizeJSONString(result))
+						});
+					} catch (e) {
+						return next({
+							message: '[Server Exception] ' + e.name + ': ' + e.message,
+							stack: e.stack
+						});
 					}
-
-					res.json(JSON.parse(util.sanitizeJSONString(result)));
 				});
 			});
 		});

@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var sql = require('mssql');
-var panax = require('../panax');
+var panax = require('../config/panax');
 
 var fs = require('fs');
 var libxslt = require('libxslt');
 var pate = require('node-pate');
 
-var util = require('../util.js');
-var formatter = require('../format_lib');
+var util = require('../lib/util.js');
+var formatter = require('../lib/format');
 
 module.exports = router;
 
@@ -38,7 +38,7 @@ router.get('/', function read(req, res, next) {
 		return next({message: "Error: Output '" + req.query.output + "' not supported"});
 
 	var sql_args = [
-		'@@IdUser=' + req.session.userId,
+		'@@UserId=' + req.session.userId,
 		'@TableName=' + "'" + req.query.catalogName + "'",
 
 		'@output=' + req.query.output,
@@ -65,42 +65,51 @@ router.get('/', function read(req, res, next) {
 
 		var sql_req = new sql.Request();
 		//sql_req.verbose = true;
+		var sql_str = 'EXEC [$Ver:Beta_12].getXmlData ' + sql_args.join(', ');
 
-		sql_req.query('EXEC [$Ver:Beta_12].getXmlData ' + sql_args.join(', '), function (err, recordset) {
+		sql_req.query(sql_str, function (err, recordset) {
 			if (err)
 				return next(err);
-			// CONSOLE.LOG EXEC [$Ver:Beta_12].getXmlData...
+
+			console.info('# /api/read - sql_str: ' + sql_str);
+
 			var xml = recordset[0][''];
+
+			if(!xml)
+				return next({message: "Error: Missing Data XML"});
+
 			var xmlDoc = libxslt.libxmljs.parseXml(xml);
+
+			if(!xmlDoc)
+				return next({message: "Error: Parsing XML"});
 
 			if (xmlDoc.root().attr("controlType").value() == 'fileTemplate') {
 
-				// STRANGE Bug when using node-pate as Express template engine:
-				// 
-				// res.render('templates/' + req.query.catalogName + '/' + xmlDoc.root().attr("fileTemplate").value(), {
-				// 	xml: xml,
-				// 	xpath: '/*/px:data/px:dataRow',
-				// 	ns: {
-				// 		px: 'urn:panax'
-				// 	},
-				// 	format_lib: formatter
-				// });
-				// 
-				// Fixed by using pate.parse directly:
-				
-				pate.parse({
-					tpl: fs.readFileSync('templates/' + req.query.catalogName + '/' + xmlDoc.root().attr("fileTemplate").value()),
-					xml: xml,
-					xpath: '/*/px:data/px:dataRow',
-					ns: {
-						px: 'urn:panax'
-					},
-					format_lib: formatter
-				}, function (err, result) {
-					// ToDo: Should handle content-type according to template file (ex. SVG)
-					res.set('Content-Type', 'text/html');
-					res.send(result);
-				});
+				var fileTemplate = xmlDoc.root().attr("fileTemplate");
+
+				if(!fileTemplate)
+					return next({message: "Error: Missing fileTemplate"});
+
+				try {
+					pate.parse({
+						tpl: fs.readFileSync('templates/' + req.query.catalogName + '/' + fileTemplate.value()),
+						xml: xml,
+						xpath: '/*/px:data/px:dataRow',
+						ns: {
+							px: 'urn:panax'
+						},
+						format_lib: formatter
+					}, function (err, result) {
+						// ToDo: Should handle content-type according to template file (ex. SVG)
+						res.set('Content-Type', 'text/html');
+						res.send(result);
+					});
+				} catch (e) {
+					return next({
+						message: '[Server Exception] ' + e.name + ': ' + e.message,
+						stack: e.stack
+					});
+				}
 			} else {
 				libxslt.parseFile('xsl/' + req.query.output + '.xsl', function (err, stylesheet) {
 					if (err)
