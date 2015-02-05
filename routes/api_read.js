@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var sql = require('mssql');
+var PanaxJS = require('../../PanaxJS/index');
 var panax = require('../config/panax');
 
 var fs = require('fs');
@@ -11,15 +12,6 @@ var util = require('../lib/util.js');
 var formatter = require('../lib/format');
 
 module.exports = router;
-
-// ToDo from Panax.asp:
-// Class_Initialize()
-// - ln 26-84: Process Session Variables & Parameters
-// - ln 91-100: Handle EncryptedID (eid). In different request? (ex. /to?eid=X)
-// - ln 106-166: Filters: Manipulate filters
-// - ln 167-169: Filters: Set identityKey filter
-// - ln 172-175: Filters: Join filters
-// - ln: 177-186: Sorters
 
 /**
  * GET /api/read
@@ -32,40 +24,26 @@ router.get('/', function read(req, res, next) {
 	if (!req.query.catalogName)
 		return next({message: "Error: No catalogName supplied"});
 
-	req.query.output = req.query.output || 'json'; // JSON is default output
+	var output = (req.query.output || 'json').toLowerCase(); // JSON is default output
 
-	if (req.query.output.toLowerCase() != 'json' && req.query.output.toLowerCase() != 'html')
-		return next({message: "Error: Output '" + req.query.output + "' not supported"});
-
-	var sql_args = [
-		'@@UserId=' + req.session.userId,
-		'@TableName=' + "'" + req.query.catalogName + "'",
-
-		'@output=' + req.query.output,
-		'@rebuild=' + (req.query.rebuild || 'DEFAULT'),
-		'@getData=' + (req.query.getData || '1'),
-		'@getStructure=' + (req.query.getStructure || '0'),
-
-		'@ControlType=' + (req.query.controlType || 'DEFAULT'),
-		'@Mode=' + (req.query.mode || 'DEFAULT'),
-		'@PageIndex=' + (req.query.pageIndex || 'DEFAULT'),
-		'@PageSize=' + (req.query.pageSize || 'DEFAULT'),
-		'@MaxRecords=' + (req.query.maxRecords || 'DEFAULT'),
-		'@Parameters=' + (req.query.parameters || 'DEFAULT'), // ToDo: Unknown
-		'@Filters=' + (req.query.filters || 'DEFAULT'), // ToDo: Process filters
-		'@Sorters=' + (req.query.sorters || 'DEFAULT'), // ToDo: Process sorters
-		'@FullPath=' + (req.query.fullPath || 'DEFAULT'), // ToDo: Unknown XPath
-		'@columnList=' + 'DEFAULT', // ToDo: Unknown XML parsing for Create, Update & Delete ?
-		'@lang=' + (req.query.lang || (req.session.lang || 'DEFAULT'))
-	];
+	if (output != 'json' && output != 'html')
+		return next({message: "Error: Output '" + output + "' not supported"});
 
 	sql.connect(panax.db.config, function (err) {
 		if (err)
 			return next(err);
 
 		var sql_req = new sql.Request();
-		//sql_req.verbose = true;
-		var sql_str = 'EXEC [$Ver:Beta_12].getXmlData ' + sql_args.join(', ');
+
+		var oPanaxJS = new PanaxJS(req.query);
+		oPanaxJS.set('userId', req.session.userId);
+		oPanaxJS.set('tableName', req.query.catalogName);
+		oPanaxJS.set('output', output);
+		oPanaxJS.set('getData', (req.query.getData || '1'));
+		oPanaxJS.set('getStructure', (req.query.getStructure || '0'));
+		oPanaxJS.set('lang', (req.session.lang || 'DEFAULT'));
+
+		var sql_str = oPanaxJS.toSQLString();
 
 		sql_req.query(sql_str, function (err, recordset) {
 			if (err)
@@ -111,7 +89,7 @@ router.get('/', function read(req, res, next) {
 					});
 				}
 			} else {
-				libxslt.parseFile('xsl/' + req.query.output + '.xsl', function (err, stylesheet) {
+				libxslt.parseFile('xsl/' + output + '.xsl', function (err, stylesheet) {
 					if (err)
 						return next(err);
 
@@ -119,9 +97,9 @@ router.get('/', function read(req, res, next) {
 						if (err) 
 							return next(err);
 
-						if (req.query.output == 'json') {
+						if (output == 'json') {
 							res.json(JSON.parse(util.sanitizeJSONString(result)));
-						} else if (req.query.output == 'html') {
+						} else if (output == 'html') {
 							res.set('Content-Type', 'text/html');
 							res.send(result);
 						}
