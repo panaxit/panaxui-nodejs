@@ -1,1 +1,1 @@
-# PanaxUI - node.js server
+# PanaxUI API - Node.js
