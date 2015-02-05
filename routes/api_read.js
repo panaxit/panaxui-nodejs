@@ -37,22 +37,18 @@ router.get('/', function read(req, res, next) {
 	oPanaxJS.set('getStructure', (req.query.getStructure || '0'));
 	oPanaxJS.set('lang', (req.session.lang || 'DEFAULT'));
 
-	oPanaxJS.getXML(panax_config.db.config, function (err, xml) {
-		var xmlDoc = libxslt.libxmljs.parseXml(xml);
+	oPanaxJS.getXMLCatalog(panax_config.db.config, function (err, xml, catalog) {
+		if(err)
+			return next(err);
 
-		if(!xmlDoc)
-			return next({message: "Error: Parsing XML"});
+		if (catalog.controlType == 'fileTemplate') {
 
-		if (xmlDoc.root().attr("controlType").value() == 'fileTemplate') {
-
-			var fileTemplate = xmlDoc.root().attr("fileTemplate");
-
-			if(!fileTemplate)
+			if(!catalog.fileTemplate)
 				return next({message: "Error: Missing fileTemplate"});
 
 			try {
 				pate.parse({
-					tpl: fs.readFileSync('templates/' + req.query.catalogName + '/' + fileTemplate.value()),
+					tpl: fs.readFileSync('templates/' + req.query.catalogName + '/' + catalog.fileTemplate),
 					xml: xml,
 					xpath: '/*/px:data/px:dataRow',
 					ns: {
