@@ -28,14 +28,13 @@ router.get('/', function read(req, res, next) {
 	if (req.query.output != 'json' && req.query.output != 'html')
 		return next({message: "Error: Output '" + req.query.output + "' not supported"});
 
-	var oPanaxJS = new PanaxJS(req.query);
+	var oPanaxJS = new PanaxJS(panax_config, req.query);
 
 	oPanaxJS.set('userId', req.session.userId);
 	oPanaxJS.set('tableName', req.query.catalogName);
 	oPanaxJS.set('getData', (req.query.getData || '1'));
 	oPanaxJS.set('getStructure', (req.query.getStructure || '0'));
 	oPanaxJS.set('lang', (req.session.lang || 'DEFAULT'));
-	oPanaxJS.setConfig(panax_config);
 
 	oPanaxJS.getXML(function (err, xml) {
 		if(err)
@@ -45,7 +44,7 @@ router.get('/', function read(req, res, next) {
 			if(err)
 				return next(err);
 
-			if (catalog.controlType == 'fileTemplate') {
+			if (catalog.controlType === 'fileTemplate') {
 
 				if(!catalog.fileTemplate)
 					return next({message: "Error: Missing fileTemplate"});

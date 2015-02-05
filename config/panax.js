@@ -28,7 +28,8 @@ exports.ui = {
 	guis: {
 		// Ext JS 5
 		extjs: {
-			root: path.join(__dirname, '..', '..', 'panaxui-extjs')
+			root: path.join(__dirname, '..', '..', 'panaxui-extjs'),
+			cache: path.join(__dirname, '..', '..', 'panaxui-extjs', 'cache', 'app')
 		}
 	}
 };

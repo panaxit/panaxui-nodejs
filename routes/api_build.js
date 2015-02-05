@@ -26,14 +26,13 @@ router.get('/', function build(req, res, next) {
 	if (req.query.output != 'extjs')
 		return next({message: "Error: Output '" + req.query.output + "' not supported"});
 
-	var oPanaxJS = new PanaxJS(req.query);
+	var oPanaxJS = new PanaxJS(panax_config, req.query);
 
 	oPanaxJS.set('userId', req.session.userId);
 	oPanaxJS.set('tableName', req.query.catalogName);
 	oPanaxJS.set('getData', (req.query.getData || '0'));
 	oPanaxJS.set('getStructure', (req.query.getStructure || '1'));
 	oPanaxJS.set('lang', (req.session.lang || 'DEFAULT'));
-	oPanaxJS.setConfig(panax_config);
 
 	oPanaxJS.getXML(function (err, xml) {
 		if(err)
@@ -43,64 +42,40 @@ router.get('/', function build(req, res, next) {
 			if(err)
 				return next(err);
 
-			var sLocation = path.join(
-				panax_config.ui.guis[req.query.output].root,
-				"cache", "app",
-				catalog.dbId,
-				catalog.lang,
-				catalog.Table_Schema,
-				catalog.Table_Name,
-				catalog.mode
-			);
+			oPanaxJS.getFilename(catalog, function (err, exists, filename) {
+				if(exists) {
+					res.json({
+						success: true,
+						action: "existing",
+						filename: filename,
+						catalog: catalog
+					});
+				} else {
+					var xsl_path = path.join(__dirname, '..', 'xsl', req.query.output + '.xsl');
 
-			var sFileName = path.join(sLocation, catalog.controlType + '.js');
-
-			// ToDo: Use Async functions?
-			if(fs.existsSync(sFileName) && !req.query.rebuild) {
-				console.info('# /api/build - Already existing file: ' + sFileName);
-				res.json({
-					success: true,
-					action: "existing",
-					filename: sFileName,
-					catalog: catalog
-				});
-			} else {
-				if(fs.existsSync(sFileName)) {
-					fs.unlinkSync(sFileName);
-					console.info('# /api/build - Deleted file: ' + sFileName);
-				}
-
-				console.info('# /api/build - Building file: ' + sFileName);
-
-				if(!fs.existsSync(sLocation)) {
-					mkdirp(sLocation);
-					console.info('# /api/build - Mkdirp folder: ' + sLocation);
-				}
-
-				var xsl_path = path.join(__dirname, '..', 'xsl', req.query.output + '.xsl');
-
-				libxslt.parseFile(xsl_path, function (err, stylesheet) {
-					if (err)
-						return next(err);
-
-					stylesheet.apply(xml, function (err, result) {
-						if (err) 
+					libxslt.parseFile(xsl_path, function (err, stylesheet) {
+						if (err)
 							return next(err);
 
-						fs.writeFile(sFileName, result, function (err) {
+						stylesheet.apply(xml, function (err, result) {
 							if (err) 
 								return next(err);
-							// CONSOLE.LOG Created file: sFileName
-							res.json({
-								success: true,
-								action: "built",
-								filename: sFileName,
-								catalog: catalog
+
+							fs.writeFile(filename, result, function (err) {
+								if (err) 
+									return next(err);
+								// CONSOLE.LOG Created file: filename
+								res.json({
+									success: true,
+									action: "built",
+									filename: filename,
+									catalog: catalog
+								});
 							});
 						});
 					});
-				});
-			}
+				}
+			});
 		});
 	});
 });
