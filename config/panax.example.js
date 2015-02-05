@@ -4,14 +4,10 @@ var path = require('path');
  * PanaxDB
  */
 exports.db = {
-
-	config: {
-		server: '<HOSTNAME>',
-		database: '<DB_NAME>',
-		user: '<USERNAME>',
-		password: '<PASSWORD>'
-	}
-
+	server: '<HOSTNAME>',
+	database: '<DB_NAME>',
+	user: '<USERNAME>',
+	password: '<PASSWORD>'
 };
 
 /**
@@ -19,12 +15,10 @@ exports.db = {
  */
 exports.ui = {
 
-	config: {
-		hostname: '<HOSTNAME>',
-		port: <PORT>,
-		username: '<USERNAME>',
-		password: '<PASSWORD>'
-	},
+	hostname: '<HOSTNAME>',
+	port: <PORT>,
+	username: '<USERNAME>',
+	password: '<PASSWORD>',
 
 	enabled_guis: [ 
 		'extjs'
@@ -33,7 +27,8 @@ exports.ui = {
 	guis: {
 		// Ext JS 5
 		extjs: {
-			root: path.join(__dirname, '..', 'panaxui-extjs')
+			root: path.join(__dirname, '..', '..', 'panaxui-extjs'),
+			cache: path.join(__dirname, '..', '..', 'panaxui-extjs', 'cache', 'app')
 		}
 	}
 };

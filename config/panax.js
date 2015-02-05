@@ -5,7 +5,6 @@ var path = require('path');
  */
 exports.db = {
 	server: 'localhost',
-	//database: 'Showcase',
 	database: 'Demo12.6feb2015',
 	user: 'sa',
 	password: 'zama'
