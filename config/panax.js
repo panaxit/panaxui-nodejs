@@ -4,15 +4,11 @@ var path = require('path');
  * PanaxDB
  */
 exports.db = {
-
-	config: {
-		server: 'localhost',
-		//database: 'Showcase',
-		database: 'Demo12.6feb2015',
-		user: 'sa',
-		password: 'zama'
-	}
-
+	server: 'localhost',
+	//database: 'Showcase',
+	database: 'Demo12.6feb2015',
+	user: 'sa',
+	password: 'zama'
 };
 
 /**
@@ -20,12 +16,10 @@ exports.db = {
  */
 exports.ui = {
 
-	config: {
-		hostname: 'localhost',
-		port: 3000,
-		username: 'webmaster',
-		password: 'tests'
-	},
+	hostname: 'localhost',
+	port: 3000,
+	username: 'webmaster',
+	password: 'tests',
 
 	enabled_guis: [ 
 		'extjs'

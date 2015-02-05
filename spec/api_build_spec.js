@@ -12,10 +12,10 @@ var frisby = require('frisby');
 var path = require('path');
 var fs = require('fs');
 var	util = require('../lib/util');
-var	panax = require('../config/panax');
+var	panax_config = require('../config/panax');
 
-var	hostname = panax.ui.config.hostname,
-	port = panax.ui.config.port,
+var	hostname = panax_config.ui.hostname,
+	port = panax_config.ui.port,
 	url = 'http://' + hostname + ':' + port;
 
 // Global session cookie to be passed with each request
@@ -26,8 +26,8 @@ var session_cookie;
  */
 frisby.create('Login')
 	.post(url + '/api/session/login', {
-		username: panax.ui.config.username,
-		password: panax.ui.config.password
+		username: panax_config.ui.username,
+		password: panax_config.ui.password
 	})
 	.expectStatus(200)
 	.after(build_extjs_gui)
@@ -44,7 +44,7 @@ function build_extjs_gui(err, res, body) {
     session_cookie = res.headers['set-cookie'][0].split(';')[0];
 
 	// Remove previous generated files
-	var sLocation = path.join(panax.ui.guis['extjs'].root, "cache");
+	var sLocation = path.join(panax_config.ui.guis['extjs'].root, "cache");
 	if(fs.existsSync(sLocation))
 		util.deleteFolderRecursive(sLocation);
 
@@ -57,7 +57,7 @@ function build_extjs_gui(err, res, body) {
 			success: true,
 			action: "built",
 			catalog: {
-				dbId: panax.db.config.database,
+				dbId: panax_config.db.database,
 				Table_Schema: "dbo",
 				Table_Name: "Empleado",
 				//mode:
@@ -96,7 +96,7 @@ function rebuild_extjs_gui(err, res, body) {
 			success: true,
 			action: "built",
 			catalog: {
-				dbId: panax.db.config.database,
+				dbId: panax_config.db.database,
 				Table_Schema: "dbo",
 				Table_Name: "Empleado",
 				//mode:
@@ -136,7 +136,7 @@ function existing_extjs_gui(err, res, body) {
 			action: "existing",
 			//filename:
 			catalog: {
-				dbId: panax.db.config.database,
+				dbId: panax_config.db.database,
 				Table_Schema: "dbo",
 				Table_Name: "Empleado",
 				//mode:

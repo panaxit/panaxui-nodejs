@@ -4,10 +4,10 @@
  * 1. Read ExtJS root
  */
 var frisby = require('frisby');
-var	panax = require('../config/panax');
+var	panax_config = require('../config/panax');
 
-var	hostname = panax.ui.config.hostname,
-	port = panax.ui.config.port,
+var	hostname = panax_config.ui.hostname,
+	port = panax_config.ui.port,
 	url = 'http://' + hostname + ':' + port;
 
 /**

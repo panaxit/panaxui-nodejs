@@ -32,12 +32,12 @@ router.get('/', function read(req, res, next) {
 
 	oPanaxJS.set('userId', req.session.userId);
 	oPanaxJS.set('tableName', req.query.catalogName);
-	/**/oPanaxJS.set('output', req.query.output);
 	oPanaxJS.set('getData', (req.query.getData || '1'));
 	oPanaxJS.set('getStructure', (req.query.getStructure || '0'));
 	oPanaxJS.set('lang', (req.session.lang || 'DEFAULT'));
+	oPanaxJS.setConfig(panax_config);
 
-	oPanaxJS.getXMLCatalog(panax_config.db.config, function (err, xml, catalog) {
+	oPanaxJS.getXMLCatalog(function (err, xml, catalog) {
 		if(err)
 			return next(err);
 
