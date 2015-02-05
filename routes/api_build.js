@@ -35,67 +35,72 @@ router.get('/', function build(req, res, next) {
 	oPanaxJS.set('lang', (req.session.lang || 'DEFAULT'));
 	oPanaxJS.setConfig(panax_config);
 
-	oPanaxJS.getXMLCatalog(function (err, xml, catalog) {
+	oPanaxJS.getXML(function (err, xml) {
 		if(err)
 			return next(err);
 
-		var sLocation = path.join(
-			panax_config.ui.guis[req.query.output].root,
-			"cache", "app",
-			catalog.dbId,
-			catalog.lang,
-			catalog.Table_Schema,
-			catalog.Table_Name,
-			catalog.mode
-		);
+		oPanaxJS.getCatalog(xml, function (err, catalog) {
+			if(err)
+				return next(err);
 
-		var sFileName = path.join(sLocation, catalog.controlType + '.js');
+			var sLocation = path.join(
+				panax_config.ui.guis[req.query.output].root,
+				"cache", "app",
+				catalog.dbId,
+				catalog.lang,
+				catalog.Table_Schema,
+				catalog.Table_Name,
+				catalog.mode
+			);
 
-		// ToDo: Use Async functions?
-		if(fs.existsSync(sFileName) && !req.query.rebuild) {
-			console.info('# /api/build - Already existing file: ' + sFileName);
-			res.json({
-				success: true,
-				action: "existing",
-				filename: sFileName,
-				catalog: catalog
-			});
-		} else {
-			if(fs.existsSync(sFileName)) {
-				fs.unlinkSync(sFileName);
-				console.info('# /api/build - Deleted file: ' + sFileName);
-			}
+			var sFileName = path.join(sLocation, catalog.controlType + '.js');
 
-			console.info('# /api/build - Building file: ' + sFileName);
+			// ToDo: Use Async functions?
+			if(fs.existsSync(sFileName) && !req.query.rebuild) {
+				console.info('# /api/build - Already existing file: ' + sFileName);
+				res.json({
+					success: true,
+					action: "existing",
+					filename: sFileName,
+					catalog: catalog
+				});
+			} else {
+				if(fs.existsSync(sFileName)) {
+					fs.unlinkSync(sFileName);
+					console.info('# /api/build - Deleted file: ' + sFileName);
+				}
 
-			if(!fs.existsSync(sLocation)) {
-				mkdirp(sLocation);
-				console.info('# /api/build - Mkdirp folder: ' + sLocation);
-			}
+				console.info('# /api/build - Building file: ' + sFileName);
 
-			var xsl_path = path.join(__dirname, '..', 'xsl', req.query.output + '.xsl');
+				if(!fs.existsSync(sLocation)) {
+					mkdirp(sLocation);
+					console.info('# /api/build - Mkdirp folder: ' + sLocation);
+				}
 
-			libxslt.parseFile(xsl_path, function (err, stylesheet) {
-				if (err)
-					return next(err);
+				var xsl_path = path.join(__dirname, '..', 'xsl', req.query.output + '.xsl');
 
-				stylesheet.apply(xml, function (err, result) {
-					if (err) 
+				libxslt.parseFile(xsl_path, function (err, stylesheet) {
+					if (err)
 						return next(err);
 
-					fs.writeFile(sFileName, result, function (err) {
+					stylesheet.apply(xml, function (err, result) {
 						if (err) 
 							return next(err);
-						// CONSOLE.LOG Created file: sFileName
-						res.json({
-							success: true,
-							action: "built",
-							filename: sFileName,
-							catalog: catalog
+
+						fs.writeFile(sFileName, result, function (err) {
+							if (err) 
+								return next(err);
+							// CONSOLE.LOG Created file: sFileName
+							res.json({
+								success: true,
+								action: "built",
+								filename: sFileName,
+								catalog: catalog
+							});
 						});
 					});
 				});
-			});
-		}
+			}
+		});
 	});
 });

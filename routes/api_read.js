@@ -37,52 +37,57 @@ router.get('/', function read(req, res, next) {
 	oPanaxJS.set('lang', (req.session.lang || 'DEFAULT'));
 	oPanaxJS.setConfig(panax_config);
 
-	oPanaxJS.getXMLCatalog(function (err, xml, catalog) {
+	oPanaxJS.getXML(function (err, xml) {
 		if(err)
 			return next(err);
 
-		if (catalog.controlType == 'fileTemplate') {
+		oPanaxJS.getCatalog(xml, function (err, catalog) {
+			if(err)
+				return next(err);
 
-			if(!catalog.fileTemplate)
-				return next({message: "Error: Missing fileTemplate"});
+			if (catalog.controlType == 'fileTemplate') {
 
-			try {
-				pate.parse({
-					tpl: fs.readFileSync('templates/' + req.query.catalogName + '/' + catalog.fileTemplate),
-					xml: xml,
-					xpath: '/*/px:data/px:dataRow',
-					ns: {
-						px: 'urn:panax'
-					},
-					format_lib: formatter
-				}, function (err, result) {
-					// ToDo: Should handle content-type according to template file (ex. SVG)
-					res.set('Content-Type', 'text/html');
-					res.send(result);
-				});
-			} catch (e) {
-				return next({
-					message: '[Server Exception] ' + e.name + ': ' + e.message,
-					stack: e.stack
-				});
-			}
-		} else {
-			libxslt.parseFile('xsl/' + req.query.output + '.xsl', function (err, stylesheet) {
-				if (err)
-					return next(err);
+				if(!catalog.fileTemplate)
+					return next({message: "Error: Missing fileTemplate"});
 
-				stylesheet.apply(xml, function (err, result) {
-					if (err) 
-						return next(err);
-
-					if (req.query.output == 'json') {
-						res.json(JSON.parse(util.sanitizeJSONString(result)));
-					} else if (req.query.output == 'html') {
+				try {
+					pate.parse({
+						tpl: fs.readFileSync('templates/' + req.query.catalogName + '/' + catalog.fileTemplate),
+						xml: xml,
+						xpath: '/*/px:data/px:dataRow',
+						ns: {
+							px: 'urn:panax'
+						},
+						format_lib: formatter
+					}, function (err, result) {
+						// ToDo: Should handle content-type according to template file (ex. SVG)
 						res.set('Content-Type', 'text/html');
 						res.send(result);
-					}
+					});
+				} catch (e) {
+					return next({
+						message: '[Server Exception] ' + e.name + ': ' + e.message,
+						stack: e.stack
+					});
+				}
+			} else {
+				libxslt.parseFile('xsl/' + req.query.output + '.xsl', function (err, stylesheet) {
+					if (err)
+						return next(err);
+
+					stylesheet.apply(xml, function (err, result) {
+						if (err) 
+							return next(err);
+
+						if (req.query.output == 'json') {
+							res.json(JSON.parse(util.sanitizeJSONString(result)));
+						} else if (req.query.output == 'html') {
+							res.set('Content-Type', 'text/html');
+							res.send(result);
+						}
+					});
 				});
-			});
-		}
+			}
+		});
 	});
 });
