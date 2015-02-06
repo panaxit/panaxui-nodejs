@@ -76,10 +76,13 @@ router.get('/sitemap', function sitemap(req, res, next) {
  * GET /api/session/logout
  */
 router.get('/logout', function logout(req, res) {
-	req.session.userId = null; // ToDo: session = null ?
+	req.session.destroy(function(err) {
+		if(err)
+			return next(err);
 
-	res.json({
-		success: true,
-		action: 'logout'
-	});
+		res.json({
+			success: true,
+			action: 'logout'
+		});
+	})
 });

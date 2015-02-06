@@ -29,7 +29,11 @@ app.use(cookieParser());
 app.use(session({
     secret: 'zekret',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: { 
+        maxAge: 1800000 // Session timeout 30m * 60s * 1000ms
+        //secure: true // Requires https
+    }
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
