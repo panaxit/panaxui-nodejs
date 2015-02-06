@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var PanaxDB = require('../lib/PanaxDB'); // ToDo: module
+var PanaxDB = require('../lib/PanaxDB');
 
-var fs = require('fs');
 var libxslt = require('libxslt');
-var util = require('../lib/util.js');
 var pate = require('node-pate');
+var fs = require('fs');
+var util = require('../lib/util.js');
 var formatter = require('../lib/format');
 
 module.exports = router;
