@@ -26,7 +26,7 @@ var session_cookie;
 frisby.create('Login')
 	.post(url + '/api/session/login', {
 		username: panax_config.ui.username,
-		password: panax_config.ui.password
+		password: util.md5(panax_config.ui.password)
 	})
 	.expectStatus(200)
 	.after(read_json_data)

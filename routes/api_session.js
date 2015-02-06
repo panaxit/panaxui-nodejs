@@ -18,7 +18,7 @@ router.post('/login', function login(req, res, next) {
 
 	var oPanaxDB = new PanaxDB();
 
-	new PanaxDB().authenticate(req.body.username, util.md5(req.body.password), function (err, userId) {
+	new PanaxDB().authenticate(req.body.username, req.body.password, function (err, userId) {
 		if (err)
 			return next(err);
 

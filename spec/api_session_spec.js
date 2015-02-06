@@ -8,6 +8,7 @@
  */
 var frisby = require('frisby');
 var	panax_config = require('../config/panax');
+var util = require('../lib/util.js');
 
 var	hostname = panax_config.ui.hostname,
 	port = panax_config.ui.port,
@@ -24,7 +25,7 @@ var session_cookie;
 frisby.create('Login')
 	.post(url + '/api/session/login', {
 		username: panax_config.ui.username,
-		password: panax_config.ui.password
+		password: util.md5(panax_config.ui.password)
 	})
 	.expectStatus(200)
 	.expectHeaderContains('content-type', 'application/json')
