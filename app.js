@@ -37,9 +37,17 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-//GUIs static webserver
+//GUIs static webserver (Grunt-inspired loading)
 panax.ui.enabled_guis.forEach(function (gui, index, arr) {
-    app.use('/gui/' + gui, express.static(panax.ui.guis[gui].root));
+    var gui_conf = panax.ui.guis[gui];
+    //application's root location
+    app.use('/gui/' + gui, express.static(gui_conf.root));
+    //other static asset's locations
+    if(gui_conf.other) {
+        gui_conf.other.forEach(function (other, index, arr) {
+            app.use('/gui/' + gui + other.url, express.static(other.path));
+        });
+    }
 });
 
 // routes

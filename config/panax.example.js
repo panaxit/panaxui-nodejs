@@ -27,9 +27,13 @@ exports.ui = {
 
 	guis: {
 		// Ext JS 5
-		extjs: {
-			root: path.join(__dirname, '..', '..', 'panaxui-extjs'),
-			cache: path.join(__dirname, '..', '..', 'panaxui-extjs', 'cache', 'app')
+		extjs: { // Match GUI name in enabled_guis
+			root: path.join(__dirname, '..', '..', 'panaxui-extjs'), // application's root location
+			cache: path.join(__dirname, '..', '..', 'panaxui-extjs', 'cache', 'app'), // building cache location
+			other: [{ //other static asset's locations
+				url: '/some_place',
+				path: path.join(__dirname, '..', '..', 'somewhere', 'else'),
+			}]
 		}
 	}
 };
