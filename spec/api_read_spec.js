@@ -54,15 +54,19 @@ function read_json_data(err, res, body) {
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
-			total: "1",
 			success: true,
 			action: "data",
-			catalog: {
-				dbId: panax_config.db.database,
-				catalogName: 'dbo.Empleado'
-				//mode:
-				//controlType:
-				//lang:
+			gui: "extjs",
+			output: "json",
+			data: {
+				total: "1",
+				catalog: {
+					dbId: panax_config.db.database,
+					catalogName: 'dbo.Empleado'
+					//mode:
+					//controlType:
+					//lang:
+				}
 			}
 		})
 		.expectJSONLength('data', function (val) {
@@ -71,15 +75,20 @@ function read_json_data(err, res, body) {
 		.expectJSONTypes({
 			success: Boolean,
 			action: String,
-			catalog: {
-				dbId: String,
-				catalogName: String,
-				//mode: String,
-				//controlType: String,
-				//lang: String
-			},
-			data: Array
-			//metadata:
+			gui: String,
+			output: String,
+			data: {
+				total: String,
+				catalog: {
+					dbId: String,
+					catalogName: String,
+					//mode: String,
+					//controlType: String,
+					//lang: String
+				},
+				data: Array
+				//metadata:
+			}
 		})
 		.after(read_html_filetemplate)
 	.toss()

@@ -1,3 +1,8 @@
+# Error checking
+- As middleware before API routes
+	- Logged in check (req.session.userId)
+	- GUI query param
+
 # Auth
 
 http://runnable.com/Uxv5tGdglOI7p8__/node-js-login-logout-for-express-node-js-authentication-and-sessions
@@ -16,6 +21,12 @@ JSON (ExtJS Batch) to XML Conversion SHOULD be done in panaxui-api-node SERVER-s
 
 ---
 ***
+
+# Api Responses Codes
+
+## Not logged in?
+
+403 Forbidden (or 401 Unauthorized?)
 
 # Junta Uriel
 

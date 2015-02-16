@@ -8,9 +8,9 @@
 	xmlns="http://www.w3.org/TR/xhtml1/strict"
 	exclude-result-prefixes="px"
 	>
-	<xsl:import href="xsl/keys.xsl" />
-	<xsl:import href="xsl/html/global_variables.xsl" />
-	<xsl:import href="xsl/functions.xsl" />
+	<xsl:import href="xsl/extjs/keys.xsl" />
+	<xsl:import href="xsl/extjs/html/global_variables.xsl" />
+	<xsl:import href="xsl/extjs/functions.xsl" />
 	<xsl:output omit-xml-declaration="yes" method="text" indent="no" />
 
 	<xsl:strip-space elements="*"/>
@@ -33,8 +33,8 @@
 
 	<xsl:template match="*[@dataType='table']" mode="json">
 		"total": "<xsl:value-of select="@totalRecords"/>"
-		, "success": true
-		, "action": "data"
+		<!-- , "success": true
+		, "action": "data" -->
 		, "catalog": {
 		"dbId": "<xsl:value-of select="@dbId"/>"
 		,"catalogName": "<xsl:value-of select="@Table_Schema"/>.<xsl:value-of select="@Table_Name"/>"

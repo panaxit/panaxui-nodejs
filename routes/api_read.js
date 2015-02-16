@@ -8,6 +8,8 @@ var fs = require('fs');
 var util = require('../lib/util.js');
 var formatter = require('../lib/format');
 
+var config = require('../config/panax.js');
+
 module.exports = router;
 
 /**
@@ -21,10 +23,14 @@ router.get('/', function read(req, res, next) {
 	if (!req.query.catalogName)
 		return next({message: "Error: No catalogName supplied"});
 
-	req.query.output = (req.query.output || 'json').toLowerCase(); // JSON is default output
+	req.query.gui = (req.query.gui || config.ui.enabled_guis[0]).toLowerCase(); // Default GUI
+	if (config.ui.enabled_guis.indexOf(req.query.gui) === -1)
+		return next({ message: "Error: Unsupported GUI '" + req.query.gui + "'." +
+				"Available: " + config.ui.enabled_guis.toString().split(',').join(', ') });
 
+	req.query.output = (req.query.output || 'json').toLowerCase(); // JSON is default output
 	if (req.query.output != 'json' && req.query.output != 'html')
-		return next({message: "Error: Output '" + req.query.output + "' not supported"});
+		return next({message: "Error: Unsupported output '" + req.query.output + "'."});
 
 	var oPanaxDB = new PanaxDB(req.query);
 
@@ -68,7 +74,7 @@ router.get('/', function read(req, res, next) {
 					});
 				}
 			} else {
-				libxslt.parseFile('xsl/' + req.query.output + '.xsl', function (err, stylesheet) {
+				libxslt.parseFile('xsl/' + req.query.gui + '/' + req.query.output + '.xsl', function (err, stylesheet) {
 					if (err)
 						return next(err);
 
@@ -77,7 +83,13 @@ router.get('/', function read(req, res, next) {
 							return next(err);
 
 						if (req.query.output == 'json') {
-							res.json(JSON.parse(util.sanitizeJSONString(result)));
+							res.json({
+								success: true,
+								action: "data",
+								gui: req.query.gui,
+								output: req.query.output,
+								data: JSON.parse(util.sanitizeJSONString(result))
+							});
 						} else if (req.query.output == 'html') {
 							res.set('Content-Type', 'text/html');
 							res.send(result);

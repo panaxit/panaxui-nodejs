@@ -5,6 +5,8 @@ var PanaxDB = require('../lib/PanaxDB');
 var libxslt = require('libxslt');
 var util = require('../lib/util.js');
 
+var config = require('../config/panax.js');
+
 module.exports = router;
 
 /**
@@ -41,13 +43,18 @@ router.get('/sitemap', function sitemap(req, res, next) {
 	if (!req.session.userId)
 		return next({message: "Error: Not logged in"});
 
+	req.query.gui = (req.query.gui || config.ui.enabled_guis[0]).toLowerCase(); // Default GUI
+	if (config.ui.enabled_guis.indexOf(req.query.gui) === -1)
+		return next({ message: "Error: Unsupported GUI '" + req.query.gui + "'." +
+				"Available: " + config.ui.enabled_guis.toString().split(',').join(', ') });
+
 	var oPanaxDB = new PanaxDB(req.session);
 
 	oPanaxDB.getSitemap(function (err, xml) {
 		if(err)
 			return next(err);
 
-		libxslt.parseFile('xsl/sitemap.xsl', function (err, stylesheet) {
+		libxslt.parseFile('xsl/' + req.query.gui + '/sitemap.xsl', function (err, stylesheet) {
 			if (err)
 				return next(err);
 
@@ -59,6 +66,7 @@ router.get('/sitemap', function sitemap(req, res, next) {
 					res.json({
 						success: true,
 						action: "sitemap",
+						gui: req.query.gui,
 						data: JSON.parse(util.sanitizeJSONString(result))
 					});
 				} catch (e) {

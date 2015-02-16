@@ -4,6 +4,7 @@ var path = require('path');
  * PanaxDB
  */
 exports.db = {
+	version: '<PANAXDB_VER>',
 	server: '<HOSTNAME>',
 	database: '<DB_NAME>',
 	user: '<USERNAME>',
@@ -21,7 +22,7 @@ exports.ui = {
 	password: '<PASSWORD>',
 
 	enabled_guis: [ 
-		'extjs'
+		'extjs' // First GUI is the default
 	],
 
 	guis: {

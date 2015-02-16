@@ -59,7 +59,8 @@ function get_sitemap(err, res, body) {
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
 			success: true,
-			action: 'sitemap'
+			action: 'sitemap',
+			gui: 'extjs'
 		})
 		.expectJSONLength('data', function (val) {
 			expect(val).toBeGreaterThan(0); // Custom matcher callback

@@ -45,11 +45,12 @@ router.get('/', function build(req, res, next) {
 					res.json({
 						success: true,
 						action: "existing",
+						output: req.query.output,
 						filename: filename,
 						catalog: catalog
 					});
 				} else {
-					libxslt.parseFile('xsl/' + req.query.output + '.xsl', function (err, stylesheet) {
+					libxslt.parseFile('xsl/' + req.query.output + '/' + req.query.output + '.xsl', function (err, stylesheet) {
 						if (err)
 							return next(err);
 
@@ -65,6 +66,7 @@ router.get('/', function build(req, res, next) {
 									success: true,
 									action: "built",
 									filename: filename,
+									output: req.query.output,
 									catalog: catalog
 								});
 							});

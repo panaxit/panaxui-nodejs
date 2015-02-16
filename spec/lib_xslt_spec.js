@@ -11,7 +11,7 @@ var json_result = fs.readFileSync('spec/fixtures/result.json', 'utf8');
 describe("XSLT", function() {
 
 	it("should parse XSL", function (done) {
-		fs.readFile('xsl/sitemap.xsl', 'utf8', function (err, xsl) {
+		fs.readFile('xsl/extjs/sitemap.xsl', 'utf8', function (err, xsl) {
 			libxslt.parse(xsl, function (err, stylesheet) {
 				expect(err).toBeFalsy();
 				done();

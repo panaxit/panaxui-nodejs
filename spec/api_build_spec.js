@@ -56,6 +56,7 @@ function build_extjs_gui(err, res, body) {
 		.expectJSON({
 			success: true,
 			action: "built",
+			output: "extjs",
 			catalog: {
 				dbId: panax_config.db.database,
 				Table_Schema: "dbo",
@@ -95,6 +96,7 @@ function rebuild_extjs_gui(err, res, body) {
 		.expectJSON({
 			success: true,
 			action: "built",
+			output: "extjs",
 			catalog: {
 				dbId: panax_config.db.database,
 				Table_Schema: "dbo",
@@ -134,6 +136,7 @@ function existing_extjs_gui(err, res, body) {
 		.expectJSON({
 			success: true,
 			action: "existing",
+			output: "extjs",
 			//filename:
 			catalog: {
 				dbId: panax_config.db.database,
