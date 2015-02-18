@@ -12,7 +12,7 @@ http://truongtx.me/2014/03/29/authentication-in-nodejs-and-expressjs-with-passpo
 # CRUD:
 
 Create, Update, Delete
-JSON (ExtJS Batch) to XML Conversion SHOULD be done in panaxui-api-node SERVER-side
+JSON (ExtJS Batch) to XML Conversion SHOULD be done in panaxui-nodejs SERVER-side
 
 # Api URLS:
 
