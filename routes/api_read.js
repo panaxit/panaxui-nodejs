@@ -1,12 +1,13 @@
 var express = require('express');
 var router = express.Router();
+var libxslt = require('libxslt');
 var PanaxDB = require('../lib/PanaxDB');
 
-var libxslt = require('libxslt');
-var pate = require('node-pate');
 var fs = require('fs');
-var util = require('../lib/util.js');
+var pate = require('node-pate');
 var formatter = require('../lib/format');
+var util = require('../lib/util.js');
+var auth = require('../lib/auth.js');
 
 var config = require('../config/panax.js');
 
@@ -17,9 +18,7 @@ module.exports = router;
  *
  * Read Entity DATA
  */
-router.get('/', function read(req, res, next) {
-	if (!req.session.userId)
-		return next({message: "Error: Not logged in"});
+router.get('/', auth.requiredAuth, function read(req, res, next) {
 	if (!req.query.catalogName)
 		return next({message: "Error: No catalogName supplied"});
 

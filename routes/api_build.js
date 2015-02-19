@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
+var libxslt = require('libxslt');
 var PanaxDB = require('../lib/PanaxDB');
 
-var libxslt = require('libxslt');
-var path = require('path');
 var fs = require('fs');
+var path = require('path');
+var auth = require('../lib/auth.js');
 
 module.exports = router;
 
@@ -13,9 +14,7 @@ module.exports = router;
  *
  * Build Entity GUI
  */
-router.get('/', function build(req, res, next) {
-	if (!req.session.userId)
-		return next({message: "Error: Not logged in"});
+router.get('/', auth.requiredAuth, function build(req, res, next) {
 	if (!req.query.catalogName)
 		return next({message: "Error: No catalogName supplied"});
 
