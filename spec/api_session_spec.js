@@ -103,7 +103,7 @@ function fail_sitemap(err, res, body) {
 	frisby.create('Fail Get Sitemap')
 	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
 		.get(url + '/api/session/sitemap')
-		.expectStatus(500)
+		.expectStatus(401)
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
 			success: false

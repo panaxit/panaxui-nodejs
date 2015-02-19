@@ -184,7 +184,7 @@ function fail_build(err, res, body) {
 	frisby.create('Fail Re-Build ExtJS GUI')
 	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
 		.get(url + '/api/build?catalogName=dbo.Empleado&ouput=extjs')
-		.expectStatus(500)
+		.expectStatus(401)
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
 			success: false

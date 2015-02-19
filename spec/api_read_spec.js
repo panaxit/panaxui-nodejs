@@ -141,7 +141,7 @@ function fail_read(err, res, body) {
 	frisby.create('Fail Read Data of existing entity')
 	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
 		.get(url + '/api/read?catalogName=dbo.Empleado')
-		.expectStatus(500)
+		.expectStatus(401)
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
 			success: false
