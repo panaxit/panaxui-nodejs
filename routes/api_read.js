@@ -18,7 +18,7 @@ module.exports = router;
  * Read Entity DATA
  */
 router.get('/', function read(req, res, next) {
-	if (!req.session.userId)
+	if (!req.user)
 		return next({message: "Error: Not logged in"});
 	if (!req.query.catalogName)
 		return next({message: "Error: No catalogName supplied"});
@@ -34,7 +34,7 @@ router.get('/', function read(req, res, next) {
 
 	var oPanaxDB = new PanaxDB(req.query);
 
-	oPanaxDB.set('userId', req.session.userId);
+	oPanaxDB.set('userId', req.user);
 	oPanaxDB.set('tableName', req.query.catalogName);
 	oPanaxDB.set('getData', (req.query.getData || '1'));
 	oPanaxDB.set('getStructure', (req.query.getStructure || '0'));

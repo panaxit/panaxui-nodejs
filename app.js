@@ -5,8 +5,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
-var panax = require('./config/panax');
+var PanaxDB = require('./lib/PanaxDB');
+var config = require('./config/panax');
 
 var index = require('./routes/index');
 var api = require('./routes/api');
@@ -30,16 +33,56 @@ app.use(session({
     secret: 'zekret',
     resave: false,
     saveUninitialized: true,
-    cookie: { 
-        maxAge: 1800000 // Session timeout 30m * 60s * 1000ms
-        //secure: true // Requires https
-    }
+    // cookie: { 
+    //     maxAge: 1800000 // Session timeout 30m * 60s * 1000ms
+    //     //secure: true // Requires https
+    // }
 }));
+
+/**
+ * Passport configuration
+ * http://passportjs.org/guide/username-password/
+ */
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+
+        var oPanaxDB = new PanaxDB();
+
+        oPanaxDB.authenticate(username, password, function (err, user) {
+            if (err)
+                return done(err);
+            if (!user)
+                return done(null, false, {
+                    message: 'Incorrect username.'
+                });
+
+            return done(null, user);
+        });
+    }
+));
+
+passport.serializeUser(function (user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+    done(null, user);
+    // User.findById(id, function (err, user) {
+    //  done(err, user);
+    // });
+});
+
+/**
+ * Statics
+ */
 app.use(express.static(path.join(__dirname, 'public')));
 
 //GUIs static webserver (Grunt-inspired loading)
-panax.ui.enabled_guis.forEach(function (gui, index, arr) {
-    var gui_conf = panax.ui.guis[gui];
+config.ui.enabled_guis.forEach(function (gui, index, arr) {
+    var gui_conf = config.ui.guis[gui];
     //application's root location
     app.use('/gui/' + gui, express.static(gui_conf.root));
     //other static asset's locations
@@ -50,7 +93,9 @@ panax.ui.enabled_guis.forEach(function (gui, index, arr) {
     }
 });
 
-// routes
+/**
+ * Routes
+ */
 app.use('/', index);
 app.use('/api', api);
 app.use('/api/session', api_session);
