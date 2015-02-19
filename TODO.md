@@ -1,13 +1,6 @@
 # Error checking
 - As middleware before API routes
-	- Logged in check (req.session.userId)
 	- GUI query param
-
-# Auth
-
-http://runnable.com/Uxv5tGdglOI7p8__/node-js-login-logout-for-express-node-js-authentication-and-sessions
-http://passportjs.org/
-http://truongtx.me/2014/03/29/authentication-in-nodejs-and-expressjs-with-passportjs-part-1/
 
 # CRUD:
 
