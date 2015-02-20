@@ -25,7 +25,8 @@ router.post('/login', function login(req, res, next) {
 				success: true,
 				action: 'login',
 				data: {
-					userId: userId
+					userId: userId,
+					username: req.body.username
 				}
 			});
 		});

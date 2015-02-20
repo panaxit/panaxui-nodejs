@@ -32,11 +32,15 @@ frisby.create('Login')
 	.expectJSON({
 		success: true,
 		action: 'login',
+		data: {
+			username: panax_config.ui.username
+		}
 	})
 	.expectJSONTypes({
 		success: Boolean,
 		data: {
-			userId: String
+			userId: String,
+			username: String
 		}
 	})
 	.after(get_sitemap)
