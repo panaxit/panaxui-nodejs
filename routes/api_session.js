@@ -15,8 +15,10 @@ module.exports = router;
  */
 router.post('/login', function login(req, res, next) {
 	auth.authenticate(req.body.username, req.body.password, function (err, userId) {
-		if (err)
+		if (err) {
+			err.status = 401;
 			return next(err);
+		}
 
 		req.session.regenerate(function() {
 			req.session.userId = userId;

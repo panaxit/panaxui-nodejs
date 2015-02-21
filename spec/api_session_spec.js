@@ -18,43 +18,64 @@ var	hostname = panax_config.ui.hostname,
 var session_cookie;
 
 /**
- * Test Login
+ * Test Fail Login
  * (when logged out)
  * Chained Tests Entrypoint
  */
-frisby.create('Login')
+frisby.create('Fail Login')
 	.post(url + '/api/session/login', {
 		username: panax_config.ui.username,
-		password: util.md5(panax_config.ui.password)
+		password: 'wrong'
 	})
-	.expectStatus(200)
+	.expectStatus(401)
 	.expectHeaderContains('content-type', 'application/json')
 	.expectJSON({
-		success: true,
-		action: 'login',
-		data: {
-			username: panax_config.ui.username
-		}
+		success: false
 	})
 	.expectJSONTypes({
-		success: Boolean,
-		data: {
-			userId: String,
-			username: String
-		}
+		success: Boolean
 	})
-	.after(get_sitemap)
+	.after(login)
 .toss();
+
+/**
+ * Test Login
+ * (when logged out)
+ */
+function login(err, res, body) {
+	frisby.create('Login')
+		.post(url + '/api/session/login', {
+			username: panax_config.ui.username,
+			password: util.md5(panax_config.ui.password)
+		})
+		.expectStatus(200)
+		.expectHeaderContains('content-type', 'application/json')
+		.expectJSON({
+			success: true,
+			action: 'login',
+			data: {
+				username: panax_config.ui.username
+			}
+		})
+		.expectJSONTypes({
+			success: Boolean,
+			data: {
+				userId: String,
+				username: String
+			}
+		})
+		.after(get_sitemap)
+	.toss()
+}
 
 /**
  * Test Get Sitemap
  * (when logged in)
  */
 function get_sitemap(err, res, body) {
-
 	// ToDo: Should be stateless: https://github.com/vlucas/frisby/issues/36
 	// Grab returned session cookie
-    session_cookie = res.headers['set-cookie'][0].split(';')[0];
+  session_cookie = res.headers['set-cookie'][0].split(';')[0];
 
 	frisby.create('Get Sitemap')
 	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
@@ -84,7 +105,7 @@ function get_sitemap(err, res, body) {
  */
 function logout(err, res, body) {
 	frisby.create('Logout')
-	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
+	  .addHeader('Cookie', session_cookie) // Pass session cookie with each request
 		.get(url + '/api/session/logout')
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
@@ -105,7 +126,7 @@ function logout(err, res, body) {
  */
 function fail_sitemap(err, res, body) {
 	frisby.create('Fail Get Sitemap')
-	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
+	  .addHeader('Cookie', session_cookie) // Pass session cookie with each request
 		.get(url + '/api/session/sitemap')
 		.expectStatus(401)
 		.expectHeaderContains('content-type', 'application/json')
