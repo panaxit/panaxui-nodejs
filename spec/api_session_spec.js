@@ -54,14 +54,30 @@ function login(err, res, body) {
 			success: true,
 			action: 'login',
 			data: {
-				username: panax_config.ui.username
+				username: panax_config.ui.username,
+				api_version: '0.0.1',
+				db: {
+					server: 'localhost',
+					vendor: 'SQL Server 2012 11.0.5058',
+					version: 'Beta_12',
+					database: 'Demo12_6_feb2015',
+					user: 'sa'
+				}
 			}
 		})
 		.expectJSONTypes({
 			success: Boolean,
 			data: {
 				userId: String,
-				username: String
+				username: String,
+				api_version: String,
+				db: {
+					server: String,
+					vendor: String,
+					version: String,
+					database: String,
+					user: String
+				}
 			}
 		})
 		.after(get_sitemap)

@@ -27,8 +27,16 @@ router.post('/login', function login(req, res, next) {
 				success: true,
 				action: 'login',
 				data: {
-					userId: userId,
-					username: req.body.username
+					userId: req.session.userId,
+					username: req.body.username,
+					api_version: '0.0.1',
+					db: {
+						server: config.db.server,
+						vendor: 'SQL Server 2012 11.0.5058',
+						version: config.db.version,
+						database: config.db.database,
+						user: config.db.user
+					}
 				}
 			});
 		});
