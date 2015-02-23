@@ -15,28 +15,26 @@
 	
 	<xsl:template match="@*" mode="mapSite">, "<xsl:value-of select="name(.)"/>":<xsl:value-of select="."/></xsl:template>
 	
-	<xsl:template match="@*" mode="mapSite.string">, "<xsl:value-of select="name(.)"/>":"<xsl:value-of select="."/>"</xsl:template>
+	<xsl:template match="@*" mode="mapSite.string"><xsl:if test="position()&gt;1">,</xsl:if> "<xsl:value-of select="name(.)"/>":"<xsl:value-of select="."/>"</xsl:template>
 	
 	<xsl:template match="sitemap:*">
 		<xsl:if test="position()&gt;1">,</xsl:if>{
-		"text": "<xsl:value-of select="normalize-space(@title)"/>"
+		"label": "<xsl:value-of select="normalize-space(@title)"/>"
 		
 		<xsl:apply-templates select="@expanded|@expandable" mode="mapSite" />
 		
-		<xsl:apply-templates select="@catalogName|@mode|@url|@pageSize|@description|@controlType|@mode|@pk|@icon|@iconCls|@id|@filters" mode="mapSite.string" />
+		,"data": {
+				<xsl:apply-templates select="@catalogName|@mode|@url|@pageSize|@description|@controlType|@mode|@pk|@icon|@iconCls|@id|@filters" mode="mapSite.string" />
+		}
 		
 		<xsl:choose>
 			<xsl:when test="name()='menu'">
-				<!-- , "id": encodeURI("<xsl:value-of select="normalize-space(@title)"/>") -->
-				, "id": "<xsl:value-of select="normalize-space(@title)"/>"
 				, "children": [
 				<xsl:apply-templates select="*"/>
 				]
 				<xsl:call-template name="siteMapNode.icon" />
 			</xsl:when>
 			<xsl:otherwise>
-				, "id": "!<xsl:value-of select="@controlType"/>/<xsl:value-of select="@mode"/>/<xsl:value-of select="@catalogName"/><xsl:if test="@pk!=''">/<xsl:value-of select="@pk"/></xsl:if>"
-				, "leaf": true
 				, "lang": "<xsl:value-of select="ancestor-or-self::*[@xml:lang][1]/@xml:lang"/>"
 			</xsl:otherwise>
 		</xsl:choose>
