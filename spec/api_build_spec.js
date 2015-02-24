@@ -66,18 +66,6 @@ function build_extjs_gui(err, res, body) {
 				//lang:
 			}
 		})
-		.expectJSONTypes({
-			success: Boolean,
-			action: String,
-			catalog: {
-				dbId: String,
-				Table_Schema: String,
-				Table_Name: String,
-				// mode: String,
-				// controlType: String,
-				// lang: String
-			}
-		})
 		.after(rebuild_extjs_gui)
 	.toss()
 }
@@ -104,18 +92,6 @@ function rebuild_extjs_gui(err, res, body) {
 				//mode:
 				//controlType:
 				//lang:
-			}
-		})
-		.expectJSONTypes({
-			success: Boolean,
-			action: String,
-			catalog: {
-				dbId: String,
-				Table_Schema: String,
-				Table_Name: String,
-				// mode: String,
-				// controlType: String,
-				// lang: String
 			}
 		})
 		.after(existing_extjs_gui)
@@ -148,17 +124,7 @@ function existing_extjs_gui(err, res, body) {
 			}
 		})
 		.expectJSONTypes({
-			success: Boolean,
-			action: String,
-			filename: String,
-			catalog: {
-				dbId: String,
-				Table_Schema: String,
-				Table_Name: String,
-				// mode: String,
-				// controlType: String,
-				// lang: String
-			}
+			filename: String
 		})
 		.after(logout)
 	.toss()
@@ -188,9 +154,6 @@ function fail_build(err, res, body) {
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
 			success: false
-		})
-		.expectJSONTypes({
-			success: Boolean
 		})
 	.toss();
 }

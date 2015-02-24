@@ -73,21 +73,8 @@ function read_json_data(err, res, body) {
 			expect(val).toBe(1); // Custom matcher callback
 		})
 		.expectJSONTypes({
-			success: Boolean,
-			action: String,
-			gui: String,
-			output: String,
 			data: {
-				total: String,
-				catalog: {
-					dbId: String,
-					catalogName: String,
-					//mode: String,
-					//controlType: String,
-					//lang: String
-				},
 				data: Array
-				//metadata:
 			}
 		})
 		.after(read_html_filetemplate)
@@ -145,9 +132,6 @@ function fail_read(err, res, body) {
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
 			success: false
-		})
-		.expectJSONTypes({
-			success: Boolean
 		})
 	.toss();
 }
