@@ -32,9 +32,6 @@ frisby.create('Fail Login')
 	.expectJSON({
 		success: false
 	})
-	.expectJSONTypes({
-		success: Boolean
-	})
 	.after(login)
 .toss();
 
@@ -52,7 +49,29 @@ function login(err, res, body) {
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
 			success: true,
-			action: 'login',
+			action: 'login'
+		})
+		.after(get_info)
+	.toss()
+}
+
+/**
+ * Test Get Info
+ * (when logged in)
+ */
+function get_info(err, res, body) {
+	// ToDo: Should be stateless: https://github.com/vlucas/frisby/issues/36
+	// Grab returned session cookie
+  session_cookie = res.headers['set-cookie'][0].split(';')[0];
+
+	frisby.create('Get Info')
+	  .addHeader('Cookie', session_cookie) // Pass session cookie with each request
+		.get(url + '/api/session/info')
+		.expectStatus(200)
+		.expectHeaderContains('content-type', 'application/json')
+		.expectJSON({
+			success: true,
+			action: 'info',
 			data: {
 				username: panax_config.ui.username,
 				api_version: '0.0.1',
@@ -65,21 +84,6 @@ function login(err, res, body) {
 				}
 			}
 		})
-		.expectJSONTypes({
-			success: Boolean,
-			data: {
-				userId: String,
-				username: String,
-				api_version: String,
-				db: {
-					server: String,
-					vendor: String,
-					version: String,
-					database: String,
-					user: String
-				}
-			}
-		})
 		.after(get_sitemap)
 	.toss()
 }
@@ -89,12 +93,8 @@ function login(err, res, body) {
  * (when logged in)
  */
 function get_sitemap(err, res, body) {
-	// ToDo: Should be stateless: https://github.com/vlucas/frisby/issues/36
-	// Grab returned session cookie
-  session_cookie = res.headers['set-cookie'][0].split(';')[0];
-
 	frisby.create('Get Sitemap')
-	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
+	  .addHeader('Cookie', session_cookie) // Pass session cookie with each request
 		.get(url + '/api/session/sitemap')
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
@@ -107,8 +107,6 @@ function get_sitemap(err, res, body) {
 			expect(val).toBeGreaterThan(0); // Custom matcher callback
 		})
 		.expectJSONTypes({
-			success: Boolean,
-			action: String,
 			data: Array
 		})
 		.after(logout)
@@ -129,10 +127,23 @@ function logout(err, res, body) {
 			success: true,
 			action: 'logout'
 		})
-		.expectJSONTypes({
-			success: Boolean
-		})
 		.after(fail_sitemap)
+	.toss();
+}
+
+/**
+ * Test Fail Get Info
+ * (when logged out)
+ */
+function fail_info(err, res, body) {
+	frisby.create('Fail Get Info')
+	  .addHeader('Cookie', session_cookie) // Pass session cookie with each request
+		.get(url + '/api/session/info')
+		.expectStatus(401)
+		.expectHeaderContains('content-type', 'application/json')
+		.expectJSON({
+			success: false
+		})
 	.toss();
 }
 
@@ -148,9 +159,6 @@ function fail_sitemap(err, res, body) {
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
 			success: false
-		})
-		.expectJSONTypes({
-			success: Boolean
 		})
 	.toss();
 }

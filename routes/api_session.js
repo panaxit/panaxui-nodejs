@@ -22,27 +22,35 @@ router.post('/login', function login(req, res, next) {
 
 		req.session.regenerate(function() {
 			req.session.userId = userId;
+			req.session.username = req.body.username;
+			req.session.api_version = '0.0.1';
+			req.session.db = {
+				server: config.db.server,
+				vendor: 'SQL Server 2012 11.0.5058',
+				version: config.db.version,
+				database: config.db.database,
+				user: config.db.user
+			};
 
 			res.json({
 				success: true,
 				action: 'login',
-				data: {
-					userId: req.session.userId,
-					username: req.body.username,
-					api_version: '0.0.1',
-					db: {
-						server: config.db.server,
-						vendor: 'SQL Server 2012 11.0.5058',
-						version: config.db.version,
-						database: config.db.database,
-						user: config.db.user
-					}
-				}
+				data: req.session
 			});
 		});
 	});
 });
 
+/**
+ * GET /api/session/info
+ */
+router.get('/info', auth.requiredAuth, function sitemap(req, res, next) {
+	res.json({
+		success: true,
+		action: 'info',
+		data: req.session
+	});
+});
 /**
  * GET /api/session/sitemap
  */
