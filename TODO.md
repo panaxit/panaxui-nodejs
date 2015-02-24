@@ -17,10 +17,6 @@ JSON (ExtJS Batch) to XML Conversion SHOULD be done in panaxui-nodejs SERVER-sid
 
 # Api Responses Codes
 
-## Not logged in?
-
-403 Forbidden (or 401 Unauthorized?)
-
 # Junta Uriel
 
 Custom Logic Programming (JS)
