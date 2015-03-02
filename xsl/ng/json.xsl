@@ -20,7 +20,9 @@
 	<xsl:output omit-xml-declaration="yes" method="text" indent="no" />
 	<xsl:strip-space elements="*"/>
 
-	<!-- JSON Grammar helpers  -->
+	<!-- 
+		JSON Grammar helpers
+	-->
 
 	<xsl:template match="@*" mode="json.pair">
 		<xsl:if test="position()&gt;1">,</xsl:if> "<xsl:value-of disable-output-escaping="yes" select="local-name(.)"/>":<xsl:apply-templates select="." mode="json.string"/>
@@ -34,13 +36,17 @@
 		"<xsl:value-of select="." disable-output-escaping="no"/>"
 	</xsl:template>
 
-	<!-- Root element -->
+	<!-- 
+		Root element
+	-->
 
 	<xsl:template match="/">
 		<xsl:apply-templates select="*" mode="table"></xsl:apply-templates>
 	</xsl:template>
 
-	<!-- Table -->
+	<!-- 
+		Table
+	-->
 
 	<xsl:template match="*[@dataType='table']" mode="table">
 		<xsl:if test="position()&gt;1">,</xsl:if>
@@ -58,13 +64,16 @@
 					select="@supportsInsert|@supportsUpdate|@supportsDelete|@disableInsert|@disableUpdate|@disableDelete" 
 					mode="json.pair"/>
 			},
-			"schema": <xsl:apply-templates select="px:fields" mode="schema"></xsl:apply-templates>
+			"schema": <xsl:apply-templates select="*" mode="schema"></xsl:apply-templates>,
+			"form": <xsl:apply-templates select="*" mode="form"></xsl:apply-templates>
 		}
 	</xsl:template>
 
-	<!-- Schema -->
+	<!-- 
+		Schema (px:fields)
+	-->
 
-	<xsl:template match="*" mode="schema">
+	<xsl:template match="px:fields" mode="schema">
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		{
 			"type": "object",
@@ -77,8 +86,15 @@
 
 	<xsl:template match="*" mode="schema.property">
 		<xsl:if test="position()&gt;1">,</xsl:if>
-		"<xsl:value-of select="@fieldName"/>": {
-			"type": "<xsl:apply-templates select="." mode="schema.property.type"></xsl:apply-templates>"
+		"<xsl:value-of select="@fieldId"/>": {
+			"type": "<xsl:apply-templates select="." mode="schema.property.type"></xsl:apply-templates>",
+			"title": "<xsl:value-of select="@headerText"/>"
+			<!-- "description": "<xsl:value-of select="@headerText"/>" -->
+			<!-- @length -->
+			<!-- @isNullable -->
+			<!-- "minLength" -->
+			<!-- "enum" -->
+			<!-- "readonly" -->
 		}
 	</xsl:template>
 
@@ -107,6 +123,49 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+
+	<!-- 
+		Form (px:layout)
+	-->
+
+	<xsl:template match="px:layout" mode="form">
+		[
+			<xsl:apply-templates select="*" mode="form"></xsl:apply-templates>
+		]
+	</xsl:template>
+
+	<xsl:template match="px:tabPanel" mode="form">
+		<xsl:if test="position()&gt;1">,</xsl:if>
+		{
+			"type": "tabs",
+			"tabs": [
+				<xsl:apply-templates select="px:tab" mode="form"></xsl:apply-templates>
+			]
+		}
+	</xsl:template>
+
+	<xsl:template match="px:tab" mode="form">
+		<xsl:if test="position()&gt;1">,</xsl:if>
+		{
+			"title": "<xsl:value-of select="@name"/>",
+			"items": [
+				<xsl:apply-templates select="*" mode="form"></xsl:apply-templates>
+			]
+		}
+	</xsl:template>
+
+	<xsl:template match="px:field" mode="form">
+		<xsl:if test="position()&gt;1">,</xsl:if>
+		{
+			"key": "<xsl:value-of select="@fieldId"/>"
+			<!-- "condition": "false"  <! - -  // ToDo: Show hide based on @isPrimaryKey Or other args in @FIELDS -->
+			<!-- ToDo: "type": @controlType!='default' @dataType @FIELDS! -->
+		}
+	</xsl:template>
+
+
+
+
 
 	<!-- LEGACY - to be deleted - -->
 
