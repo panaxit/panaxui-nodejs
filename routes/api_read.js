@@ -82,13 +82,20 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 							return next(err);
 
 						if (req.query.output == 'json') {
-							res.json({
-								success: true,
-								action: "data",
-								gui: req.query.gui,
-								output: req.query.output,
-								data: JSON.parse(util.sanitizeJSONString(result))
-							});
+							try {
+								res.json({
+									success: true,
+									action: "data",
+									gui: req.query.gui,
+									output: req.query.output,
+									data: JSON.parse(util.sanitizeJSONString(result))
+								});
+							} catch (e) {
+								return next({
+									message: '[Server Exception] ' + e.name + ': ' + e.message,
+									stack: e.stack
+								});
+							}
 						} else if (req.query.output == 'html') {
 							res.set('Content-Type', 'text/html');
 							res.send(result);
