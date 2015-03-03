@@ -7,9 +7,9 @@
 		Model (px:data)
 	-->
 
-	<xsl:template match="px:data" mode="model">
+	<xsl:template match="*" mode="model">
 		[
-			<xsl:apply-templates select="*" mode="model"></xsl:apply-templates>
+			<xsl:apply-templates select="px:data/*" mode="model" />
 		]
 	</xsl:template>
 
@@ -17,7 +17,7 @@
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		{
 			"rowNumber": "<xsl:value-of select="@rowNumber"/>",
-			<xsl:apply-templates select="*" mode="model.dataField"></xsl:apply-templates>
+			<xsl:apply-templates select="*" mode="model.dataField" />
 		}
 	</xsl:template>
 

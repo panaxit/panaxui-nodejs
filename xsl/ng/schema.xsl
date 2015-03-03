@@ -7,21 +7,24 @@
 		Schema (px:fields)
 	-->
 
-	<xsl:template match="px:fields" mode="schema">
-		<xsl:if test="position()&gt;1">,</xsl:if>
+	<xsl:template match="*" mode="schema">
 		{
-			"type": "object",
-			"title": "<xsl:value-of select="parent::*/@Table_Name"/>",
-			"properties": {
-				<xsl:apply-templates select="*" mode="schema.property"></xsl:apply-templates>
-			}
+			<xsl:apply-templates select="px:fields" mode="schema" />
+		}
+	</xsl:template>
+
+	<xsl:template match="px:fields" mode="schema">
+		"type": "object",
+		"title": "<xsl:value-of select="parent::*/@Table_Name"/>",
+		"properties": {
+			<xsl:apply-templates select="*" mode="schema.property" />
 		}
 	</xsl:template>
 
 	<xsl:template match="*" mode="schema.property">
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		"<xsl:value-of select="@fieldId"/>": {
-			"type": "<xsl:apply-templates select="." mode="schema.property.type"></xsl:apply-templates>",
+			"type": "<xsl:apply-templates select="." mode="schema.property.type" />",
 			"title": "<xsl:value-of select="@headerText"/>"
 			<!-- "description": "<xsl:value-of select="@headerText"/>" -->
 			<!-- @length -->

@@ -3,13 +3,19 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:px="urn:panax"
 	>
+
+	<!-- 
+		Include: Form field types 
+	-->
+	<xsl:include href="form.field.type.xsl" />	
+
 	<!-- 
 		Form (px:layout)
 	-->
 
-	<xsl:template match="px:layout" mode="form">
+	<xsl:template match="*" mode="form">
 		[
-			<xsl:apply-templates select="*" mode="form"></xsl:apply-templates>
+			<xsl:apply-templates select="px:layout/*" mode="form" />
 		]
 	</xsl:template>
 
@@ -18,7 +24,7 @@
 		{
 			"type": "tabs",
 			"tabs": [
-				<xsl:apply-templates select="px:tab" mode="form"></xsl:apply-templates>
+				<xsl:apply-templates select="px:tab" mode="form" />
 			]
 		}
 	</xsl:template>
@@ -28,7 +34,7 @@
 		{
 			"title": "<xsl:value-of select="@name"/>",
 			"items": [
-				<xsl:apply-templates select="*" mode="form"></xsl:apply-templates>
+				<xsl:apply-templates select="*" mode="form" />
 			]
 		}
 	</xsl:template>
@@ -36,9 +42,10 @@
 	<xsl:template match="px:field" mode="form">
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		{
-			"key": "<xsl:value-of select="@fieldId"/>"
+			"key": "<xsl:value-of select="@fieldId"/>",
 			<!-- "condition": "false"  <! - -  // ToDo: Show hide based on @isPrimaryKey Or other args in @FIELDS -->
 			<!-- ToDo: "type": @controlType!='default' @dataType @FIELDS! -->
+			"type": "<xsl:apply-templates select="key('fields',@fieldId)" mode="form.field.type" />"
 		}
 	</xsl:template>
 

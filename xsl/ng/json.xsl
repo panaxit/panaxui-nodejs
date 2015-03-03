@@ -16,7 +16,7 @@
 	xmlns="http://www.w3.org/TR/xhtml1/strict"
 	exclude-result-prefixes="px"
 	>
-	
+
 	<!-- 
 		Imports & Includes
 	-->
@@ -51,7 +51,7 @@
 		Root element
 	-->
 	<xsl:template match="/">
-		<xsl:apply-templates select="*" mode="table"></xsl:apply-templates>
+		<xsl:apply-templates select="*" mode="table" />
 	</xsl:template>
 
 	<!-- 
@@ -73,9 +73,9 @@
 					select="@supportsInsert|@supportsUpdate|@supportsDelete|@disableInsert|@disableUpdate|@disableDelete" 
 					mode="json.pair"/>
 			},
-			"schema": <xsl:apply-templates select="*" mode="schema"></xsl:apply-templates>,
-			"form": <xsl:apply-templates select="*" mode="form"></xsl:apply-templates>,
-			"model": <xsl:apply-templates select="*" mode="model"></xsl:apply-templates>
+			"schema": <xsl:apply-templates select="." mode="schema" />,
+			"form": <xsl:apply-templates select="." mode="form" />,
+			"model": <xsl:apply-templates select="." mode="model" />
 		}
 	</xsl:template>
 
