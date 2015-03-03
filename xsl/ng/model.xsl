@@ -16,7 +16,7 @@
 	<xsl:template match="px:dataRow" mode="model">
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		{
-			"rowNumber": "<xsl:value-of select="@rowNumber"/>",
+			<!-- "rowNumber": "<xsl:value-of select="@rowNumber"/>", -->
 			<xsl:apply-templates select="*" mode="model.pair" />
 		}
 	</xsl:template>
