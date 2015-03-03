@@ -55,7 +55,7 @@ function read_json_data(err, res, body) {
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
 			success: true,
-			action: "data",
+			action: "read",
 			gui: "extjs",
 			output: "json",
 			data: {

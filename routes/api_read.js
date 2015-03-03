@@ -85,7 +85,7 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 							try {
 								res.json({
 									success: true,
-									action: "data",
+									action: "read",
 									gui: req.query.gui,
 									output: req.query.output,
 									data: JSON.parse(util.sanitizeJSONString(result))
