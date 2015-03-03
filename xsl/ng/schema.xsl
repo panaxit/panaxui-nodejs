@@ -23,7 +23,7 @@
 
 	<xsl:template match="*" mode="schema.property">
 		<xsl:if test="position()&gt;1">,</xsl:if>
-		"<xsl:value-of select="@fieldId"/>": {
+		"<xsl:value-of select="@fieldName"/>": {
 			"type": "<xsl:apply-templates select="." mode="schema.property.type" />",
 			"title": "<xsl:value-of select="@headerText"/>"
 			<!-- "description": "<xsl:value-of select="@headerText"/>" -->

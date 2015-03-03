@@ -23,7 +23,7 @@
 
 	<xsl:template match="*" mode="model.dataField">
 		<xsl:if test="position()&gt;1">,</xsl:if>
-		"<xsl:value-of select="@fieldId"/>": "<xsl:value-of select="@value"/>"
+		"<xsl:value-of select="key('fields',@fieldId)/@fieldName"/>": "<xsl:value-of select="@value"/>"
 		<!-- 
 			ToDo: JSON value can be string, or number, boolean, etc. 
 			According to @FIELDS

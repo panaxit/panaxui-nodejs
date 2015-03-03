@@ -42,7 +42,7 @@
 	<xsl:template match="px:field" mode="form">
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		{
-			"key": "<xsl:value-of select="@fieldId"/>",
+			"key": "<xsl:value-of select="@fieldName"/>",
 			<!-- "condition": "false"  <! - -  // ToDo: Show hide based on @isPrimaryKey Or other args in @FIELDS -->
 			<!-- ToDo: "type": @controlType!='default' @dataType @FIELDS! -->
 			"type": "<xsl:apply-templates select="key('fields',@fieldId)" mode="form.field.type" />"
