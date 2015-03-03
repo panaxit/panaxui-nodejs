@@ -17,18 +17,30 @@
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		{
 			"rowNumber": "<xsl:value-of select="@rowNumber"/>",
-			<xsl:apply-templates select="*" mode="model.dataField" />
+			<xsl:apply-templates select="*" mode="model.pair" />
 		}
 	</xsl:template>
 
-	<xsl:template match="*" mode="model.dataField">
+	<xsl:template match="*" mode="model.pair">
+		<xsl:variable name="fieldName" select="key('fields',@fieldId)/@fieldName" />
+		<xsl:variable name="dataType" select="key('fields',@fieldId)/@dataType" />
 		<xsl:if test="position()&gt;1">,</xsl:if>
-		"<xsl:value-of select="key('fields',@fieldId)/@fieldName"/>": "<xsl:value-of select="@value"/>"
-		<!-- 
-			ToDo: JSON value can be string, or number, boolean, etc. 
-			According to @FIELDS
-			See json.org 
-		-->
+		"<xsl:value-of select="$fieldName"/>":
+		<xsl:choose>
+			<xsl:when test="$dataType='int' or $dataType='float' or $dataType='money'">
+				<xsl:value-of select="@value"/>
+			</xsl:when>
+			<xsl:when test="$dataType='bit'">
+				<xsl:if test="@value='1'">true</xsl:if>
+				<xsl:if test="@value!='1'">false</xsl:if>
+			</xsl:when>
+			<xsl:when test="$dataType='date' or $dataType='datetime' or $dataType='time'">
+				"<xsl:value-of select="@value"/>"
+			</xsl:when>
+			<xsl:otherwise>
+				"<xsl:value-of select="@value"/>"
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 </xsl:stylesheet>
