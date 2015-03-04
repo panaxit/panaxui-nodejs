@@ -28,7 +28,8 @@
 		"<xsl:value-of select="$fieldName"/>":
 		<xsl:choose>
 			<xsl:when test="$dataType='int' or $dataType='float' or $dataType='money'">
-				<xsl:value-of select="@value"/>
+				<xsl:if test="@value=''">null</xsl:if>
+				<xsl:if test="@value!=''"><xsl:value-of select="@value"/></xsl:if>
 			</xsl:when>
 			<xsl:when test="$dataType='bit'">
 				<xsl:if test="@value='1'">true</xsl:if>
@@ -37,6 +38,7 @@
 			<xsl:when test="$dataType='date' or $dataType='datetime' or $dataType='time'">
 				"<xsl:value-of select="@value"/>"
 			</xsl:when>
+			<!-- strings -->
 			<xsl:otherwise>
 				"<xsl:value-of select="@value"/>"
 			</xsl:otherwise>
