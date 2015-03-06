@@ -1,5 +1,12 @@
 var path = require('path');
 
+console.log('\n');
+console.log(" ____                        _   _ ___ ");
+console.log("|  _ \\ __ _ _ __   __ ___  _| | | |_ _|");
+console.log("| |_) / _` | '_ \\ / _` \\ \\/ / | | || | ");
+console.log("|  __/ (_| | | | | (_| |>  <| |_| || | ");
+console.log("|_|   \\__,_|_| |_|\\__,_/_/\\_\\\\___/|___|");
+
 /**
  * PanaxDB
  */
@@ -10,6 +17,11 @@ exports.db = {
 	user: '<USERNAME>',
 	password: '<PASSWORD>'
 };
+
+console.log('\n\n');
+console.log('DB Config');
+console.log('\n');
+console.dir(exports.db);
 
 /**
  * PanaxUI
@@ -37,3 +49,8 @@ exports.ui = {
 		}
 	}
 };
+
+console.log('\n\n');
+console.log('UI Config');
+console.log('\n');
+console.dir(exports.ui);
