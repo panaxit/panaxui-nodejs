@@ -11,8 +11,8 @@
 
 <!-- GridView -->
 <xsl:include href="views/gridView.xsl" />
-<xsl:include href="gridview/column.xsl" />
-<xsl:include href="gridview/column.renderer.xsl" />
+<xsl:include href="gridView/column.xsl" />
+<xsl:include href="gridView/column.renderer.xsl" />
 
 <!-- CardView -->
 <xsl:include href="views/cardView.xsl" />
@@ -26,7 +26,7 @@
 <xsl:include href="formView/datetime.xsl" />
 <xsl:include href="formView/radio.xsl" />
 <xsl:include href="formView/color.xsl" />
-<xsl:include href="formView/combobox.xsl" />
+<xsl:include href="formView/comboBox.xsl" />
 <xsl:include href="formView/junctionTable.xsl" />
 
 <xsl:include href="views/formView.filters.xsl" />
