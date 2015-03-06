@@ -76,11 +76,11 @@ function get_info(err, res, body) {
 				username: panax_config.ui.username,
 				api_version: '0.0.1',
 				db: {
-					server: 'localhost',
+					server: panax_config.db.server,
 					vendor: 'SQL Server 2012 11.0.5058',
-					version: 'Beta_12',
-					database: 'Demo12_6_feb2015',
-					user: 'sa'
+					version: panax_config.db.version,
+					database: panax_config.db.database,
+					user: panax_config.db.user
 				}
 			}
 		})
