@@ -20,22 +20,30 @@ router.post('/login', function login(req, res, next) {
 			return next(err);
 		}
 
-		req.session.regenerate(function() {
-			req.session.userId = userId;
-			req.session.username = req.body.username;
-			req.session.api_version = '0.0.1';
-			req.session.db = {
-				server: config.db.server,
-				vendor: 'SQL Server 2012 11.0.5058',
-				version: config.db.version,
-				database: config.db.database,
-				user: config.db.user
-			};
+		var oPanaxDB = new PanaxDB();
 
-			res.json({
-				success: true,
-				action: 'login',
-				data: req.session
+		oPanaxDB.getVendorInfo(function (err, vendor) {
+			if(err)
+				return next(err);
+
+			req.session.regenerate(function() {
+
+				req.session.userId = userId;
+				req.session.username = req.body.username;
+				req.session.api_version = '0.0.1'; // ToDo: Centralized version number
+				req.session.db = {
+					server: config.db.server,
+					vendor: vendor.version,
+					version: config.db.version,
+					database: config.db.database,
+					user: config.db.user
+				};
+
+				res.json({
+					success: true,
+					action: 'login',
+					data: req.session
+				});
 			});
 		});
 	});

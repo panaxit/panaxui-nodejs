@@ -74,13 +74,20 @@ function get_info(err, res, body) {
 			action: 'info',
 			data: {
 				username: panax_config.ui.username,
-				api_version: '0.0.1',
+				api_version: '0.0.1', // ToDo: Centralized version number
 				db: {
 					server: panax_config.db.server,
-					vendor: 'SQL Server 2012 11.0.5058',
+					//vendor: 'SQL Server 2012 11.0.5058',
 					version: panax_config.db.version,
 					database: panax_config.db.database,
 					user: panax_config.db.user
+				}
+			}
+		})
+		.expectJSONTypes({
+			data: {
+				db: {
+					vendor: String
 				}
 			}
 		})
