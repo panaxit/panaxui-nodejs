@@ -20,16 +20,16 @@ module.exports = router;
  */
 router.get('/', auth.requiredAuth, function read(req, res, next) {
 	if (!req.query.catalogName)
-		return next({message: "Error: No catalogName supplied"});
+		return next({message: "No catalogName supplied"});
 
 	req.query.gui = (req.query.gui || config.ui.enabled_guis[0]).toLowerCase(); // Default GUI
 	if (config.ui.enabled_guis.indexOf(req.query.gui) === -1)
-		return next({ message: "Error: Unsupported GUI '" + req.query.gui + "'." +
+		return next({ message: "Unsupported GUI '" + req.query.gui + "'." +
 				"Available: " + config.ui.enabled_guis.toString().split(',').join(', ') });
 
 	req.query.output = (req.query.output || 'json').toLowerCase(); // JSON is default output
 	if (req.query.output != 'json' && req.query.output != 'html')
-		return next({message: "Error: Unsupported output '" + req.query.output + "'."});
+		return next({message: "Unsupported output '" + req.query.output + "'."});
 
 	var oPanaxDB = new PanaxDB(req.query);
 
@@ -50,7 +50,7 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 			if (catalog.controlType === 'fileTemplate') {
 
 				if(!catalog.fileTemplate)
-					return next({message: "Error: Missing fileTemplate"});
+					return next({message: "Missing fileTemplate"});
 
 				try {
 					pate.parse({

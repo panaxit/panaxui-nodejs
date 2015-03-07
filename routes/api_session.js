@@ -66,7 +66,7 @@ router.get('/sitemap', auth.requiredAuth, function sitemap(req, res, next) {
 
 	req.query.gui = (req.query.gui || config.ui.enabled_guis[0]).toLowerCase(); // Default GUI
 	if (config.ui.enabled_guis.indexOf(req.query.gui) === -1)
-		return next({ message: "Error: Unsupported GUI '" + req.query.gui + "'." +
+		return next({ message: "Unsupported GUI '" + req.query.gui + "'." +
 				"Available: " + config.ui.enabled_guis.toString().split(',').join(', ') });
 
 	var oPanaxDB = new PanaxDB(req.session); // get userId

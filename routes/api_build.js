@@ -16,12 +16,12 @@ module.exports = router;
  */
 router.get('/', auth.requiredAuth, function build(req, res, next) {
 	if (!req.query.catalogName)
-		return next({message: "Error: No catalogName supplied"});
+		return next({message: "No catalogName supplied"});
 
 	req.query.output = (req.query.output || 'extjs').toLowerCase(); // ExtJS is default GUI Output
 
 	if (req.query.output != 'extjs')
-		return next({message: "Error: Output '" + req.query.output + "' not supported"});
+		return next({message: "Output '" + req.query.output + "' not supported"});
 
 	var oPanaxDB = new PanaxDB(req.query);
 
