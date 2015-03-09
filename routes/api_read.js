@@ -2,14 +2,13 @@ var express = require('express');
 var router = express.Router();
 var libxslt = require('libxslt');
 var Panax = require('../lib/Panax');
+var config = require('../config/panax.js');
 
 var fs = require('fs');
 var pate = require('node-pate');
 var formatter = require('../lib/format');
 var util = require('../lib/util.js');
 var auth = require('../lib/auth.js');
-
-var config = require('../config/panax.js');
 
 module.exports = router;
 
@@ -31,7 +30,7 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 	if (req.query.output != 'json' && req.query.output != 'html')
 		return next({message: "Unsupported output '" + req.query.output + "'."});
 
-	var oPanax = new Panax(req.query);
+	var oPanax = new Panax(config, req.query);
 
 	oPanax.set('userId', req.session.userId);
 	oPanax.set('tableName', req.query.catalogName);

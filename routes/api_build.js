@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var libxslt = require('libxslt');
 var Panax = require('../lib/Panax');
+var config = require('../config/panax.js');
 
 var fs = require('fs');
 var path = require('path');
@@ -23,7 +24,7 @@ router.get('/', auth.requiredAuth, function build(req, res, next) {
 	if (req.query.output != 'extjs')
 		return next({message: "Output '" + req.query.output + "' not supported"});
 
-	var oPanax = new Panax(req.query);
+	var oPanax = new Panax(config, req.query);
 
 	oPanax.set('userId', req.session.userId);
 	oPanax.set('tableName', req.query.catalogName);

@@ -2,11 +2,10 @@ var express = require('express');
 var router = express.Router();
 var libxslt = require('libxslt');
 var Panax = require('../lib/Panax');
+var config = require('../config/panax.js');
 
 var util = require('../lib/util.js');
 var auth = require('../lib/auth.js');
-
-var config = require('../config/panax.js');
 
 module.exports = router;
 
@@ -20,7 +19,7 @@ router.post('/login', function login(req, res, next) {
 			return next(err);
 		}
 
-		var oPanax = new Panax();
+		var oPanax = new Panax(config);
 
 		oPanax.getVendorInfo(function (err, vendor) {
 			if(err)
@@ -69,7 +68,7 @@ router.get('/sitemap', auth.requiredAuth, function sitemap(req, res, next) {
 		return next({ message: "Unsupported GUI '" + req.query.gui + "'." +
 				"Available: " + config.ui.enabled_guis.toString().split(',').join(', ') });
 
-	var oPanax = new Panax(req.session); // get userId
+	var oPanax = new Panax(config, req.session); // get userId
 
 	oPanax.getSitemap(function (err, xml) {
 		if(err)
