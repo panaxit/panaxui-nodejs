@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var libxslt = require('libxslt');
-var PanaxDB = require('../lib/PanaxDB');
+var Panax = require('../lib/Panax');
 
 var fs = require('fs');
 var path = require('path');
@@ -23,23 +23,23 @@ router.get('/', auth.requiredAuth, function build(req, res, next) {
 	if (req.query.output != 'extjs')
 		return next({message: "Output '" + req.query.output + "' not supported"});
 
-	var oPanaxDB = new PanaxDB(req.query);
+	var oPanax = new Panax(req.query);
 
-	oPanaxDB.set('userId', req.session.userId);
-	oPanaxDB.set('tableName', req.query.catalogName);
-	oPanaxDB.set('getData', (req.query.getData || '0'));
-	oPanaxDB.set('getStructure', (req.query.getStructure || '1'));
-	oPanaxDB.set('lang', (req.session.lang || 'DEFAULT'));
+	oPanax.set('userId', req.session.userId);
+	oPanax.set('tableName', req.query.catalogName);
+	oPanax.set('getData', (req.query.getData || '0'));
+	oPanax.set('getStructure', (req.query.getStructure || '1'));
+	oPanax.set('lang', (req.session.lang || 'DEFAULT'));
 
-	oPanaxDB.getXML(function (err, xml) {
+	oPanax.getXML(function (err, xml) {
 		if(err)
 			return next(err);
 
-		oPanaxDB.getCatalog(xml, function (err, catalog) {
+		oPanax.getCatalog(xml, function (err, catalog) {
 			if(err)
 				return next(err);
 
-			oPanaxDB.getFilename(catalog, function (err, exists, filename) {
+			oPanax.getFilename(catalog, function (err, exists, filename) {
 				if(exists) {
 					res.json({
 						success: true,
