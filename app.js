@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
-var panax = require('./config/panax');
+var panax_config = require('./config/panax');
 
 var index = require('./routes/index');
 var api = require('./routes/api');
@@ -38,8 +38,8 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 //GUIs static webserver (Grunt-inspired loading)
-panax.ui.enabled_guis.forEach(function (gui, index, arr) {
-    var gui_conf = panax.ui.guis[gui];
+panax_config.ui.enabled_guis.forEach(function (gui, index, arr) {
+    var gui_conf = panax_config.ui.guis[gui];
     //application's root location
     app.use('/gui/' + gui, express.static(gui_conf.root));
     //other static asset's locations
@@ -91,5 +91,13 @@ app.use(function(err, req, res, next) {
     });
 });
 
+/**
+ * Show banner & config
+ */
+require('./lib/banner').show();
+console.log('\n\nDB Config:\n');
+console.dir(panax_config.db);
+console.log('\n\nUI Config:\n');
+console.dir(panax_config.ui);
 
 module.exports = app;
