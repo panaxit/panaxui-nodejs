@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var libxslt = require('libxslt');
-var Panax = require('../../panaxjs');
+var Panax = require('panaxjs');
 var config = require('../config/panax.js');
 
 var util = require('../lib/util.js');
