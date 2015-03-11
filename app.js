@@ -95,9 +95,5 @@ app.use(function(err, req, res, next) {
  * Show banner & config
  */
 require('./lib/banner').show();
-console.log('\n\nDB Config:\n');
-console.dir(panax_config.db);
-console.log('\n\nUI Config:\n');
-console.dir(panax_config.ui);
 
 module.exports = app;
