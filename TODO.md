@@ -1,21 +1,22 @@
+# Refactoring
+- YEOMAN: Generate boilerplate (Node.js, Express, tests, grunt, etc...)
+
 # Error checking
 - As middleware before API routes
 	- GUI query param
 
 # CRUD:
 
-Create, Update, Delete
-JSON (ExtJS Batch) to XML Conversion SHOULD be done in panaxui-nodejs SERVER-side
+- Create, Update, Delete
+	- scripts/Update.asp (panaxjs) -> /api/update (/api/create, /api/update, /api/delete) 
+- JSON (ExtJS Batch) to XML Conversion SHOULD be done in panaxui-nodejs SERVER-side
+- scripts/XMLCatalogOptions.asp -> /api/options
+	- Still necessary in AngularJS?
 
 # Api URLS:
 
 /api/build.{extjs}
 /api/read.json
-
----
-***
-
-# Api Responses Codes
 
 # Junta Uriel
 
