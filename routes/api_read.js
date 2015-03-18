@@ -92,7 +92,8 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 							} catch (e) {
 								return next({
 									message: '[Server Exception] ' + e.name + ': ' + e.message,
-									stack: e.stack
+									stack: e.stack,
+									result: result
 								});
 							}
 						} else if (req.query.output == 'html') {
