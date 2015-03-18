@@ -5,9 +5,10 @@
 	>
 
 	<!-- 
-		Include: Form field types 
+		Form field includes
 	-->
 	<xsl:include href="form.field.type.xsl" />	
+	<xsl:include href="form.field.titleMap.xsl" />	
 
 	<!-- 
 		Form (px:layout)
@@ -45,7 +46,10 @@
 			"key": "<xsl:value-of select="@fieldName"/>",
 			<!-- "condition": "false"  <! - -  // ToDo: Show hide based on @isPrimaryKey Or other args in @FIELDS -->
 			<!-- ToDo: "type": @controlType!='default' @dataType @FIELDS! -->
-			"type": "<xsl:apply-templates select="key('fields',@fieldId)" mode="form.field.type" />"
+			"type": "<xsl:apply-templates select="key('fields',@fieldId)" mode="form.field.type" />",
+			"titleMap": [
+				<xsl:apply-templates select="key('fields',@fieldId)" mode="form.field.titleMap" />
+			]
 		}
 	</xsl:template>
 

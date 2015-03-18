@@ -56,6 +56,14 @@
 		<xsl:text>checkbox</xsl:text>
 	</xsl:template>
 
+	<!-- radiobuttons	radio buttons with bootstrap buttons -->
+	<xsl:template mode="form.field.type" match="*[ 
+		(@controlType='radiogroup') and
+		(@dataType='foreignKey') 
+		]">
+		<xsl:text>radiobuttons</xsl:text>
+	</xsl:template>
+
 	<!-- ToDo: -->
 
 	<!-- fieldset			a fieldset with legend -->
@@ -73,8 +81,6 @@
 	<!-- radios				radio buttons -->
 
 	<!-- radio				inline	radio buttons in one line -->
-
-	<!-- radiobuttons	radio buttons with bootstrap buttons -->
 
 	<!-- help					insert arbitrary html -->
 
