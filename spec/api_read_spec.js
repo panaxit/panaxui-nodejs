@@ -43,6 +43,7 @@ function read_json_data(err, res, body) {
     session_cookie = res.headers['set-cookie'][0].split(';')[0];
 
 	var query = querystring.stringify({
+		gui: 'ng',
 		catalogName: "dbo.Empleado",
 		filters: "'id=1'",
 		output: "json"
@@ -56,7 +57,7 @@ function read_json_data(err, res, body) {
 		.expectJSON({
 			success: true,
 			action: "read",
-			gui: "extjs",
+			gui: "ng",
 			output: "json",
 			data: {
 				total: "1",
@@ -72,10 +73,15 @@ function read_json_data(err, res, body) {
 		.expectJSONLength('data', function (val) {
 			expect(val).toBe(1); // Custom matcher callback
 		})
-		.expectJSONTypes({
-			data: {
-				data: Array
-			}
+		.expectJSONTypes('data', {
+			// AngularJS:
+			schema: Object,
+			form: Array,
+			model: Array
+			// ExtJS:
+			// data: {
+			// 	data: Array
+			// }
 		})
 		.after(read_html_filetemplate)
 	.toss()
