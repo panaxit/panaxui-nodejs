@@ -30,6 +30,9 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 	if (req.query.output != 'json' && req.query.output != 'html')
 		return next({message: "Unsupported output '" + req.query.output + "'."});
 
+	/**
+	 * PanaxJS
+	 */
 	var oPanax = new Panax(config, req.query);
 
 	oPanax.set('userId', req.session.userId);

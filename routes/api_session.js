@@ -68,6 +68,9 @@ router.get('/sitemap', auth.requiredAuth, function sitemap(req, res, next) {
 		return next({ message: "Unsupported GUI '" + req.query.gui + "'." +
 				"Available: " + config.ui.enabled_guis.toString().split(',').join(', ') });
 
+	/**
+	 * PanaxJS
+	 */
 	var oPanax = new Panax(config, req.session); // get userId
 
 	oPanax.getSitemap(function (err, xml) {

@@ -24,6 +24,9 @@ router.get('/', auth.requiredAuth, function build(req, res, next) {
 	if (req.query.output != 'extjs')
 		return next({message: "Output '" + req.query.output + "' not supported"});
 
+	/**
+	 * PanaxJS
+	 */
 	var oPanax = new Panax(config, req.query);
 
 	oPanax.set('userId', req.session.userId);
