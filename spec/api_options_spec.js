@@ -57,7 +57,8 @@ function get_options(err, res, body) {
 			action: "options",
 			gui: "ng"
 		})
-		.expectJSONTypes({
+		.expectJSONTypes('data', {
+			total: Number,
 			data: Array
 		})
 		.after(logout)
