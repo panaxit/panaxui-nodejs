@@ -41,6 +41,7 @@ function get_options(err, res, body) {
     session_cookie = res.headers['set-cookie'][0].split(';')[0];
 
 	var query = querystring.stringify({
+		gui: 'ng',
 		catalogName: "dbo.Sexo",
 		valueColumn: "Clave",
 		textColumn: "Pais"
@@ -54,8 +55,7 @@ function get_options(err, res, body) {
 		.expectJSON({
 			success: true,
 			action: "options",
-			gui: "extjs",
-			output: "json"
+			gui: "ng"
 		})
 		.expectJSONTypes({
 			data: Array
