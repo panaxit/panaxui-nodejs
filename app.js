@@ -13,6 +13,7 @@ var api = require('./routes/api');
 var api_session = require('./routes/api_session');
 var api_build = require('./routes/api_build');
 var api_read = require('./routes/api_read');
+var api_options = require('./routes/api_options');
 
 var app = express();
 
@@ -56,6 +57,7 @@ app.use('/api', api);
 app.use('/api/session', api_session);
 app.use('/api/build', api_build);
 app.use('/api/read', api_read);
+app.use('/api/options', api_options);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

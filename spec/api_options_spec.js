@@ -42,7 +42,7 @@ function get_options(err, res, body) {
 
 	var query = querystring.stringify({
 		gui: 'ng',
-		catalogName: "dbo.Sexo",
+		catalogName: "CatalogosSistema.Pais",
 		valueColumn: "Clave",
 		textColumn: "Pais"
 	})
