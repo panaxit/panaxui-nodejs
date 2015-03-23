@@ -96,7 +96,7 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 								return next({
 									message: '[Server Exception] ' + e.name + ': ' + e.message,
 									stack: e.stack,
-									result: result
+									result: result.replace(/\n/g, '').replace(/\t/g, '')
 								});
 							}
 						} else if (req.query.output == 'html') {
