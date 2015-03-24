@@ -42,18 +42,21 @@
 	</xsl:template>
 
 	<xsl:template match="px:field" mode="form">
+		<xsl:variable name="field" select="key('fields',@fieldId)" />
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		{
-			"key": "<xsl:value-of select="@fieldName"/>",
-			<!-- "condition": "false"  <! - -  // ToDo: Show hide based on @isPrimaryKey Or other args in @FIELDS -->
+			"key": "<xsl:value-of select="$field/@fieldName"/>",
+			<xsl:if	test="$field/@isIdentity='1'">
+				"condition": "false",
+			</xsl:if>
 			<!-- ToDo: "type": @controlType!='default' @dataType @FIELDS! -->
-			"type": "<xsl:apply-templates select="key('fields',@fieldId)" mode="form.field.type" />",
+			"type": "<xsl:apply-templates select="$field" mode="form.field.type" />",
 			"placeholder": " ",
 			"titleMap": [
-				<xsl:apply-templates select="key('fields',@fieldId)" mode="form.field.titleMap" />
+				<xsl:apply-templates select="$field" mode="form.field.titleMap" />
 			],
 			"options": {
-				<xsl:apply-templates select="key('fields',@fieldId)" mode="form.field.options" />
+				<xsl:apply-templates select="$field" mode="form.field.options" />
 			}
 		}
 	</xsl:template>
