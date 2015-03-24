@@ -57,10 +57,33 @@ function get_options(err, res, body) {
 			action: "options",
 			gui: "ng"
 		})
-		.expectJSONTypes('data', {
-			total: Number,
+		.expectJSONTypes({
 			data: Array
 		})
+		.after(get_options_array)
+	.toss()
+}
+
+/**
+ * Test Get OPTIONS ARRAY
+ * (when logged in)
+ */
+function get_options_array(err, res, body) {
+
+	var query = querystring.stringify({
+		gui: 'ng',
+		catalogName: "CatalogosSistema.Pais",
+		valueColumn: "Clave",
+		textColumn: "Pais",
+		array: true
+	})
+
+	frisby.create('Get OPTIONS ARRAY')
+	  .addHeader('Cookie', session_cookie) // Pass session cookie with each request
+		.get(url + '/api/options?' + query)
+		.expectStatus(200)
+		.expectHeaderContains('content-type', 'application/json')
+		.expectJSONTypes(Array)
 		.after(logout)
 	.toss()
 }
