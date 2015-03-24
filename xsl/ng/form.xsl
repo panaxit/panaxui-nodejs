@@ -7,8 +7,9 @@
 	<!-- 
 		Form field includes
 	-->
-	<xsl:include href="form.field.type.xsl" />	
-	<xsl:include href="form.field.titleMap.xsl" />	
+	<xsl:include href="form.field.type.xsl" />
+	<xsl:include href="form.field.titleMap.xsl" />
+	<xsl:include href="form.field.options.xsl" />
 
 	<!-- 
 		Form (px:layout)
@@ -47,9 +48,13 @@
 			<!-- "condition": "false"  <! - -  // ToDo: Show hide based on @isPrimaryKey Or other args in @FIELDS -->
 			<!-- ToDo: "type": @controlType!='default' @dataType @FIELDS! -->
 			"type": "<xsl:apply-templates select="key('fields',@fieldId)" mode="form.field.type" />",
+			"placeholder": "",
 			"titleMap": [
 				<xsl:apply-templates select="key('fields',@fieldId)" mode="form.field.titleMap" />
-			]
+			],
+			"options": {
+				<xsl:apply-templates select="key('fields',@fieldId)" mode="form.field.options" />
+			}
 		}
 	</xsl:template>
 

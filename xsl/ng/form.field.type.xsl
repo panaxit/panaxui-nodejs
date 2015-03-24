@@ -72,8 +72,6 @@
 
 	<!-- actions			horizontal button list, can only submit and buttons as items -->
 
-	<!-- select				a select (single value) -->
-
 	<!-- submit				a submit button -->
 
 	<!-- button				a button -->
@@ -96,6 +94,15 @@
 		Third Party
 		http://textalk.github.io/angular-schema-form/#third-party-addons 
 	-->
+
+	<!-- uiselect `insteadof` select				a select (single value) -->
+	<!-- https://github.com/networknt/angular-schema-form-ui-select -->
+	<xsl:template mode="form.field.type" match="*[ 
+		(@controlType='default' or @controlType='combobox') and
+		(@dataType='foreignKey') 
+		]">
+		<xsl:text>uiselect</xsl:text>
+	</xsl:template>
 
 	<!-- 
 		ToDo:
