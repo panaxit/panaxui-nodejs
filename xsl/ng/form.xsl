@@ -48,7 +48,7 @@
 			<!-- "condition": "false"  <! - -  // ToDo: Show hide based on @isPrimaryKey Or other args in @FIELDS -->
 			<!-- ToDo: "type": @controlType!='default' @dataType @FIELDS! -->
 			"type": "<xsl:apply-templates select="key('fields',@fieldId)" mode="form.field.type" />",
-			"placeholder": "",
+			"placeholder": " ",
 			"titleMap": [
 				<xsl:apply-templates select="key('fields',@fieldId)" mode="form.field.titleMap" />
 			],
