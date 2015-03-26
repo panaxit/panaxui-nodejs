@@ -8,7 +8,8 @@
 		Schema includes
 	-->
 	<xsl:include href="schema.property.type.xsl" />
-	
+	<xsl:include href="schema.property.format.xsl" />
+
 	<!-- 
 		Schema (px:fields)
 	-->
@@ -32,7 +33,7 @@
 		"<xsl:value-of select="@fieldName"/>": {
 			"title": "<xsl:value-of select="@headerText"/>",
 			"type": "<xsl:apply-templates select="." mode="schema.property.type" />",
-			"format": ""
+			"format": "<xsl:apply-templates select="." mode="schema.property.format" />"
 			<!-- "description": "<xsl:value-of select="@headerText"/>" -->
 			<!-- @length -->
 			<!-- @isNullable -->

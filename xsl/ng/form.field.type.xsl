@@ -104,6 +104,15 @@
 		<xsl:text>uiselect</xsl:text>
 	</xsl:template>
 
+	<!-- datepicker -->
+	<!-- https://github.com/Textalk/angular-schema-form-datepicker -->
+	<xsl:template mode="form.field.type" match="*[ 
+		(@controlType='default') and
+		(@dataType='date') 
+		]">
+		<xsl:text>datepicker</xsl:text>
+	</xsl:template>
+
 	<!-- 
 		ToDo:
 			date
