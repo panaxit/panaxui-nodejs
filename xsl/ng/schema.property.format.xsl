@@ -13,7 +13,7 @@
 			<xsl:when test="@dataType='date' or @dataType='datetime' or @dataType='time'">
 				<xsl:text>date</xsl:text>
 			</xsl:when>
-			<xsl:when test="@dataType='px:color'">
+			<xsl:when test="@controlType='color'">
 				<xsl:text>color</xsl:text>
 			</xsl:when>
 		</xsl:choose>

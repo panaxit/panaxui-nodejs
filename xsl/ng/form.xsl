@@ -10,6 +10,7 @@
 	<xsl:include href="form.field.type.xsl" />
 	<xsl:include href="form.field.titleMap.xsl" />
 	<xsl:include href="form.field.options.xsl" />
+	<xsl:include href="form.field.colorFormat.xsl" />
 
 	<!-- 
 		Form (px:layout)
@@ -55,6 +56,7 @@
 			"titleMap": [
 				<xsl:apply-templates select="$field" mode="form.field.titleMap" />
 			],
+			<xsl:apply-templates select="$field" mode="form.field.colorFormat" />
 			"options": {
 				<xsl:apply-templates select="$field" mode="form.field.options" />
 			}
