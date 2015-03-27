@@ -113,12 +113,19 @@
 		<xsl:text>datepicker</xsl:text>
 	</xsl:template>
 
+	<!-- color -->
+	<!-- https://github.com/Textalk/angular-schema-form-colorpicker -->
+	<xsl:template mode="form.field.type" match="*[ 
+		(@controlType='color') and
+		(@dataType='nchar') 
+		]">
+		<xsl:text>colorpicker</xsl:text>
+	</xsl:template>
+
 	<!-- 
 		ToDo:
-			date
 			time
 			datetime
-			color
 			file
 			picture
 			junctionTable
