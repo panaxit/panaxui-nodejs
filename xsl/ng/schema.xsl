@@ -9,6 +9,7 @@
 	-->
 	<xsl:include href="schema.property.type.xsl" />
 	<xsl:include href="schema.property.format.xsl" />
+	<xsl:include href="schema.property.pattern.xsl" />
 
 	<!-- 
 		Schema (px:fields)
@@ -33,7 +34,8 @@
 		"<xsl:value-of select="@fieldName"/>": {
 			"title": "<xsl:value-of select="@headerText"/>",
 			"type": "<xsl:apply-templates select="." mode="schema.property.type" />",
-			"format": "<xsl:apply-templates select="." mode="schema.property.format" />"
+			"format": "<xsl:apply-templates select="." mode="schema.property.format" />",
+			"pattern": "<xsl:apply-templates select="." mode="schema.property.pattern" />"
 			<!-- "description": "<xsl:value-of select="@headerText"/>" -->
 			<!-- @length -->
 			<!-- @isNullable -->
