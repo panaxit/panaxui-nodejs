@@ -29,11 +29,11 @@ router.get('/', auth.requiredAuth, function build(req, res, next) {
 	 */
 	var oPanax = new Panax(config, req.query);
 
-	oPanax.set('userId', req.session.userId);
-	oPanax.set('tableName', req.query.catalogName);
-	oPanax.set('getData', (req.query.getData || '0'));
-	oPanax.set('getStructure', (req.query.getStructure || '1'));
-	oPanax.set('lang', (req.session.lang || 'DEFAULT'));
+	oPanax.setParam('userId', req.session.userId);
+	oPanax.setParam('tableName', req.query.catalogName);
+	oPanax.setParam('getData', (req.query.getData || '0'));
+	oPanax.setParam('getStructure', (req.query.getStructure || '1'));
+	oPanax.setParam('lang', (req.session.lang || 'DEFAULT'));
 
 	oPanax.getXML(function (err, xml) {
 		if(err)
