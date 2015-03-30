@@ -1,12 +1,11 @@
 /**
- * API Read Testing
+ * API Read AngularJS Testing
  *
  * 1. Login
- * 2. Read JSON DATA
- * 3. Read HTML FileTemplate
- * 5. ToDo: Read HTML DATA
+ * 2. Read gridView/readonly JSON DATA
+ * 2. Read formView/readonly JSON DATA
  * 6. Logout
- * 7. Fail Read DATA
+ * 7. Fail Read JSON DATA
  */
 var frisby = require('frisby');
 var	util = require('../lib/util');
@@ -29,30 +28,70 @@ frisby.create('Login')
 		password: util.md5(panax_config.ui.password)
 	})
 	.expectStatus(200)
-	.after(read_json_data)
+	.after(gridview_readonly)
 .toss();
 
 /**
- * Test Read JSON DATA
+ * Test Read gridView/readonly
  * (when logged in)
  */
-function read_json_data(err, res, body) {
+function gridview_readonly(err, res, body) {
 
 	// ToDo: Should be stateless: https://github.com/vlucas/frisby/issues/36
 	// Grab returned session cookie
-    session_cookie = res.headers['set-cookie'][0].split(';')[0];
+  session_cookie = res.headers['set-cookie'][0].split(';')[0];
+
+	var query = querystring.stringify({
+		gui: 'ng',
+		output: "json",
+		catalogName: "dbo.CONTROLS_Basic",
+		controlType: 'gridView',
+		mode: 'readonly'
+	})
+
+	frisby.create('Read gridView/readonly')
+	  .addHeader('Cookie', session_cookie) // Pass session cookie with each request
+		.get(url + '/api/read?' + query)
+		.expectStatus(200)
+		.expectHeaderContains('content-type', 'application/json')
+		.expectJSON({
+			success: true,
+			action: "read",
+			gui: "ng",
+			output: "json",
+			data: {
+				total: "2",
+				catalog: {
+					dbId: panax_config.db.database,
+					catalogName: 'dbo.CONTROLS_Basic',
+					controlType: 'gridView',
+					mode: 'readonly'
+					//lang:
+				}
+			}
+		})
+		.expectJSONLength('data.model', 2)
+		.after(formview_readonly)
+	.toss()
+}
+
+/**
+ * Test Read formView/readonly
+ * (when logged in)
+ */
+function formview_readonly(err, res, body) {
 
 	var query = querystring.stringify({
 		gui: 'ng',
 		output: "json",
 		filters: "'id=1'",
-		catalogName: "dbo.Empleado",
-		controlType: 'form',
+		catalogName: "dbo.CONTROLS_Basic",
+		controlType: 'formView',
 		mode: 'readonly'
 	})
 
-	frisby.create('Read JSON DATA')
-	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
+	frisby.create('Read formView/readonly')
+	  .addHeader('Cookie', session_cookie) // Pass session cookie with each request
 		.get(url + '/api/read?' + query)
 		.expectStatus(200)
 		.expectHeaderContains('content-type', 'application/json')
@@ -65,56 +104,17 @@ function read_json_data(err, res, body) {
 				total: "1",
 				catalog: {
 					dbId: panax_config.db.database,
-					catalogName: 'dbo.Empleado',
-					controlType: 'form',
+					catalogName: 'dbo.CONTROLS_Basic',
+					controlType: 'formView',
 					mode: 'readonly'
 					//lang:
 				}
 			}
 		})
-		.expectJSONLength('data', function (val) {
-			expect(val).toBe(1); // Custom matcher callback
-		})
-		.expectJSONTypes('data', {
-			// AngularJS:
-			schema: Object,
-			form: Array,
-			model: Array
-			// ExtJS:
-			// data: {
-			// 	data: Array
-			// }
-		})
-		.after(read_html_filetemplate)
-	.toss()
-}
-
-/**
- * Test Read HTML FileTemplate
- * (when logged in)
- */
-function read_html_filetemplate(err, res, body) {
-
-	var query = querystring.stringify({
-		catalogName: "dbo.Empleado",
-		controlType: "fileTemplate",
-		filters: "'id=1'",
-		output: "html"
-	})
-
-	frisby.create('Read HTML FileTemplate')
-	    .addHeader('Cookie', session_cookie) // Pass session cookie with each request
-		.get(url + '/api/read?' + query)
-		.expectStatus(200)
-		.expectHeaderContains('content-type', 'text/html')
+		.expectJSONLength('data.model', 1)
 		.after(logout)
 	.toss()
 }
-
-/**
- * ToDo: Test Read HTML DATA (html.xsl)
- * (when logged in)
- */
 
 /**
  * Logout
