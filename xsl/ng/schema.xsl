@@ -24,6 +24,9 @@
 	<xsl:template match="px:fields" mode="schema">
 		"type": "object",
 		"title": "<xsl:value-of select="parent::*/@Table_Name"/>",
+		<xsl:if	test="parent::*/@mode='readonly'">
+			"readonly": true,
+		</xsl:if>
 		"properties": {
 			<xsl:apply-templates select="*" mode="schema.property" />
 		}
