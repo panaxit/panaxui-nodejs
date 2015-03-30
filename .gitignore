@@ -2,6 +2,7 @@ config/panax.js
 node_modules
 cache
 templates
+*.tmp
 
 #########################################
 # https://gist.github.com/octocat/9257657
