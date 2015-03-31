@@ -37,14 +37,17 @@
 		"<xsl:value-of select="@fieldName"/>": {
 			"title": "<xsl:value-of select="@headerText"/>",
 			"type": "<xsl:apply-templates select="." mode="schema.property.type" />",
+			<xsl:if	test="@isNullable!='1'">
+				"required": true,
+			</xsl:if>
+			<xsl:if	test="@length">
+				"maxLength": <xsl:value-of select="@length"/>,
+			</xsl:if>
 			"format": "<xsl:apply-templates select="." mode="schema.property.format" />",
 			"pattern": "<xsl:apply-templates select="." mode="schema.property.pattern" />"
 			<!-- "description": "<xsl:value-of select="@headerText"/>" -->
-			<!-- @length -->
-			<!-- @isNullable -->
 			<!-- "minLength" -->
 			<!-- "enum" -->
-			<!-- "readonly" -->
 		}
 	</xsl:template>
 
