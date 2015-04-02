@@ -8,10 +8,10 @@ var auth = require('../lib/auth.js');
 module.exports = router;
 
 /**
- * PUT /api/update
+ * DELETE /api/delete
  *
- * Update Entity
+ * Delete Entity
  */
-router.put('/', auth.requiredAuth, function read(req, res, next) {
+router.delete('/', auth.requiredAuth, function read(req, res, next) {
 	
 });

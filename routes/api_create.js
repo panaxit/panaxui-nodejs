@@ -8,10 +8,10 @@ var auth = require('../lib/auth.js');
 module.exports = router;
 
 /**
- * PUT /api/update
+ * POST /api/create
  *
- * Update Entity
+ * Create Entity
  */
-router.put('/', auth.requiredAuth, function read(req, res, next) {
+router.post('/', auth.requiredAuth, function read(req, res, next) {
 	
 });

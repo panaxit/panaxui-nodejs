@@ -14,6 +14,9 @@ var api_session = require('./routes/api_session');
 var api_build = require('./routes/api_build');
 var api_read = require('./routes/api_read');
 var api_options = require('./routes/api_options');
+//var api_create = require('./routes/api_create');
+//var api_update = require('./routes/api_update');
+//var api_delete = require('./routes/api_delete');
 
 var app = express();
 
@@ -58,6 +61,9 @@ app.use('/api/session', api_session);
 app.use('/api/build', api_build);
 app.use('/api/read', api_read);
 app.use('/api/options', api_options);
+//app.use('/api/create', api_create);
+//app.use('/api/update', api_update);
+//app.use('/api/delete', api_delete);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
