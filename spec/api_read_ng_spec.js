@@ -60,7 +60,9 @@ function gridview_readonly(err, res, body) {
 			gui: "ng",
 			output: "json",
 			data: {
-				total: "2",
+				total: function (val) {
+					expect(parseInt(val)).toBeGreaterThan(1);
+				},
 				catalog: {
 					dbId: panax_config.db.database,
 					catalogName: 'dbo.CONTROLS_Basic',
@@ -70,7 +72,7 @@ function gridview_readonly(err, res, body) {
 				}
 			}
 		})
-		.expectJSONLength('data.model', 2)
+		.expectJSONLength('data.model', function (val) { expect(val).toBeGreaterThan(1); })
 		.after(formview_readonly)
 	.toss()
 }
