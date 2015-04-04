@@ -19,8 +19,9 @@ var	hostname = panax_config.ui.hostname,
 // Global session cookie to be passed with each request
 var session_cookie;
 
-// Gobal primary value to be passed
+// Gobal primary & identity values to be passed
 var primaryValue;
+var identityValue;
 
 /**
  * Login Entrypoint
@@ -67,18 +68,21 @@ function post_create(err, res, body) {
 		.expectHeaderContains('content-type', 'application/json')
 		.expectJSON({
 			success: true,
-			action: "create",
-			dataTable: 'dbo.CONTROLS_Basic'
+			action: "create"
 		})
 		.expectJSONLength('data', 1)
 		.expectJSON('data.*', {
 			status: 'success',
+			dataTable: 'dbo.CONTROLS_Basic',
 			primaryValue: function(val) { 
 				expect(val).toBeTruthy(); 
 				primaryValue = val; 
-				console.log("primaryValue="+primaryValue)
+			},
+			identityValue: function(val) { 
+				expect(val).toBeTruthy(); 
+				identityValue = val; 
 			}
 		})
-		//.after(formview_readonly)
+		//.after(put_update)
 	.toss()
 }
