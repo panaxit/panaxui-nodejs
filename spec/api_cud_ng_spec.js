@@ -46,10 +46,10 @@ function post_create(err, res, body) {
   var payload = {
   	tableName: 'dbo.CONTROLS_Basic',
   	primaryKey: 'Id',
-  	//primaryValue: 'NULL',
   	identityKey: 'Id',
-  	//identityValue: 'NULL',
   	dataRows: [{
+	  	//"Id": 'NULL',
+	  	//"Id": 'NULL',
 		  "ShortTextField": "Texto corto",
 		  "IntegerReq": 32,
 		  "Float": 72,
@@ -76,11 +76,11 @@ function post_create(err, res, body) {
 			dataTable: 'dbo.CONTROLS_Basic',
 			primaryValue: function(val) { 
 				expect(val).toBeTruthy(); 
-				primaryValue = val; 
+				primaryValue = parseInt(val); 
 			},
 			identityValue: function(val) { 
 				expect(val).toBeTruthy(); 
-				identityValue = val; 
+				identityValue = parseInt(val); 
 			}
 		})
 		.after(put_update)
@@ -95,10 +95,10 @@ function put_update(err, res, body) {
   var payload = {
   	tableName: 'dbo.CONTROLS_Basic',
   	primaryKey: 'Id',
-  	primaryValue: primaryValue,
   	identityKey: 'Id',
-  	identityValue: identityValue,
   	dataRows: [{
+	  	"Id": primaryValue,
+	  	//"Id": identityValue,
 		  "Float": 41.5
 		}]
   };

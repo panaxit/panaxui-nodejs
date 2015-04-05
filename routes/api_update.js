@@ -18,8 +18,6 @@ router.put('/', auth.requiredAuth, function read(req, res, next) {
 		return next({message: "No tableName supplied"});
 	if (!req.body.primaryKey || !req.body.identityKey)
 		return next({message: "No primaryKey or identityKey supplied"});
-	if (!req.body.primaryValue || !req.body.identityValue)
-		return next({message: "No primaryValue or identityValue supplied"});
 	if (!req.body.dataRows || !req.body.dataRows.length || req.body.dataRows.length===0)
 		return next({message: "No dataRows supplied"});
 
