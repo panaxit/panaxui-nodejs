@@ -117,6 +117,38 @@ function put_update(err, res, body) {
 			status: 'success',
 			dataTable: 'dbo.CONTROLS_Basic'
 		})
-		//.after(delete_delete)
+		.after(delete_delete)
+	.toss()
+}
+
+/**
+ * Test DELETE Delete
+ */
+function delete_delete(err, res, body) {
+
+  var payload = {
+  	tableName: 'dbo.CONTROLS_Basic',
+  	primaryKey: 'Id',
+  	identityKey: 'Id',
+  	deleteRows: [{
+	  	"Id": primaryValue,
+	  	//"Id": identityValue
+		}]
+  };
+
+  frisby.create('DELETE Delete')
+	  .addHeader('Cookie', session_cookie) // Pass session cookie with each request
+		.delete(url + '/api/delete', payload, {json: true})
+		.expectStatus(200)
+		.expectHeaderContains('content-type', 'application/json')
+		.expectJSON({
+			success: true,
+			action: "delete"
+		})
+		.expectJSONLength('data', 1)
+		.expectJSON('data.*', {
+			status: 'success',
+			dataTable: 'dbo.CONTROLS_Basic'
+		})
 	.toss()
 }
