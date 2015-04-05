@@ -83,6 +83,40 @@ function post_create(err, res, body) {
 				identityValue = val; 
 			}
 		})
-		//.after(put_update)
+		.after(put_update)
+	.toss()
+}
+
+/**
+ * Test PUT Update
+ */
+function put_update(err, res, body) {
+
+  var payload = {
+  	tableName: 'dbo.CONTROLS_Basic',
+  	primaryKey: 'Id',
+  	primaryValue: primaryValue,
+  	identityKey: 'Id',
+  	identityValue: identityValue,
+  	dataRows: [{
+		  "Float": 41.5
+		}]
+  };
+
+  frisby.create('PUT Update')
+	  .addHeader('Cookie', session_cookie) // Pass session cookie with each request
+		.put(url + '/api/update', payload, {json: true})
+		.expectStatus(200)
+		.expectHeaderContains('content-type', 'application/json')
+		.expectJSON({
+			success: true,
+			action: "update"
+		})
+		.expectJSONLength('data', 1)
+		.expectJSON('data.*', {
+			status: 'success',
+			dataTable: 'dbo.CONTROLS_Basic'
+		})
+		//.after(delete_delete)
 	.toss()
 }
