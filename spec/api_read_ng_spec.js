@@ -67,7 +67,9 @@ function gridview_readonly(err, res, body) {
 					dbId: panax_config.db.database,
 					catalogName: 'dbo.CONTROLS_Basic',
 					controlType: 'gridView',
-					mode: 'readonly'
+					mode: 'readonly',
+					primaryKey: 'Id',
+					identityKey: 'Id'
 					//lang:
 				}
 			}

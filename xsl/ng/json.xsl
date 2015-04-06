@@ -66,6 +66,12 @@
 				"catalogName": "<xsl:value-of select="@Table_Schema"/>.<xsl:value-of select="@Table_Name"/>",
 				"mode": "<xsl:value-of select="@mode"/>",
 				"controlType": "<xsl:value-of select="@controlType"/>",
+				<xsl:if test="@primaryKey">
+					"primaryKey": "<xsl:value-of select="@primaryKey"/>",
+				</xsl:if>
+				<xsl:if test="@identityKey">
+					"identityKey": "<xsl:value-of select="@identityKey"/>",
+				</xsl:if>
 				"lang": "<xsl:value-of select="@xml:lang"/>"
 			},
 			"metadata": {
