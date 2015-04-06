@@ -56,7 +56,7 @@ function post_create(err, res, body) {
 		  "Combobox": "MX",
 		  "RadioGroup": "1",
 		  "Boolean": true,
-		  "Money": 16.50,
+		  "Money": null,
 		  "Date": "2014-04-25 00:00:00"
 		}]
   };
