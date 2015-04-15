@@ -9,14 +9,29 @@
 
 	<xsl:template match="*" mode="model">
 		[
-			<xsl:apply-templates select="px:data/*" mode="model" />
+			<xsl:apply-templates select="px:data/*" mode="model">
+				<xsl:with-param name="primaryKey">
+					<xsl:value-of select="px:fields/*[@isPrimaryKey='1'][1]/@fieldName"/>
+				</xsl:with-param>
+				<xsl:with-param name="identityKey">
+					<xsl:value-of select="px:fields/*[@isIdentity='1'][1]/@fieldName"/>
+				</xsl:with-param>
+			</xsl:apply-templates>
 		]
 	</xsl:template>
 
 	<xsl:template match="px:dataRow" mode="model">
+		<xsl:param name="primaryKey" />
+		<xsl:param name="identityKey" />
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		{
 			<!-- "rowNumber": "<xsl:value-of select="@rowNumber"/>", -->
+			<xsl:if test="@primaryValue">
+				"<xsl:value-of select="$primaryKey"/>": "<xsl:value-of select="@primaryValue"/>",
+			</xsl:if>
+			<xsl:if test="@identity">
+				"<xsl:value-of select="$identityKey"/>": "<xsl:value-of select="@identity"/>",
+			</xsl:if>
 			<xsl:apply-templates select="*" mode="model.pair" />
 		}
 	</xsl:template>
