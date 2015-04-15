@@ -79,6 +79,11 @@
 					select="@supportsInsert|@supportsUpdate|@supportsDelete|@disableInsert|@disableUpdate|@disableDelete" 
 					mode="json.pair"/>
 			},
+			<!-- 
+				ToDo: Rename to Canonical Panax terms?
+				pxFields, pxLayout, pxData 
+				(covers: forms, grids, `any potential control`, etc...)
+			-->
 			"schema": <xsl:apply-templates select="." mode="schema" />,
 			"form": <xsl:apply-templates select="." mode="form" />,
 			"model": <xsl:apply-templates select="." mode="model" />
