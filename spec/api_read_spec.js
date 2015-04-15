@@ -47,7 +47,7 @@ function read_json_data(err, res, body) {
 		output: "json",
 		filters: "'id=1'",
 		catalogName: "dbo.Empleado",
-		controlType: 'form',
+		controlType: 'formView',
 		mode: 'readonly'
 	})
 
@@ -66,7 +66,7 @@ function read_json_data(err, res, body) {
 				catalog: {
 					dbId: panax_config.db.database,
 					catalogName: 'dbo.Empleado',
-					controlType: 'form',
+					controlType: 'formView',
 					mode: 'readonly'
 					//lang:
 				}

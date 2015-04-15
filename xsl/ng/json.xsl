@@ -22,9 +22,10 @@
 	-->
 	<xsl:import href="xsl/ng/global_variables.xsl" />
 	<xsl:import href="xsl/ng/keys.xsl" />
-	<xsl:include href="xsl/ng/schema.xsl" />
-	<xsl:include href="xsl/ng/form.xsl" />
 	<xsl:include href="xsl/ng/model.xsl" />	
+	<xsl:include href="xsl/ng/schema.xsl" />
+	<xsl:include href="xsl/ng/grid.xsl" />
+	<xsl:include href="xsl/ng/form.xsl" />
 
 	<!-- 
 		Output settings
@@ -84,9 +85,19 @@
 				pxFields, pxLayout, pxData 
 				(covers: forms, grids, `any potential control`, etc...)
 			-->
+			"model": <xsl:apply-templates select="." mode="model" />,
 			"schema": <xsl:apply-templates select="." mode="schema" />,
-			"form": <xsl:apply-templates select="." mode="form" />,
-			"model": <xsl:apply-templates select="." mode="model" />
+			<xsl:choose>
+				<xsl:when test="@controlType='gridView'">
+					"grid": <xsl:apply-templates select="." mode="grid" />
+				</xsl:when>
+				<xsl:when test="@controlType='formView'">
+					"form": <xsl:apply-templates select="." mode="form" />
+				</xsl:when>
+				<xsl:otherwise>
+					"grid": <xsl:apply-templates select="." mode="grid" />
+				</xsl:otherwise>
+			</xsl:choose>
 		}
 	</xsl:template>
 
