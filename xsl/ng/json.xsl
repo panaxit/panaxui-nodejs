@@ -65,6 +65,8 @@
 			"catalog": {
 				"dbId": "<xsl:value-of select="@dbId"/>",
 				"catalogName": "<xsl:value-of select="@Table_Schema"/>.<xsl:value-of select="@Table_Name"/>",
+				"schemaName": "<xsl:value-of select="@Table_Schema"/>",
+				"tableName": "<xsl:value-of select="@Table_Name"/>",
 				"mode": "<xsl:value-of select="@mode"/>",
 				"controlType": "<xsl:value-of select="@controlType"/>",
 				<xsl:if test="@primaryKey">
