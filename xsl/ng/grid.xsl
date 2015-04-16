@@ -5,6 +5,11 @@
 	>
 
 	<!-- 
+		Grid column includes
+	-->
+	<xsl:include href="grid.column.type.xsl" />
+
+	<!-- 
 		Grid (px:layout)
 	-->
 
@@ -19,7 +24,11 @@
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		{
 			"field": "<xsl:value-of select="$field/@fieldName"/>",
-			"displayName": "<xsl:value-of select="$field/@headerText"/>"
+			"displayName": "<xsl:value-of select="$field/@headerText"/>",
+			<!-- ToDo: Not necesary to include type?
+			...Add this only if the grid guessing is not to your satisfaction...
+			http://ui-grid.info/docs/#/api/ui.grid.class:GridOptions.columnDef#type -->
+			"type": "<xsl:apply-templates select="$field" mode="grid.column.type" />"
 			<!-- ToDo: http://ui-grid.info/docs/#/api/ui.grid.class:GridOptions.columnDef -->
 		}
 	</xsl:template>
