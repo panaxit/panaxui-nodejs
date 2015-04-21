@@ -7,5 +7,5 @@ module.exports = router;
  * GET /api
  */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'PanaxUI API Description' });
+  res.render('api', { title: 'PanaxUI API Description' });
 });

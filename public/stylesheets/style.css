@@ -1,8 +1,14 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;;
 }
 
-a {
-  color: #00B7FF;
+.jumbotron .container {
+	text-align: center;
+}
+
+.jumbotron .panax-title {
+	text-transform: uppercase;
+	font-weight: 600;
+	font-size: 80px;
+	color: #4675d3;
 }

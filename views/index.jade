@@ -1,5 +1,16 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+	div(class='jumbotron')
+		div(class='container')
+			h1(class='panax-title') PANAX
+			p Welcome to PanaxUI Node.js Backend
+			div(class='btn-group')
+				a(class='btn btn-primary btn-lg' href='/info') Connection Info
+				a(class='btn btn-primary btn-lg' href='/api') API Description
+			hr
+			h2 Available GUIs
+			div(class='list-group col-md-4 col-md-offset-4')
+				each val in config.enabled_guis
+					a(class='list-group-item' href='/gui/' + val)
+						h3= config.guis[val].description

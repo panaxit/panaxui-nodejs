@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
+var config = require('../config/panax.js');
 
 /* GET home page */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'PanaxUI' });
+  res.render('index', { config: config.ui });
 });
 
 module.exports = router;

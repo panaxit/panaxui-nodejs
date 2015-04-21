@@ -1,0 +1,12 @@
+{
+  "name": "panaxui-bootstrap",
+  "_release": "ce4f609f9a",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "ce4f609f9a25c14e50cf8aba67e57b313bb7ba26"
+  },
+  "_source": "https://benoror@bitbucket.org/panaxit/panaxui-bootstrap.git",
+  "_target": "*",
+  "_originalSource": "git+https://benoror@bitbucket.org/panaxit/panaxui-bootstrap.git"
+}
