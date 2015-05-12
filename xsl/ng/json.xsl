@@ -82,13 +82,33 @@
 					select="@supportsInsert|@supportsUpdate|@supportsDelete|@disableInsert|@disableUpdate|@disableDelete" 
 					mode="json.pair"/>
 			},
-			<!-- 
-				ToDo: Rename to Canonical Panax terms?
-				pxFields, pxLayout, pxData 
-				(covers: forms, grids, `any potential control`, etc...)
+
+			<!--
+				<px:data>
+
+				File: model.xsl
+				Used by: all
 			-->
 			"model": <xsl:apply-templates select="." mode="model" />,
+
+			<!--
+				<px:fields>
+
+				File: schema.xsl
+				Used by:
+					- angular-schema-form
+					- ui-grid
+			-->
 			"schema": <xsl:apply-templates select="." mode="schema" />,
+
+			<!--
+				<px:layout>
+
+				Files: form.xsl, grid.xsl
+				Used by:
+					- angular-schema-form
+					- ui-grid
+			-->
 			<xsl:choose>
 				<xsl:when test="@controlType='gridView'">
 					"grid": <xsl:apply-templates select="." mode="grid" />
