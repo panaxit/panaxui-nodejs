@@ -37,7 +37,7 @@
 				<xsl:if	test="$field/@isIdentity='1'">
 					"hide": true,
 				</xsl:if>
-				<xsl:if	test="parent::*/@mode='readonly'">
+				<xsl:if	test="$field/../../@mode='readonly'">
 					"disabled": true,
 				</xsl:if>
 				<xsl:if	test="@isNullable!='1'">
