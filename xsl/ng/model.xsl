@@ -54,10 +54,10 @@
 				"<xsl:value-of select="@value"/>"
 			</xsl:when>
 			<xsl:when test="$dataType='foreignKey'">
-				{
-					"value": "<xsl:value-of select="@value"/>",
-					"label": "<xsl:value-of select="@text"/>"
-				}
+				<!--{
+					"value": -->"<xsl:value-of select="@value"/>"
+					<!--"label": "<xsl:value-of select="@text"/>"-->
+				<!--}-->
 			</xsl:when>
 			<!-- strings -->
 			<xsl:otherwise>

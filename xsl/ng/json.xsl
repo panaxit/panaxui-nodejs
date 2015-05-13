@@ -26,6 +26,7 @@
 	<xsl:include href="xsl/ng/schema.xsl" />
 	<xsl:include href="xsl/ng/grid.xsl" />
 	<xsl:include href="xsl/ng/form.xsl" />
+	<xsl:include href="xsl/ng/fields.xsl" />
 
 	<!-- 
 		Output settings
@@ -83,41 +84,47 @@
 					mode="json.pair"/>
 			},
 
-			<!--
-				<px:data>
-
-				File: model.xsl
-				Used by: all
-			-->
-			"model": <xsl:apply-templates select="." mode="model" />,
-
-			<!--
-				<px:fields>
-
-				File: schema.xsl
-				Used by:
-					- angular-schema-form
-					- ui-grid
-			-->
-			"schema": <xsl:apply-templates select="." mode="schema" />,
-
-			<!--
-				<px:layout>
-
-				Files: form.xsl, grid.xsl
-				Used by:
-					- angular-schema-form
-					- ui-grid
-			-->
 			<xsl:choose>
+				<!--
+						ui-grid
+				-->
 				<xsl:when test="@controlType='gridView'">
+					<!-- <px:data> model.xsl -->
+					"model": <xsl:apply-templates select="." mode="model" />,
+					<!-- <px:fields> schema.xsl -->
+					"schema": <xsl:apply-templates select="." mode="schema" />,
+					<!-- <px:layout> grid.xsl -->
 					"grid": <xsl:apply-templates select="." mode="grid" />
 				</xsl:when>
+
+				<!-- 
+					angular-formly 
+				-->
 				<xsl:when test="@controlType='formView'">
+					<!-- <px:data> model.xsl -->
+					"model": <xsl:apply-templates select="." mode="model" />,
+					<!-- <px:fields> + <px:layout> fields.xsl -->
+					"fields": <xsl:apply-templates select="." mode="fields" />
+				</xsl:when>
+
+				<!-- 
+					angular-schema-form 
+				-->
+				<xsl:when test="@controlType='formView_LEGACY'"> <!-- Remove LEGACY to work -->
+					<!-- <px:data> model.xsl -->
+					"model": <xsl:apply-templates select="." mode="model" />,
+					<!-- <px:fields> schema.xsl -->
+					"schema": <xsl:apply-templates select="." mode="schema" />,
+					<!-- <px:layout> form.xsl -->
 					"form": <xsl:apply-templates select="." mode="form" />
 				</xsl:when>
+
+				<!--
+						default
+				-->
 				<xsl:otherwise>
-					"grid": <xsl:apply-templates select="." mode="grid" />
+					<!-- <px:data> model.xsl -->
+					"model": <xsl:apply-templates select="." mode="model" />,
 				</xsl:otherwise>
 			</xsl:choose>
 		}
