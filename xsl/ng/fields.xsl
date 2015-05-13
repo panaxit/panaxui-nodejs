@@ -40,14 +40,16 @@
 				<xsl:if	test="$field/../../@mode='readonly'">
 					"disabled": true,
 				</xsl:if>
-				<xsl:if	test="@isNullable!='1'">
+				<xsl:if	test="$field/@isNullable!='1'">
 					"required": true,
 				</xsl:if>
-				<xsl:if	test="@length">
-					"maxLength": <xsl:value-of select="@length"/>,
+				<xsl:if	test="$field/@length">
+					"maxLength": <xsl:value-of select="$field/@length"/>,
 				</xsl:if>
 				"label": "<xsl:value-of select="$field/@headerText"/>",
 				"placeholder": ""
+			},
+			"data": {
 			}
 		}
 	</xsl:template>
