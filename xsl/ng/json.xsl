@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- 
-	Panax Transformer to JSON Schema
-	For AngularJS flavor (angular-schema-form)
+	Panax Transformer to JSON
+	For AngularJS flavor
 	Author: Benjamin Orozco <benoror@gmail.com> 
-	JSON Grammar: http://json.org/
-	JSON Schema: http://json-schema.org/
 -->
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -23,9 +21,7 @@
 	<xsl:import href="xsl/ng/global_variables.xsl" />
 	<xsl:import href="xsl/ng/keys.xsl" />
 	<xsl:include href="xsl/ng/model.xsl" />	
-	<xsl:include href="xsl/ng/schema.xsl" />
 	<xsl:include href="xsl/ng/grid.xsl" />
-	<xsl:include href="xsl/ng/form.xsl" />
 	<xsl:include href="xsl/ng/fields.xsl" />
 
 	<!-- 
@@ -84,49 +80,25 @@
 					mode="json.pair"/>
 			},
 
-			<xsl:choose>
-				<!--
-						ui-grid
-				-->
-				<xsl:when test="@controlType='gridView'">
-					<!-- <px:data> model.xsl -->
-					"model": <xsl:apply-templates select="." mode="model" />,
-					<!-- <px:fields> schema.xsl -->
-					"schema": <xsl:apply-templates select="." mode="schema" />,
-					<!-- <px:layout> grid.xsl -->
-					"grid": <xsl:apply-templates select="." mode="grid" />
-				</xsl:when>
-
-				<!-- 
-					angular-formly 
-				-->
-				<xsl:when test="@controlType='formView'">
-					<!-- <px:data> model.xsl -->
-					"model": <xsl:apply-templates select="." mode="model" />,
-					<!-- <px:fields> + <px:layout> fields.xsl -->
-					"fields": <xsl:apply-templates select="." mode="fields" />
-				</xsl:when>
-
-				<!-- 
-					angular-schema-form 
-				-->
-				<xsl:when test="@controlType='formView_LEGACY'"> <!-- Remove LEGACY to work -->
-					<!-- <px:data> model.xsl -->
-					"model": <xsl:apply-templates select="." mode="model" />,
-					<!-- <px:fields> schema.xsl -->
-					"schema": <xsl:apply-templates select="." mode="schema" />,
-					<!-- <px:layout> form.xsl -->
-					"form": <xsl:apply-templates select="." mode="form" />
-				</xsl:when>
-
-				<!--
-						default
-				-->
-				<xsl:otherwise>
-					<!-- <px:data> model.xsl -->
-					"model": <xsl:apply-templates select="." mode="model" />,
-				</xsl:otherwise>
-			</xsl:choose>
+			<!--
+					data model
+			-->
+			<!-- <px:data> model.xsl -->
+			"model": <xsl:apply-templates select="." mode="model" />,
+			<!--
+					ui-grid
+			-->
+			<xsl:if test="@controlType='gridView'">
+				<!-- <px:layout> + <px:fields> grid.xsl -->
+				"grid": <xsl:apply-templates select="." mode="grid" />
+			</xsl:if>
+			<!-- 
+				angular-formly 
+			-->
+			<xsl:if test="@controlType='formView'">
+				<!-- <px:layout> + <px:fields> fields.xsl -->
+				"fields": <xsl:apply-templates select="." mode="fields" />
+			</xsl:if>
 		}
 	</xsl:template>
 

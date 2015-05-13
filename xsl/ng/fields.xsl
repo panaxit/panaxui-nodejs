@@ -11,7 +11,7 @@
 	<xsl:include href="fields.options.xsl" />
 
 	<!-- 
-		Fields (px:fields + px:layout)
+		Fields (px:layout + px:fields)
 	-->
 
 	<xsl:template match="*" mode="fields">
@@ -21,8 +21,8 @@
 	</xsl:template>
 
 	<!-- ToDo: -->
-				<!-- fieldgroup for: tabs/fieldsets	 -->
-				<!-- template: arbitriary html -->
+	<!-- fieldgroup for: tabs/fieldsets	 -->
+	<!-- template: arbitriary html -->
 
 	<xsl:template match="px:field" mode="fields">
 		<xsl:variable name="field" select="key('fields',@fieldId)" />
