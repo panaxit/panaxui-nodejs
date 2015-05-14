@@ -26,7 +26,7 @@
 	</xsl:template>
 
 	<!--
-		select
+		async_select
 	 -->	
  	<xsl:template mode="fields.options" match="*[(@controlType='default' or @controlType='combobox')]">
 		<xsl:variable name="child" select="*[1]" />

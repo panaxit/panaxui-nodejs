@@ -38,7 +38,7 @@
 		(@controlType='default') and
 		(@dataType='int' or @dataType='tinyint' or @dataType='money' or @dataType='float') 
 		]">
-		<xsl:text>input</xsl:text>
+		<xsl:text>money</xsl:text>
 	</xsl:template>
 
 	<!-- password -->
@@ -64,7 +64,7 @@
 		<xsl:text>radio</xsl:text>
 	</xsl:template>
 
-	<!-- select -->
+	<!-- async_select -->
 	<xsl:template mode="fields.type" match="*[ 
 		(@controlType='default' or @controlType='combobox') and
 		(@dataType='foreignKey') 
