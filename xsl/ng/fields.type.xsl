@@ -25,6 +25,20 @@
 		<xsl:text>input</xsl:text>
 	</xsl:template>
 
+	<!-- email -->
+	<xsl:template mode="fields.type" match="*[ 
+		(@controlType='email')
+		]">
+		<xsl:text>email</xsl:text>
+	</xsl:template>
+
+	<!-- password -->
+	<xsl:template mode="fields.type" match="*[ 
+		(@controlType='password')
+		]">
+		<xsl:text>password</xsl:text>
+	</xsl:template>
+
 	<!-- textarea -->
 	<xsl:template mode="fields.type" match="*[ 
 		(@controlType='default' or @controlType='email') and 
@@ -36,7 +50,15 @@
 	<!-- number -->
 	<xsl:template mode="fields.type" match="*[ 
 		(@controlType='default') and
-		(@dataType='int' or @dataType='tinyint' or @dataType='money' or @dataType='float') 
+		(@dataType='int' or @dataType='tinyint' or @dataType='float') 
+		]">
+		<xsl:text>number</xsl:text>
+	</xsl:template>
+
+	<!-- money -->
+	<xsl:template mode="fields.type" match="*[ 
+		(@controlType='default') and
+		(@dataType='money') 
 		]">
 		<xsl:text>money</xsl:text>
 	</xsl:template>
