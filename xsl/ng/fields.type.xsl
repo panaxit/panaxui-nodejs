@@ -10,10 +10,8 @@
 	-->
 
 	<!-- default -->
-	<xsl:template mode="fields.type" match="*[ 
-		(@controlType='default')
-		]">
-		<xsl:text>input</xsl:text>
+	<xsl:template mode="fields.type" match="*">
+		<xsl:text>default</xsl:text>
 	</xsl:template>
 
 	<!-- text -->
@@ -70,6 +68,37 @@
 		<xsl:text>password</xsl:text>
 	</xsl:template>
 
+	<!-- date -->
+	<xsl:template mode="fields.type" match="*[ 
+		(@controlType='default') and
+		(@dataType='date') 
+		]">
+		<xsl:text>date</xsl:text>
+	</xsl:template>
+
+	<!-- time -->
+	<xsl:template mode="fields.type" match="*[ 
+		(@controlType='default') and
+		(@dataType='time') 
+		]">
+		<xsl:text>time</xsl:text>
+	</xsl:template>
+
+	<!-- datetime -->
+	<xsl:template mode="fields.type" match="*[ 
+		(@controlType='default') and
+		(@dataType='datetime') 
+		]">
+		<xsl:text>datetime</xsl:text>
+	</xsl:template>
+
+	<!-- color -->
+	<xsl:template mode="fields.type" match="*[ 
+		(@controlType='color')
+		]">
+		<xsl:text>color</xsl:text>
+	</xsl:template>
+
 	<!-- checkbox -->
 	<xsl:template mode="fields.type" match="*[ 
 		(@controlType='default') and
@@ -86,6 +115,13 @@
 		<xsl:text>radio</xsl:text>
 	</xsl:template>
 
+	<!-- file -->
+	<xsl:template mode="fields.type" match="*[ 
+		(@controlType='file' or @controlType='picture')
+		]">
+		<xsl:text>file</xsl:text>
+	</xsl:template>
+
 	<!-- async_select -->
 	<xsl:template mode="fields.type" match="*[ 
 		(@controlType='default' or @controlType='combobox') and
@@ -95,21 +131,11 @@
 	</xsl:template>
 
 	<!-- 
-		Custom
-		http://docs.angular-formly.com/v6.4.0/docs/custom-templates
-	-->
-	<!-- 
 		ToDo:
-			datepicker
-			colorpicker
-			time
-			datetime
-			file
 			picture
 			junctionTable
 				grid
 				multiselector
-
 	 -->
 
 </xsl:stylesheet>
