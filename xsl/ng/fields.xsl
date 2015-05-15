@@ -43,6 +43,9 @@
 				<xsl:if	test="$field/@isNullable!='1'">
 					"required": true,
 				</xsl:if>
+				<xsl:if	test="$field/@defaultValue">
+					"defaultValue": "<xsl:value-of select="$field/@defaultValue"/>",
+				</xsl:if>
 				<xsl:if	test="$field/@length">
 					"maxLength": <xsl:value-of select="$field/@length"/>,
 				</xsl:if>
