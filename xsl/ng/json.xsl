@@ -22,7 +22,7 @@
 	<xsl:import href="xsl/ng/keys.xsl" />
 	<xsl:include href="xsl/ng/model.xsl" />	
 	<xsl:include href="xsl/ng/grid.xsl" />
-	<xsl:include href="xsl/ng/fields.xsl" />
+	<xsl:include href="xsl/ng/form.xsl" />
 
 	<!-- 
 		Output settings
@@ -96,8 +96,8 @@
 				angular-formly 
 			-->
 			<xsl:if test="@controlType='formView'">
-				<!-- <px:layout> + <px:fields> fields.xsl -->
-				"fields": <xsl:apply-templates select="." mode="fields" />
+				<!-- <px:layout> + <px:fields> form.xsl -->
+				"form": <xsl:apply-templates select="." mode="form" />
 			</xsl:if>
 		}
 	</xsl:template>

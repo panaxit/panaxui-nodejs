@@ -15,13 +15,12 @@
 	-->
 
 	<xsl:template match="*" mode="fields">
-		[
-			<xsl:apply-templates select="px:layout//px:field" mode="fields" />
+		"fields": [
+			<xsl:apply-templates select="px:field" mode="fields" />
 		]
 	</xsl:template>
 
 	<!-- ToDo: -->
-	<!-- fieldgroup for: tabs/fieldsets	 -->
 	<!-- template: arbitriary html -->
 
 	<xsl:template match="px:field" mode="fields">
