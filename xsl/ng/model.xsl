@@ -39,6 +39,7 @@
 	<xsl:template match="*" mode="model.pair">
 		<xsl:variable name="fieldName" select="key('fields',@fieldId)/@fieldName" />
 		<xsl:variable name="dataType" select="key('fields',@fieldId)/@dataType" />
+		<xsl:variable name="controlType" select="key('fields',@fieldId)/@controlType" />
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		"<xsl:value-of select="$fieldName"/>":
 		<xsl:choose>
@@ -54,10 +55,15 @@
 				"<xsl:value-of select="@value"/>"
 			</xsl:when>
 			<xsl:when test="$dataType='foreignKey'">
-				<!--{
-					"value": -->"<xsl:value-of select="@value"/>"
-					<!--"label": "<xsl:value-of select="@text"/>"-->
-				<!--}-->
+				<xsl:if test="$controlType='radiogroup'">
+					"<xsl:value-of select="@value"/>"
+				</xsl:if>
+				<xsl:if test="$controlType='default' or $controlType='combobox'">
+					<!--{
+						"value": -->"<xsl:value-of select="@value"/>"
+						<!--"label": "<xsl:value-of select="@text"/>"-->
+					<!--}-->
+				</xsl:if>
 			</xsl:when>
 			<!-- strings -->
 			<xsl:otherwise>
