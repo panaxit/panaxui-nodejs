@@ -43,7 +43,7 @@ function get_options(err, res, body) {
 	var query = querystring.stringify({
 		gui: 'ng',
 		catalogName: "CatalogosSistema.Pais",
-		valueColumn: "Clave",
+		valueColumn: "Id",
 		textColumn: "Pais"
 	})
 
@@ -73,7 +73,7 @@ function get_options_array(err, res, body) {
 	var query = querystring.stringify({
 		gui: 'ng',
 		catalogName: "CatalogosSistema.Pais",
-		valueColumn: "Clave",
+		valueColumn: "Id",
 		textColumn: "Pais",
 		array: true
 	})
