@@ -32,16 +32,15 @@
 			<xsl:if test="@identity">
 				"<xsl:value-of select="$identityKey"/>": "<xsl:value-of select="@identity"/>",
 			</xsl:if>
-			<xsl:apply-templates select="*" mode="model.pair" />
+			<xsl:apply-templates select="//*[@value and @text]" mode="model.pair" />
 		}
 	</xsl:template>
 
 	<xsl:template match="*" mode="model.pair">
-		<xsl:variable name="fieldName" select="key('fields',@fieldId)/@fieldName" />
 		<xsl:variable name="dataType" select="key('fields',@fieldId)/@dataType" />
 		<xsl:variable name="controlType" select="key('fields',@fieldId)/@controlType" />
 		<xsl:if test="position()&gt;1">,</xsl:if>
-		"<xsl:value-of select="$fieldName"/>":
+		"<xsl:value-of select="name()"/>":
 		<xsl:choose>
 			<xsl:when test="$dataType='int' or $dataType='float' or $dataType='money'">
 				<xsl:if test="@value=''">null</xsl:if>

@@ -24,36 +24,91 @@
 	<!-- template: arbitriary html -->
 
 	<xsl:template match="px:field" mode="fields">
-		<xsl:variable name="field" select="key('fields',@fieldId)" />
 		<xsl:if test="position()&gt;1">,</xsl:if>
+		<xsl:apply-templates select="key('fields',@fieldId)" mode="fields.field" />
+	</xsl:template>
+
+	<!-- 
+		Regular Fields
+	-->
+
+	<xsl:template match="*" mode="fields.field">
 		{
-			"key": "<xsl:value-of select="$field/@fieldName"/>",
-			"type": "<xsl:apply-templates select="$field" mode="fields.type" />",
+			"key": "<xsl:value-of select="@fieldName"/>",
+			"type": "<xsl:apply-templates select="." mode="fields.type" />",
 			"templateOptions": {
-				<xsl:if	test="$field/@dataType='foreignKey'">
-					<xsl:apply-templates select="$field" mode="fields.options" />,
+				<xsl:if	test="@dataType='foreignKey'">
+					<xsl:apply-templates select="." mode="fields.options" />,
 				</xsl:if>
-				<xsl:if	test="$field/@isIdentity='1'">
+				<xsl:if	test="@isIdentity='1'">
 					"hide": true,
 				</xsl:if>
-				<xsl:if	test="$field/../../@mode='readonly'">
+				<xsl:if	test="../../@mode='readonly'">
 					"disabled": true,
 				</xsl:if>
-				<xsl:if	test="$field/@isNullable!='1'">
+				<xsl:if	test="@isNullable!='1'">
 					"required": true,
 				</xsl:if>
-				<xsl:if	test="$field/@defaultValue">
-					"defaultValue": "<xsl:value-of select="$field/@defaultValue"/>",
+				<xsl:if	test="@defaultValue">
+					"defaultValue": "<xsl:value-of select="@defaultValue"/>",
 				</xsl:if>
-				<xsl:if	test="$field/@length">
-					"maxLength": <xsl:value-of select="$field/@length"/>,
+				<xsl:if	test="@length">
+					"maxLength": <xsl:value-of select="@length"/>,
 				</xsl:if>
-				"label": "<xsl:value-of select="$field/@headerText"/>",
+				"label": "<xsl:value-of select="@headerText"/>",
 				"placeholder": ""
 			},
 			"data": {
 			}
 		}
+	</xsl:template>
+
+	<!-- 
+		foreignKey Fields
+		(+ cascaded)
+	-->
+
+	<xsl:template match="*[@dataType='foreignKey' and (@controlType='default' or @controlType='combobox')]" mode="fields.field">
+		<xsl:variable name="child" select="*[1]" />
+    <!-- {
+      "template": "<div><strong><xsl:value-of select="@headerText"/></strong></div>"
+    }, -->
+		{
+			"className": "display-flex",
+			"fieldGroup": [
+			<xsl:apply-templates select="$child/*[1]" mode="fields.cascaded" />
+			{
+				"className": "flex-1",
+				"key": "<xsl:value-of select="@fieldName"/>",
+				"type": "<xsl:apply-templates select="." mode="fields.type" />",
+				"templateOptions": {
+					<xsl:if	test="@dataType='foreignKey'">
+						<xsl:apply-templates select="." mode="fields.options" />,
+					</xsl:if>
+					"label": "<xsl:value-of select="@headerText"/>",
+					"placeholder": ""
+				}
+			}]
+		}
+	</xsl:template>
+
+	<xsl:template match="*" mode="fields.cascaded">
+		<xsl:apply-templates select="*[1]" mode="fields.cascaded" />
+		{
+			"className": "flex-1",
+			"key": "<xsl:value-of select="name()"/>",
+			"type": "async_select",
+			"templateOptions": {
+				"options": [],
+				"params": {
+					"catalogName": "<xsl:value-of select="@Table_Schema"/>.<xsl:value-of select="@Table_Name"/>",
+					"valueColumn": "<xsl:value-of select="@dataValue"/>",
+					"textColumn": "<xsl:value-of select="@dataText"/>"
+				},
+				"label": "<xsl:value-of select="@headerText"/>",
+				"placeholder": ""
+			}
+		},
 	</xsl:template>
 
 </xsl:stylesheet>
