@@ -43,7 +43,7 @@
 				<xsl:if	test="@isIdentity='1'">
 					"hide": true,
 				</xsl:if>
-				<xsl:if	test="../../@mode='readonly'">
+				<xsl:if	test="/*[1]/@mode='readonly'">
 					"disabled": true,
 				</xsl:if>
 				<xsl:if	test="@isNullable!='1'">
@@ -93,6 +93,21 @@
 						"valueColumn": "<xsl:value-of select="$child/@dataValue"/>",
 						"textColumn": "<xsl:value-of select="$child/@dataText"/>"
 					},
+					<xsl:if	test="@isIdentity='1'">
+						"hide": true,
+					</xsl:if>
+					<xsl:if	test="/*[1]/@mode='readonly'">
+						"disabled": true,
+					</xsl:if>
+					<xsl:if	test="@isNullable!='1'">
+						"required": true,
+					</xsl:if>
+					<xsl:if	test="@defaultValue">
+						"defaultValue": "<xsl:value-of select="@defaultValue"/>",
+					</xsl:if>
+					<xsl:if	test="@length">
+						"maxLength": <xsl:value-of select="@length"/>,
+					</xsl:if>
 					"label": "<xsl:value-of select="@headerText"/>",
 					"placeholder": ""
 				}
@@ -116,6 +131,21 @@
 					"valueColumn": "<xsl:value-of select="@dataValue"/>",
 					"textColumn": "<xsl:value-of select="@dataText"/>"
 				},
+				<xsl:if	test="@isIdentity='1'">
+					"hide": true,
+				</xsl:if>
+				<xsl:if	test="/*[1]/@mode='readonly'">
+					"disabled": true,
+				</xsl:if>
+				<xsl:if	test="@isNullable!='1'">
+					"required": true,
+				</xsl:if>
+				<xsl:if	test="@defaultValue">
+					"defaultValue": "<xsl:value-of select="@defaultValue"/>",
+				</xsl:if>
+				<xsl:if	test="@length">
+					"maxLength": <xsl:value-of select="@length"/>,
+				</xsl:if>
 				"label": "<xsl:value-of select="@headerText"/>",
 				"placeholder": ""
 			}
