@@ -23,7 +23,7 @@
 	</xsl:template>
 
 	<!-- 
-		Fieldset s
+		Fieldset
 	-->
 	<xsl:template match="*" mode="fieldset">
 		{

@@ -65,7 +65,9 @@
 
 	<!-- 
 		foreignKey Fields
-		(+ cascaded)
+		(not: radios)
+		(yes: cascaded)
+		ToDo: Refactor & clean repeated code blow
 	-->
 
 	<xsl:template match="*[@dataType='foreignKey' and (@controlType='default' or @controlType='combobox')]" mode="fields.field">
@@ -79,12 +81,18 @@
 			<xsl:apply-templates select="$child/*[1]" mode="fields.cascaded" />
 			{
 				"className": "flex-1",
-				"key": "<xsl:value-of select="@fieldName"/>",
-				"type": "<xsl:apply-templates select="." mode="fields.type" />",
+				"key": "<xsl:value-of select="name()"/>",
+				"type": "async_select",
 				"templateOptions": {
-					<xsl:if	test="@dataType='foreignKey'">
-						<xsl:apply-templates select="." mode="fields.options" />,
-					</xsl:if>
+					"options": [],
+					"params": {
+						"catalogName": "<xsl:value-of select="$child/@Table_Schema"/>.<xsl:value-of select="$child/@Table_Name"/>",
+						<xsl:if test="$child/@foreignKey!='' and $child/@foreignValue!=''">
+							"filters": "'<xsl:value-of select="$child/@foreignKey"/>=<xsl:value-of select="$child/@foreignValue"/>'",
+						</xsl:if>
+						"valueColumn": "<xsl:value-of select="$child/@dataValue"/>",
+						"textColumn": "<xsl:value-of select="$child/@dataText"/>"
+					},
 					"label": "<xsl:value-of select="@headerText"/>",
 					"placeholder": ""
 				}
@@ -102,6 +110,9 @@
 				"options": [],
 				"params": {
 					"catalogName": "<xsl:value-of select="@Table_Schema"/>.<xsl:value-of select="@Table_Name"/>",
+					<xsl:if test="@foreignKey!='' and @foreignValue!=''">
+						"filters": "'<xsl:value-of select="$child/@foreignKey"/>=<xsl:value-of select="$child/@foreignValue"/>'",
+					</xsl:if>
 					"valueColumn": "<xsl:value-of select="@dataValue"/>",
 					"textColumn": "<xsl:value-of select="@dataText"/>"
 				},

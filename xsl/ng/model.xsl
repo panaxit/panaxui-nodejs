@@ -32,7 +32,7 @@
 			<xsl:if test="@identity">
 				"<xsl:value-of select="$identityKey"/>": "<xsl:value-of select="@identity"/>",
 			</xsl:if>
-			<xsl:apply-templates select="//*[@value and @text]" mode="model.pair" />
+			<xsl:apply-templates select="descendant::*" mode="model.pair" />
 		}
 	</xsl:template>
 
