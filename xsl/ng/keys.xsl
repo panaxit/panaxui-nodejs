@@ -10,4 +10,9 @@
 	<xsl:key name="fields" match="px:fields//*[@fieldId][not(namespace-uri(.)='urn:panax')]" use="@fieldId" />
 	<xsl:key name="fields" match="px:fields/*" use="@fieldId" />
 
+	<!-- 
+		Keys: px:data 
+	-->
+	<xsl:key name="data" match="px:data/px:dataRow//*" use="@fieldId" />
+
 </xsl:stylesheet>

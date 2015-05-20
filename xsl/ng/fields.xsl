@@ -72,13 +72,17 @@
 
 	<xsl:template match="*[@dataType='foreignKey' and (@controlType='default' or @controlType='combobox')]" mode="fields.field">
 		<xsl:variable name="child" select="*[1]" />
+		<xsl:variable name="data" select="key('data',@fieldId)" />
+		<xsl:variable name="childData" select="$data/*[1]" />
     <!-- {
       "template": "<div><strong><xsl:value-of select="@headerText"/></strong></div>"
     }, -->
 		{
 			"className": "display-flex",
 			"fieldGroup": [
-			<xsl:apply-templates select="$child/*[1]" mode="fields.cascaded" />
+			<xsl:apply-templates select="$child/*[1]" mode="fields.cascaded">
+				<xsl:with-param name="data" select="$childData/*[1]" />
+			</xsl:apply-templates>
 			{
 				"className": "flex-1",
 				"key": "<xsl:value-of select="name()"/>",
@@ -87,8 +91,8 @@
 					"options": [],
 					"params": {
 						"catalogName": "<xsl:value-of select="$child/@Table_Schema"/>.<xsl:value-of select="$child/@Table_Name"/>",
-						<xsl:if test="$child/@foreignKey!='' and $child/@foreignValue!=''">
-							"filters": "'<xsl:value-of select="$child/@foreignKey"/>=<xsl:value-of select="$child/@foreignValue"/>'",
+						<xsl:if test="$childData/@foreignKey!='' and $childData/@foreignValue!=''">
+							"filters": "[<xsl:value-of select="$childData/@foreignKey"/>='<xsl:value-of select="$childData/@foreignValue"/>']",
 						</xsl:if>
 						"valueColumn": "<xsl:value-of select="$child/@dataValue"/>",
 						"textColumn": "<xsl:value-of select="$child/@dataText"/>"
@@ -116,7 +120,10 @@
 	</xsl:template>
 
 	<xsl:template match="*" mode="fields.cascaded">
-		<xsl:apply-templates select="*[1]" mode="fields.cascaded" />
+		<xsl:param name="data" />
+		<xsl:apply-templates select="*[1]" mode="fields.cascaded">
+			<xsl:with-param name="data" select="$data/*[1]" />
+		</xsl:apply-templates>
 		{
 			"className": "flex-1",
 			"key": "<xsl:value-of select="name()"/>",
@@ -125,8 +132,8 @@
 				"options": [],
 				"params": {
 					"catalogName": "<xsl:value-of select="@Table_Schema"/>.<xsl:value-of select="@Table_Name"/>",
-					<xsl:if test="@foreignKey!='' and @foreignValue!=''">
-						"filters": "'<xsl:value-of select="$child/@foreignKey"/>=<xsl:value-of select="$child/@foreignValue"/>'",
+					<xsl:if test="$data/@foreignKey!='' and $data/@foreignValue!=''">
+						"filters": "[<xsl:value-of select="$data/@foreignKey"/>='<xsl:value-of select="$data/@foreignValue"/>']",
 					</xsl:if>
 					"valueColumn": "<xsl:value-of select="@dataValue"/>",
 					"textColumn": "<xsl:value-of select="@dataText"/>"
