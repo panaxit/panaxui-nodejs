@@ -69,6 +69,10 @@
 		(yes: cascaded)
 	-->
 
+	<!-- 
+		ToDo: Improve shared code & refactor 2 transformations below 
+	-->
+
 	<xsl:template match="*[
 			@dataType='foreignKey' and 
 			(@controlType='default' or @controlType='combobox')]" mode="fields.field">
@@ -79,6 +83,9 @@
     },
 		{
 			"className": "display-flex",
+			<!-- "templateOptions": {
+				"label": "<xsl:value-of select="@headerText"/>"
+			}, -->
 			"fieldGroup": [
 			<xsl:apply-templates select="$child/*[1]" mode="fields.cascaded">
 				<xsl:with-param name="data" select="$data/*[1]" />
@@ -122,6 +129,12 @@
 			"className": "flex-1",
 			"key": "<xsl:value-of select="name()"/>",
 			"type": "async_select",
+			<!-- 
+				formState as model tells angular-formly to treat the field only as ui support,
+				not part of regular model
+				https://github.com/formly-js/angular-formly/issues/299 
+			-->
+			"model": "formState",
 			"templateOptions": {
 				<xsl:apply-templates select="." mode="fields.options">
 					<xsl:with-param name="data" select="$data" />

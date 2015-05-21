@@ -63,11 +63,15 @@
 		"options": [],
 		"params": {
 			"catalogName": "<xsl:value-of select="@Table_Schema"/>.<xsl:value-of select="@Table_Name"/>",
-			<xsl:if test="$data/@foreignKey!='' and $data/@foreignValue!=''">
-				"filters": "[<xsl:value-of select="$data/@foreignKey"/>='<xsl:value-of select="$data/@foreignValue"/>']",
-			</xsl:if>
 			"valueColumn": "<xsl:value-of select="@dataValue"/>",
-			"textColumn": "<xsl:value-of select="@dataText"/>"
+			"textColumn": "<xsl:value-of select="@dataText"/>",
+			<xsl:if test="$data/@foreignKey!='' and $data/@foreignValue!='' and $data/*[1]">
+				"foreignEntity": "<xsl:value-of select="name($data/*[1])"/>",
+				"foreignKey": "<xsl:value-of select="$data/@foreignKey"/>",
+				"foreignValue": "<xsl:value-of select="$data/@foreignValue"/>",
+				<!-- "filters": "[<xsl:value-of select="$data/@foreignKey"/>='<xsl:value-of select="$data/@foreignValue"/>']", -->
+			</xsl:if>
+			"dependantEntity": "<xsl:value-of select="name(parent::*[1])"/>"
 		}
 	</xsl:template>
 
