@@ -9,7 +9,7 @@
 	<xsl:template match="/">
 	[
 		<xsl:if test="(string(/options/@allowNulls)='true' or string(/options/@value)='') and string(/options/@searchText)=''">
-			<xsl:text>{ "value":null , "label":"- -" },</xsl:text>
+			<xsl:text>{ "value":null , "label":"- -" }</xsl:text>
 		</xsl:if>
 		<!-- <xsl:if test="options/@enableInsert=1">
 			{ text: '[Actualizar...]', id: Panax.REFRESH },
@@ -20,8 +20,7 @@
 	</xsl:template>
 
 	<xsl:template match="*" mode="options">
-		<xsl:if test="position()&gt;1">,</xsl:if>
-		{
+		,{
 			"label": "<xsl:value-of select="@text" />", 
 			"value": "<xsl:value-of select="@value" />"
 		}

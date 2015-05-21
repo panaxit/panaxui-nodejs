@@ -67,36 +67,30 @@
 		foreignKey Fields
 		(not: radios)
 		(yes: cascaded)
-		ToDo: Refactor & clean repeated code blow
 	-->
 
-	<xsl:template match="*[@dataType='foreignKey' and (@controlType='default' or @controlType='combobox')]" mode="fields.field">
+	<xsl:template match="*[
+			@dataType='foreignKey' and 
+			(@controlType='default' or @controlType='combobox')]" mode="fields.field">
 		<xsl:variable name="child" select="*[1]" />
-		<xsl:variable name="data" select="key('data',@fieldId)" />
-		<xsl:variable name="childData" select="$data/*[1]" />
-    <!-- {
+		<xsl:variable name="data" select="key('data',@fieldId)/*[1]" />
+    {
       "template": "<div><strong><xsl:value-of select="@headerText"/></strong></div>"
-    }, -->
+    },
 		{
 			"className": "display-flex",
 			"fieldGroup": [
 			<xsl:apply-templates select="$child/*[1]" mode="fields.cascaded">
-				<xsl:with-param name="data" select="$childData/*[1]" />
+				<xsl:with-param name="data" select="$data/*[1]" />
 			</xsl:apply-templates>
 			{
 				"className": "flex-1",
 				"key": "<xsl:value-of select="name()"/>",
 				"type": "async_select",
 				"templateOptions": {
-					"options": [],
-					"params": {
-						"catalogName": "<xsl:value-of select="$child/@Table_Schema"/>.<xsl:value-of select="$child/@Table_Name"/>",
-						<xsl:if test="$childData/@foreignKey!='' and $childData/@foreignValue!=''">
-							"filters": "[<xsl:value-of select="$childData/@foreignKey"/>='<xsl:value-of select="$childData/@foreignValue"/>']",
-						</xsl:if>
-						"valueColumn": "<xsl:value-of select="$child/@dataValue"/>",
-						"textColumn": "<xsl:value-of select="$child/@dataText"/>"
-					},
+					<xsl:apply-templates select="." mode="fields.options">
+						<xsl:with-param name="data" select="$data" />
+					</xsl:apply-templates>,
 					<xsl:if	test="@isIdentity='1'">
 						"hide": true,
 					</xsl:if>
@@ -112,7 +106,7 @@
 					<xsl:if	test="@length">
 						"maxLength": <xsl:value-of select="@length"/>,
 					</xsl:if>
-					"label": "<xsl:value-of select="@headerText"/>",
+					"label": "<xsl:value-of select="$child/@headerText"/>",
 					"placeholder": ""
 				}
 			}]
@@ -129,15 +123,9 @@
 			"key": "<xsl:value-of select="name()"/>",
 			"type": "async_select",
 			"templateOptions": {
-				"options": [],
-				"params": {
-					"catalogName": "<xsl:value-of select="@Table_Schema"/>.<xsl:value-of select="@Table_Name"/>",
-					<xsl:if test="$data/@foreignKey!='' and $data/@foreignValue!=''">
-						"filters": "[<xsl:value-of select="$data/@foreignKey"/>='<xsl:value-of select="$data/@foreignValue"/>']",
-					</xsl:if>
-					"valueColumn": "<xsl:value-of select="@dataValue"/>",
-					"textColumn": "<xsl:value-of select="@dataText"/>"
-				},
+				<xsl:apply-templates select="." mode="fields.options">
+					<xsl:with-param name="data" select="$data" />
+				</xsl:apply-templates>,
 				<xsl:if	test="@isIdentity='1'">
 					"hide": true,
 				</xsl:if>
