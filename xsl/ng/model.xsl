@@ -39,6 +39,7 @@
 	<xsl:template match="*" mode="model.pair">
 		<xsl:variable name="dataType" select="key('fields',@fieldId)/@dataType" />
 		<xsl:variable name="controlType" select="key('fields',@fieldId)/@controlType" />
+		<xsl:variable name="relationshipType" select="key('fields',@fieldId)/@relationshipType" />
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		"<xsl:value-of select="name()"/>":
 		<xsl:choose>
@@ -62,6 +63,11 @@
 						"value": -->"<xsl:value-of select="@value"/>"
 						<!--"label": "<xsl:value-of select="@text"/>"-->
 					<!--}-->
+				</xsl:if>
+			</xsl:when>
+			<xsl:when test="$dataType='foreignTable'">
+				<xsl:if test="$relationshipType='hasOne'">
+					<xsl:apply-templates select="*" mode="model" />
 				</xsl:if>
 			</xsl:when>
 			<!-- strings -->

@@ -34,6 +34,7 @@
 
 	<xsl:template match="*" mode="fields.field">
 		{
+			"className": "flex-1",
 			"key": "<xsl:value-of select="@fieldName"/>",
 			"type": "<xsl:apply-templates select="." mode="fields.type" />",
 			"templateOptions": {
@@ -64,13 +65,13 @@
 	</xsl:template>
 
 	<!-- 
-		foreignKey Fields
-		(not: radios)
-		(yes: cascaded)
+		ToDo: Improve shared code & refactor transformations below 
 	-->
 
 	<!-- 
-		ToDo: Improve shared code & refactor 2 transformations below 
+		foreignKey Fields
+		(not: radios)
+		(yes: select + cascaded)
 	-->
 
 	<xsl:template match="*[
@@ -158,6 +159,22 @@
 				"placeholder": ""
 			}
 		},
+	</xsl:template>
+
+	<!-- 
+		foreignTable (hasOne) 
+	-->
+
+	<xsl:template match="*[@dataType='foreignTable' and @relationshipType='hasOne']" mode="fields.field">
+    {
+      "template": "<strong><xsl:value-of select="@headerText"/></strong>"
+    },
+		{
+			"className": "px-foreignTable panel panel-default panel-body display-flex",
+			"fieldGroup": [
+				<xsl:apply-templates select="*[1]/px:layout/*" mode="fields" />
+			]
+		}
 	</xsl:template>
 
 </xsl:stylesheet>
