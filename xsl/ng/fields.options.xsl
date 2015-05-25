@@ -58,6 +58,12 @@
 		+ 
 		cascaded
 	 -->	
+	 <!-- 
+	 	ToDo: REFACTOR: 
+	 	Remove use of $data here 
+	 	and in fields.xsl 
+	 	from keys.xsl 
+	 -->
  	<xsl:template match="*" mode="fields.options.async_select">
 		<xsl:param name="data" />
 		"options": [],
@@ -65,9 +71,9 @@
 			"catalogName": "<xsl:value-of select="@Table_Schema"/>.<xsl:value-of select="@Table_Name"/>",
 			"valueColumn": "<xsl:value-of select="@dataValue"/>",
 			"textColumn": "<xsl:value-of select="@dataText"/>",
-			<xsl:if test="$data/@foreignKey!='' and $data/@foreignValue!='' and $data/*[1]">
-				"foreignEntity": "<xsl:value-of select="name($data/*[1])"/>",
-				"foreignKey": "<xsl:value-of select="$data/@foreignKey"/>",
+			<xsl:if test="@foreignKey!='' and *[1]">
+				"foreignEntity": "<xsl:value-of select="name(*[1])"/>",
+				"foreignKey": "<xsl:value-of select="@foreignKey"/>",
 				"foreignValue": "<xsl:value-of select="$data/@foreignValue"/>",
 				<!-- "filters": "[<xsl:value-of select="$data/@foreignKey"/>='<xsl:value-of select="$data/@foreignValue"/>']", -->
 			</xsl:if>

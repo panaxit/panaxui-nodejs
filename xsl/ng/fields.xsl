@@ -171,6 +171,8 @@
     },
 		{
 			"className": "px-foreignTable panel panel-default panel-body display-flex",
+			<!-- "model": "model.<xsl:value-of select="@fieldName"/>", -->
+			"key": "<xsl:value-of select="@fieldName"/>",
 			"fieldGroup": [
 				<xsl:apply-templates select="*[1]/px:layout/*" mode="fields" />
 			]

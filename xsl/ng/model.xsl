@@ -7,22 +7,15 @@
 		Model (px:data)
 	-->
 
-	<xsl:template match="*" mode="model">
+	<xsl:template match="px:data" mode="model">
 		[
-			<xsl:apply-templates select="px:data/*" mode="model">
-				<xsl:with-param name="primaryKey">
-					<xsl:value-of select="px:fields/*[@isPrimaryKey='1'][1]/@fieldName"/>
-				</xsl:with-param>
-				<xsl:with-param name="identityKey">
-					<xsl:value-of select="px:fields/*[@isIdentity='1'][1]/@fieldName"/>
-				</xsl:with-param>
-			</xsl:apply-templates>
+			<xsl:apply-templates select="*" mode="model" />
 		]
 	</xsl:template>
 
 	<xsl:template match="px:dataRow" mode="model">
-		<xsl:param name="primaryKey" />
-		<xsl:param name="identityKey" />
+		<xsl:variable name="primaryKey" select="../../@primaryKey" />
+		<xsl:variable name="identityKey" select="../../@identityKey" />
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		{
 			<!-- "rowNumber": "<xsl:value-of select="@rowNumber"/>", -->
@@ -67,7 +60,7 @@
 			</xsl:when>
 			<xsl:when test="$dataType='foreignTable'">
 				<xsl:if test="$relationshipType='hasOne'">
-					<xsl:apply-templates select="*" mode="model" />
+					<xsl:apply-templates select="*[1]/px:data/px:dataRow" mode="model" />
 				</xsl:if>
 			</xsl:when>
 			<!-- strings -->
