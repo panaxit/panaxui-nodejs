@@ -33,7 +33,7 @@ router.post('/', auth.requiredAuth, function read(req, res, next) {
 
 	oPanax.setParam('userId', req.session.userId);
 
-	oPanax.updateDB(insertXML, function (err, xml) {
+	oPanax.persist(insertXML, function (err, xml) {
 		if(err)
 			return next(err);
 

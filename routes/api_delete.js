@@ -33,7 +33,7 @@ router.delete('/', auth.requiredAuth, function read(req, res, next) {
 
 	oPanax.setParam('userId', req.session.userId);
 
-	oPanax.updateDB(deleteXML, function (err, xml) {
+	oPanax.persist(deleteXML, function (err, xml) {
 		if(err)
 			return next(err);
 
