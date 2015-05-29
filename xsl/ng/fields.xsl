@@ -179,4 +179,20 @@
 		}
 	</xsl:template>
 
+	<!-- 
+		foreignTable (hasMany) 
+	-->
+
+	<xsl:template match="*[@dataType='foreignTable' and @relationshipType='hasMany']" mode="fields.field">
+		{
+			"className": "flex-1",
+			"key": "<xsl:value-of select="@fieldName"/>",
+			"type": "<xsl:apply-templates select="." mode="fields.type" />",
+			"templateOptions": {
+				"label": "<xsl:value-of select="@headerText"/>",
+				"placeholder": ""
+			}
+		}
+	</xsl:template>
+
 </xsl:stylesheet>
