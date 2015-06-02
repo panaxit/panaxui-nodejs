@@ -84,7 +84,7 @@
 					data model
 			-->
 			<!-- <px:data> model.xsl -->
-			"model": <xsl:apply-templates select="px:data" mode="model" />,
+			"model": [ <xsl:apply-templates select="px:data/*" mode="model" /> ],
 			<!--
 					ui-grid
 			-->

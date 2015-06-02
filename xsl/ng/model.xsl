@@ -7,12 +7,6 @@
 		Model (px:data)
 	-->
 
-	<xsl:template match="px:data" mode="model">
-		[
-			<xsl:apply-templates select="*" mode="model" />
-		]
-	</xsl:template>
-
 	<xsl:template match="px:dataRow" mode="model">
 		<xsl:variable name="primaryKey" select="../../@primaryKey" />
 		<xsl:variable name="identityKey" select="../../@identityKey" />
