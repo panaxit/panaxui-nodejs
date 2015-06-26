@@ -60,7 +60,7 @@ Session.vim
 *.tmp
 *.bak
 *.swp
-/*.sublime-project
+*.sublime-project
 *.sublime-workspace
 *.tmlanguage.cache
 *.tmPreferences.cache

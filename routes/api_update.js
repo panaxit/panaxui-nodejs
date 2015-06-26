@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Panax = require('panaxjs');
+var PanaxJS = require('panaxjs');
 var config = require('../config/panax.js');
 
 var auth = require('../lib/auth.js');
@@ -29,15 +29,15 @@ router.put('/', auth.requiredAuth, function read(req, res, next) {
 	/**
 	 * PanaxJS
 	 */
-	var oPanax = new Panax(config);
+	var panaxdb = new PanaxJS.Connection(config);
 
-	oPanax.setParam('userId', req.session.userId);
+	panaxdb.setParam('userId', req.session.userId);
 
-	oPanax.persist(updateXML, function (err, xml) {
+	panaxdb.persist(updateXML, function (err, xml) {
 		if(err)
 			return next(err);
 
-		oPanax.getResults(xml, function (err, results) {
+		panaxdb.getResults(xml, function (err, results) {
 			if(err)
 				return next(err);
 

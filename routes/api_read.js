@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var libxslt = require('libxslt');
-var Panax = require('panaxjs');
+var PanaxJS = require('panaxjs');
 var config = require('../config/panax.js');
 
 var fs = require('fs');
@@ -33,19 +33,19 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 	/**
 	 * PanaxJS
 	 */
-	var oPanax = new Panax(config, req.query);
+	var panaxdb = new PanaxJS.Connection(config, req.query);
 
-	oPanax.setParam('userId', req.session.userId);
-	oPanax.setParam('tableName', req.query.catalogName);
-	oPanax.setParam('getData', (req.query.getData || '1'));
-	oPanax.setParam('getStructure', (req.query.getStructure || '0'));
-	oPanax.setParam('lang', (req.session.lang || 'DEFAULT'));
+	panaxdb.setParam('userId', req.session.userId);
+	panaxdb.setParam('tableName', req.query.catalogName);
+	panaxdb.setParam('getData', (req.query.getData || '1'));
+	panaxdb.setParam('getStructure', (req.query.getStructure || '0'));
+	panaxdb.setParam('lang', (req.session.lang || 'DEFAULT'));
 
-	oPanax.getXML(function (err, xml) {
+	panaxdb.getXML(function (err, xml) {
 		if(err)
 			return next(err);
 
-		oPanax.getCatalog(xml, function (err, catalog) {
+		panaxdb.getCatalog(xml, function (err, catalog) {
 			if(err)
 				return next(err);
 

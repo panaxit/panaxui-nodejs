@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var libxslt = require('libxslt');
-var Panax = require('panaxjs');
+var PanaxJS = require('panaxjs');
 var config = require('../config/panax.js');
 
 var fs = require('fs');
@@ -35,9 +35,9 @@ router.get('/', auth.requiredAuth, function options(req, res, next) {
 	/**
 	 * PanaxJS
 	 */
-	var oPanax = new Panax(config, req.session); // get userId
+	var panaxdb = new PanaxJS.Connection(config, req.session); // get userId
 
-	oPanax.getCatalogOptions(req.query, function (err, xml) {
+	panaxdb.getCatalogOptions(req.query, function (err, xml) {
 		if(err)
 			return next(err);
 
