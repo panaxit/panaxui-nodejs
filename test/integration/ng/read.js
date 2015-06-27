@@ -12,9 +12,6 @@ describe('Read', function() {
 
 	describe('while logged out', function() {
 
-		//it('should fail to read');
-		////
-
 		it('should fail to read an entity', function(done) {
 			var query = querystring.stringify({
 				gui: 'ng',
@@ -23,6 +20,24 @@ describe('Read', function() {
 			});
 
 			api.get('/api/read?' + query)
+			.set('Accept', 'application/json')
+			.set('Cookie', cookie) // Pass session cookie with each request
+			.expect(401)
+			.expect('Content-Type', /json/)
+			.end(function(err, res) {
+				if (err) return done(err);
+				expect(res.body.success).to.be.false;
+				done();
+			});
+		});
+
+		it('should fail to read options of an entity', function(done) {
+			var query = querystring.stringify({
+				gui: 'ng',
+				catalogName: "CatalogosSistema.Pais"
+			});
+
+			api.get('/api/options?' + query)
 			.set('Accept', 'application/json')
 			.set('Cookie', cookie) // Pass session cookie with each request
 			.expect(401)
@@ -115,6 +130,30 @@ describe('Read', function() {
 				expect(res.body.data.catalog.mode).to.equal('readonly');
 				//expect(res.body.data.catalog.primaryKey).to.equal('Id');
 				//expect(res.body.data.catalog.identityKey).to.equal('Id');
+				done();
+			});
+		});
+
+		it('should read options', function(done) {
+			var query = querystring.stringify({
+				gui: 'ng',
+				//array: true, // to skip headers
+				catalogName: "CatalogosSistema.Pais",
+				valueColumn: "Id",
+				textColumn: "Pais"
+			});
+
+			api.get('/api/options?' + query)
+			.set('Accept', 'application/json')
+			.set('Cookie', cookie) // Pass session cookie with each request
+			.expect(200)
+			.expect('Content-Type', /json/)
+			.end(function(err, res) {
+				if (err) return done(err);
+				expect(res.body.success).to.be.true;
+				expect(res.body.action).to.equal('options');
+				expect(res.body.gui).to.equal('ng');
+				expect(res.body.data.length).to.be.above(0)
 				done();
 			});
 		});

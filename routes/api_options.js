@@ -37,7 +37,7 @@ router.get('/', auth.requiredAuth, function options(req, res, next) {
 	 */
 	var panaxdb = new PanaxJS.Connection(config, req.session); // get userId
 
-	panaxdb.getCatalogOptions(req.query, function (err, xml) {
+	panaxdb.options(req.query, function (err, xml) {
 		if(err)
 			return next(err);
 
