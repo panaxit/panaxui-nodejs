@@ -41,11 +41,11 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 	panaxdb.setParam('getStructure', (req.query.getStructure || '0'));
 	panaxdb.setParam('lang', (req.session.lang || 'DEFAULT'));
 
-	panaxdb.getXML(function (err, xml) {
+	panaxdb.read(function (err, xml) {
 		if(err)
 			return next(err);
 
-		panaxdb.getCatalog(xml, function (err, catalog) {
+		PanaxJS.Util.parseCatalog(xml, function (err, catalog) {
 			if(err)
 				return next(err);
 
