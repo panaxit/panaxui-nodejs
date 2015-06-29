@@ -16,15 +16,15 @@ module.exports = router;
 router.put('/', auth.requiredAuth, function read(req, res, next) {
 	if (!req.body.tableName)
 		return next({message: "No tableName supplied"});
-	if (!req.body.primaryKey || !req.body.identityKey)
+	if (!req.body.primaryKey && !req.body.identityKey)
 		return next({message: "No primaryKey or identityKey supplied"});
-	if (!req.body.dataRows || !req.body.dataRows.length || req.body.dataRows.length===0)
-		return next({message: "No dataRows supplied"});
+	if (!req.body.updateRows || !req.body.updateRows.length || req.body.updateRows.length===0)
+		return next({message: "No updateRows supplied"});
 
 	/**
 	 * Build dataTable XML
 	 */
-	var updateXML = xml.buildDataTable(req.body);
+	var updateXML = xml.buildXMLDataTable(req.body);
 
 	/**
 	 * PanaxJS
@@ -37,7 +37,7 @@ router.put('/', auth.requiredAuth, function read(req, res, next) {
 		if(err)
 			return next(err);
 
-		panaxdb.getResults(xml, function (err, results) {
+		PanaxJS.Util.parseResults(xml, function (err, results) {
 			if(err)
 				return next(err);
 

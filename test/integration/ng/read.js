@@ -106,7 +106,7 @@ describe('Read', function() {
 			var query = querystring.stringify({
 				gui: 'ng',
 				output: "json",
-				filters: "'id=1'",
+				filters: "'id=191'",
 				catalogName: "dbo.CONTROLS_Basic",
 				controlType: 'formView',
 				mode: 'readonly'

@@ -16,7 +16,7 @@ module.exports = router;
 router.delete('/', auth.requiredAuth, function read(req, res, next) {
 	if (!req.body.tableName)
 		return next({message: "No tableName supplied"});
-	if (!req.body.primaryKey || !req.body.identityKey)
+	if (!req.body.primaryKey && !req.body.identityKey)
 		return next({message: "No primaryKey or identityKey supplied"});
 	if (!req.body.deleteRows || !req.body.deleteRows.length || req.body.deleteRows.length===0)
 		return next({message: "No deleteRows supplied"});
@@ -24,7 +24,7 @@ router.delete('/', auth.requiredAuth, function read(req, res, next) {
 	/**
 	 * Build dataTable XML
 	 */
-	var deleteXML = xml.buildDataTable(req.body);
+	var deleteXML = xml.buildXMLDataTable(req.body);
 
 	/**
 	 * PanaxJS
@@ -37,7 +37,7 @@ router.delete('/', auth.requiredAuth, function read(req, res, next) {
 		if(err)
 			return next(err);
 
-		panaxdb.getResults(xml, function (err, results) {
+		PanaxJS.Util.parseResults(xml, function (err, results) {
 			if(err)
 				return next(err);
 
