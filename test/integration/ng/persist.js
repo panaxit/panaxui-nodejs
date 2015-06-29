@@ -163,13 +163,49 @@ describe('persistance (create, update, delete)', function() {
 
 	  });
 
-	  describe('case 4: nested (1:!)', function() {
+	  describe.skip('case 4: nested (1:1)', function() {
 
-	  	it('should create multiple (2) entities');
+			var identityValue;
+			var primaryValue;
 
-	  	it('should update one (1) entity');
+	  	it('should create a nested entity', function() {
+	  		var payload = {
+			  	tableName: 'dbo.CONTROLS_NestedForm',
+			  	primaryKey: 'Id',
+			  	identityKey: 'Id',
+			  	insertRows: [{
+					  "TextLimit10Chars": "Texto corto",
+					  "CONTROLS_NestedGrid": {
+					  	"TextLimit255": "Corto Anidado"
+					  }
+					}]
+	  		};
 
-	  	it('should delete one (1) entity');
+				api.post('/api/create')
+				.send(payload)
+				.set('Accept', 'application/json')
+				.set('Cookie', cookie) // Pass session cookie with each request
+				.expect(200)
+				.expect('Content-Type', /json/)
+				.end(function(err, res) {
+					if (err) return done(err);
+					expect(res.body.success).to.be.true;
+					expect(res.body.action).to.equal('create');
+					expect(res.body.data.length).to.equal(1);
+					expect(res.body.data[0].status).to.equal('success');
+					expect(res.body.data[0].action).to.equal('insert');
+					expect(res.body.data[0].tableName).to.equal('[dbo].[CONTROLS_NestedForm]');
+					expect(res.body.data[0].identity).to.be.ok;
+					expect(res.body.data[0].primaryValue).to.be.ok;
+					identityValue = res.body.data[0].identity;
+					primaryValue = res.body.data[0].primaryValue;
+					done();
+				});
+	  	});
+
+	  	it('should update a nested entity');
+
+	  	it('should delete a nested entity');
 
 	  });
 
