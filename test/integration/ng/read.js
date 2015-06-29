@@ -106,6 +106,7 @@ describe('Read', function() {
 			var query = querystring.stringify({
 				gui: 'ng',
 				output: "json",
+				filters: "'id=1'",
 				catalogName: "dbo.CONTROLS_Basic",
 				controlType: 'formView',
 				mode: 'readonly'
@@ -122,7 +123,7 @@ describe('Read', function() {
 				expect(res.body.action).to.equal('read');
 				expect(res.body.gui).to.equal('ng');
 				expect(res.body.output).to.equal('json');
-				//expect(res.body.data.total).to.equal(1); // ToDo: Fix in PanaxDB
+				expect(res.body.data.total).to.equal('1');
 				expect(res.body.data.model.length).to.equal(1);
 				expect(res.body.data.catalog.dbId).to.equal(config.db.database);
 				expect(res.body.data.catalog.catalogName).to.equal('dbo.CONTROLS_Basic');
