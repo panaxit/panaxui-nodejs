@@ -6,7 +6,7 @@ var supertest = require('supertest');
 //var api = supertest(require('../../../'));
 var api = supertest('http://' + config.ui.hostname + ':' + config.ui.port);
 
-describe('Persistance (Create, Update, delete)', function() {
+describe('persistance (create, update, delete)', function() {
 
 	var cookie; // Global session cookie to be passed with each request
 
@@ -35,7 +35,7 @@ describe('Persistance (Create, Update, delete)', function() {
 
 	describe('while logged in', function() {
 
-	  describe('Case 1: With primaryKey', function() {
+	  describe('case 1: with primaryKey', function() {
 
 	  	it('should create multiple (2) entities');
 
@@ -45,7 +45,7 @@ describe('Persistance (Create, Update, delete)', function() {
 
 	  });
 
-	  describe('Case 2: With identityKey', function() {
+	  describe('case 2: with identityKey', function() {
 
 			var identityValue;
 
@@ -153,7 +153,7 @@ describe('Persistance (Create, Update, delete)', function() {
 
 		});
 
-	  describe('Case 3: With primaryKey & identityKey', function() {
+	  describe('case 3: with primaryKey & identityKey', function() {
 
 	  	it('should create multiple (2) entities');
 
@@ -163,7 +163,7 @@ describe('Persistance (Create, Update, delete)', function() {
 
 	  });
 
-	  describe('Case 4: Nested', function() {
+	  describe('case 4: nested (1:!)', function() {
 
 	  	it('should create multiple (2) entities');
 

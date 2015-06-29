@@ -6,7 +6,7 @@ var supertest = require('supertest');
 //var api = supertest(require('../../../'));
 var api = supertest('http://' + config.ui.hostname + ':' + config.ui.port);
 
-describe('Session', function() {
+describe('session', function() {
 
 	var cookie; // Global session cookie to be passed with each request
 
