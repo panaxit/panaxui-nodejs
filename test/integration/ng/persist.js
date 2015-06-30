@@ -201,8 +201,9 @@ describe('persistance (create, update, delete)', function() {
 					expect(res.body.data[0].tableName).to.equal('[dbo].[CONTROLS_NestedForm]');
 					expect(res.body.data[0].identity).to.be.ok;
 					identityValue = res.body.data[0].identity;
-					// ToDo: check nested results!!!!!!!!!!!!!!!!!!
-					//expect(res.body.data[0].results[]).to.be.ok;
+					expect(res.body.data[0].fields[1].status).to.equal('success');
+					expect(res.body.data[0].fields[1].action).to.equal('insert');
+					expect(res.body.data[0].fields[1].tableName).to.equal('[dbo].[CONTROLS_NestedGrid]');
 					done();
 				});
 	  	});
@@ -240,8 +241,9 @@ describe('persistance (create, update, delete)', function() {
 					expect(res.body.data[0].status).to.equal('success');
 					expect(res.body.data[0].action).to.equal('update');
 					expect(res.body.data[0].tableName).to.equal('[dbo].[CONTROLS_NestedForm]');
-					// ToDo: check nested results!!!!!!!!!!!!!!!!!!
-					//expect(res.body.data[0].results[]).to.be.ok;
+					expect(res.body.data[0].fields[1].status).to.equal('success');
+					expect(res.body.data[0].fields[1].action).to.equal('update');
+					expect(res.body.data[0].fields[1].tableName).to.equal('[dbo].[CONTROLS_NestedGrid]');
 					done();
 				});
 	  	});
@@ -270,8 +272,6 @@ describe('persistance (create, update, delete)', function() {
 					expect(res.body.data[0].status).to.equal('success');
 					expect(res.body.data[0].action).to.equal('delete');
 					expect(res.body.data[0].tableName).to.equal('[dbo].[CONTROLS_NestedForm]');
-					// ToDo: check nested results!!!!!!!!!!!!!!!!!!
-					//expect(res.body.data[0].results[]).to.be.ok;
 					done();
 				});
 	  	});
