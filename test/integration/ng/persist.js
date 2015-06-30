@@ -163,24 +163,28 @@ describe('persistance (create, update, delete)', function() {
 
 	  });
 
-	  describe.skip('case 4: nested (1:1)', function() {
+	  describe('case 4: nested (1:1)', function() {
 
 			var identityValue;
-			var primaryValue;
 
-	  	it('should create a nested entity', function() {
+	  	it('should create a nested entity', function(done) {
 	  		var payload = {
 			  	tableName: 'dbo.CONTROLS_NestedForm',
 			  	primaryKey: 'Id',
 			  	identityKey: 'Id',
 			  	insertRows: [{
-					  "TextLimit10Chars": "Texto corto",
+					  "TextLimit10Chars": "Txto corto",
 					  "CONTROLS_NestedGrid": {
-					  	"TextLimit255": "Corto Anidado"
+					  	tableName: 'dbo.CONTROLS_NestedGrid',
+					  	primaryKey: 'Id',
+					  	foreignReference: 'Id',
+					  	insertRows: [{
+					  		"TextLimit255": "Corto Anidado"
+					  	}]
 					  }
 					}]
 	  		};
-
+ 
 				api.post('/api/create')
 				.send(payload)
 				.set('Accept', 'application/json')
@@ -196,9 +200,7 @@ describe('persistance (create, update, delete)', function() {
 					expect(res.body.data[0].action).to.equal('insert');
 					expect(res.body.data[0].tableName).to.equal('[dbo].[CONTROLS_NestedForm]');
 					expect(res.body.data[0].identity).to.be.ok;
-					expect(res.body.data[0].primaryValue).to.be.ok;
 					identityValue = res.body.data[0].identity;
-					primaryValue = res.body.data[0].primaryValue;
 					done();
 				});
 	  	});

@@ -116,7 +116,7 @@ describe('xml #buildXMLDataTable', function() {
 
   });
 
-  describe.skip('case 4: nested (1:1)', function() {
+  describe('case 4: nested (1:1)', function() {
 
   	it('should create a nested entity', function() {
   		var payload = {
@@ -124,9 +124,14 @@ describe('xml #buildXMLDataTable', function() {
 		  	primaryKey: 'Id',
 		  	identityKey: 'Id',
 		  	insertRows: [{
-				  "TextLimit10Chars": "Texto corto",
+				  "TextLimit10Chars": "Txto corto",
 				  "CONTROLS_NestedGrid": {
-				  	"TextLimit255": "Corto Anidado"
+				  	tableName: 'dbo.CONTROLS_NestedGrid',
+				  	primaryKey: 'Id',
+				  	foreignReference: 'Id',
+				  	insertRows: [{
+				  		"TextLimit255": "Corto Anidado"
+				  	}]
 				  }
 				}]
   		};
@@ -134,8 +139,8 @@ describe('xml #buildXMLDataTable', function() {
   		var output = '<?xml version="1.0" encoding="UTF-8"?>' +
   			'<dataTable name="dbo.CONTROLS_NestedForm" identityKey="Id">' +
   				'<insertRow>' + 
-  					'<field name="TextLimit10Chars">\'\'Texto corto\'\'</field>' + 
-  					'<dataTable name="CONTROLS_NestedGrid">' + 
+  					'<field name="TextLimit10Chars">\'\'Txto corto\'\'</field>' + 
+  					'<dataTable name="dbo.CONTROLS_NestedGrid">' + 
   						'<insertRow>' + 
 								'<fkey name="Id" isPK="true" maps="Id" />' +
   							'<field name="TextLimit255">\'\'Corto Anidado\'\'</field>' + 
@@ -155,20 +160,25 @@ describe('xml #buildXMLDataTable', function() {
 		  	tableName: 'dbo.CONTROLS_NestedForm',
 		  	primaryKey: 'Id',
 		  	identityKey: 'Id',
-		  	dataRows: [{
+		  	updateRows: [{
 			  	"Id": '1',
 				  "TextLimit10Chars": "Texto corto 2",
 				  "CONTROLS_NestedGrid": {
-				  	"TextLimit255": "Corto Anidado 2"
+				  	tableName: 'dbo.CONTROLS_NestedGrid',
+				  	primaryKey: 'Id',
+				  	foreignReference: 'Id',
+				  	updateRows: [{
+				  		"TextLimit255": "Corto Anidado 2"
+				  	}]
 				  }
 				}]
 		  };
 
   		var output = '<?xml version="1.0" encoding="UTF-8"?>' +
   			'<dataTable name="dbo.CONTROLS_NestedForm" identityKey="Id">' +
-  				'<updateRow>' + 
+  				'<updateRow identityValue="1">' + 
   					'<field name="TextLimit10Chars">\'\'Texto corto 2\'\'</field>' + 
-  					'<dataTable name="CONTROLS_NestedGrid">' + 
+  					'<dataTable name="dbo.CONTROLS_NestedGrid">' + 
   						'<updateRow>' + 
 								'<fkey name="Id" isPK="true" maps="Id" />' +
   							'<field name="TextLimit255">\'\'Corto Anidado 2\'\'</field>' + 
