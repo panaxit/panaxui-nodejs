@@ -130,6 +130,15 @@
 		<xsl:text>async_select</xsl:text>
 	</xsl:template>
 
+	<!-- ui-select -->
+	<xsl:template mode="fields.type" match="*[ 
+		(@controlType='default') and
+		(@dataType='foreignTable') and
+		(@relationshipType='hasMany')
+		]">
+		<xsl:text>ui-grid</xsl:text>
+	</xsl:template>
+
 	<!-- 
 		ToDo:
 			picture

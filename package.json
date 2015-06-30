@@ -17,7 +17,6 @@
   },
   "config": {
     "ghooks": {
-      "pre-commit": "npm run test:all"
     }
   },
   "repository": {

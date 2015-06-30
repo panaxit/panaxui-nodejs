@@ -62,6 +62,9 @@
 				<xsl:if test="$relationshipType='hasOne'">
 					<xsl:apply-templates select="*[1]/px:data/px:dataRow" mode="model" />
 				</xsl:if>
+				<xsl:if test="$relationshipType='hasMany'">
+					[<xsl:apply-templates select="*[1]/px:data/px:dataRow" mode="model" />]
+				</xsl:if>
 			</xsl:when>
 			<!-- strings -->
 			<xsl:otherwise>
