@@ -201,13 +201,80 @@ describe('persistance (create, update, delete)', function() {
 					expect(res.body.data[0].tableName).to.equal('[dbo].[CONTROLS_NestedForm]');
 					expect(res.body.data[0].identity).to.be.ok;
 					identityValue = res.body.data[0].identity;
+					// ToDo: check nested results!!!!!!!!!!!!!!!!!!
+					//expect(res.body.data[0].results[]).to.be.ok;
 					done();
 				});
 	  	});
 
-	  	it('should update a nested entity');
+	  	it('should update a nested entity', function(done) {
+			  var payload = {
+			  	tableName: 'dbo.CONTROLS_NestedForm',
+			  	primaryKey: 'Id',
+			  	identityKey: 'Id',
+			  	updateRows: [{
+				  	"Id": identityValue,
+					  "TextLimit10Chars": "Txto cort2",
+					  "CONTROLS_NestedGrid": {
+					  	tableName: 'dbo.CONTROLS_NestedGrid',
+					  	primaryKey: 'Id',
+					  	foreignReference: 'Id',
+					  	updateRows: [{
+					  		"TextLimit255": "Corto Anidado 2"
+					  	}]
+					  }
+					}]
+			  };
 
-	  	it('should delete a nested entity');
+				api.put('/api/update')
+				.send(payload)
+				.set('Accept', 'application/json')
+				.set('Cookie', cookie) // Pass session cookie with each request
+				.expect(200)
+				.expect('Content-Type', /json/)
+				.end(function(err, res) {
+					if (err) return done(err);
+					expect(res.body.success).to.be.true;
+					expect(res.body.action).to.equal('update');
+					expect(res.body.data.length).to.equal(1);
+					expect(res.body.data[0].status).to.equal('success');
+					expect(res.body.data[0].action).to.equal('update');
+					expect(res.body.data[0].tableName).to.equal('[dbo].[CONTROLS_NestedForm]');
+					// ToDo: check nested results!!!!!!!!!!!!!!!!!!
+					//expect(res.body.data[0].results[]).to.be.ok;
+					done();
+				});
+	  	});
+
+	  	it('should delete a nested entity (cascade)', function(done) {
+			  var payload = {
+			  	tableName: 'dbo.CONTROLS_NestedForm',
+			  	primaryKey: 'Id',
+			  	identityKey: 'Id',
+			  	deleteRows: [{
+				  	"Id": identityValue
+					}]
+			  };
+
+				api.delete('/api/delete')
+				.send(payload)
+				.set('Accept', 'application/json')
+				.set('Cookie', cookie) // Pass session cookie with each request
+				.expect(200)
+				.expect('Content-Type', /json/)
+				.end(function(err, res) {
+					if (err) return done(err);
+					expect(res.body.success).to.be.true;
+					expect(res.body.action).to.equal('delete');
+					expect(res.body.data.length).to.equal(1);
+					expect(res.body.data[0].status).to.equal('success');
+					expect(res.body.data[0].action).to.equal('delete');
+					expect(res.body.data[0].tableName).to.equal('[dbo].[CONTROLS_NestedForm]');
+					// ToDo: check nested results!!!!!!!!!!!!!!!!!!
+					//expect(res.body.data[0].results[]).to.be.ok;
+					done();
+				});
+	  	});
 
 	  });
 
