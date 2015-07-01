@@ -34,7 +34,6 @@
 
 	<xsl:template match="*" mode="fields.field">
 		{
-			"className": "flex-1",
 			"key": "<xsl:value-of select="@fieldName"/>",
 			"type": "<xsl:apply-templates select="." mode="fields.type" />",
 			"templateOptions": {
@@ -170,7 +169,7 @@
       "template": "<strong><xsl:value-of select="@headerText"/></strong>"
     },
 		{
-			"className": "px-foreignTable panel panel-default panel-body display-flex",
+			"className": "<!-- panel panel-default panel-body -->",
 			<!-- "model": "model.<xsl:value-of select="@fieldName"/>", -->
 			"key": "<xsl:value-of select="@fieldName"/>",
 			"fieldGroup": [
@@ -185,7 +184,6 @@
 
 	<xsl:template match="*[@dataType='foreignTable' and @relationshipType='hasMany']" mode="fields.field">
 		{
-			"className": "flex-1",
 			"key": "<xsl:value-of select="@fieldName"/>",
 			"type": "<xsl:apply-templates select="." mode="fields.type" />",
 			"templateOptions": {
