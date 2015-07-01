@@ -1,4 +1,5 @@
-var	config = require('../../../config/panax');
+var PanaxJS = require('panaxjs');
+var	config = require('../../../config/panax.js');
 var	util = require('../../../lib/util');
 var querystring = require("querystring");
 var expect = require('chai').expect;
@@ -9,6 +10,22 @@ var api = supertest('http://' + config.ui.hostname + ':' + config.ui.port);
 describe('persistance (create, update, delete)', function() {
 
 	var cookie; // Global session cookie to be passed with each request
+
+	before('mock setup', function(done) {
+		// DDL Isolation
+		var panaxdb = new PanaxJS.Connection(config);
+
+		panaxdb.query(require('fs').readFileSync('test/mocks.clean.sql', 'utf8'), function(err) {
+			if(err) return done(err);
+			panaxdb.query(require('fs').readFileSync('test/mocks.prep.sql', 'utf8'), function(err) {
+				if(err) return done(err);
+				panaxdb.rebuildMetadata(function (err) {
+					if(err) return done(err);
+					done();
+				});
+			});
+		});
+	});
 
 	describe('while logged out', function() {
 
@@ -51,7 +68,7 @@ describe('persistance (create, update, delete)', function() {
 
 			it('should create multiple (2) entities', function(done) {
 			  var payload = {
-			  	tableName: 'dbo.CONTROLS_Basic',
+			  	tableName: 'TestSchema.CONTROLS_Basic',
 			  	identityKey: 'Id',
 			  	insertRows: [{
 				  	//"Id": 'NULL',
@@ -85,11 +102,11 @@ describe('persistance (create, update, delete)', function() {
 					expect(res.body.data.length).to.equal(2);
 					expect(res.body.data[0].status).to.equal('success');
 					expect(res.body.data[0].action).to.equal('insert');
-					expect(res.body.data[0].tableName).to.equal('[dbo].[CONTROLS_Basic]');
+					expect(res.body.data[0].tableName).to.equal('[TestSchema].[CONTROLS_Basic]');
 					expect(res.body.data[0].identity).to.be.ok;
 					expect(res.body.data[1].status).to.equal('success');
 					expect(res.body.data[1].action).to.equal('insert');
-					expect(res.body.data[1].tableName).to.equal('[dbo].[CONTROLS_Basic]');
+					expect(res.body.data[1].tableName).to.equal('[TestSchema].[CONTROLS_Basic]');
 					expect(res.body.data[1].identity).to.be.ok;
 					identityValue = res.body.data[1].identity;
 					done();
@@ -98,7 +115,7 @@ describe('persistance (create, update, delete)', function() {
 
 			it('should update one (1) entity', function(done) {
 			  var payload = {
-			  	tableName: 'dbo.CONTROLS_Basic',
+			  	tableName: 'TestSchema.CONTROLS_Basic',
 			  	identityKey: 'Id',
 			  	updateRows: [{
 				  	"Id": identityValue,
@@ -119,14 +136,14 @@ describe('persistance (create, update, delete)', function() {
 					expect(res.body.data.length).to.equal(1);
 					expect(res.body.data[0].status).to.equal('success');
 					expect(res.body.data[0].action).to.equal('update');
-					expect(res.body.data[0].tableName).to.equal('[dbo].[CONTROLS_Basic]');
+					expect(res.body.data[0].tableName).to.equal('[TestSchema].[CONTROLS_Basic]');
 					done();
 				});
 			});
 
 			it('should delete one (1) entity', function(done) {
 			  var payload = {
-			  	tableName: 'dbo.CONTROLS_Basic',
+			  	tableName: 'TestSchema.CONTROLS_Basic',
 			  	identityKey: 'Id',
 			  	deleteRows: [{
 				  	"Id": identityValue
@@ -146,7 +163,7 @@ describe('persistance (create, update, delete)', function() {
 					expect(res.body.data.length).to.equal(1);
 					expect(res.body.data[0].status).to.equal('success');
 					expect(res.body.data[0].action).to.equal('delete');
-					expect(res.body.data[0].tableName).to.equal('[dbo].[CONTROLS_Basic]');
+					expect(res.body.data[0].tableName).to.equal('[TestSchema].[CONTROLS_Basic]');
 					done();
 				});
 			});
@@ -169,13 +186,13 @@ describe('persistance (create, update, delete)', function() {
 
 	  	it('should create a nested entity', function(done) {
 	  		var payload = {
-			  	tableName: 'dbo.CONTROLS_NestedForm',
+			  	tableName: 'TestSchema.CONTROLS_NestedForm',
 			  	primaryKey: 'Id',
 			  	identityKey: 'Id',
 			  	insertRows: [{
 					  "TextLimit10Chars": "Txto corto",
 					  "CONTROLS_NestedGrid": {
-					  	tableName: 'dbo.CONTROLS_NestedGrid',
+					  	tableName: 'TestSchema.CONTROLS_NestedGrid',
 					  	primaryKey: 'Id',
 					  	foreignReference: 'Id',
 					  	insertRows: [{
@@ -198,26 +215,26 @@ describe('persistance (create, update, delete)', function() {
 					expect(res.body.data.length).to.equal(1);
 					expect(res.body.data[0].status).to.equal('success');
 					expect(res.body.data[0].action).to.equal('insert');
-					expect(res.body.data[0].tableName).to.equal('[dbo].[CONTROLS_NestedForm]');
+					expect(res.body.data[0].tableName).to.equal('[TestSchema].[CONTROLS_NestedForm]');
 					expect(res.body.data[0].identity).to.be.ok;
 					identityValue = res.body.data[0].identity;
 					expect(res.body.data[0].fields[1].status).to.equal('success');
 					expect(res.body.data[0].fields[1].action).to.equal('insert');
-					expect(res.body.data[0].fields[1].tableName).to.equal('[dbo].[CONTROLS_NestedGrid]');
+					expect(res.body.data[0].fields[1].tableName).to.equal('[TestSchema].[CONTROLS_NestedGrid]');
 					done();
 				});
 	  	});
 
 	  	it('should update a nested entity', function(done) {
 			  var payload = {
-			  	tableName: 'dbo.CONTROLS_NestedForm',
+			  	tableName: 'TestSchema.CONTROLS_NestedForm',
 			  	primaryKey: 'Id',
 			  	identityKey: 'Id',
 			  	updateRows: [{
 				  	"Id": identityValue,
 					  "TextLimit10Chars": "Txto cort2",
 					  "CONTROLS_NestedGrid": {
-					  	tableName: 'dbo.CONTROLS_NestedGrid',
+					  	tableName: 'TestSchema.CONTROLS_NestedGrid',
 					  	primaryKey: 'Id',
 					  	foreignReference: 'Id',
 					  	updateRows: [{
@@ -240,17 +257,17 @@ describe('persistance (create, update, delete)', function() {
 					expect(res.body.data.length).to.equal(1);
 					expect(res.body.data[0].status).to.equal('success');
 					expect(res.body.data[0].action).to.equal('update');
-					expect(res.body.data[0].tableName).to.equal('[dbo].[CONTROLS_NestedForm]');
+					expect(res.body.data[0].tableName).to.equal('[TestSchema].[CONTROLS_NestedForm]');
 					expect(res.body.data[0].fields[1].status).to.equal('success');
 					expect(res.body.data[0].fields[1].action).to.equal('update');
-					expect(res.body.data[0].fields[1].tableName).to.equal('[dbo].[CONTROLS_NestedGrid]');
+					expect(res.body.data[0].fields[1].tableName).to.equal('[TestSchema].[CONTROLS_NestedGrid]');
 					done();
 				});
 	  	});
 
 	  	it('should delete a nested entity (cascade)', function(done) {
 			  var payload = {
-			  	tableName: 'dbo.CONTROLS_NestedForm',
+			  	tableName: 'TestSchema.CONTROLS_NestedForm',
 			  	primaryKey: 'Id',
 			  	identityKey: 'Id',
 			  	deleteRows: [{
@@ -271,7 +288,7 @@ describe('persistance (create, update, delete)', function() {
 					expect(res.body.data.length).to.equal(1);
 					expect(res.body.data[0].status).to.equal('success');
 					expect(res.body.data[0].action).to.equal('delete');
-					expect(res.body.data[0].tableName).to.equal('[dbo].[CONTROLS_NestedForm]');
+					expect(res.body.data[0].tableName).to.equal('[TestSchema].[CONTROLS_NestedForm]');
 					done();
 				});
 	  	});

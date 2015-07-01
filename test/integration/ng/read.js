@@ -1,4 +1,5 @@
-var	config = require('../../../config/panax');
+var PanaxJS = require('panaxjs');
+var	config = require('../../../config/panax.js');
 var	util = require('../../../lib/util');
 var querystring = require("querystring");
 var expect = require('chai').expect;
@@ -10,13 +11,29 @@ describe('read', function() {
 
 	var cookie; // Global session cookie to be passed with each request
 
+	before('mock setup', function(done) {
+		// DDL Isolation
+		var panaxdb = new PanaxJS.Connection(config);
+
+		panaxdb.query(require('fs').readFileSync('test/mocks.clean.sql', 'utf8'), function(err) {
+			if(err) return done(err);
+			panaxdb.query(require('fs').readFileSync('test/mocks.prep.sql', 'utf8'), function(err) {
+				if(err) return done(err);
+				panaxdb.rebuildMetadata(function (err) {
+					if(err) return done(err);
+					done();
+				});
+			});
+		});
+	});
+
 	describe('while logged out', function() {
 
 		it('should fail to read an entity', function(done) {
 			var query = querystring.stringify({
 				gui: 'ng',
 				output: "json",
-				catalogName: "dbo.CONTROLS_Basic"
+				catalogName: "TestSchema.CONTROLS_Basic"
 			});
 
 			api.get('/api/read?' + query)
@@ -34,7 +51,7 @@ describe('read', function() {
 		it('should fail to read options of an entity', function(done) {
 			var query = querystring.stringify({
 				gui: 'ng',
-				catalogName: "CatalogosSistema.Pais"
+				catalogName: "TestSchema.Pais"
 			});
 
 			api.get('/api/options?' + query)
@@ -74,7 +91,7 @@ describe('read', function() {
 			var query = querystring.stringify({
 				gui: 'ng',
 				output: "json",
-				catalogName: "dbo.CONTROLS_Basic",
+				catalogName: "TestSchema.CONTROLS_Basic",
 				controlType: 'gridView',
 				mode: 'readonly'
 			});
@@ -90,10 +107,10 @@ describe('read', function() {
 				expect(res.body.action).to.equal('read');
 				expect(res.body.gui).to.equal('ng');
 				expect(res.body.output).to.equal('json');
-				expect(res.body.data.total).to.be.above(0);
+				expect(res.body.data.total).to.equal('1');
 				expect(res.body.data.model.length).to.be.above(0);
 				expect(res.body.data.catalog.dbId).to.equal(config.db.database);
-				expect(res.body.data.catalog.catalogName).to.equal('dbo.CONTROLS_Basic');
+				expect(res.body.data.catalog.catalogName).to.equal('TestSchema.CONTROLS_Basic');
 				expect(res.body.data.catalog.controlType).to.equal('gridView');
 				expect(res.body.data.catalog.mode).to.equal('readonly');
 				expect(res.body.data.catalog.primaryKey).to.equal('Id');
@@ -106,8 +123,8 @@ describe('read', function() {
 			var query = querystring.stringify({
 				gui: 'ng',
 				output: "json",
-				filters: "'id=191'",
-				catalogName: "dbo.CONTROLS_Basic",
+				filters: "'id=1'",
+				catalogName: "TestSchema.CONTROLS_Basic",
 				controlType: 'formView',
 				mode: 'readonly'
 			});
@@ -126,7 +143,7 @@ describe('read', function() {
 				expect(res.body.data.total).to.equal('1');
 				expect(res.body.data.model.length).to.equal(1);
 				expect(res.body.data.catalog.dbId).to.equal(config.db.database);
-				expect(res.body.data.catalog.catalogName).to.equal('dbo.CONTROLS_Basic');
+				expect(res.body.data.catalog.catalogName).to.equal('TestSchema.CONTROLS_Basic');
 				expect(res.body.data.catalog.controlType).to.equal('formView');
 				expect(res.body.data.catalog.mode).to.equal('readonly');
 				//expect(res.body.data.catalog.primaryKey).to.equal('Id');
@@ -139,7 +156,7 @@ describe('read', function() {
 			var query = querystring.stringify({
 				gui: 'ng',
 				//array: true, // to skip headers
-				catalogName: "CatalogosSistema.Pais",
+				catalogName: "TestSchema.Pais",
 				valueColumn: "Id",
 				textColumn: "Pais"
 			});
