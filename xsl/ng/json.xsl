@@ -92,6 +92,13 @@
 				<!-- <px:layout> + <px:fields> grid.xsl -->
 				"grid": <xsl:apply-templates select="." mode="grid" />
 			</xsl:if>
+			<!--
+					cards
+			-->
+			<xsl:if test="@controlType='cardView'">
+				<!-- <px:layout> + <px:fields> grid.xsl -->
+				"cards": {}
+			</xsl:if>
 			<!-- 
 				angular-formly 
 			-->
