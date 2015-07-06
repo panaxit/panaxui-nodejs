@@ -1,0 +1,7 @@
+{
+  "threshold":     20,
+  "identifiers":   false,
+  "ignore":        "test|spec|public",
+  "reporter":      "default",
+  "suppress":      100
+}
