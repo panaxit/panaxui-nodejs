@@ -34,52 +34,34 @@
 		JSON Grammar helpers
 	-->
 	<xsl:template match="@*" mode="json.pair">
-		<xsl:if test="position()&gt;1">,</xsl:if> "<xsl:value-of disable-output-escaping="yes" select="local-name(.)"/>":<xsl:apply-templates select="." mode="json.string"/>
+		<xsl:if test="position()&gt;1">,</xsl:if> "<xsl:value-of select="local-name(.)"/>":<xsl:apply-templates select="." mode="json.string"/>
 	</xsl:template>
 
 	<xsl:template match="@*" mode="json.string">
-		"<xsl:value-of select="." disable-output-escaping="no"/>"
+		"<xsl:value-of select="."/>"
 	</xsl:template>
 
 	<xsl:template match="@*[string(number(.))='NaN']" mode="json.value">
-		"<xsl:value-of select="." disable-output-escaping="no"/>"
+		"<xsl:value-of select="."/>"
 	</xsl:template>
 
 	<!-- 
 		Root element
 	-->
 	<xsl:template match="/">
-		<xsl:apply-templates select="*" mode="table" />
+		<xsl:apply-templates select="*[@dataType='table'][1]" mode="entity" />
 	</xsl:template>
 
 	<!-- 
 		Table
 	-->
-	<xsl:template match="*[@dataType='table']" mode="table">
+	<xsl:template match="*" mode="entity">
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		{
-			"total": "<xsl:value-of select="@totalRecords"/>",
-			"catalog": {
-				"dbId": "<xsl:value-of select="@dbId"/>",
-				"catalogName": "<xsl:value-of select="@Table_Schema"/>.<xsl:value-of select="@Table_Name"/>",
-				"schemaName": "<xsl:value-of select="@Table_Schema"/>",
-				"tableName": "<xsl:value-of select="@Table_Name"/>",
-				"mode": "<xsl:value-of select="@mode"/>",
-				"controlType": "<xsl:value-of select="@controlType"/>",
-				<xsl:if test="@primaryKey">
-					"primaryKey": "<xsl:value-of select="@primaryKey"/>",
-				</xsl:if>
-				<xsl:if test="@identityKey">
-					"identityKey": "<xsl:value-of select="@identityKey"/>",
-				</xsl:if>
-				"lang": "<xsl:value-of select="@xml:lang"/>"
-			},
-			"metadata": {
-				<xsl:apply-templates 
-					select="@supportsInsert|@supportsUpdate|@supportsDelete|@disableInsert|@disableUpdate|@disableDelete" 
-					mode="json.pair"/>
-			},
-
+			<!--
+				metadata
+			-->
+			<xsl:apply-templates select="." mode="metadata" />,
 			<!--
 					data model
 			-->
@@ -106,6 +88,44 @@
 				<!-- <px:layout> + <px:fields> form.xsl -->
 				"form": <xsl:apply-templates select="." mode="form" />
 			</xsl:if>
+		}
+	</xsl:template>
+
+	<!-- 
+		Catalog Metadata
+	-->
+	<xsl:template match="*" mode="metadata">
+		<xsl:if test="@identityKey">
+			"total": "<xsl:value-of select="@totalRecords"/>",
+		</xsl:if>
+		"catalog": {
+			<!-- Nested tables metadata -->
+			<xsl:for-each select="px:fields/*[@dataType='foreignTable']">
+				"<xsl:value-of select="@foreignTable"/>": { 
+					<xsl:apply-templates select="*" mode="metadata" />
+				},
+			</xsl:for-each>
+			"dbId": "<xsl:value-of select="@dbId"/>",
+			"catalogName": "<xsl:value-of select="@Table_Schema"/>.<xsl:value-of select="@Table_Name"/>",
+			"schemaName": "<xsl:value-of select="@Table_Schema"/>",
+			"tableName": "<xsl:value-of select="@Table_Name"/>",
+			"mode": "<xsl:value-of select="@mode"/>",
+			"controlType": "<xsl:value-of select="@controlType"/>",
+			"lang": "<xsl:value-of select="@xml:lang"/>",
+			<xsl:if test="@primaryKey">
+				"primaryKey": "<xsl:value-of select="@primaryKey"/>",
+			</xsl:if>
+			<xsl:if test="@identityKey">
+				"identityKey": "<xsl:value-of select="@identityKey"/>",
+			</xsl:if>
+			<xsl:if test="@foreignReference">
+				"foreignReference": "<xsl:value-of select="@foreignReference"/>",
+			</xsl:if>
+			"metadata": {
+				<xsl:apply-templates 
+					select="@supportsInsert|@supportsUpdate|@supportsDelete|@disableInsert|@disableUpdate|@disableDelete" 
+					mode="json.pair"/>
+			}
 		}
 	</xsl:template>
 
