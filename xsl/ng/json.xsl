@@ -9,7 +9,7 @@
 	xmlns:msxsl="urn:schemas-microsoft-com:xslt"
 	xmlns:px="urn:panax"
 	xmlns:session="urn:session"
-	xmlns:custom="urn:custom"
+	xmlns:custom="http://www.panaxit.com/custom"
 	xmlns:str="http://exslt.org/strings"
 	xmlns="http://www.w3.org/TR/xhtml1/strict"
 	exclude-result-prefixes="px"
@@ -105,6 +105,12 @@
 					<xsl:apply-templates select="*" mode="metadata" />
 				},
 			</xsl:for-each>
+			<!-- Custom attributes -->
+			<xsl:if test="@*[namespace-uri()='http://www.panaxit.com/custom']">
+				"customAttrs": {
+					<xsl:apply-templates select="@*[namespace-uri()='http://www.panaxit.com/custom']" mode="json.pair"/>
+				},
+			</xsl:if>
 			"dbId": "<xsl:value-of select="@dbId"/>",
 			"catalogName": "<xsl:value-of select="@Table_Schema"/>.<xsl:value-of select="@Table_Name"/>",
 			"schemaName": "<xsl:value-of select="@Table_Schema"/>",
