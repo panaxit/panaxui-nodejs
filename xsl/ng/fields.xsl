@@ -49,9 +49,6 @@
 				<xsl:if	test="@isNullable!='1'">
 					"required": true,
 				</xsl:if>
-				<xsl:if	test="@defaultValue">
-					"defaultValue": "<xsl:value-of select="@defaultValue"/>",
-				</xsl:if>
 				<xsl:if	test="@length">
 					"maxLength": <xsl:value-of select="@length"/>,
 				</xsl:if>
@@ -107,9 +104,6 @@
 					<xsl:if	test="@isNullable!='1'">
 						"required": true,
 					</xsl:if>
-					<xsl:if	test="@defaultValue">
-						"defaultValue": "<xsl:value-of select="@defaultValue"/>",
-					</xsl:if>
 					<xsl:if	test="@length">
 						"maxLength": <xsl:value-of select="@length"/>,
 					</xsl:if>
@@ -147,9 +141,6 @@
 				</xsl:if>
 				<xsl:if	test="@isNullable!='1'">
 					"required": true,
-				</xsl:if>
-				<xsl:if	test="@defaultValue">
-					"defaultValue": "<xsl:value-of select="@defaultValue"/>",
 				</xsl:if>
 				<xsl:if	test="@length">
 					"maxLength": <xsl:value-of select="@length"/>,
