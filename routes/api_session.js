@@ -21,7 +21,7 @@ router.post('/login', function login(req, res, next) {
 
 		var panaxdb = new PanaxJS.Connection(config);
 
-		panaxdb.getVendorInfo(function (err, vendor) {
+		panaxdb.getInfo(function (err, info) {
 			if(err)
 				return next(err);
 
@@ -32,7 +32,8 @@ router.post('/login', function login(req, res, next) {
 				req.session.api_version = '0.0.1'; // ToDo: Centralized version number
 				req.session.db = {
 					server: config.db.server,
-					vendor: vendor.version,
+					vendor: info.vendor_ver,
+					panaxdb: info.panaxdb_ver,
 					version: config.db.version,
 					database: config.db.database,
 					user: config.db.user
