@@ -68,7 +68,7 @@
 			<!-- <px:data> model.xsl -->
 			"model": [ <xsl:apply-templates select="px:data/*" mode="model" /> ],
 			<!--
-					ui-grid
+					px-grid
 			-->
 			<xsl:if test="@controlType='gridView'">
 				<!-- <px:layout> + <px:fields> grid.xsl -->
