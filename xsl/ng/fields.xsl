@@ -163,6 +163,7 @@
 			"className": "<!-- panel panel-default panel-body -->",
 			<!-- "model": "model.<xsl:value-of select="@fieldName"/>", -->
 			"key": "<xsl:value-of select="@fieldName"/>",
+			<!-- Pending: templateOptions: { form: ..., METADATA... } -->
 			"fieldGroup": [
 				<xsl:apply-templates select="*[1]/px:layout/*" mode="fields" />
 			]
@@ -181,6 +182,8 @@
 				<xsl:if test="@controlType='default' or @controlType='gridView'">
 					<!-- Copycat from json.xsl -->
 					"grid": <xsl:apply-templates select="*" mode="grid" />,
+					<!-- METADATA: Moved from entity catalog, to support formly nested scope -->
+					<xsl:apply-templates select="*" mode="metadata" />,
 				</xsl:if>
 				"label": "<xsl:value-of select="@headerText"/>",
 				"placeholder": ""

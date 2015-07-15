@@ -99,12 +99,12 @@
 			"total": "<xsl:value-of select="@totalRecords"/>",
 		</xsl:if>
 		"catalog": {
-			<!-- Nested tables metadata -->
-			<xsl:for-each select="px:fields/*[@dataType='foreignTable']">
+			<!-- Nested tables metadata ::: MOVED TO fields.xsl > templateOptions (foreignTable)-->
+			<!-- <xsl:for-each select="px:fields/*[@dataType='foreignTable']">
 				"<xsl:value-of select="@foreignTable"/>": { 
 					<xsl:apply-templates select="*" mode="metadata" />
 				},
-			</xsl:for-each>
+			</xsl:for-each> -->
 			<!-- Custom attributes -->
 			<xsl:if test="@*[namespace-uri()='http://www.panaxit.com/custom']">
 				"customAttrs": {
