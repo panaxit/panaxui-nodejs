@@ -178,7 +178,8 @@
 		{
 			"key": "<xsl:value-of select="@fieldName"/>",
 			"type": "<xsl:apply-templates select="." mode="fields.type" />",
-			"templateOptions": {
+			"templateOptions": {},
+			"data": {
 				<xsl:if test="@controlType='default' or @controlType='gridView'">
 					<!-- Copycat from json.xsl -->
 					"grid": <xsl:apply-templates select="*" mode="grid" />,
