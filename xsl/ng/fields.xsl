@@ -178,16 +178,17 @@
 		{
 			"key": "<xsl:value-of select="@fieldName"/>",
 			"type": "<xsl:apply-templates select="." mode="fields.type" />",
-			"templateOptions": {},
+			"templateOptions": {
+				"label": "<xsl:value-of select="@headerText"/>",
+				"placeholder": ""
+			},
 			"data": {
 				<xsl:if test="@controlType='default' or @controlType='gridView'">
 					<!-- Copycat from json.xsl -->
 					"grid": <xsl:apply-templates select="*" mode="grid" />,
 					<!-- METADATA: Moved from entity catalog, to support formly nested scope -->
-					<xsl:apply-templates select="*" mode="metadata" />,
+					<xsl:apply-templates select="*" mode="metadata" />
 				</xsl:if>
-				"label": "<xsl:value-of select="@headerText"/>",
-				"placeholder": ""
 			}
 		}
 	</xsl:template>
