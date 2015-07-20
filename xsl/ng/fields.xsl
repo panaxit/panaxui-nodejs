@@ -163,7 +163,12 @@
 			"className": "<!-- panel panel-default panel-body -->",
 			<!-- "model": "model.<xsl:value-of select="@fieldName"/>", -->
 			"key": "<xsl:value-of select="@fieldName"/>",
-			<!-- Pending: templateOptions: { form: ..., METADATA... } -->
+			"data": {
+				<!-- Pending: form: ... -->
+				<xsl:if test="@controlType='default' or @controlType='gridView'">
+					<xsl:apply-templates select="*[1]" mode="metadata" />
+				</xsl:if>
+			},
 			"fieldGroup": [
 				<xsl:apply-templates select="*[1]/px:layout/*" mode="fields" />
 			]
