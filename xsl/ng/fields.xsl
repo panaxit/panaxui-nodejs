@@ -156,22 +156,19 @@
 	-->
 
 	<xsl:template match="*[@dataType='foreignTable' and @relationshipType='hasOne']" mode="fields.field">
-    {
-      "template": "<strong><xsl:value-of select="@headerText"/></strong>"
-    },
 		{
-			"className": "<!-- panel panel-default panel-body -->",
-			<!-- "model": "model.<xsl:value-of select="@fieldName"/>", -->
 			"key": "<xsl:value-of select="@fieldName"/>",
-			"data": {
-				<!-- Pending: form: ... -->
-				<xsl:if test="@controlType='default' or @controlType='gridView'">
-					<xsl:apply-templates select="*[1]" mode="metadata" />
-				</xsl:if>
+			"type": "<xsl:apply-templates select="." mode="fields.type" />",
+			"templateOptions": {
+				"label": "<xsl:value-of select="@headerText"/>",
+				"placeholder": ""
 			},
-			"fieldGroup": [
-				<xsl:apply-templates select="*[1]/px:layout/*" mode="fields" />
-			]
+			"data": {
+				<xsl:if test="@controlType='default' or @controlType='formView'">
+					"fields": <xsl:apply-templates select="*" mode="form" />,
+				</xsl:if>
+				<xsl:apply-templates select="*[1]" mode="metadata" />
+			}
 		}
 	</xsl:template>
 
@@ -189,11 +186,9 @@
 			},
 			"data": {
 				<xsl:if test="@controlType='default' or @controlType='gridView'">
-					<!-- Copycat from json.xsl -->
 					"grid": <xsl:apply-templates select="*" mode="grid" />,
-					<!-- METADATA: Moved from entity catalog, to support formly nested scope -->
-					<xsl:apply-templates select="*" mode="metadata" />
 				</xsl:if>
+				<xsl:apply-templates select="*" mode="metadata" />
 			}
 		}
 	</xsl:template>

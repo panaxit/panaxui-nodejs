@@ -130,6 +130,15 @@
 		<xsl:text>async_select</xsl:text>
 	</xsl:template>
 
+	<!-- px-form -->
+	<xsl:template mode="fields.type" match="*[ 
+		(@controlType='default') and
+		(@dataType='foreignTable') and
+		(@relationshipType='hasOne')
+		]">
+		<xsl:text>px-form</xsl:text>
+	</xsl:template>
+
 	<!-- px-grid -->
 	<xsl:template mode="fields.type" match="*[ 
 		(@controlType='default') and
