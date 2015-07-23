@@ -58,12 +58,6 @@
 		+ 
 		cascaded
 	 -->	
-	 <!-- 
-	 	ToDo: REFACTOR: 
-	 	Remove use of $data here 
-	 	and in fields.xsl 
-	 	from keys.xsl 
-	 -->
  	<xsl:template match="*" mode="fields.options.async_select">
 		<xsl:param name="data" />
 		"options": [],

@@ -32,6 +32,12 @@
 		}
 	</xsl:template>
 
+	<!-- ToDo: -->
+	<!-- 
+		@fieldContainer (fieldGroup)
+		.orentation = horizontal 
+	-->
+
 	<!-- 
 		TabPanels -> Tabs 
 	-->
@@ -54,11 +60,5 @@
 			<xsl:apply-templates select="." mode="fields" />
 		}
 	</xsl:template>
-
-	<!-- ToDo: -->
-	<!-- 
-		@fieldContainer (fieldGroup)
-		.orentation = horizontal 
-	-->
 
 </xsl:stylesheet>
