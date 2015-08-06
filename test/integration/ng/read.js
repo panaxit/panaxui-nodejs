@@ -93,7 +93,9 @@ describe('read', function() {
 				output: "json",
 				catalogName: "TestSchema.CONTROLS_Basic",
 				controlType: 'gridView',
-				mode: 'readonly'
+				mode: 'readonly',
+				pageSize: '5',
+				pageIndex: '9'
 			});
 
 			api.get('/api/read?' + query)
@@ -107,8 +109,8 @@ describe('read', function() {
 				expect(res.body.action).to.equal('read');
 				expect(res.body.gui).to.equal('ng');
 				expect(res.body.output).to.equal('json');
-				expect(res.body.data.total).to.equal('1');
-				expect(res.body.data.model.length).to.be.above(0);
+				expect(res.body.data.total).to.equal('42');
+				expect(res.body.data.model.length).to.equal(42-(5*(Math.floor((42/5))))); // totalRecords-(pageSize*(Math.floor((total/pageSize))))
 				expect(res.body.data.catalog.dbId).to.equal(config.db.database);
 				expect(res.body.data.catalog.catalogName).to.equal('TestSchema.CONTROLS_Basic');
 				expect(res.body.data.catalog.controlType).to.equal('gridView');
@@ -139,8 +141,8 @@ describe('read', function() {
 				expect(res.body.action).to.equal('read');
 				expect(res.body.gui).to.equal('ng');
 				expect(res.body.output).to.equal('json');
-				expect(res.body.data.total).to.equal('1');
-				expect(res.body.data.model.length).to.be.above(0);
+				expect(res.body.data.total).to.equal('42');
+				expect(res.body.data.model.length).to.equal(42);
 				expect(res.body.data.catalog.dbId).to.equal(config.db.database);
 				expect(res.body.data.catalog.catalogName).to.equal('TestSchema.CONTROLS_Basic');
 				expect(res.body.data.catalog.controlType).to.equal('cardView');

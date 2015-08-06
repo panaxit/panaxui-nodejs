@@ -113,6 +113,13 @@ GO
 EXEC sys.sp_addextendedproperty @name=N'[CONTROLS_Grid]scaffold', @value=N'true' , @level0type=N'SCHEMA',@level0name=N'TestSchema', @level1type=N'TABLE',@level1name=N'CONTROLS_NestedGrid'
 GO
 
-
-INSERT INTO [TestSchema].[CONTROLS_Basic] (ShortTextField, IntegerReq) VALUES ('A Test', 1)
+/* Mock Data Loading  */
 INSERT INTO [TestSchema].[Pais] (Id, Pais) VALUES ('MX', 'Mexico')
+
+DECLARE @cnt INT = 0;
+WHILE @cnt < 42
+BEGIN
+	INSERT INTO [TestSchema].[CONTROLS_Basic] (ShortTextField, IntegerReq) 
+	VALUES ('A Test '+CAST(@cnt AS VARCHAR), @cnt);
+	SET @cnt = @cnt + 1;
+END;
