@@ -5,6 +5,7 @@ var PanaxJS = require('panaxjs');
 var config = require('../config/panax.js');
 
 var fs = require('fs');
+var entities = require("entities");
 var pate = require('node-pate');
 var formatter = require('../lib/format');
 var util = require('../lib/util.js');
@@ -40,6 +41,8 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 	panaxdb.setParam('getData', (req.query.getData || '1'));
 	panaxdb.setParam('getStructure', (req.query.getStructure || '0'));
 	panaxdb.setParam('lang', (req.session.lang || 'DEFAULT'));
+	if(req.query.filters)
+		panaxdb.setParam('filters', entities.decodeXML(req.query.filters));
 
 	panaxdb.read(function (err, xml) {
 		if(err)
