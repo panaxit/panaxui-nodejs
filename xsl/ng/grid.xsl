@@ -5,7 +5,7 @@
 	>
 
 	<!-- 
-		Grid column includes
+		Grid includes
 	-->
 	<xsl:include href="grid.column.type.xsl" />
 
@@ -14,6 +14,15 @@
 	-->
 
 	<xsl:template match="*" mode="grid">
+		{
+			<xsl:if test="@totalRecords">
+				"totalItems": <xsl:value-of select="@totalRecords"/>,
+			</xsl:if>
+			"columnDefs": <xsl:apply-templates select="." mode="grid.columnDefs" />
+		}
+	</xsl:template>
+
+	<xsl:template match="*" mode="grid.columnDefs">
 		[
 			<xsl:apply-templates select="px:layout//px:field" mode="grid.column" />
 		]
