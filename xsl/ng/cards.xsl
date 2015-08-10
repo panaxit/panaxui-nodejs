@@ -10,9 +10,6 @@
 
 	<xsl:template match="*" mode="cards">
 		{
-			<xsl:if test="@totalRecords">
-				"totalItems": <xsl:value-of select="@totalRecords"/>
-			</xsl:if>
 		}
 	</xsl:template>
 

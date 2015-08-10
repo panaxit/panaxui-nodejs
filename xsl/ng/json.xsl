@@ -96,10 +96,10 @@
 		Catalog Metadata
 	-->
 	<xsl:template match="*" mode="metadata">
-		<xsl:if test="@identityKey">
-			"total": "<xsl:value-of select="@totalRecords"/>",
-		</xsl:if>
 		"catalog": {
+			<xsl:if test="@totalRecords">
+				"totalItems": <xsl:value-of select="@totalRecords"/>,
+			</xsl:if>
 			<!-- Nested tables metadata ::: MOVED TO fields.xsl > templateOptions (foreignTable)-->
 			<!-- <xsl:for-each select="px:fields/*[@dataType='foreignTable']">
 				"<xsl:value-of select="@foreignTable"/>": { 
