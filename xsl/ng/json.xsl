@@ -23,6 +23,7 @@
 	<xsl:include href="xsl/ng/model.xsl" />	
 	<xsl:include href="xsl/ng/grid.xsl" />
 	<xsl:include href="xsl/ng/form.xsl" />
+	<xsl:include href="xsl/ng/cards.xsl" />
 
 	<!-- 
 		Output settings
@@ -78,8 +79,8 @@
 					cards
 			-->
 			<xsl:if test="@controlType='cardView'">
-				<!-- <px:layout> + <px:fields> grid.xsl -->
-				"cards": {}
+				<!-- <px:layout> + <px:fields> cards.xsl -->
+				"cards": <xsl:apply-templates select="." mode="cards" />
 			</xsl:if>
 			<!-- 
 				angular-formly 
