@@ -96,7 +96,8 @@ router.get('/sitemap', auth.requiredAuth, function sitemap(req, res, next) {
 				} catch (e) {
 					return next({
 						message: '[Server Exception] ' + e.name + ': ' + e.message,
-						stack: e.stack
+						stack: e.stack,
+						result: result.replace(/\n/g, '').replace(/\t/g, '')
 					});
 				}
 			});
