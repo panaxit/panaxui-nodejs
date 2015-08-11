@@ -14,7 +14,7 @@
 	</xsl:template>
 	
 	<xsl:template match="@*" mode="mapSite">, "<xsl:value-of select="name(.)"/>":<xsl:value-of select="."/></xsl:template>
-	
+
 	<xsl:template match="@*" mode="mapSite.string"><xsl:if test="position()&gt;1">,</xsl:if> "<xsl:value-of select="name(.)"/>":"<xsl:value-of select="."/>"</xsl:template>
 	
 	<xsl:template match="sitemap:*">
@@ -24,7 +24,10 @@
 		<xsl:apply-templates select="@expanded|@expandable" mode="mapSite" />
 		
 		,"data": {
-				<xsl:apply-templates select="@catalogName|@mode|@url|@pageSize|@description|@controlType|@mode|@pk|@icon|@iconCls|@id|@filters" mode="mapSite.string" />
+				<xsl:apply-templates select="@catalogName|@mode|@url|@description|@controlType|@mode|@pk|@icon|@iconCls|@id|@filters" mode="mapSite.string" />
+				<xsl:if test="@pageSize">
+					<xsl:apply-templates select="@pageSize" mode="mapSite" />
+				</xsl:if>
 		}
 		
 		<xsl:choose>
