@@ -24,7 +24,7 @@
 		<xsl:apply-templates select="@expanded|@expandable" mode="mapSite" />
 		
 		,"data": {
-				<xsl:apply-templates select="@catalogName|@mode|@url|@description|@controlType|@mode|@pk|@icon|@iconCls|@id|@filters" mode="mapSite.string" />
+				<xsl:apply-templates select="@catalogName|@mode|@url|@description|@controlType|@mode|@icon|@iconCls|@primaryKey|@identityKey|@id|@filters" mode="mapSite.string" />
 				<xsl:if test="@pageSize">
 					<xsl:apply-templates select="@pageSize" mode="mapSite" />
 				</xsl:if>
