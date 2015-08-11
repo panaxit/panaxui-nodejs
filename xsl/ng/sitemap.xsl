@@ -28,6 +28,9 @@
 				<xsl:if test="@pageSize">
 					<xsl:apply-templates select="@pageSize" mode="mapSite" />
 				</xsl:if>
+				<xsl:if test="@pageIndex">
+					<xsl:apply-templates select="@pageIndex" mode="mapSite" />
+				</xsl:if>
 		}
 		
 		<xsl:choose>
