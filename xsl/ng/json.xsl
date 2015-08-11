@@ -97,21 +97,13 @@
 	-->
 	<xsl:template match="*" mode="metadata">
 		"catalog": {
-			<xsl:if test="@totalRecords">
-				"totalItems": <xsl:value-of select="@totalRecords"/>,
-			</xsl:if>
-			<!-- Nested tables metadata ::: MOVED TO fields.xsl > templateOptions (foreignTable)-->
-			<!-- <xsl:for-each select="px:fields/*[@dataType='foreignTable']">
-				"<xsl:value-of select="@foreignTable"/>": { 
-					<xsl:apply-templates select="*" mode="metadata" />
-				},
-			</xsl:for-each> -->
 			<!-- Custom attributes -->
 			<xsl:if test="@*[namespace-uri()='http://www.panaxit.com/custom']">
 				"customAttrs": {
 					<xsl:apply-templates select="@*[namespace-uri()='http://www.panaxit.com/custom']" mode="json.pair"/>
 				},
 			</xsl:if>
+			<!-- Catalog Attributes -->
 			"dbId": "<xsl:value-of select="@dbId"/>",
 			"catalogName": "<xsl:value-of select="@Table_Schema"/>.<xsl:value-of select="@Table_Name"/>",
 			"schemaName": "<xsl:value-of select="@Table_Schema"/>",
@@ -128,6 +120,17 @@
 			<xsl:if test="@foreignReference">
 				"foreignReference": "<xsl:value-of select="@foreignReference"/>",
 			</xsl:if>
+			<!-- Pagination Attributes -->
+			<xsl:if test="@totalRecords">
+				"totalItems": <xsl:value-of select="@totalRecords"/>,
+			</xsl:if>
+			<xsl:if test="@pageSize">
+				"pageSize": <xsl:value-of select="@pageSize"/>,
+			</xsl:if>
+			<xsl:if test="@pageIndex">
+				"pageIndex": <xsl:value-of select="@pageIndex"/>,
+			</xsl:if>
+			<!-- Data Access Metadata Attributes -->
 			"metadata": {
 				<xsl:apply-templates 
 					select="@supportsInsert|@supportsUpdate|@supportsDelete|@disableInsert|@disableUpdate|@disableDelete" 
