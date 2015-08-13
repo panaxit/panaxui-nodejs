@@ -64,7 +64,7 @@
 					<xsl:when test="@controlType='formView' and @mode!='filters'">
 						, "iconCls": "navigation-tabs"
 					</xsl:when>
-					<xsl:when test="@controlType='cardView'">
+					<xsl:when test="@controlType='cardsView'">
 						, "iconCls": "dataview-multisort"
 					</xsl:when>
 					<xsl:otherwise>

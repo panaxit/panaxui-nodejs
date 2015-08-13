@@ -121,12 +121,12 @@ describe('read', function() {
 			});
 		});
 
-		it('should read cardView/readonly', function(done) {
+		it('should read cardsView/readonly', function(done) {
 			var query = querystring.stringify({
 				gui: 'ng',
 				output: "json",
 				catalogName: "TestSchema.CONTROLS_Basic",
-				controlType: 'cardView',
+				controlType: 'cardsView',
 				mode: 'readonly'
 			});
 
@@ -145,7 +145,7 @@ describe('read', function() {
 				expect(res.body.data.catalog.totalItems).to.equal(42);
 				expect(res.body.data.catalog.dbId).to.equal(config.db.database);
 				expect(res.body.data.catalog.catalogName).to.equal('TestSchema.CONTROLS_Basic');
-				expect(res.body.data.catalog.controlType).to.equal('cardView');
+				expect(res.body.data.catalog.controlType).to.equal('cardsView');
 				expect(res.body.data.catalog.mode).to.equal('readonly');
 				expect(res.body.data.catalog.primaryKey).to.equal('Id');
 				expect(res.body.data.catalog.identityKey).to.equal('Id');

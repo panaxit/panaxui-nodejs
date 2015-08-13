@@ -78,7 +78,7 @@
 			<!--
 					cards
 			-->
-			<xsl:if test="@controlType='cardView'">
+			<xsl:if test="@controlType='cardsView'">
 				<!-- <px:layout> + <px:fields> cards.xsl -->
 				"cards": <xsl:apply-templates select="." mode="cards" />
 			</xsl:if>
