@@ -44,7 +44,7 @@ describe("XSLT", function() {
 					stylesheet.apply(xml, function (err, result) {
 						expect(err).toBeFalsy();
 						if(!err) {
-							expect(util.sanitizeJSONString(result)).toEqual(json_result);
+							expect(util.sanitizeJSONString(result)).toEqual(util.sanitizeJSONString(json_result));
 						}
 						done();
 					});
