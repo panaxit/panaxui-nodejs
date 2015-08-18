@@ -141,7 +141,7 @@
 
 	<!-- px-grid -->
 	<xsl:template mode="fields.type" match="*[ 
-		(@controlType='default') and
+		(@controlType='default' or @controlType='gridView') and
 		(@dataType='foreignTable') and
 		(@relationshipType='hasMany')
 		]">
