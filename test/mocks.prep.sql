@@ -37,9 +37,7 @@ CREATE TABLE [TestSchema].[CONTROLS_Basic](
 	[Boolean] [bit] NULL,
 	[Money] [money] NULL,
 	[Timestamp] [timestamp] NULL,
-	[Date] [date] NULL,
 	[Datetime] [datetime] NULL,
-	[Time] [time](7) NULL,
 	[LongText] [text] NULL CONSTRAINT [DF_CONTROLS_Basic_LongText]  DEFAULT ('default loooong text'),
  CONSTRAINT [PK_CONTROLS_Basic] PRIMARY KEY CLUSTERED 
 (
@@ -116,7 +114,8 @@ GO
 /* Mock Data Loading  */
 INSERT INTO [TestSchema].[Pais] (Id, Pais) VALUES ('MX', 'Mexico')
 
-DECLARE @cnt INT = 0;
+DECLARE @cnt INT;
+SET @cnt = 0;
 WHILE @cnt < 42
 BEGIN
 	INSERT INTO [TestSchema].[CONTROLS_Basic] (ShortTextField, IntegerReq) 
