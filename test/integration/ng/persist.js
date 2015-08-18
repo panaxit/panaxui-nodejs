@@ -79,8 +79,8 @@ describe('persistance (create, update, delete)', function() {
 					  "Combobox": "MX",
 					  "RadioGroup": "1",
 					  "Boolean": true,
-					  "Money": null,
-					  "Date": "2014-04-25 00:00:00"
+					  "Money": null
+					  //"Date": "2014-04-25 00:00:00"
 					}, {
 				  	//"Id": 'NULL',
 				  	//"Id": 'NULL',
