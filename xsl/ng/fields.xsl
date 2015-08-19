@@ -188,6 +188,9 @@
 				<xsl:if test="@controlType='default' or @controlType='gridView'">
 					"grid": <xsl:apply-templates select="*" mode="grid" />,
 				</xsl:if>
+				<xsl:if test="@controlType='formView'">
+					"fields": <xsl:apply-templates select="*" mode="form" />,
+				</xsl:if>
 				<xsl:apply-templates select="*" mode="metadata" />
 			}
 		}

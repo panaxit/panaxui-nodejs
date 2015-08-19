@@ -132,9 +132,9 @@
 
 	<!-- px-form -->
 	<xsl:template mode="fields.type" match="*[ 
-		(@controlType='default') and
+		(@controlType='default' or @controlType='formView') and
 		(@dataType='foreignTable') and
-		(@relationshipType='hasOne')
+		(@relationshipType='hasOne' or @relationshipType='hasMany')
 		]">
 		<xsl:text>px-form</xsl:text>
 	</xsl:template>
