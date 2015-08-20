@@ -191,6 +191,9 @@
 				<xsl:if test="@controlType='formView'">
 					"fields": <xsl:apply-templates select="*" mode="form" />,
 				</xsl:if>
+				<xsl:if test="@controlType='cardsView'">
+					"cards": <xsl:apply-templates select="*" mode="cards" />,
+				</xsl:if>
 				<xsl:apply-templates select="*" mode="metadata" />
 			}
 		}

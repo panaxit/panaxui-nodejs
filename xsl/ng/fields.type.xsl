@@ -132,7 +132,7 @@
 
 	<!-- px-form -->
 	<xsl:template mode="fields.type" match="*[ 
-		(@controlType='default' or @controlType='formView') and
+		(@controlType='formView') and
 		(@dataType='foreignTable') and
 		(@relationshipType='hasOne' or @relationshipType='hasMany')
 		]">
@@ -146,6 +146,15 @@
 		(@relationshipType='hasMany')
 		]">
 		<xsl:text>px-grid</xsl:text>
+	</xsl:template>
+
+	<!-- px-cards -->
+	<xsl:template mode="fields.type" match="*[ 
+		(@controlType='cardsView') and
+		(@dataType='foreignTable') and
+		(@relationshipType='hasMany')
+		]">
+		<xsl:text>px-cards</xsl:text>
 	</xsl:template>
 
 	<!-- 
