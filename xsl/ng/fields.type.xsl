@@ -130,31 +130,44 @@
 		<xsl:text>async_select</xsl:text>
 	</xsl:template>
 
-	<!-- px-form -->
-	<xsl:template mode="fields.type" match="*[ 
-		(@controlType='formView') and
-		(@dataType='foreignTable') and
-		(@relationshipType='hasOne' or @relationshipType='hasMany')
-		]">
-		<xsl:text>px-form</xsl:text>
+	<!--
+		nested hasOne foreignTable
+			px-form
+	-->
+
+	<xsl:template mode="fields.type" match="*[@relationshipType='hasOne' and @dataType='foreignTable']">
+		<xsl:choose>
+			<xsl:when test="@controlType='default'">
+				<xsl:text>px-form</xsl:text>
+			</xsl:when>
+			<xsl:when test="@controlType='formView'">
+				<xsl:text>px-form</xsl:text>
+			</xsl:when>
+		</xsl:choose>
 	</xsl:template>
 
-	<!-- px-grid -->
-	<xsl:template mode="fields.type" match="*[ 
-		(@controlType='default' or @controlType='gridView') and
-		(@dataType='foreignTable') and
-		(@relationshipType='hasMany')
-		]">
-		<xsl:text>px-grid</xsl:text>
-	</xsl:template>
+	<!--
+		nested hasMany foreignTable
+			px-grid
+			px-cards
+			px-form
+	-->
 
-	<!-- px-cards -->
-	<xsl:template mode="fields.type" match="*[ 
-		(@controlType='cardsView') and
-		(@dataType='foreignTable') and
-		(@relationshipType='hasMany')
-		]">
-		<xsl:text>px-cards</xsl:text>
+	<xsl:template mode="fields.type" match="*[@relationshipType='hasMany' and @dataType='foreignTable']">
+		<xsl:choose>
+			<xsl:when test="@controlType='default'">
+				<xsl:text>px-grid</xsl:text>
+			</xsl:when>
+			<xsl:when test="@controlType='gridView'">
+				<xsl:text>px-grid</xsl:text>
+			</xsl:when>
+			<xsl:when test="@controlType='cardsView'">
+				<xsl:text>px-cards</xsl:text>
+			</xsl:when>
+			<xsl:when test="@controlType='formView'">
+				<xsl:text>px-form</xsl:text>
+			</xsl:when>
+		</xsl:choose>
 	</xsl:template>
 
 	<!-- 
