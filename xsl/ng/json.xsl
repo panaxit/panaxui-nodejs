@@ -87,7 +87,7 @@
 			-->
 			<xsl:if test="@controlType='formView'">
 				<!-- <px:layout> + <px:fields> form.xsl -->
-				"fields": <xsl:apply-templates select="." mode="form" />
+				"fields": [ <xsl:apply-templates select="." mode="forms" /> ]
 			</xsl:if>
 		}
 	</xsl:template>

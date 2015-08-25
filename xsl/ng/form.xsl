@@ -13,6 +13,24 @@
 		Form (px:layout)
 	-->
 
+	<xsl:template match="*" mode="forms">
+		<xsl:call-template name="forms_loop" />
+	</xsl:template>
+
+	<xsl:template name="forms_loop">
+		<xsl:param name="index" select="1" />
+		<xsl:param name="total" select="count(px:data/*)" />
+
+		<xsl:if test="$index&gt;1">,</xsl:if>
+		<xsl:apply-templates select="." mode="form" />
+
+    <xsl:if test="not($index = $total)">
+        <xsl:call-template name="forms_loop">
+            <xsl:with-param name="index" select="$index + 1" />
+        </xsl:call-template>
+    </xsl:if>
+	</xsl:template>
+
 	<xsl:template match="*" mode="form">
 		[
 			<xsl:if test="px:layout/px:tabPanel">
