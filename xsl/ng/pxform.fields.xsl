@@ -9,8 +9,8 @@
 	<!-- 
 		Fields includes
 	-->
-	<xsl:include href="fields.type.xsl" />
-	<xsl:include href="fields.options.xsl" />
+	<xsl:include href="pxform.fields.type.xsl" />
+	<xsl:include href="pxform.fields.options.xsl" />
 
 	<!-- 
 		Fields (px:layout + px:fields)
@@ -190,13 +190,13 @@
 			},
 			"data": {
 				<xsl:if test="@controlType='default' or @controlType='gridView'">
-					"grid": <xsl:apply-templates select="*" mode="grid" />,
+					"fields": <xsl:apply-templates select="*" mode="pxgrid" />,
 				</xsl:if>
 				<xsl:if test="@controlType='formView'">
-					"fields": [ <xsl:apply-templates select="*" mode="form" /> ],
+					"fields": [ <xsl:apply-templates select="*" mode="pxform" /> ],
 				</xsl:if>
 				<xsl:if test="@controlType='cardsView'">
-					"cards": <xsl:apply-templates select="*" mode="cards" />,
+					"fields": <xsl:apply-templates select="*" mode="pxcards" />,
 				</xsl:if>
 				<xsl:apply-templates select="*" mode="metadata" />
 			}

@@ -21,9 +21,9 @@
 	<xsl:import href="xsl/ng/global_variables.xsl" />
 	<xsl:import href="xsl/ng/keys.xsl" />
 	<xsl:include href="xsl/ng/model.xsl" />	
-	<xsl:include href="xsl/ng/grid.xsl" />
-	<xsl:include href="xsl/ng/form.xsl" />
-	<xsl:include href="xsl/ng/cards.xsl" />
+	<xsl:include href="xsl/ng/pxgrid.xsl" />
+	<xsl:include href="xsl/ng/pxform.xsl" />
+	<xsl:include href="xsl/ng/pxcards.xsl" />
 
 	<!-- 
 		Output settings
@@ -60,35 +60,40 @@
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		{
 			<!--
-				metadata
+				catalog (entity) metadata
 			-->
 			<xsl:apply-templates select="." mode="metadata" />,
+
 			<!--
 					data model
+					<px:data>
 			-->
-			<!-- <px:data> model.xsl -->
 			"model": [ <xsl:apply-templates select="px:data/*" mode="model" /> ],
+
 			<!--
-					px-grid
+					fields
+					<px:fields> + <px:layout>
 			-->
-			<xsl:if test="@controlType='gridView'">
-				<!-- <px:layout> + <px:fields> grid.xsl -->
-				"grid": <xsl:apply-templates select="." mode="grid" />
-			</xsl:if>
-			<!--
-					cards
-			-->
-			<xsl:if test="@controlType='cardsView'">
-				<!-- <px:layout> + <px:fields> cards.xsl -->
-				"cards": <xsl:apply-templates select="." mode="cards" />
-			</xsl:if>
-			<!-- 
-				angular-formly 
-			-->
-			<xsl:if test="@controlType='formView'">
-				<!-- <px:layout> + <px:fields> form.xsl -->
-				"fields": [ <xsl:apply-templates select="." mode="forms" /> ]
-			</xsl:if>
+			<xsl:choose>
+				<!--
+						pxgrid.xsl
+				-->
+				<xsl:when test="@controlType='gridView'">
+					"fields": <xsl:apply-templates select="." mode="pxgrid" />
+				</xsl:when>
+				<!--
+						pxcards.xsl
+				-->
+				<xsl:when test="@controlType='cardsView'">
+					"fields": <xsl:apply-templates select="." mode="pxcards" />
+				</xsl:when>
+				<!-- 
+						pxform.xsl 
+				-->
+				<xsl:when test="@controlType='formView'">
+					"fields": [ <xsl:apply-templates select="." mode="pxform" /> ]
+				</xsl:when>
+			</xsl:choose>
 		}
 	</xsl:template>
 

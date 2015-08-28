@@ -5,10 +5,10 @@
 	>
 
 	<!-- 
-		Cards
+		PxCards
 	-->
 
-	<xsl:template match="*" mode="cards">
+	<xsl:template match="*" mode="pxcards">
 		{
 		}
 	</xsl:template>

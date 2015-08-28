@@ -7,13 +7,13 @@
 	<!-- 
 		Form includes
 	-->
-	<xsl:include href="fields.xsl" />
+	<xsl:include href="pxform.fields.xsl" />
 
 	<!-- 
 		Form (px:layout)
 	-->
 
-	<xsl:template match="*" mode="forms">
+	<xsl:template match="*" mode="pxform">
 		<xsl:call-template name="forms_loop" />
 	</xsl:template>
 

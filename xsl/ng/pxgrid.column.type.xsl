@@ -10,14 +10,14 @@
 	-->
 
 	<!-- object -->
-	<xsl:template mode="grid.column.type" match="*[ 
+	<xsl:template mode="pxgrid.column.type" match="*[ 
 		(@controlType='default')
 		]">
 		<xsl:text>object</xsl:text>
 	</xsl:template>
 
 	<!-- string  -->
-	<xsl:template mode="grid.column.type" match="*[ 
+	<xsl:template mode="pxgrid.column.type" match="*[ 
 		(@controlType='default' or @controlType='email') and 
 		(@dataType='varchar' or @dataType='nvarchar' or @dataType='nchar' or @dataType='char' or 
 		@dataType='text')
@@ -26,7 +26,7 @@
 	</xsl:template>
 
 	<!-- number -->
-	<xsl:template mode="grid.column.type" match="*[ 
+	<xsl:template mode="pxgrid.column.type" match="*[ 
 		(@controlType='default') and
 		(@dataType='int' or @dataType='tinyint' or @dataType='money' or @dataType='float') 
 		]">
@@ -34,7 +34,7 @@
 	</xsl:template>
 
 	<!-- boolean -->
-	<xsl:template mode="grid.column.type" match="*[ 
+	<xsl:template mode="pxgrid.column.type" match="*[ 
 		(@controlType='default') and
 		(@dataType='bit') 
 		]">
@@ -42,7 +42,7 @@
 	</xsl:template>
 
 	<!-- date -->
-	<xsl:template mode="grid.column.type" match="*[ 
+	<xsl:template mode="pxgrid.column.type" match="*[ 
 		(@controlType='default') and
 		(@dataType='date') 
 		]">
