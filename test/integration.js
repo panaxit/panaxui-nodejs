@@ -27,5 +27,6 @@ describe('Integration tests: Using mocks', function() {
 
 	require('./integration/ng/read');
 	require('./integration/ng/persist');
+	require('./integration/ng/tools');
 
 });
