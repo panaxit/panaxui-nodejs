@@ -6,7 +6,7 @@ var supertest = require('supertest');
 //var api = supertest(require('../../../'));
 var api = supertest('http://' + config.ui.hostname + ':' + config.ui.port);
 
-describe.skip('tools (filters, ...)', function() {
+describe('tools (filters, ...)', function() {
 
 	var cookie; // Global session cookie to be passed with each request
 
@@ -36,7 +36,6 @@ describe.skip('tools (filters, ...)', function() {
 		it('should return correct filters', function(done) {
 		  var payload = {
 		  	tableName: 'TestSchema.CONTROLS_Basic',
-		  	identityKey: 'Id',
 		  	dataRows: [{
 				  "ShortTextField": "Juan",
 				  "IntegerReq": 10,
@@ -53,7 +52,8 @@ describe.skip('tools (filters, ...)', function() {
 			.end(function(err, res) {
 				if (err) return done(err);
 				expect(res.body.success).to.be.true;
-				expect(res.body.action).to.equal('ShortTextField = \'Juan\' AND IntegerReq = 10 AND Float = 40.0');
+				expect(res.body.action).to.equal('filters');
+				expect(res.body.data).to.equal('ShortTextField = \'Juan\' AND IntegerReq = 10 AND Float = 40');
 				done();
 			});
 		});
