@@ -43,7 +43,6 @@ router.post('/', auth.requiredAuth, function read(req, res, next) {
 			panaxdb.filters(result, function (err, filters) {
 				if(err)
 					return next(err);
-				console.log(filters)
 
 				res.json({
 					success: true,
