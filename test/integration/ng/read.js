@@ -1,4 +1,3 @@
-var PanaxJS = require('panaxjs');
 var	config = require('../../../config/panax.js');
 var	util = require('../../../lib/util');
 var querystring = require("querystring");
@@ -10,22 +9,6 @@ var api = supertest('http://' + config.ui.hostname + ':' + config.ui.port);
 describe('read', function() {
 
 	var cookie; // Global session cookie to be passed with each request
-
-	before('mock setup', function(done) {
-		// DDL Isolation
-		var panaxdb = new PanaxJS.Connection(config);
-
-		panaxdb.query(require('fs').readFileSync('test/mocks.clean.sql', 'utf8'), function(err) {
-			if(err) return done(err);
-			panaxdb.query(require('fs').readFileSync('test/mocks.prep.sql', 'utf8'), function(err) {
-				if(err) return done(err);
-				panaxdb.rebuildMetadata(function (err) {
-					if(err) return done(err);
-					done();
-				});
-			});
-		});
-	});
 
 	describe('while logged out', function() {
 
