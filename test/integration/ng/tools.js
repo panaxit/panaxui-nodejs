@@ -53,7 +53,7 @@ describe('tools (filters, ...)', function() {
 				if (err) return done(err);
 				expect(res.body.success).to.be.true;
 				expect(res.body.action).to.equal('filters');
-				expect(res.body.data).to.equal('ShortTextField = \'Juan\' AND IntegerReq = 10 AND Float = 40');
+				expect(res.body.data).to.equal("ShortTextField COLLATE Latin1_General_CI_AI LIKE  '%'+REPLACE('Juan', ' ', '%')+'%' AND IntegerReq = 10 AND Float = 40");
 				done();
 			});
 		});

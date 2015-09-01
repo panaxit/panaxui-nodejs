@@ -18,14 +18,23 @@
 	<xsl:template match="field" mode="reformatFilters">
 		<dataField>
 			<xsl:copy-of select="@*"/>
-			<!-- <filterGroup operator="LIKE"> -->
-			<filterGroup operator="=">
-				<dataValue><xsl:value-of select="."/></dataValue>
-			</filterGroup>
+			<xsl:choose>
+				<xsl:when test="starts-with(text(), &quot;'&quot;)">
+					<filterGroup operator="LIKE">
+						<dataValue><xsl:value-of select="."/></dataValue>
+					</filterGroup>
+				</xsl:when>
+				<xsl:otherwise>
+					<filterGroup operator="=">
+						<dataValue><xsl:value-of select="."/></dataValue>
+					</filterGroup>
+				</xsl:otherwise>
+			</xsl:choose>
 		</dataField>
 	</xsl:template>
 
-	<xsl:template match="field[text()='NULL' or text()='null']" mode="reformatFilters"></xsl:template>
+	<xsl:template match="field[text()='NULL' or text()='null']" mode="reformatFilters">
+	</xsl:template>
 
 	<xsl:template match="dataRow" mode="reformatFilters">
 		<filterGroup operator="AND">
