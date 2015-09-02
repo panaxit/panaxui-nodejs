@@ -1,10 +1,11 @@
-var	config = require('../../../config/panax.js');
+var	panax_config = require('../../../config/panax');
+var panax_instance = panax_config.instances[panax_config.default_instance];
 var	util = require('../../../lib/util');
 var querystring = require("querystring");
 var expect = require('chai').expect;
 var supertest = require('supertest');
 //var api = supertest(require('../../../'));
-var api = supertest('http://' + config.ui.hostname + ':' + config.ui.port);
+var api = supertest('http://' + panax_instance.ui.hostname + ':' + panax_instance.ui.port);
 
 describe('read', function() {
 
@@ -52,8 +53,8 @@ describe('read', function() {
 		it('should login', function(done) {
 			api.post('/api/session/login')
 			.send({
-				username: config.ui.username,
-				password: util.md5(config.ui.password)
+				username: panax_instance.ui.username,
+				password: util.md5(panax_instance.ui.password)
 			})
 			.set('Accept', 'application/json')
 			.expect(200)
@@ -94,7 +95,7 @@ describe('read', function() {
 				expect(res.body.output).to.equal('json');
 				expect(res.body.data.model.length).to.equal(42-(5*(Math.floor((42/5))))); // totalRecords-(pageSize*(Math.floor((total/pageSize))))
 				expect(res.body.data.catalog.totalItems).to.equal(42);
-				expect(res.body.data.catalog.dbId).to.equal(config.db.database);
+				expect(res.body.data.catalog.dbId).to.equal(panax_instance.db.database);
 				expect(res.body.data.catalog.catalogName).to.equal('TestSchema.CONTROLS_Basic');
 				expect(res.body.data.catalog.controlType).to.equal('gridView');
 				expect(res.body.data.catalog.mode).to.equal('readonly');
@@ -126,7 +127,7 @@ describe('read', function() {
 				expect(res.body.output).to.equal('json');
 				expect(res.body.data.model.length).to.equal(42);
 				expect(res.body.data.catalog.totalItems).to.equal(42);
-				expect(res.body.data.catalog.dbId).to.equal(config.db.database);
+				expect(res.body.data.catalog.dbId).to.equal(panax_instance.db.database);
 				expect(res.body.data.catalog.catalogName).to.equal('TestSchema.CONTROLS_Basic');
 				expect(res.body.data.catalog.controlType).to.equal('cardsView');
 				expect(res.body.data.catalog.mode).to.equal('readonly');
@@ -159,7 +160,7 @@ describe('read', function() {
 				expect(res.body.output).to.equal('json');
 				expect(res.body.data.model.length).to.equal(1);
 				expect(res.body.data.catalog.totalItems).to.equal(1);
-				expect(res.body.data.catalog.dbId).to.equal(config.db.database);
+				expect(res.body.data.catalog.dbId).to.equal(panax_instance.db.database);
 				expect(res.body.data.catalog.catalogName).to.equal('TestSchema.CONTROLS_Basic');
 				expect(res.body.data.catalog.controlType).to.equal('formView');
 				expect(res.body.data.catalog.mode).to.equal('readonly');

@@ -1,10 +1,11 @@
-var	config = require('../../../config/panax');
+var	panax_config = require('../../../config/panax');
+var panax_instance = panax_config.instances[panax_config.default_instance];
 var	util = require('../../../lib/util');
 var querystring = require("querystring");
 var expect = require('chai').expect;
 var supertest = require('supertest');
 //var api = supertest(require('../../../'));
-var api = supertest('http://' + config.ui.hostname + ':' + config.ui.port);
+var api = supertest('http://' + panax_instance.ui.hostname + ':' + panax_instance.ui.port);
 
 describe('session', function() {
 
@@ -20,7 +21,7 @@ describe('session', function() {
 		it('should fail to login with wrong credentials', function (done) {
 			api.post('/api/session/login')
 			.send({
-				username: config.ui.username,
+				username: panax_instance.ui.username,
 				password: 'wrong'
 			})
 			.set('Accept', 'application/json')
@@ -45,6 +46,9 @@ describe('session', function() {
 			.end(function(err, res) {
 				if (err) return done(err);
 				expect(res.body.success).to.be.false;
+				expect(res.body.error).to.be.ok;
+				expect(res.body.error.data).to.be.ok;
+				expect(res.body.error.data.instances.length).to.be.above(0);
 				done();
 			});
 		});
@@ -65,8 +69,9 @@ describe('session', function() {
 		it('should login with right credentials', function (done) {
 			api.post('/api/session/login')
 			.send({
-				username: config.ui.username,
-				password: util.md5(config.ui.password)
+				username: panax_instance.ui.username,
+				password: util.md5(panax_instance.ui.password),
+				instance: panax_config.default_instance
 			})
 			.set('Accept', 'application/json')
 			.expect(200)
@@ -96,13 +101,13 @@ describe('session', function() {
 				if (err) return done(err);
 				expect(res.body.success).to.be.true;
 				expect(res.body.action).to.equal('info');
-				expect(res.body.data.username).to.equal(config.ui.username);
+				expect(res.body.data.username).to.equal(panax_instance.ui.username);
 				expect(res.body.data.api_version).to.equal('0.0.1'); // ToDo: Centralized version number
-				expect(res.body.data.db.server).to.equal(config.db.server);
+				expect(res.body.data.db.server).to.equal(panax_instance.db.server);
 				//expect(res.body.data.db.vendor).to.equal('SQL Server 2012 11.0.5058');
-				expect(res.body.data.db.version).to.equal(config.db.version);
-				expect(res.body.data.db.database).to.equal(config.db.database);
-				expect(res.body.data.db.user).to.equal(config.db.user);
+				expect(res.body.data.db.version).to.equal(panax_instance.db.version);
+				expect(res.body.data.db.database).to.equal(panax_instance.db.database);
+				expect(res.body.data.db.user).to.equal(panax_instance.db.user);
 				done();
 			});
 		});

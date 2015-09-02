@@ -1,10 +1,11 @@
-var	config = require('../../../config/panax.js');
+var	panax_config = require('../../../config/panax');
+var panax_instance = panax_config.instances[panax_config.default_instance];
 var	util = require('../../../lib/util');
 var querystring = require("querystring");
 var expect = require('chai').expect;
 var supertest = require('supertest');
 //var api = supertest(require('../../../'));
-var api = supertest('http://' + config.ui.hostname + ':' + config.ui.port);
+var api = supertest('http://' + panax_instance.ui.hostname + ':' + panax_instance.ui.port);
 
 describe('persistance (create, update, delete)', function() {
 
@@ -17,8 +18,8 @@ describe('persistance (create, update, delete)', function() {
 		it('should login', function(done) {
 			api.post('/api/session/login')
 			.send({
-				username: config.ui.username,
-				password: util.md5(config.ui.password)
+				username: panax_instance.ui.username,
+				password: util.md5(panax_instance.ui.password)
 			})
 			.set('Accept', 'application/json')
 			.expect(200)
