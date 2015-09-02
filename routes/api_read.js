@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var libxslt = require('libxslt');
 var PanaxJS = require('panaxjs');
-var config = require('../config/panax.js');
+var panax_config = require('../config/panax.js');
 
 var fs = require('fs');
 var entities = require("entities");
@@ -22,10 +22,10 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 	if (!req.query.catalogName)
 		return next({message: "No catalogName supplied"});
 
-	req.query.gui = (req.query.gui || config.ui.enabled_guis[0]).toLowerCase(); // Default GUI
-	if (config.ui.enabled_guis.indexOf(req.query.gui) === -1)
+	req.query.gui = (req.query.gui || panax_config.enabled_guis[0]).toLowerCase(); // Default GUI
+	if (panax_config.enabled_guis.indexOf(req.query.gui) === -1)
 		return next({ message: "Unsupported GUI '" + req.query.gui + "'." +
-				"Available: " + config.ui.enabled_guis.toString().split(',').join(', ') });
+				"Available: " + panax_config.enabled_guis.toString().split(',').join(', ') });
 
 	req.query.output = (req.query.output || 'json').toLowerCase(); // JSON is default output
 	if (req.query.output != 'json' && req.query.output != 'html')
@@ -34,7 +34,7 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 	/**
 	 * PanaxJS
 	 */
-	var panaxdb = new PanaxJS.Connection(config, req.query);
+	var panaxdb = new PanaxJS.Connection(req.session.panax_instance, req.query);
 
 	panaxdb.setParam('userId', req.session.userId);
 	panaxdb.setParam('tableName', req.query.catalogName);

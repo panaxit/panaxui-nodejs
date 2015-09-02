@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var libxslt = require('libxslt');
 var PanaxJS = require('panaxjs');
-var config = require('../config/panax.js');
+var panax_config = require('../config/panax.js');
 
 var util = require('../lib/util.js');
 var auth = require('../lib/auth.js');
@@ -13,13 +13,14 @@ module.exports = router;
  * POST /api/session/login
  */
 router.post('/login', function login(req, res, next) {
-	auth.authenticate(req.body.username, req.body.password, function (err, userId) {
+	auth.authenticate(req.body.username, req.body.password, req.body.instance, function (err, userId) {
 		if (err) {
 			err.status = 401;
 			return next(err);
 		}
 
-		var panaxdb = new PanaxJS.Connection(config);
+		var panax_instance = panax_config.instances[req.body.instance || panax_config.default_instance];
+		var panaxdb = new PanaxJS.Connection(panax_instance);
 
 		panaxdb.getInfo(function (err, info) {
 			if(err)
@@ -27,16 +28,17 @@ router.post('/login', function login(req, res, next) {
 
 			req.session.regenerate(function() {
 
+				req.session.panax_instance = panax_instance;
 				req.session.userId = userId;
 				req.session.username = req.body.username;
 				req.session.api_version = '0.0.1'; // ToDo: Centralized version number
 				req.session.db = {
-					server: config.db.server,
+					server: panax_instance.db.server,
 					vendor: info.vendor_ver,
 					panaxdb: info.panaxdb_ver,
-					version: config.db.version,
-					database: config.db.database,
-					user: config.db.user
+					version: panax_instance.db.version,
+					database: panax_instance.db.database,
+					user: panax_instance.db.user
 				};
 
 				res.json({
@@ -52,7 +54,23 @@ router.post('/login', function login(req, res, next) {
 /**
  * GET /api/session/info
  */
-router.get('/info', auth.requiredAuth, function sitemap(req, res, next) {
+router.get('/info', /*auth.requiredAuth, */function sitemap(req, res, next) {
+	/*auth.requiredAuth*/
+	if (!req.session.userId) {
+		var instances = [panax_config.default_instance];
+		for(var name in panax_config.instances) {
+			if(name !== panax_config.default_instance)
+				instances.push(name);
+		}
+		return next({
+			status: 401, 
+			message: "Not logged in", 
+			data: {
+				instances: instances
+			}
+		});
+	}
+
 	res.json({
 		success: true,
 		action: 'info',
@@ -64,15 +82,15 @@ router.get('/info', auth.requiredAuth, function sitemap(req, res, next) {
  */
 router.get('/sitemap', auth.requiredAuth, function sitemap(req, res, next) {
 
-	req.query.gui = (req.query.gui || config.ui.enabled_guis[0]).toLowerCase(); // Default GUI
-	if (config.ui.enabled_guis.indexOf(req.query.gui) === -1)
+	req.query.gui = (req.query.gui || panax_config.enabled_guis[0]).toLowerCase(); // Default GUI
+	if (panax_config.enabled_guis.indexOf(req.query.gui) === -1)
 		return next({ message: "Unsupported GUI '" + req.query.gui + "'." +
-				"Available: " + config.ui.enabled_guis.toString().split(',').join(', ') });
+				"Available: " + panax_config.enabled_guis.toString().split(',').join(', ') });
 
 	/**
 	 * PanaxJS
 	 */
-	var panaxdb = new PanaxJS.Connection(config, req.session); // get userId
+	var panaxdb = new PanaxJS.Connection(req.session.panax_instance, req.session); // get userId
 
 	panaxdb.getSitemap(function (err, xml) {
 		if(err)

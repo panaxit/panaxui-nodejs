@@ -4,7 +4,7 @@ var config = require('../config/panax.js');
 
 /* GET home page */
 router.get('/', function (req, res, next) {
-  res.render('index', { config: config.ui });
+  res.render('index', { config: config });
 });
 
 module.exports = router;

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var libxslt = require('libxslt');
 var PanaxJS = require('panaxjs');
-var config = require('../config/panax.js');
+var panax_config = require('../config/panax.js');
 
 var auth = require('../lib/auth.js');
 var xml = require('../lib/xml.js');
@@ -28,7 +28,7 @@ router.post('/', auth.requiredAuth, function read(req, res, next) {
 	/**
 	 * PanaxJS
 	 */
-	var panaxdb = new PanaxJS.Connection(config);
+	var panaxdb = new PanaxJS.Connection(req.session.panax_instance);
 
 	panaxdb.setParam('userId', req.session.userId);
 

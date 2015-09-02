@@ -42,9 +42,9 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-//GUIs static webserver (Grunt-inspired loading)
-panax_config.ui.enabled_guis.forEach(function (gui, index, arr) {
-    var gui_conf = panax_config.ui.guis[gui];
+//GUIs static webserver
+panax_config.enabled_guis.forEach(function (gui, index, arr) {
+    var gui_conf = panax_config.guis[gui];
     //application's root location
     app.use('/gui/' + gui, express.static(gui_conf.root));
     //other static asset's locations
