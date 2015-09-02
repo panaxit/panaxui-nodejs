@@ -1,4 +1,4 @@
-config/panax.js
+config/*.js
 node_modules
 cache
 templates
