@@ -29,7 +29,7 @@ router.delete('/', auth.requiredAuth, function read(req, res, next) {
 	/**
 	 * PanaxJS
 	 */
-	var panaxdb = new PanaxJS.Connection(req.session.panax_instance);
+	var panaxdb = new PanaxJS.Connection(panax_config.instances[panax_config.default_instance]);
 
 	panaxdb.setParam('userId', req.session.userId);
 

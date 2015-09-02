@@ -35,7 +35,7 @@ router.get('/', auth.requiredAuth, function options(req, res, next) {
 	/**
 	 * PanaxJS
 	 */
-	var panaxdb = new PanaxJS.Connection(req.session.panax_instance, req.session); // get userId
+	var panaxdb = new PanaxJS.Connection(panax_config.instances[panax_config.default_instance], req.session); // get userId
 
 	panaxdb.options(req.query, function (err, xml) {
 		if(err)

@@ -19,7 +19,9 @@ router.post('/login', function login(req, res, next) {
 			return next(err);
 		}
 
-		var panax_instance = panax_config.instances[req.body.instance || panax_config.default_instance];
+		// Set default instance as SINGLETON
+		panax_config.default_instance = req.body.instance || panax_config.default_instance;
+		var panax_instance = panax_config.instances[panax_config.default_instance];
 		var panaxdb = new PanaxJS.Connection(panax_instance);
 
 		panaxdb.getInfo(function (err, info) {
@@ -28,7 +30,7 @@ router.post('/login', function login(req, res, next) {
 
 			req.session.regenerate(function() {
 
-				req.session.panax_instance = panax_instance;
+				req.session.panax_instance = panax_config.default_instance;
 				req.session.userId = userId;
 				req.session.username = req.body.username;
 				req.session.api_version = '0.0.1'; // ToDo: Centralized version number
@@ -90,7 +92,7 @@ router.get('/sitemap', auth.requiredAuth, function sitemap(req, res, next) {
 	/**
 	 * PanaxJS
 	 */
-	var panaxdb = new PanaxJS.Connection(req.session.panax_instance, req.session); // get userId
+	var panaxdb = new PanaxJS.Connection(panax_config.instances[panax_config.default_instance], req.session); // get userId
 
 	panaxdb.getSitemap(function (err, xml) {
 		if(err)
