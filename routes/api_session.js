@@ -131,9 +131,17 @@ router.get('/logout', function logout(req, res) {
 		if(err)
 			return next(err);
 
+		var instances = [panax_config.default_instance];
+		for(var name in panax_config.instances) {
+			if(name !== panax_config.default_instance)
+				instances.push(name);
+		}
 		res.json({
 			success: true,
-			action: 'logout'
+			action: 'logout',
+			data: {
+				instances: instances
+			}
 		});
 	})
 });
