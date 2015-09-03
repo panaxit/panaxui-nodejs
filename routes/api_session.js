@@ -56,23 +56,7 @@ router.post('/login', function login(req, res, next) {
 /**
  * GET /api/session/info
  */
-router.get('/info', /*auth.requiredAuth, */function sitemap(req, res, next) {
-	/*auth.requiredAuth*/
-	if (!req.session.userId) {
-		var instances = [panax_config.default_instance];
-		for(var name in panax_config.instances) {
-			if(name !== panax_config.default_instance)
-				instances.push(name);
-		}
-		return next({
-			status: 401, 
-			message: "Not logged in", 
-			data: {
-				instances: instances
-			}
-		});
-	}
-
+router.get('/info', auth.requiredAuth, function sitemap(req, res, next) {
 	res.json({
 		success: true,
 		action: 'info',
