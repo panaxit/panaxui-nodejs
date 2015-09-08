@@ -34,6 +34,7 @@ router.post('/login', function login(req, res, next) {
 				req.session.userId = userId;
 				req.session.username = req.body.username;
 				req.session.api_version = '0.0.1'; // ToDo: Centralized version number
+				req.session.node_version = process.version;
 				req.session.db = {
 					server: panax_instance.db.server,
 					vendor: info.vendor_ver,

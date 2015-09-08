@@ -103,6 +103,7 @@ describe('session', function() {
 				expect(res.body.action).to.equal('info');
 				expect(res.body.data.username).to.equal(panax_instance.ui.username);
 				expect(res.body.data.api_version).to.equal('0.0.1'); // ToDo: Centralized version number
+				expect(res.body.data.node_version).to.equal(process.version);
 				expect(res.body.data.db.server).to.equal(panax_instance.db.server);
 				//expect(res.body.data.db.vendor).to.equal('SQL Server 2012 11.0.5058');
 				expect(res.body.data.db.version).to.equal(panax_instance.db.version);
