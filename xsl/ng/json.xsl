@@ -93,6 +93,15 @@
 				<xsl:when test="@controlType='formView'">
 					"fields": [ <xsl:apply-templates select="." mode="pxform" /> ]
 				</xsl:when>
+				<!--
+						pxgrid.xsl + pxform.xsl
+				-->
+				<xsl:when test="@controlType='masterDetail'">
+					"fields": {
+						"grid": <xsl:apply-templates select="." mode="pxgrid" />,
+						"form": [ <xsl:apply-templates select="." mode="form" /> ]
+					}
+				</xsl:when>
 			</xsl:choose>
 		}
 	</xsl:template>
