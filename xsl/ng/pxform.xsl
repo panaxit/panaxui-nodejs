@@ -14,27 +14,9 @@
 	-->
 
 	<xsl:template match="*" mode="pxform">
-		<xsl:call-template name="forms_loop" />
-	</xsl:template>
-
-	<xsl:template name="forms_loop">
-		<xsl:param name="index" select="1" />
-		<xsl:param name="total" select="count(px:data/*)" />
-
-		<xsl:if test="$index&gt;1">,</xsl:if>
-		<xsl:apply-templates select="." mode="form" />
-
-    <xsl:if test="not($index = $total)">
-        <xsl:call-template name="forms_loop">
-            <xsl:with-param name="index" select="$index + 1" />
-        </xsl:call-template>
-    </xsl:if>
-	</xsl:template>
-
-	<xsl:template match="*" mode="form">
 		[
 			<xsl:if test="px:layout/px:tabPanel">
-				<xsl:apply-templates select="px:layout/px:tabPanel" mode="form" />,
+				<xsl:apply-templates select="px:layout/px:tabPanel" mode="pxform" />,
 			</xsl:if>
 			<xsl:apply-templates select="px:layout" mode="fieldset" />
 		]
@@ -60,17 +42,17 @@
 		TabPanels -> Tabs 
 	-->
 
-	<xsl:template match="px:tabPanel" mode="form">
+	<xsl:template match="px:tabPanel" mode="pxform">
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		{
 			"type": "tabPanel",
 			"tabs": [
-				<xsl:apply-templates select="px:tab" mode="form" />
+				<xsl:apply-templates select="px:tab" mode="pxform" />
 			]
 		}
 	</xsl:template>
 
-	<xsl:template match="px:tab" mode="form">
+	<xsl:template match="px:tab" mode="pxform">
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		{
 			"type": "tab",

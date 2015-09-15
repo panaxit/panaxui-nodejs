@@ -2,8 +2,6 @@
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:px="urn:panax"
-	xmlns:math="http://exslt.org/math"
-	extension-element-prefixes="math"
 	>
 
 	<!-- 
@@ -36,8 +34,6 @@
 
 	<xsl:template match="*" mode="fields.field">
 		{
-			<!-- Generate random ID sufix to avoid collision in multi-form-->
-			"id": "field_<xsl:value-of select="@fieldId"/>_<xsl:value-of select="(floor(math:random()*1000) mod 1000) + 1"/>",
 			"key": "<xsl:value-of select="@fieldName"/>",
 			"type": "<xsl:apply-templates select="." mode="fields.type" />",
 			"templateOptions": {
@@ -169,7 +165,7 @@
 			},
 			"data": {
 				<xsl:if test="@controlType='default' or @controlType='formView'">
-					"fields": [ <xsl:apply-templates select="*" mode="form" /> ],
+					"fields": <xsl:apply-templates select="*" mode="pxform" />,
 				</xsl:if>
 				<xsl:apply-templates select="*[1]" mode="metadata" />
 			}
@@ -193,7 +189,7 @@
 					"fields": <xsl:apply-templates select="*" mode="pxgrid" />,
 				</xsl:if>
 				<xsl:if test="@controlType='formView'">
-					"fields": [ <xsl:apply-templates select="*" mode="pxform" /> ],
+					"fields": <xsl:apply-templates select="*" mode="pxform" />,
 				</xsl:if>
 				<xsl:if test="@controlType='cardsView'">
 					"fields": <xsl:apply-templates select="*" mode="pxcards" />,
