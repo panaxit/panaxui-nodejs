@@ -199,4 +199,25 @@
 		}
 	</xsl:template>
 
+	<!-- 
+		junctionTable (hasMany) 
+	-->
+
+	<xsl:template match="*[@dataType='junctionTable' and @relationshipType='hasMany']" mode="fields.field">
+		{
+			"key": "<xsl:value-of select="@fieldName"/>",
+			"type": "<xsl:apply-templates select="." mode="fields.type" />",
+			"templateOptions": {
+				"label": "<xsl:value-of select="@headerText"/>",
+				"placeholder": ""
+			},
+			"data": {
+				<xsl:if test="@controlType='default' or @controlType='gridView'">
+					"fields": <xsl:apply-templates select="*" mode="px-ag-grid" />,
+				</xsl:if>
+				<xsl:apply-templates select="*" mode="metadata" />
+			}
+		}
+	</xsl:template>
+
 </xsl:stylesheet>

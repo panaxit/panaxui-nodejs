@@ -132,40 +132,56 @@
 
 	<!--
 		nested hasOne foreignTable
-			px-form
+			form
 	-->
 
 	<xsl:template mode="fields.type" match="*[@relationshipType='hasOne' and @dataType='foreignTable']">
 		<xsl:choose>
 			<xsl:when test="@controlType='default'">
-				<xsl:text>px-form</xsl:text>
+				<xsl:text>form</xsl:text>
 			</xsl:when>
 			<xsl:when test="@controlType='formView'">
-				<xsl:text>px-form</xsl:text>
+				<xsl:text>form</xsl:text>
 			</xsl:when>
 		</xsl:choose>
 	</xsl:template>
 
 	<!--
 		nested hasMany foreignTable
-			px-grid
-			px-cards
-			px-form
+			grid
+			cards
+			form
 	-->
 
 	<xsl:template mode="fields.type" match="*[@relationshipType='hasMany' and @dataType='foreignTable']">
 		<xsl:choose>
 			<xsl:when test="@controlType='default'">
-				<xsl:text>px-grid</xsl:text>
+				<xsl:text>grid</xsl:text>
 			</xsl:when>
 			<xsl:when test="@controlType='gridView'">
-				<xsl:text>px-grid</xsl:text>
+				<xsl:text>grid</xsl:text>
 			</xsl:when>
 			<xsl:when test="@controlType='cardsView'">
-				<xsl:text>px-cards</xsl:text>
+				<xsl:text>cards</xsl:text>
 			</xsl:when>
 			<xsl:when test="@controlType='formView'">
-				<xsl:text>px-form</xsl:text>
+				<xsl:text>form</xsl:text>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+
+	<!--
+		nested hasMany junctionTable
+			junction
+	-->
+
+	<xsl:template mode="fields.type" match="*[@relationshipType='hasMany' and @dataType='junctionTable']">
+		<xsl:choose>
+			<xsl:when test="@controlType='default'">
+				<xsl:text>junction</xsl:text>
+			</xsl:when>
+			<xsl:when test="@controlType='gridView'">
+				<xsl:text>junction</xsl:text>
 			</xsl:when>
 		</xsl:choose>
 	</xsl:template>

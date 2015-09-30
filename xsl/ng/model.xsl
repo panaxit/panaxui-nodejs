@@ -7,7 +7,11 @@
 		Model (px:data)
 	-->
 
-	<xsl:template match="px:dataRow" mode="model">
+	<!--
+		Regular Tables
+	-->
+
+	<xsl:template match="px:dataRow" mode="model.table">
 		<xsl:variable name="primaryKey" select="../../@primaryKey" />
 		<xsl:variable name="identityKey" select="../../@identityKey" />
 		<xsl:if test="position()&gt;1">,</xsl:if>
@@ -19,11 +23,11 @@
 			<xsl:if test="@identity">
 				"<xsl:value-of select="$identityKey"/>": "<xsl:value-of select="@identity"/>",
 			</xsl:if>
-			<xsl:apply-templates select="*" mode="model.pair" />
+			<xsl:apply-templates select="*" mode="model.table.pair" />
 		}
 	</xsl:template>
 
-	<xsl:template match="*" mode="model.pair">
+	<xsl:template match="*" mode="model.table.pair">
 		<xsl:variable name="dataType" select="key('fields',@fieldId)/@dataType" />
 		<xsl:variable name="controlType" select="key('fields',@fieldId)/@controlType" />
 		<xsl:variable name="relationshipType" select="key('fields',@fieldId)/@relationshipType" />
@@ -46,24 +50,65 @@
 					"<xsl:value-of select="@value"/>"
 				</xsl:if>
 				<xsl:if test="$controlType='default' or $controlType='combobox'">
-					<!--{
-						"value": -->"<xsl:value-of select="@value"/>"
-						<!--"label": "<xsl:value-of select="@text"/>"-->
-					<!--}-->
+					"<xsl:value-of select="@value"/>"
 				</xsl:if>
 			</xsl:when>
 			<xsl:when test="$dataType='foreignTable'">
 				<xsl:if test="$relationshipType='hasOne'">
-					<xsl:apply-templates select="*[1]/px:data/px:dataRow" mode="model" />
+					<xsl:apply-templates select="*[1]/px:data/px:dataRow" mode="model.table" />
 				</xsl:if>
 				<xsl:if test="$relationshipType='hasMany'">
-					[<xsl:apply-templates select="*[1]/px:data/px:dataRow" mode="model" />]
+					[<xsl:apply-templates select="*[1]/px:data/px:dataRow" mode="model.table" />]
+				</xsl:if>
+			</xsl:when>
+			<xsl:when test="$dataType='junctionTable'">
+				<xsl:if test="$relationshipType='hasMany'">
+					[<xsl:apply-templates select="*[1]/px:data/px:dataRow" mode="model.junction" />]
 				</xsl:if>
 			</xsl:when>
 			<!-- strings -->
 			<xsl:otherwise>
 				"<xsl:value-of select="@value"/>"
 			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<!--
+		Junction Tables
+	-->
+
+	<xsl:template match="px:dataRow" mode="model.junction">
+		<xsl:variable name="primaryKey" select="../../@primaryKey" />
+		<xsl:variable name="identityKey" select="../../@identityKey" />
+		<xsl:if test="position()&gt;1">,</xsl:if>
+		{
+			<!-- "rowNumber": "<xsl:value-of select="@rowNumber"/>", -->
+			<xsl:if test="@primaryValue">
+				"<xsl:value-of select="$primaryKey"/>": "<xsl:value-of select="@primaryValue"/>",
+			</xsl:if>
+			<xsl:if test="@identity">
+				"<xsl:value-of select="$identityKey"/>": "<xsl:value-of select="@identity"/>",
+			</xsl:if>
+			<xsl:apply-templates select="*" mode="model.junction.pair" />
+		}
+	</xsl:template>
+
+	<xsl:template match="*" mode="model.junction.pair">
+		<xsl:variable name="dataType" select="key('fields',@fieldId)/@dataType" />
+		<xsl:variable name="controlType" select="key('fields',@fieldId)/@controlType" />
+		<xsl:variable name="relationshipType" select="key('fields',@fieldId)/@relationshipType" />
+		<xsl:if test="position()&gt;1">,</xsl:if>
+		"<xsl:value-of select="name()"/>":
+		<xsl:choose>
+			<xsl:when test="$dataType='foreignKey'">
+				<xsl:if test="$relationshipType='belongsTo' and $controlType='default'">
+					"<xsl:value-of select="@text"/>"
+					<!-- {
+						"value": "<xsl:value-of select="@value"/>",
+						"text": "<xsl:value-of select="@text"/>"
+					} -->
+				</xsl:if>
+			</xsl:when>
 		</xsl:choose>
 	</xsl:template>
 

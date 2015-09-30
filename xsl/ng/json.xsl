@@ -24,6 +24,7 @@
 	<xsl:include href="xsl/ng/pxgrid.xsl" />
 	<xsl:include href="xsl/ng/pxform.xsl" />
 	<xsl:include href="xsl/ng/pxcards.xsl" />
+	<xsl:include href="xsl/ng/px-ag-grid.xsl" />
 
 	<!-- 
 		Output settings
@@ -68,7 +69,7 @@
 					data model
 					<px:data>
 			-->
-			"model": [ <xsl:apply-templates select="px:data/*" mode="model" /> ],
+			"model": [ <xsl:apply-templates select="px:data/*" mode="model.table" /> ],
 
 			<!--
 					fields
