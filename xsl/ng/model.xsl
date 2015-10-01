@@ -80,6 +80,9 @@
 	<xsl:template match="px:dataRow" mode="model.junction">
 		<xsl:variable name="primaryKey" select="../../@primaryKey" />
 		<xsl:variable name="identityKey" select="../../@identityKey" />
+		<xsl:variable name="foreignReference" select="../../@foreignReference" />
+		<xsl:variable name="foreignPrimaryValue" select="../../../../@primaryValue" />
+		<xsl:variable name="foreignIdentity" select="../../../../@identity" />
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		{
 			<!-- "rowNumber": "<xsl:value-of select="@rowNumber"/>", -->
@@ -88,6 +91,10 @@
 			</xsl:if>
 			<xsl:if test="@identity">
 				"<xsl:value-of select="$identityKey"/>": "<xsl:value-of select="@identity"/>",
+			</xsl:if>
+			<xsl:if test="$foreignReference and ($foreignIdentity or $foreignPrimaryValue)">
+				"<xsl:value-of select="$foreignReference"/>": "<xsl:value-of select="$foreignIdentity"/>",
+				"<xsl:value-of select="$foreignReference"/>": "<xsl:value-of select="$foreignPrimaryValue"/>",
 			</xsl:if>
 			<xsl:apply-templates select="*" mode="model.junction.pair" />
 		}
@@ -102,11 +109,10 @@
 		<xsl:choose>
 			<xsl:when test="$dataType='foreignKey'">
 				<xsl:if test="$relationshipType='belongsTo' and $controlType='default'">
-					"<xsl:value-of select="@text"/>"
-					<!-- {
+					{
 						"value": "<xsl:value-of select="@value"/>",
 						"text": "<xsl:value-of select="@text"/>"
-					} -->
+					}
 				</xsl:if>
 			</xsl:when>
 		</xsl:choose>
