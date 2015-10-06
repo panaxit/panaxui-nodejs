@@ -4,8 +4,10 @@ var	util = require('../../../lib/util');
 var querystring = require("querystring");
 var expect = require('chai').expect;
 var supertest = require('supertest');
-//var api = supertest(require('../../../'));
-var api = supertest('http://' + panax_instance.ui.hostname + ':' + panax_instance.ui.port);
+var app = require('../../../');
+var api = (process.env.NODE_ENV === 'testing')
+	? supertest(app)
+	: supertest('http://' + panax_instance.ui.hostname + ':' + panax_instance.ui.port);
 
 describe('persistance (create, update, delete)', function() {
 

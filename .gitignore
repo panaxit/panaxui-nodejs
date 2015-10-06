@@ -3,6 +3,7 @@ node_modules
 cache
 templates
 *.tmp
+coverage
 
 #########################################
 # https://gist.github.com/octocat/9257657

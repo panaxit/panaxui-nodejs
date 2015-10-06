@@ -78,7 +78,7 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
+if (app.get('env') === 'development' || app.get('env') === 'testing') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.json({
@@ -86,7 +86,7 @@ if (app.get('env') === 'development') {
             message: err.message,
             error: err
         });
-        console.error(err);
+        if(app.get('env') === 'development') console.error(err);
     });
 }
 
@@ -97,7 +97,11 @@ app.use(function(err, req, res, next) {
     res.json({
         success: false,
         message: err.message,
-        error: {}
+        error: {
+        	data: {
+        		instances: err.data || err.data.instances
+        	}
+        }
     });
 });
 

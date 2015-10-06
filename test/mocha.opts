@@ -1,5 +1,4 @@
 --timeout 240000
 --reporter spec
---recursive
 test/unit.js
 test/integration.js
