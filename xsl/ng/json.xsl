@@ -69,7 +69,7 @@
 					data model
 					<px:data>
 			-->
-			"model": [ <xsl:apply-templates select="px:data/*" mode="model.table" /> ],
+			"model": <xsl:apply-templates select="." mode="model" />,
 
 			<!--
 					fields
