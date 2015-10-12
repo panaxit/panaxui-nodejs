@@ -10,6 +10,7 @@ describe('Unit tests', function() {
 
 		require('./unit/transformers/util');
 		require('./unit/transformers/ng/json.catalog');
+		require('./unit/transformers/ng/json.model');
 	
 	});
 
