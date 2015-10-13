@@ -17,9 +17,9 @@ var $_FieldsIndex;
 /*
 Main entry point
  */
-module.exports = _Main;
+var _Main = exports;
 
-function _Main(XML) {
+_Main.Transform = function(XML) {
 	var Doc = libxmljs.parseXmlString(XML);
 	var Entity = Doc.root();
 
@@ -27,52 +27,52 @@ function _Main(XML) {
 	$identityKey = _attr.val(Entity, 'identityKey');
 	$_FieldsIndex = _keyIndex(Entity, "px:fields/*|px:fields//*[@fieldId][not(namespace-uri(.)='urn:panax')]", 'fieldId');
 
-	return _Model(Entity);
-}
+	return _Main.Model(Entity);
+};
 
 /*
 Process Model
  */
-function _Model(Entity) {
+_Main.Model = function(Entity) {
 	var Data = _el.get(Entity, 'px:data');
-	return _Data(Data);
-}
+	return _Main.Data(Data);
+};
 
 /*
 Process Data
  */
-function _Data(Data) {
+_Main.Data = function(Data) {
 	var DataRows = _el.find(Data, 'px:dataRow');
-	return _DataRows(DataRows);
-}
+	return _Main.DataRows(DataRows);
+};
 
 /*
 Process DataRows
  */
-function _DataRows(DataRows) {
+_Main.DataRows = function(DataRows) {
 	var records = [];
 	DataRows.forEach(function (DataRow, index) {
 		var Fields = _el.find(DataRow, '*');
-		records.push(_Fields(Fields));
+		records.push(_Main.Fields(Fields));
 	});
 	return records;
-}
+};
 
 /*
 Process Fields
  */
-function _Fields(Fields) {
+_Main.Fields = function(Fields) {
 	var column = {};
 	Fields.forEach(function (Field, index) {
-		column[_el.name(Field)] = _Value(Field);
+		column[_el.name(Field)] = _Main.Value(Field);
 	});
 	return column;
-}
+};
 
 /*
 Process Value
  */
-function _Value(Field) {
+_Main.Value = function(Field) {
 	var fieldId = _attr.val(Field, 'fieldId');
 	var value = _attr.val(Field, 'value');
 
@@ -98,11 +98,11 @@ function _Value(Field) {
 	} else if (dataType === 'foreignTable') {
 		// Recursively get model of children
 		var children = _el.get(Field, '*');
-		return _Model(children);
+		return _Main.Model(children);
 	} else if (dataType === 'junctionTable') {
 		// ToDo
 		return ''; //require('./json.model.junction.js')(.....);
 	} else {
 		return value || '';
 	}
-}
+};

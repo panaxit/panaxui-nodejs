@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var _Catalog = require('../../../../transformers/ng/json.catalog');
+var Catalog = require('../../../../transformers/ng/json.catalog');
 
 describe('JSON Catalog', function() {
 
@@ -24,7 +24,7 @@ describe('JSON Catalog', function() {
 							'		mode="edit" ' +
 							'>' +
 							'</Entity>';
-		var result = _Catalog(xml);
+		var result = Catalog.Transform(xml);
 		expect(result).to.be.ok;
 		expect(result).to.to.deep.equal({
 			"dbId": 'Demo',
@@ -50,5 +50,7 @@ describe('JSON Catalog', function() {
 			}
 		});
 	});
+
+	it('should get custom attributes');
 
 });

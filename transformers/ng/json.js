@@ -1,3 +1,7 @@
+var Model = require('./json.model.js');
+var Fields = require('./json.fields.js');
+var Catalog = require('./json.catalog.js');
+
 /*
 Main function
  */
@@ -8,8 +12,8 @@ module.exports = function(XMLEntity, callback) {
 	Main JSON object
 	 */
 	return callback(null, {
-		"model": require('./json.model.js')(XMLEntity),
-		"fields": require('./json.fields.js')(XMLEntity),
-		"catalog": require('./json.catalog.js')(XMLEntity)
+		"model": Model.Transform(XMLEntity),
+		"fields": Fields(XMLEntity),
+		"catalog": Catalog.Transform(XMLEntity)
 	});
 };

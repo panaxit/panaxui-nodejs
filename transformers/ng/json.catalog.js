@@ -8,20 +8,19 @@ var _attr = require('../util').attr;
 /*
 Main entry point
  */
-module.exports = _Main;
+var _Main = exports;
 
-function _Main(XML) {
+_Main.Transform = function(XML) {
 	var Doc = libxmljs.parseXmlString(XML);
 	var Entity = Doc.root();
 
-	return _Catalog(Entity);
-}
+	return _Main.Catalog(Entity);
+};
 
 /*
 Process Catalog
  */
-function _Catalog(Entity) {
-
+_Main.Catalog = function(Entity) {
 	// ToDo: Custom _attrs.
 	return {
 		/* Basic Catalog Metadata */

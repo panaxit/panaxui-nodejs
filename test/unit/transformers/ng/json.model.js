@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var _Model = require('../../../../transformers/ng/json.model');
+var Model = require('../../../../transformers/ng/json.model');
 
 describe('JSON Model', function() {
 
@@ -12,7 +12,7 @@ describe('JSON Model', function() {
 									'	<px:data>' +
 									'	</px:data>' +
 									'</Entity>';
-				var result = _Model(xml);
+				var result = Model.Transform(xml);
 				expect(result).to.be.empty;
 			});
 
@@ -23,7 +23,7 @@ describe('JSON Model', function() {
 									'		</px:dataRow>' +
 									'	</px:data>' +
 									'</Entity>';
-				var result = _Model(xml);
+				var result = Model.Transform(xml);
 									
 				expect(result).not.to.be.empty;
 				expect(result[0]).to.be.empty;
@@ -46,7 +46,7 @@ describe('JSON Model', function() {
 									'		</px:dataRow>' +
 									'	</px:data>' +
 									'</Entity>';
-				var result = _Model(xml);
+				var result = Model.Transform(xml);
 									
 				expect(result).not.to.be.empty;
 				expect(result[0]).to.to.deep.equal({"FieldA": "a", "FieldB": "1"});
@@ -88,7 +88,7 @@ describe('JSON Model', function() {
 									'		</px:dataRow>' +
 									'	</px:data>' +
 									'</Entity>';
-				var result = _Model(xml);
+				var result = Model.Transform(xml);
 									
 				expect(result).not.to.be.empty;
 				expect(result[0]).to.to.deep.equal({
@@ -124,7 +124,7 @@ describe('JSON Model', function() {
 								'		</px:dataRow>' +
 								'	</px:data>' +
 								'</Entity>';
-			var result = _Model(xml);
+			var result = Model.Transform(xml);
 								
 			expect(result).not.to.be.empty;
 			expect(result[0]).to.to.deep.equal({
@@ -185,7 +185,7 @@ describe('JSON Model', function() {
 								'		</px:dataRow>' +
 								'	</px:data>' +
 								'</Entity>';
-			var result = _Model(xml);
+			var result = Model.Transform(xml);
 								
 			expect(result).not.to.be.empty;
 			expect(result[0]).to.to.deep.equal({
