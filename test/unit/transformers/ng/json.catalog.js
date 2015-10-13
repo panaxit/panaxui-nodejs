@@ -37,9 +37,9 @@ describe('JSON Catalog', function() {
 			"primaryKey": 'Id',
 			"identityKey": 'Id',
 			"foreignReference": undefined,
-			"totalItems": '1',
-			"pageSize": '1',
-			"pageIndex": '1',
+			"totalItems": 1,
+			"pageSize": 1,
+			"pageIndex": 1,
 			"metadata": {
 				"supportsInsert": '1',
 				"supportsUpdate": '1',

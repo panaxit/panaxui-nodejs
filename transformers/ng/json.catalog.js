@@ -36,9 +36,9 @@ _Main.Catalog = function(Entity) {
 		"identityKey": _attr.val(Entity, 'identityKey'),
 		"foreignReference": _attr.val(Entity, 'foreignReference'),
 		/* Pagination _attributes */
-		"totalItems": _attr.val(Entity, 'totalRecords'),
-		"pageSize": _attr.val(Entity, 'pageSize'),
-		"pageIndex": _attr.val(Entity, 'pageIndex'),
+		"totalItems": parseInt(_attr.val(Entity, 'totalRecords')),
+		"pageSize": parseInt(_attr.val(Entity, 'pageSize')),
+		"pageIndex": parseInt(_attr.val(Entity, 'pageIndex')),
 		/* Data Access Metadata */
 		"metadata": {
 			"supportsInsert": _attr.val(Entity, 'supportsInsert'),
