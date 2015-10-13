@@ -57,7 +57,30 @@ describe('JSON Model', function() {
 
 		describe('keys', function() {
 
-			it('PENDING');
+			it('N dataRow\'s should return primaryKey / identityKey', function() {
+				var xml = '<Entity xmlns:px="urn:panax" identityKey="Id" primaryKey="Id">' +
+									'	<px:fields>' +
+									'		<Id fieldId="ID0" dataType="identity" />' +
+									'		<FieldA fieldId="ID1" dataType="unknown" />' +
+									'		<FieldB fieldId="ID2" dataType="unknown" />' +
+									'	</px:fields>px:fields>' +
+									'	<px:data>' +
+									'		<px:dataRow identity="1" primaryValue="1">' +
+									'			<FieldA fieldId="ID1" value="a" text="a" />' +
+									'			<FieldB fieldId="ID2" value="1" text="1" />' +
+									'		</px:dataRow>' +
+									'		<px:dataRow identity="2" primaryValue="2">' +
+									'			<FieldA fieldId="ID1" value="b" text="b" />' +
+									'			<FieldB fieldId="ID2" value="2" text="2" />' +
+									'		</px:dataRow>' +
+									'	</px:data>' +
+									'</Entity>';
+				var result = Model.Transform(xml);
+									
+				expect(result).not.to.be.empty;
+				expect(result[0]).to.to.deep.equal({"Id": "1", "FieldA": "a", "FieldB": "1"});
+				expect(result[1]).to.to.deep.equal({"Id": "2", "FieldA": "b", "FieldB": "2"});
+			});
 
 		});
 
@@ -200,6 +223,48 @@ describe('JSON Model', function() {
 				}]
 			});
 
+		});
+
+		it('dataRow\'s should return primaryKey / identityKey', function() {
+			var xml = '<Entity xmlns:px="urn:panax" identityKey="Id">' +
+								'	<px:fields>' +
+								'		<Id fieldId="IDA" dataType="identity" />' +
+								'		<DefaultA fieldId="ID0" dataType="unknown" controlType="default" />' +
+								'		<NestedForm fieldId="ID1" dataType="foreignTable" relationshipType="hasOne" controlType="formView">' +
+								'			<NestedForm xmlns:px="urn:panax" primaryKey="Di">' +
+								'				<px:fields>' +
+								'					<Di fieldId="IDB" dataType="int" />' +
+								'					<DefaultB fieldId="ID2" dataType="unknown" controlType="default" />' +
+								'				</px:fields>' +
+								'			</NestedForm>' +
+								'		</NestedForm>' +
+								'	</px:fields>' +
+								'	<px:data>' +
+								'		<px:dataRow identity="1">' +
+								'			<DefaultA fieldId="ID0" value="A" text="A" />' +
+								'			<NestedForm fieldId="ID1">' +
+								'				<NestedForm xmlns:px="urn:panax" primaryKey="Di">' +
+								'					<px:data>' +
+								'						<px:dataRow primaryValue="1">' +
+								'							<DefaultB fieldId="ID2" value="B" text="B" />' +
+								'						</px:dataRow>' +
+								'					</px:data>' +
+								'				</NestedForm>' +
+								'			</NestedForm>' +
+								'		</px:dataRow>' +
+								'	</px:data>' +
+								'</Entity>';
+			var result = Model.Transform(xml);
+								
+			expect(result).not.to.be.empty;
+			expect(result[0]).to.to.deep.equal({
+				"Id": "1",
+				"DefaultA": "A",
+				"NestedForm": [{
+					"Di": "1",
+					"DefaultB": "B"
+				}]
+			});
 		});
 
 	});
