@@ -96,28 +96,39 @@ _Main.Value = function(Field) {
 	var controlType = _attr.val(Metadata, 'controlType');
 	var relationshipType = _attr.val(Metadata, 'relationshipType');
 	
-	if(dataType === 'int') {
-		return parseInt(value) || null;
-	} else if (dataType === 'float' || dataType === 'money') {
-		return parseFloat(value) || null;
-	} else if (dataType === 'bit') {
-		return (value === '1' || value.toLowerCase() === 'true') ? true : false;
-	} else if (dataType === 'date' || dataType === 'time' || dataType === 'datetime') {
-		return value || ''; // ToDo: Parse date/time (use moments.js?)
-	} else if (dataType === 'foreignKey') {
-		if (controlType === 'default' || controlType === 'combobox') {
-			return value || '';
-		} else if (controlType === 'radiogroup') {
-			return value || '';
+	switch(dataType) {
+		case 'int':
+			return parseInt(value) || null;
+		case 'float':
+		case 'money':
+			return parseFloat(value) || null;
+		case 'bit':
+			return (value === '1' || value.toLowerCase() === 'true') ? true : false;
+		case 'date':
+		case 'time':
+		case 'datetime':
+			return value || ''; // ToDo: Parse date/time (use moments.js?)
+		case 'foreignKey': {
+			switch(controlType) {
+				case 'default':
+				case 'combobox':
+				default:
+					return value || '';
+				case 'radiogroup':
+					return value || '';
+			}
 		}
-	} else if (dataType === 'foreignTable') {
-		// Recursively get model of children
-		var children = _el.get(Field, '*');
-		return _Main.Model(children);
-	} else if (dataType === 'junctionTable') {
-		// ToDo
-		return ''; //require('./json.model.junction.js')(.....);
-	} else {
-		return value || '';
+		case 'foreignTable': {
+			// Recursively get model of children
+			var children = _el.get(Field, '*');
+			return _Main.Model(children);
+		}
+		case 'junctionTable': {
+			// ToDo
+			return ''; //require('./json.model.junction.js')(.....);
+		}
+		default:
+			return value || '';
 	}
+
 };
