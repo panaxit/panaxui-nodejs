@@ -13,7 +13,7 @@ module.exports = function(XMLEntity, callback) {
 	 */
 	return callback(null, {
 		"model": Model.Transform(XMLEntity),
-		"fields": Fields(XMLEntity),
+		"fields": Fields.Transform(XMLEntity),
 		"catalog": Catalog.Transform(XMLEntity)
 	});
 };
