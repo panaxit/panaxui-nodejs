@@ -76,7 +76,7 @@ describe('JSON Fields', function() {
 
 	describe('px-cards', function() {
 
-		it('PENDING');
+		it('Not using Fields ATM');
 		
 	});
 
