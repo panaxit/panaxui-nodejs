@@ -6,7 +6,7 @@ describe('Unit tests', function() {
 	
 	});
 
-	describe.only('Transformers', function() {
+	describe.only('JS Transformers', function() {
 
 		require('./unit/transformers/helpers');
 
@@ -14,6 +14,7 @@ describe('Unit tests', function() {
 
 			require('./unit/transformers/ng/json.catalog');
 			require('./unit/transformers/ng/json.model');
+			require('./unit/transformers/ng/json.fields');
 
 		});
 	
