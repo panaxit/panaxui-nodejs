@@ -3,9 +3,9 @@ var libxmljs = require('libxslt').libxmljs;
 /*
 Helpers
  */
-var _attr = require('../util').attr;
-var _el = require('../util').el;
-var _keyIndex = require('../util').keyIndex;
+var _attr = require('../helpers').attr;
+var _el = require('../helpers').el;
+var _keyIndex = require('../helpers').keyIndex;
 
 /*
 Keys & Indexes

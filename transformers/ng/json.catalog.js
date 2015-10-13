@@ -3,7 +3,7 @@ var libxmljs = require('libxslt').libxmljs;
 /*
 Helpers
  */
-var _attr = require('../util').attr;
+var _attr = require('../helpers').attr;
 
 /*
 Main entry point

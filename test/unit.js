@@ -8,9 +8,14 @@ describe('Unit tests', function() {
 
 	describe.only('Transformers', function() {
 
-		require('./unit/transformers/util');
-		require('./unit/transformers/ng/json.catalog');
-		require('./unit/transformers/ng/json.model');
+		require('./unit/transformers/helpers');
+
+		describe('JSON', function() {
+
+			require('./unit/transformers/ng/json.catalog');
+			require('./unit/transformers/ng/json.model');
+
+		});
 	
 	});
 
