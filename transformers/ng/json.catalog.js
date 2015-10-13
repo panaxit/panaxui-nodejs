@@ -8,7 +8,17 @@ var _attr = require('../util').attr;
 /*
 Main entry point
  */
-module.exports = _Entity;
+module.exports = _Catalog;
+
+/*
+Process Catalog
+ */
+function _Catalog(XML) {
+	var Doc = libxmljs.parseXmlString(XML);
+	var Entity = Doc.root();
+
+	return _Entity(Entity);
+}
 
 /*
 Process Entity

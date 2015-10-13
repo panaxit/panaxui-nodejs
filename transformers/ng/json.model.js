@@ -17,27 +17,27 @@ var $_FieldsIndex;
 /*
 Main entry point
  */
-module.exports = _Entity;
+module.exports = _Model;
+
+/*
+Process Model
+ */
+function _Model(XML) {
+	var Doc = libxmljs.parseXmlString(XML);
+	var Entity = Doc.root();
+
+	$primaryKey = _attr.val(Entity, 'primaryKey');
+	$identityKey = _attr.val(Entity, 'identityKey');
+	$_FieldsIndex = _keyIndex(Entity, "px:fields/*|px:fields//*[@fieldId][not(namespace-uri(.)='urn:panax')]", 'fieldId');
+
+	return _Entity(Entity);
+}
 
 /*
 Process Entity
  */
 function _Entity(Entity) {
-	var Doc = libxmljs.parseXmlString(Entity);
-	var Root = Doc.root();
-
-	$primaryKey = _attr.val(Root, 'primaryKey');
-	$identityKey = _attr.val(Root, 'identityKey');
-	$_FieldsIndex = _keyIndex(Root, "px:fields/*|px:fields//*[@fieldId][not(namespace-uri(.)='urn:panax')]", 'fieldId');
-
-	return _Model(Root);
-}
-
-/*
-Process Model
- */
-function _Model(Root) {
-	var Data = _el.get(Root, 'px:data');
+	var Data = _el.get(Entity, 'px:data');
 	return _Data(Data);
 }
 
@@ -101,7 +101,7 @@ function _Value(Field) {
 	} else if (dataType === 'foreignTable') {
 		// Recursively get model of children
 		var children = _el.get(Field, '*');
-		return _Model(children);
+		return _Entity(children);
 	} else if (dataType === 'junctionTable') {
 		// ToDo
 		return ''; //require('./json.model.junction.js')(.....);
