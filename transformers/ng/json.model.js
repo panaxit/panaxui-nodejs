@@ -23,8 +23,6 @@ _Main.Transform = function(XML) {
 	var Doc = libxmljs.parseXmlString(XML);
 	var Entity = Doc.root();
 
-	$primaryKey = _attr.val(Entity, 'primaryKey');
-	$identityKey = _attr.val(Entity, 'identityKey');
 	$_FieldsIndex = _keyIndex(Entity, "px:fields/*|px:fields//*[@fieldId][not(namespace-uri(.)='urn:panax')]", 'fieldId');
 
 	return _Main.Model(Entity);
@@ -35,25 +33,37 @@ Process Model
  */
 _Main.Model = function(Entity) {
 	var Data = _el.get(Entity, 'px:data');
-	return _Main.Data(Data);
+
+	var opts = {};
+	if(_attr.val(Entity, 'primaryKey'))
+		opts.primaryKey = _attr.val(Entity, 'primaryKey');
+	if(_attr.val(Entity, 'identityKey'))
+		opts.identityKey = _attr.val(Entity, 'identityKey');
+
+	return _Main.Data(Data, opts);
 };
 
 /*
 Process Data
  */
-_Main.Data = function(Data) {
+_Main.Data = function(Data, opts) {
 	var DataRows = _el.find(Data, 'px:dataRow');
-	return _Main.DataRows(DataRows);
+	return _Main.DataRows(DataRows, opts);
 };
 
 /*
 Process DataRows
  */
-_Main.DataRows = function(DataRows) {
+_Main.DataRows = function(DataRows, opts) {
 	var records = [];
 	DataRows.forEach(function (DataRow, index) {
+		if(_attr.val(DataRow, 'primaryValue'))
+			opts.primaryValue = _attr.val(DataRow, 'primaryValue');
+		if(_attr.val(DataRow, 'identity'))
+			opts.identity = _attr.val(DataRow, 'identity');
+
 		var Fields = _el.find(DataRow, '*');
-		records.push(_Main.Fields(Fields));
+		records.push(_Main.Fields(Fields, opts));
 	});
 	return records;
 };
@@ -61,9 +71,14 @@ _Main.DataRows = function(DataRows) {
 /*
 Process Fields
  */
-_Main.Fields = function(Fields) {
+_Main.Fields = function(Fields, opts) {
 	var column = {};
 	Fields.forEach(function (Field, index) {
+		if(opts.primaryValue)
+			column[opts.primaryKey] = opts.primaryValue;
+		if(opts.identity)
+			column[opts.identityKey] = opts.identity;
+
 		column[_el.name(Field)] = _Main.Value(Field);
 	});
 	return column;
