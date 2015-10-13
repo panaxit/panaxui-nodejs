@@ -8,51 +8,46 @@ var _attr = require('../util').attr;
 /*
 Main entry point
  */
-module.exports = _Catalog;
+module.exports = _Main;
+
+function _Main(XML) {
+	var Doc = libxmljs.parseXmlString(XML);
+	var Entity = Doc.root();
+
+	return _Catalog(Entity);
+}
 
 /*
 Process Catalog
  */
-function _Catalog(XML) {
-	var Doc = libxmljs.parseXmlString(XML);
-	var Entity = Doc.root();
-
-	return _Entity(Entity);
-}
-
-/*
-Process Entity
- */
-function _Entity(Entity) {
-	var Doc = libxmljs.parseXmlString(Entity);
-	var Root = Doc.root();
+function _Catalog(Entity) {
 
 	// ToDo: Custom _attrs.
 	return {
 		/* Basic Catalog Metadata */
-		"dbId": _attr.val(Root, 'dbId'),
-		"catalogName": _attr.val(Root, 'Table_Schema') + '.' + _attr.val(Root, 'Table_Name'),
-		"schemaName": _attr.val(Root, 'Table_Schema'),
-		"tableName": _attr.val(Root, 'Table_Name'),
-		"mode": _attr.val(Root, 'mode'),
-		"controlType": _attr.val(Root, 'controlType'),
-		"lang": _attr.val(Root, 'lang'),
+		"dbId": _attr.val(Entity, 'dbId'),
+		"catalogName": _attr.val(Entity, 'Table_Schema') + '.' + _attr.val(Entity, 'Table_Name'),
+		"schemaName": _attr.val(Entity, 'Table_Schema'),
+		"tableName": _attr.val(Entity, 'Table_Name'),
+		"mode": _attr.val(Entity, 'mode'),
+		"controlType": _attr.val(Entity, 'controlType'),
+		"lang": _attr.val(Entity, 'lang'),
 		/* Keys & References */
-		"primaryKey": _attr.val(Root, 'primaryKey'),
-		"identityKey": _attr.val(Root, 'identityKey'),
-		"foreignReference": _attr.val(Root, 'foreignReference'),
+		"primaryKey": _attr.val(Entity, 'primaryKey'),
+		"identityKey": _attr.val(Entity, 'identityKey'),
+		"foreignReference": _attr.val(Entity, 'foreignReference'),
 		/* Pagination _attributes */
-		"totalItems": _attr.val(Root, 'totalRecords'),
-		"pageSize": _attr.val(Root, 'pageSize'),
-		"pageIndex": _attr.val(Root, 'pageIndex'),
+		"totalItems": _attr.val(Entity, 'totalRecords'),
+		"pageSize": _attr.val(Entity, 'pageSize'),
+		"pageIndex": _attr.val(Entity, 'pageIndex'),
 		/* Data Access Metadata */
 		"metadata": {
-			"supportsInsert": _attr.val(Root, 'supportsInsert'),
-			"supportsUpdate": _attr.val(Root, 'supportsUpdate'),
-			"supportsDelete": _attr.val(Root, 'supportsDelete'),
-			"disableInsert": _attr.val(Root, 'disableInsert'),
-			"disableUpdate": _attr.val(Root, 'disableUpdate'),
-			"disableDelete": _attr.val(Root, 'disableDelete')
+			"supportsInsert": _attr.val(Entity, 'supportsInsert'),
+			"supportsUpdate": _attr.val(Entity, 'supportsUpdate'),
+			"supportsDelete": _attr.val(Entity, 'supportsDelete'),
+			"disableInsert": _attr.val(Entity, 'disableInsert'),
+			"disableUpdate": _attr.val(Entity, 'disableUpdate'),
+			"disableDelete": _attr.val(Entity, 'disableDelete')
 		}
 	};
 };

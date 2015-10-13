@@ -17,12 +17,9 @@ var $_FieldsIndex;
 /*
 Main entry point
  */
-module.exports = _Model;
+module.exports = _Main;
 
-/*
-Process Model
- */
-function _Model(XML) {
+function _Main(XML) {
 	var Doc = libxmljs.parseXmlString(XML);
 	var Entity = Doc.root();
 
@@ -30,13 +27,13 @@ function _Model(XML) {
 	$identityKey = _attr.val(Entity, 'identityKey');
 	$_FieldsIndex = _keyIndex(Entity, "px:fields/*|px:fields//*[@fieldId][not(namespace-uri(.)='urn:panax')]", 'fieldId');
 
-	return _Entity(Entity);
+	return _Model(Entity);
 }
 
 /*
-Process Entity
+Process Model
  */
-function _Entity(Entity) {
+function _Model(Entity) {
 	var Data = _el.get(Entity, 'px:data');
 	return _Data(Data);
 }
@@ -101,7 +98,7 @@ function _Value(Field) {
 	} else if (dataType === 'foreignTable') {
 		// Recursively get model of children
 		var children = _el.get(Field, '*');
-		return _Entity(children);
+		return _Model(children);
 	} else if (dataType === 'junctionTable') {
 		// ToDo
 		return ''; //require('./json.model.junction.js')(.....);
