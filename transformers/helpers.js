@@ -3,7 +3,8 @@ Variable helpers
  */
 
 var namespaces = {
-	"px": "urn:panax"
+	"px": "urn:panax",
+	"custom": "http://www.panaxit.com/custom"
 };
 
 /*
@@ -36,6 +37,20 @@ module.exports.el.find = function(el, xpath) {
 
 module.exports.el.name = function(el) {
 	return el.name() || undefined;
+}
+
+module.exports.el.customAttrs = function(el) {
+	var attrs = {customAttrs: {}};
+	el.attrs().forEach(function (attr, index) {
+		var name = attr.name();
+		var namespace = attr.namespace();
+		if(namespace && namespace.prefix() === 'custom') {
+			attrs.customAttrs[name] = attr.value();
+		} else {
+			attrs[name] = attr.value();
+		}
+	});
+	return attrs;
 }
 
 /*

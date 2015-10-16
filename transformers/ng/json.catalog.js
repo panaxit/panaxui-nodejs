@@ -4,6 +4,7 @@ var libxmljs = require('libxslt').libxmljs;
 Helpers
  */
 var _attr = require('../helpers').attr;
+var _el = require('../helpers').el;
 
 /*
 Main entry point
@@ -21,32 +22,34 @@ _Main.Transform = function(XML) {
 Process Catalog
  */
 _Main.Catalog = function(Entity) {
-	// ToDo: Custom _attrs.
+	var attrs = _el.customAttrs(Entity);
+
 	return {
 		/* Basic Catalog Metadata */
-		"dbId": _attr.val(Entity, 'dbId'),
-		"catalogName": _attr.val(Entity, 'Table_Schema') + '.' + _attr.val(Entity, 'Table_Name'),
-		"schemaName": _attr.val(Entity, 'Table_Schema'),
-		"tableName": _attr.val(Entity, 'Table_Name'),
-		"mode": _attr.val(Entity, 'mode'),
-		"controlType": _attr.val(Entity, 'controlType'),
-		"lang": _attr.val(Entity, 'lang'),
+		"dbId": attrs['dbId'],
+		"catalogName": attrs['Table_Schema'] + '.' + attrs['Table_Name'],
+		"schemaName": attrs['Table_Schema'],
+		"tableName": attrs['Table_Name'],
+		"mode": attrs['mode'],
+		"controlType": attrs['controlType'],
+		"lang": attrs['lang'],
 		/* Keys & References */
-		"primaryKey": _attr.val(Entity, 'primaryKey'),
-		"identityKey": _attr.val(Entity, 'identityKey'),
-		"foreignReference": _attr.val(Entity, 'foreignReference'),
+		"primaryKey": attrs['primaryKey'],
+		"identityKey": attrs['identityKey'],
+		"foreignReference": attrs['foreignReference'],
 		/* Pagination _attributes */
-		"totalItems": parseInt(_attr.val(Entity, 'totalRecords')),
-		"pageSize": parseInt(_attr.val(Entity, 'pageSize')),
-		"pageIndex": parseInt(_attr.val(Entity, 'pageIndex')),
+		"totalItems": parseInt(attrs['totalRecords']),
+		"pageSize": parseInt(attrs['pageSize']),
+		"pageIndex": parseInt(attrs['pageIndex']),
 		/* Data Access Metadata */
 		"metadata": {
-			"supportsInsert": _attr.val(Entity, 'supportsInsert'),
-			"supportsUpdate": _attr.val(Entity, 'supportsUpdate'),
-			"supportsDelete": _attr.val(Entity, 'supportsDelete'),
-			"disableInsert": _attr.val(Entity, 'disableInsert'),
-			"disableUpdate": _attr.val(Entity, 'disableUpdate'),
-			"disableDelete": _attr.val(Entity, 'disableDelete')
-		}
+			"supportsInsert": attrs['supportsInsert'],
+			"supportsUpdate": attrs['supportsUpdate'],
+			"supportsDelete": attrs['supportsDelete'],
+			"disableInsert": attrs['disableInsert'],
+			"disableUpdate": attrs['disableUpdate'],
+			"disableDelete": attrs['disableDelete']
+		},
+		"customAttrs": attrs.customAttrs
 	};
 };

@@ -4,7 +4,7 @@ var Catalog = require('../../../../transformers/ng/json.catalog');
 describe('JSON Catalog', function() {
 
 	it('should get catalog attributes', function() {
-		var xml = '<Entity xmlns:px="urn:panax" ' +
+		var xml = '<Entity xmlns:px="urn:panax" xmlns:custom="http://www.panaxit.com/custom"' +
 							'   xml:lang="es" ' + 
 							'		dbId="Demo" ' +
 							'		pageSize="1" ' +
@@ -22,6 +22,10 @@ describe('JSON Catalog', function() {
 							'		disableDelete="0" ' +
 							'		controlType="formView" ' +
 							'		mode="edit" ' +
+							'		custom:titleField="Nombre" ' +
+							'		custom:iconField="Imagen" ' +
+							'		custom:descField1="Tipo" ' +
+							'		custom:descField2="Direccion" ' +
 							'>' +
 							'</Entity>';
 		var result = Catalog.Transform(xml);
@@ -47,10 +51,14 @@ describe('JSON Catalog', function() {
 				"disableInsert": '0',
 				"disableUpdate": '0',
 				"disableDelete": '0'
+			},
+			"customAttrs": {
+				"titleField": "Nombre",
+				"iconField": "Imagen",
+				"descField1": "Tipo",
+				"descField2": "Direccion"
 			}
 		});
 	});
-
-	it('should get custom attributes');
 
 });
