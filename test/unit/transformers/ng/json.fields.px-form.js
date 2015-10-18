@@ -154,8 +154,6 @@ describe('px-form', function() {
 								'		<ShortTextField fieldId="ID00" fieldName="ShortTextField" headerText="Short Text Field" dataType="nvarchar" length="255" controlType="default" />' +
 								'		<IntegerReq fieldId="ID01" fieldName="IntegerReq" headerText="Integer Req" dataType="int" length="10" controlType="default" />' +
 								'		<Float fieldId="ID02" fieldName="Float" headerText="Float" dataType="float" controlType="default" />' +
-								'		<RadioGroup fieldId="ID03" fieldName="RadioGroup" headerText="Radio Group" dataType="foreignKey" relationshipType="belongsTo" length="10" controlType="radiogroup" />' +
-								'		<Combobox fieldId="ID04" fieldName="Combobox" headerText="Combobox" dataType="foreignKey" relationshipType="belongsTo" length="2" controlType="combobox" />' +
 								'		<Boolean fieldId="ID05" fieldName="Boolean" headerText="Boolean" dataType="bit" controlType="default" />' +
 								'		<Money fieldId="ID06" fieldName="Money" headerText="Money" dataType="money" length="15" controlType="default" />' +
 								'		<Date fieldId="ID07" fieldName="Date" headerText="Date" dataType="date" controlType="default" />' +
@@ -167,8 +165,6 @@ describe('px-form', function() {
 								'		<px:field fieldId="ID00" />' +
 								'		<px:field fieldId="ID01" />' +
 								'		<px:field fieldId="ID02" />' +
-								'		<px:field fieldId="ID03" />' +
-								'		<px:field fieldId="ID04" />' +
 								'		<px:field fieldId="ID05" />' +
 								'		<px:field fieldId="ID06" />' +
 								'		<px:field fieldId="ID07" />' +
@@ -183,17 +179,15 @@ describe('px-form', function() {
 					{
 						"type": "fieldset",
 						"fields": [
-							{ "key": "ShortTextField", "type": "input", "templateOptions": { "label": "Short Text Field", "placeholder": "" }, "data": {} },
-							{ "key": "IntegerReq", "type": "number", "templateOptions": { "label": "Integer Req", "placeholder": "" }, "data": {} },
+							{ "key": "ShortTextField", "type": "input", "templateOptions": { "label": "Short Text Field", "placeholder": "", "maxLength": 255 }, "data": {} },
+							{ "key": "IntegerReq", "type": "number", "templateOptions": { "label": "Integer Req", "placeholder": "", "maxLength": 10 }, "data": {} },
 							{ "key": "Float", "type": "number", "templateOptions": { "label": "Float", "placeholder": "" }, "data": {} },
-							{ "key": "RadioGroup", "type": "radio", "templateOptions": { "label": "Radio Group", "placeholder": "" }, "data": {} },
-							{ "key": "Combobox", "type": "async_select", "templateOptions": { "label": "Combobox", "placeholder": "" }, "data": {} },
 							{ "key": "Boolean", "type": "checkbox", "templateOptions": { "label": "Boolean", "placeholder": "" }, "data": {} },
-							{ "key": "Money", "type": "money", "templateOptions": { "label": "Money", "placeholder": "" }, "data": {} },
+							{ "key": "Money", "type": "money", "templateOptions": { "label": "Money", "placeholder": "", "maxLength": 15 }, "data": {} },
 							{ "key": "Date", "type": "date", "templateOptions": { "label": "Date", "placeholder": "" }, "data": {} },
 							{ "key": "Datetime", "type": "datetime", "templateOptions": { "label": "Datetime", "placeholder": "" }, "data": {} },
 							{ "key": "Time", "type": "time", "templateOptions": { "label": "Time", "placeholder": "" }, "data": {} },
-							{ "key": "LongText", "type": "textarea", "templateOptions": { "label": "Long Text", "placeholder": "" }, "data": {} }
+							{ "key": "LongText", "type": "textarea", "templateOptions": { "label": "Long Text", "placeholder": "", "maxLength": 2147483647 }, "data": {} }
 						]
 					}
 				]
@@ -223,11 +217,11 @@ describe('px-form', function() {
 					{
 						"type": "fieldset",
 						"fields": [
-							{ "key": "EMail", "type": "email", "templateOptions": { "label": "E Mail", "placeholder": "" }, "data": {} },
-							{ "key": "Color", "type": "color", "templateOptions": { "label": "Color", "placeholder": "" }, "data": {} },
-							{ "key": "PxFile", "type": "file", "templateOptions": { "label": "Px File", "placeholder": "" }, "data": {} },
-							{ "key": "PxPicture", "type": "file", "templateOptions": { "label": "Px Picture", "placeholder": "" }, "data": {} },
-							{ "key": "PxPassword", "type": "password", "templateOptions": { "label": "Px Password", "placeholder": "" }, "data": {} }
+							{ "key": "EMail", "type": "email", "templateOptions": { "label": "E Mail", "placeholder": "", "maxLength": 255 }, "data": {} },
+							{ "key": "Color", "type": "color", "templateOptions": { "label": "Color", "placeholder": "", "maxLength": 7 }, "data": {} },
+							{ "key": "PxFile", "type": "file", "templateOptions": { "label": "Px File", "placeholder": "", "maxLength": 255 }, "data": {} },
+							{ "key": "PxPicture", "type": "file", "templateOptions": { "label": "Px Picture", "placeholder": "", "maxLength": 255 }, "data": {} },
+							{ "key": "PxPassword", "type": "password", "templateOptions": { "label": "Px Password", "placeholder": "", "maxLength": 32 }, "data": {} }
 						]
 					}
 				]
@@ -236,7 +230,53 @@ describe('px-form', function() {
 		
 	});
 
-	describe('foreign tables', function() {
+	describe('options / params', function() {
+
+    it('radio', function() {
+      var xml = '<Entity xmlns:px="urn:panax" controlType="formView">' +
+                ' <px:fields>' +
+                '   <RadioGroup fieldId="ID00" fieldName="RadioGroup" headerText="Radio Group" dataType="foreignKey" relationshipType="belongsTo" length="10" controlType="radiogroup">' +
+                '     <Options />' +
+                '     <px:data>' +
+                '       <Options text="A" value="1" />' +
+                '       <Options text="B" value="2" />' +
+                '     </px:data>' +
+                '   </RadioGroup>' +
+                ' </px:fields>' +
+                ' <px:layout>' +
+                '   <px:field fieldId="ID00" />' +
+                ' </px:layout>' +
+                '</Entity>';
+      var result = Fields.Transform(xml);
+      expect(result).to.deep.equal(
+        [
+          {
+            "type": "fieldset",
+            "fields": [
+              { "key": "RadioGroup", "type": "radio", "templateOptions": { 
+                "label": "Radio Group", 
+                "placeholder": "",
+                "maxLength": 10,
+                "params": {},
+                "options": [
+                  {"name": "A", "value": "1"},
+                  {"name": "B", "value": "2"}
+                ]
+              }, "data": {} }
+            ]
+          }
+        ]
+      );
+    });
+
+    it('async_select');
+    //'   <Combobox fieldId="ID04" fieldName="Combobox" headerText="Combobox" dataType="foreignKey" relationshipType="belongsTo" length="2" controlType="combobox" />' +
+
+    it('cascaded');
+		
+	});
+
+	describe('foreign table', function() {
 
 		describe('hasOne', function() {
 
@@ -252,7 +292,7 @@ describe('px-form', function() {
 		
 	});
 
-	describe('junction tables', function() {
+	describe('junction table', function() {
 
 		it('PENDING');
 		

@@ -90,15 +90,37 @@ _Main.Tab = function(Tab) {
 _Main.Field = function(Field) {
 	var fieldId = _attr.val(Field, 'fieldId');
 	var Metadata = $_FieldsIndex[fieldId];
-	return {
-		"key": _attr.val(Metadata, 'fieldName'), // _el.name(Metadata)
+  var fieldName = _attr.val(Metadata, 'fieldName');
+  var dataType = _attr.val(Metadata, 'dataType');
+  var isIdentity = _attr.val(Metadata, 'isIdentity');
+  var isNullable = _attr.val(Metadata, 'isNullable');
+  var length = _attr.val(Metadata, 'length');
+  var headerText = _attr.val(Metadata, 'headerText');
+
+	var result = {
+		"key": fieldName, // _el.name(Metadata)
 		"type": _Main.Type(Metadata),
 		"templateOptions": {
-			"label": _attr.val(Metadata, 'headerText') || '',
+			"label": headerText || '',
 			"placeholder": ""
 		},
 		"data": {}
 	};
+
+  if(!!(isIdentity && isIdentity === '1'))
+    result.templateOptions.hide = true;
+  // if(mode && mode === 'readonly')
+  //   result.templateOptions.disabled = true;
+  if(!(!isNullable || isNullable !== '1'))
+    result.templateOptions.required = true;
+  if(length)
+    result.templateOptions.maxLength = parseInt(length);
+  if(dataType === 'foreignKey') {
+    result.templateOptions.options = _Main.Options(Metadata);
+    result.templateOptions.params = _Main.Params(Metadata);
+  }
+
+  return result;
 };
 
 _Main.Type = function(Metadata) {
@@ -227,4 +249,27 @@ _Main.junctionTableTypes = function(Metadata) {
 			}
 		}
 	}
+};
+
+_Main.Options = function(Metadata) {
+  var options = [];
+  var controlType = _attr.val(Metadata, 'controlType');
+
+  if(controlType === 'radiogroup') {
+    var Rows = _el.find(Metadata, 'px:data/*[@value and @text]');
+    Rows.forEach(function (Row, index) {
+      options.push({
+        "name": _attr.val(Row, 'text'),
+        "value": _attr.val(Row, 'value')
+      });
+    });
+  }
+
+  return options;
+};
+
+_Main.Params = function(Metadata) {
+  var params = {};
+  // ToDo
+  return params;
 };
