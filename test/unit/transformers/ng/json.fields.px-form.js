@@ -257,7 +257,6 @@ describe('px-form', function() {
                 "label": "Radio Group", 
                 "placeholder": "",
                 "maxLength": 10,
-                "params": {},
                 "options": [
                   {"name": "A", "value": "1"},
                   {"name": "B", "value": "2"}
@@ -269,8 +268,49 @@ describe('px-form', function() {
       );
     });
 
-    it('async_select');
-    //'   <Combobox fieldId="ID04" fieldName="Combobox" headerText="Combobox" dataType="foreignKey" relationshipType="belongsTo" length="2" controlType="combobox" />' +
+    it('async_select', function() {
+      var xml = '<Entity xmlns:px="urn:panax" controlType="formView">' +
+                ' <px:fields>' +
+                '   <Combobox fieldId="ID00" fieldName="Combobox" headerText="Combo box" dataType="foreignKey" relationshipType="belongsTo" length="2" controlType="combobox">' +
+                '     <Options dataText="RTRIM(Name)" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Options" Table_Schema="TestSchema" Schema="TestSchema" Table_Name="Options" Name="Options" controlType="default" />' +
+                '   </Combobox>' +
+                ' </px:fields>' +
+                ' <px:layout>' +
+                '   <px:field fieldId="ID00" />' +
+                ' </px:layout>' +
+                '</Entity>';
+      var result = Fields.Transform(xml);
+      expect(result).to.deep.equal(
+        [
+          {
+            "type": "fieldset",
+            "fields": [
+              // {
+              //   "template": "Combo box"
+              // },
+              {
+                "className": "display-flex",
+                "fieldGroup": [
+                  { "className": "flex-1",
+                    "key": "Combobox", "type": "async_select", "templateOptions": { 
+                    "label": "Combo box", 
+                    "placeholder": "",
+                    "maxLength": 2,
+                    "options": [],
+                    "params": {
+                      "catalogName": "TestSchema.Options",
+                      "valueColumn": "RTRIM([Id])",
+                      "textColumn": "RTRIM(Name)",
+                      "dependantEntity": "Combobox"
+                    }
+                  }, "data": {} }
+                ]
+              }
+            ]
+          }
+        ]
+      );
+    });
 
     it('cascaded');
 		

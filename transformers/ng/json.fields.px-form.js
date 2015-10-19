@@ -92,12 +92,13 @@ _Main.Field = function(Field) {
 	var Metadata = $_FieldsIndex[fieldId];
   var fieldName = _attr.val(Metadata, 'fieldName');
   var dataType = _attr.val(Metadata, 'dataType');
+  var controlType = _attr.val(Metadata, 'controlType');
   var isIdentity = _attr.val(Metadata, 'isIdentity');
   var isNullable = _attr.val(Metadata, 'isNullable');
   var length = _attr.val(Metadata, 'length');
   var headerText = _attr.val(Metadata, 'headerText');
 
-	var result = {
+	var field = {
 		"key": fieldName, // _el.name(Metadata)
 		"type": _Main.Type(Metadata),
 		"templateOptions": {
@@ -108,19 +109,28 @@ _Main.Field = function(Field) {
 	};
 
   if(!!(isIdentity && isIdentity === '1'))
-    result.templateOptions.hide = true;
+    field.templateOptions.hide = true;
   // if(mode && mode === 'readonly')
-  //   result.templateOptions.disabled = true;
+  //   field.templateOptions.disabled = true;
   if(!(!isNullable || isNullable !== '1'))
-    result.templateOptions.required = true;
+    field.templateOptions.required = true;
   if(length)
-    result.templateOptions.maxLength = parseInt(length);
+    field.templateOptions.maxLength = parseInt(length);
   if(dataType === 'foreignKey') {
-    result.templateOptions.options = _Main.Options(Metadata);
-    result.templateOptions.params = _Main.Params(Metadata);
+    field.templateOptions.options = _Main.Options(Metadata);
+    if(controlType === 'default' || controlType === 'combobox') {
+      field.templateOptions.params = _Main.Params(_el.get(Metadata, '*[1]'), Metadata);
+      field.className = 'flex-1';
+      // ToDo: Template headerText
+      field = {
+        "className": "display-flex",
+        //"label": headerText
+        "fieldGroup": [field]
+      };
+    }
   }
 
-  return result;
+  return field;
 };
 
 _Main.Type = function(Metadata) {
@@ -268,8 +278,11 @@ _Main.Options = function(Metadata) {
   return options;
 };
 
-_Main.Params = function(Metadata) {
-  var params = {};
-  // ToDo
-  return params;
+_Main.Params = function(Metadata, Parent) {
+  return {
+    'catalogName': _attr.val(Metadata, 'Table_Schema') + '.' + _attr.val(Metadata, 'Table_Name'),
+    'valueColumn': _attr.val(Metadata, 'dataValue'),
+    'textColumn': _attr.val(Metadata, 'dataText'),
+    'dependantEntity': _el.name(Parent)
+  };
 };
