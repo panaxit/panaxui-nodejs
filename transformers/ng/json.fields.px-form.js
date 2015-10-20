@@ -11,6 +11,7 @@ var _keyIndex = require('../helpers').keyIndex;
 Keys & Indexes
  */
 var $_FieldsIndex;
+var $_DataIndex;
 
 /*
 Main entry point
@@ -20,7 +21,8 @@ var _Main = exports;
 _Main.Transform = function(Entity) {
 	var Layout = _el.get(Entity, 'px:layout');
 
-	$_FieldsIndex = _keyIndex(Entity, "px:fields/*|px:fields//*[@fieldId][not(namespace-uri(.)='urn:panax')]", 'fieldId');
+  $_FieldsIndex = _keyIndex(Entity, "px:fields//*[@fieldId]", 'fieldId');
+  $_DataIndex = _keyIndex(Entity, "px:data/px:dataRow//*[@fieldId]", 'fieldId');
 
 	return _Main.Layout(Layout);
 };
@@ -39,7 +41,7 @@ _Main.FieldSet = function(Fields) {
 
 /*
 ToDo:
-@fieldContainer (fieldGroup)
+@fieldContainer (fieldGroup?)
 		.orentation = horizontal / vertical
  */
 
@@ -112,26 +114,55 @@ _Main.Field = function(Field) {
     field.templateOptions.hide = true;
   // if(mode && mode === 'readonly')
   //   field.templateOptions.disabled = true;
-  if(!(!isNullable || isNullable !== '1'))
+  if(!(isNullable || isNullable !== '1'))
     field.templateOptions.required = true;
   if(length)
     field.templateOptions.maxLength = parseInt(length);
   if(dataType === 'foreignKey') {
     field.templateOptions.options = _Main.Options(Metadata);
     if(controlType === 'default' || controlType === 'combobox') {
-      field.templateOptions.params = _Main.Params(_el.get(Metadata, '*[1]'), Metadata);
+      var Data = _el.get($_DataIndex[fieldId], '*[1]');
+      field.templateOptions.params = _Main.Params(_el.get(Metadata, '*[1]'), Data);
       field.className = 'flex-1';
       // ToDo: Template headerText
       field = {
         "className": "display-flex",
         //"label": headerText
-        "fieldGroup": [field]
+        "fieldGroup": _Main.Cascaded(_el.get(Metadata, '*[1]/*[1]'), _el.get(Data, '*[1]'), [field])
       };
     }
   }
 
   return field;
 };
+
+_Main.Cascaded = function(Metadata, Data, cascaded) {
+  if(Metadata) {
+    var headerText = _attr.val(Metadata, 'headerText');
+    cascaded = [{
+      "className": "flex-1",
+      "key": _el.name(Metadata),
+      "type": "async_select",
+      /*
+      formState as model tells angular-formly to treat the field only as ui support,
+      not part of regular model
+      https://github.com/formly-js/angular-formly/issues/299 
+      */
+      "model": "formState",
+      "templateOptions": {
+        "label": headerText || '',
+        "placeholder": "",
+        "options": _Main.Options(Metadata),
+        "params":  _Main.Params(Metadata, Data)
+      }
+    }].concat(cascaded);
+    var Child = _el.get(Metadata, '*[1]');
+    if(Child) {
+      cascaded = _Main.Cascaded(Child, _el.get(Data, '*[1]'), []).concat(cascaded);
+    }
+  }
+  return cascaded;
+}
 
 _Main.Type = function(Metadata) {
 	var dataType = _attr.val(Metadata, 'dataType');
@@ -278,11 +309,24 @@ _Main.Options = function(Metadata) {
   return options;
 };
 
-_Main.Params = function(Metadata, Parent) {
-  return {
+_Main.Params = function(Metadata, Data) {
+  var Parent = _el.get(Metadata, 'parent::*[1]');
+  var Child = _el.get(Metadata, '*[1]');
+  var foreignKey = _attr.val(Metadata, 'foreignKey');
+
+  var result = {
     'catalogName': _attr.val(Metadata, 'Table_Schema') + '.' + _attr.val(Metadata, 'Table_Name'),
     'valueColumn': _attr.val(Metadata, 'dataValue'),
     'textColumn': _attr.val(Metadata, 'dataText'),
     'dependantEntity': _el.name(Parent)
   };
+
+  if(Child && Data && foreignKey) {
+    var foreignValue = _attr.val(Data, 'foreignValue');
+    result["foreignEntity"] = _el.name(Child);
+    result["foreignKey"] = foreignKey;
+    result["foreignValue"] = foreignValue;
+  }
+
+  return result;
 };

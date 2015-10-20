@@ -312,7 +312,98 @@ describe('px-form', function() {
       );
     });
 
-    it('cascaded');
+    it('cascaded', function() {
+      var xml = '<Entity xmlns:px="urn:panax" controlType="formView">' +
+                ' <px:fields>' +
+                '   <BirthPlace fieldId="ID00" fieldName="BirthPlace" Name="BirthPlace" Column_Name="BirthPlace" isPrimaryKey="0" isIdentity="0" dataType="foreignKey" relationshipType="belongsTo" length="5" isNullable="1" headerText="Birth Place" controlType="default">' +
+                '     <City fieldId="ID0EUB" fieldName="BirthPlace" sortOrder="0" text="- -" foreignKey="fk" dataText="RTRIM(City)" dataValue="RTRIM([Id])" primaryKey="Id" headerText="City" Table_Schema="TestSchema" Schema="TestSchema" Table_Name="City" Name="City" controlType="default">' +
+                '       <State sortOrder="0" text="- -" foreignKey="fk" dataText="RTRIM(State)" dataValue="RTRIM([Id])" primaryKey="Id" headerText="State" Table_Schema="TestSchema" Schema="TestSchema" Table_Name="State" Name="State" controlType="default">' +
+                '         <Country sortOrder="0" text="- -" dataText="RTRIM(Country)" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Country" Table_Schema="TestSchema" Schema="TestSchema" Table_Name="Country" Name="Country" controlType="default" />' +
+                '       </State>' +
+                '     </City>' +
+                '   </BirthPlace>' +
+                ' </px:fields>' +
+                ' <px:layout>' +
+                '   <px:field fieldId="ID00" />' +
+                ' </px:layout>' +
+                ' <px:data>' +
+                '   <px:dataRow rowNumber="1" identity="1" primaryValue="1" mode="inherit">' +
+                '     <BirthPlace fieldId="ID00" value="01001" text="MEXICO //Aguascalientes //Aguascalientes">' +
+                '       <City fieldId="ID0EUB" fieldName="BirthPlace" sortOrder="1" text="Aguascalientes" value="01001" foreignValue="01" foreignKey="fk" dataText="RTRIM(City)" dataValue="RTRIM([Id])" primaryKey="Id" headerText="City" Table_Schema="TestSchema" Schema="TestSchema" Table_Name="City" Name="City" controlType="default">' +
+                '         <State sortOrder="1" text="Aguascalientes" value="01" foreignValue="MX" foreignKey="fk" dataText="RTRIM(State)" dataValue="RTRIM([Id])" primaryKey="Id" headerText="State" Table_Schema="TestSchema" Schema="TestSchema" Table_Name="State" Name="State" controlType="default">' +
+                '           <Country sortOrder="151" text="MEXICO" value="MX" dataText="RTRIM(Country)" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Country" Table_Schema="TestSchema" Schema="TestSchema" Table_Name="Country" Name="Country" controlType="default"/>' +
+                '         </State>' +
+                '       </City>' +
+                '     </BirthPlace>' +
+                '   </px:dataRow>' +
+                ' </px:data>' +
+                '</Entity>';
+      var result = Fields.Transform(xml);
+      expect(result).to.deep.equal(
+        [
+          {
+            "type": "fieldset",
+            "fields": [
+              // {
+              //   "template": "Birth Place"
+              // },
+              {
+                "className": "display-flex",
+                "fieldGroup": [
+                  { "className": "flex-1",
+                    "key": "Country", "type": "async_select",
+                    "model": "formState", "templateOptions": {
+                      "label": "Country", 
+                      "placeholder": "",
+                      "options": [],
+                      "params": {
+                        "catalogName": "TestSchema.Country",
+                        "valueColumn": "RTRIM([Id])",
+                        "textColumn": "RTRIM(Country)",
+                        "dependantEntity": "State"
+                      }
+                    }
+                  },
+                  { "className": "flex-1",
+                    "key": "State", "type": "async_select",
+                    "model": "formState", "templateOptions": {
+                      "label": "State", 
+                      "placeholder": "",
+                      "options": [],
+                      "params": {
+                        "catalogName": "TestSchema.State",
+                        "valueColumn": "RTRIM([Id])",
+                        "textColumn": "RTRIM(State)",
+                        "foreignEntity": "Country",
+                        "foreignKey": "fk",
+                        "foreignValue": "MX",
+                        "dependantEntity": "City"
+                      }
+                    }
+                  },
+                  { "className": "flex-1",
+                    "key": "BirthPlace", "type": "async_select", "templateOptions": { 
+                    "label": "Birth Place", 
+                    "placeholder": "",
+                    "maxLength": 5,
+                    "options": [],
+                    "params": {
+                      "catalogName": "TestSchema.City",
+                      "valueColumn": "RTRIM([Id])",
+                      "textColumn": "RTRIM(City)",
+                      "foreignEntity": "State",
+                      "foreignKey": "fk",
+                      "foreignValue": "01",
+                      "dependantEntity": "BirthPlace"
+                    }
+                  }, "data": {} }
+                ]
+              }
+            ]
+          }
+        ]
+      );
+    });
 		
 	});
 

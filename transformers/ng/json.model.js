@@ -23,7 +23,7 @@ _Main.Transform = function(XML) {
 	var Doc = libxmljs.parseXmlString(XML);
 	var Entity = Doc.root();
 
-	$_FieldsIndex = _keyIndex(Entity, "px:fields/*|px:fields//*[@fieldId][not(namespace-uri(.)='urn:panax')]", 'fieldId');
+	$_FieldsIndex = _keyIndex(Entity, "px:fields//*[@fieldId]", 'fieldId');
 
 	return _Main.Model(Entity);
 };

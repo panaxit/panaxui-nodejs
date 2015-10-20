@@ -20,7 +20,7 @@ var _Main = exports;
 _Main.Transform = function(Entity) {
 	var Layout = _el.get(Entity, 'px:layout');
 
-	$_FieldsIndex = _keyIndex(Entity, "px:fields/*|px:fields//*[@fieldId][not(namespace-uri(.)='urn:panax')]", 'fieldId');
+	$_FieldsIndex = _keyIndex(Entity, "px:fields//*[@fieldId]", 'fieldId');
 
 	return _Main.Layout(Layout);
 };
