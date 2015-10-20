@@ -1,5 +1,7 @@
 var expect = require('chai').expect;
-var Model = require('../../../../transformers/ng/json.model');
+var libxmljs = require('libxslt').libxmljs;
+var _initKeyIndexes = require('../../../../transformers/ng/json').initKeyIndexes;
+var _Model = require('../../../../transformers/ng/json.model');
 
 describe('JSON Model', function() {
 
@@ -12,7 +14,12 @@ describe('JSON Model', function() {
 									'	<px:data>' +
 									'	</px:data>' +
 									'</Entity>';
-				var result = Model.Transform(xml);
+
+        var Doc = libxmljs.parseXmlString(xml);
+        var Entity = Doc.root();
+        _initKeyIndexes(Entity);
+				var result = _Model.Transform(Entity);
+
 				expect(result).to.be.empty;
 			});
 
@@ -23,7 +30,11 @@ describe('JSON Model', function() {
 									'		</px:dataRow>' +
 									'	</px:data>' +
 									'</Entity>';
-				var result = Model.Transform(xml);
+
+        var Doc = libxmljs.parseXmlString(xml);
+        var Entity = Doc.root();
+        _initKeyIndexes(Entity);
+        var result = _Model.Transform(Entity);
 									
 				expect(result).not.to.be.empty;
 				expect(result[0]).to.be.empty;
@@ -46,7 +57,11 @@ describe('JSON Model', function() {
 									'		</px:dataRow>' +
 									'	</px:data>' +
 									'</Entity>';
-				var result = Model.Transform(xml);
+
+        var Doc = libxmljs.parseXmlString(xml);
+        var Entity = Doc.root();
+        _initKeyIndexes(Entity);
+        var result = _Model.Transform(Entity);
 									
 				expect(result).not.to.be.empty;
 				expect(result[0]).to.to.deep.equal({"FieldA": "a", "FieldB": "1"});
@@ -75,7 +90,11 @@ describe('JSON Model', function() {
 									'		</px:dataRow>' +
 									'	</px:data>' +
 									'</Entity>';
-				var result = Model.Transform(xml);
+
+        var Doc = libxmljs.parseXmlString(xml);
+        var Entity = Doc.root();
+        _initKeyIndexes(Entity);
+        var result = _Model.Transform(Entity);
 									
 				expect(result).not.to.be.empty;
 				expect(result[0]).to.to.deep.equal({"Id": "1", "FieldA": "a", "FieldB": "1"});
@@ -111,7 +130,11 @@ describe('JSON Model', function() {
 									'		</px:dataRow>' +
 									'	</px:data>' +
 									'</Entity>';
-				var result = Model.Transform(xml);
+
+        var Doc = libxmljs.parseXmlString(xml);
+        var Entity = Doc.root();
+        _initKeyIndexes(Entity);
+        var result = _Model.Transform(Entity);
 									
 				expect(result).not.to.be.empty;
 				expect(result[0]).to.to.deep.equal({
@@ -147,7 +170,11 @@ describe('JSON Model', function() {
 								'		</px:dataRow>' +
 								'	</px:data>' +
 								'</Entity>';
-			var result = Model.Transform(xml);
+
+        var Doc = libxmljs.parseXmlString(xml);
+        var Entity = Doc.root();
+        _initKeyIndexes(Entity);
+        var result = _Model.Transform(Entity);
 								
 			expect(result).not.to.be.empty;
 			expect(result[0]).to.to.deep.equal({
@@ -208,7 +235,11 @@ describe('JSON Model', function() {
 								'		</px:dataRow>' +
 								'	</px:data>' +
 								'</Entity>';
-			var result = Model.Transform(xml);
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Model.Transform(Entity);
 								
 			expect(result).not.to.be.empty;
 			expect(result[0]).to.to.deep.equal({
@@ -254,7 +285,11 @@ describe('JSON Model', function() {
 								'		</px:dataRow>' +
 								'	</px:data>' +
 								'</Entity>';
-			var result = Model.Transform(xml);
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Model.Transform(Entity);
 								
 			expect(result).not.to.be.empty;
 			expect(result[0]).to.to.deep.equal({

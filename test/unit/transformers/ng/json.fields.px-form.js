@@ -1,5 +1,7 @@
 var expect = require('chai').expect;
-var Fields = require('../../../../transformers/ng/json.fields');
+var libxmljs = require('libxslt').libxmljs;
+var _initKeyIndexes = require('../../../../transformers/ng/json').initKeyIndexes;
+var _Fields = require('../../../../transformers/ng/json.fields');
 
 describe('px-form', function() {
 
@@ -10,7 +12,12 @@ describe('px-form', function() {
 								'	<px:layout>' +
 								'	</px:layout>' +
 								'</Entity>';
-			var result = Fields.Transform(xml);
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Fields.Transform(Entity);
+
 			expect(result).to.deep.equal(
 				[
 					{
@@ -38,7 +45,12 @@ describe('px-form', function() {
 								'		</px:tabPanel>' +
 								'	</px:layout>' +
 								'</Entity>';
-			var result = Fields.Transform(xml);
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Fields.Transform(Entity);
+
 			expect(result).to.deep.equal(
 				[
 					{
@@ -65,7 +77,12 @@ describe('px-form', function() {
 								'		</px:tabPanel>' +
 								'	</px:layout>' +
 								'</Entity>';
-			var result = Fields.Transform(xml);
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Fields.Transform(Entity);
+
 			expect(result).to.deep.equal(
 				[
 					{
@@ -103,7 +120,12 @@ describe('px-form', function() {
 								'		</px:tabPanel>' +
 								'	</px:layout>' +
 								'</Entity>';
-			var result = Fields.Transform(xml);
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Fields.Transform(Entity);
+
 			expect(result).to.deep.equal(
 				[
 					{
@@ -173,7 +195,12 @@ describe('px-form', function() {
 								'		<px:field fieldId="ID10" />' +
 								'	</px:layout>' +
 								'</Entity>';
-			var result = Fields.Transform(xml);
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Fields.Transform(Entity);
+
 			expect(result).to.deep.equal(
 				[
 					{
@@ -211,7 +238,12 @@ describe('px-form', function() {
 								'		<px:field fieldId="ID04" />' +
 								'	</px:layout>' +
 								'</Entity>';
-			var result = Fields.Transform(xml);
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Fields.Transform(Entity);
+
 			expect(result).to.deep.equal(
 				[
 					{
@@ -247,7 +279,12 @@ describe('px-form', function() {
                 '   <px:field fieldId="ID00" />' +
                 ' </px:layout>' +
                 '</Entity>';
-      var result = Fields.Transform(xml);
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Fields.Transform(Entity);
+
       expect(result).to.deep.equal(
         [
           {
@@ -279,7 +316,12 @@ describe('px-form', function() {
                 '   <px:field fieldId="ID00" />' +
                 ' </px:layout>' +
                 '</Entity>';
-      var result = Fields.Transform(xml);
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Fields.Transform(Entity);
+
       expect(result).to.deep.equal(
         [
           {
@@ -338,7 +380,12 @@ describe('px-form', function() {
                 '   </px:dataRow>' +
                 ' </px:data>' +
                 '</Entity>';
-      var result = Fields.Transform(xml);
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Fields.Transform(Entity);
+
       expect(result).to.deep.equal(
         [
           {
@@ -409,7 +456,7 @@ describe('px-form', function() {
 
 	describe('foreign table', function() {
 
-    it('hasOne', function() {
+    it('hasOne (nested FormView)', function() {
       var xml = '<Entity xmlns:px="urn:panax" controlType="formView">' +
                 ' <px:fields>' +
                 '   <NestedForm fieldId="ID00" fieldName="NestedForm" dataType="foreignTable" relationshipType="hasOne" foreignSchema="TestSchema" foreignTable="NestedForm" foreignReference="Id" headerText="Nested Form" mode="inherit" controlType="formView">' +
@@ -427,7 +474,12 @@ describe('px-form', function() {
                 '   <px:field fieldId="ID00" />' +
                 ' </px:layout>' +
                 '</Entity>';
-      var result = Fields.Transform(xml);
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Fields.Transform(Entity);
+
       expect(result).to.deep.equal(
         [
           {
@@ -489,7 +541,131 @@ describe('px-form', function() {
       );
     });
 
-		it('hasMany');
+    it('hasMany (deeply nested GridView)', function() {
+      var xml = '<Entity xmlns:px="urn:panax" controlType="formView" >' +
+                ' <px:fields>' +
+                '   <NestedForm fieldId="ID00" fieldName="NestedForm" dataType="foreignTable" relationshipType="hasOne" foreignSchema="TestSchema" foreignTable="NestedForm" foreignReference="Id" headerText="Nested Form" mode="inherit" controlType="formView">' +
+                '     <NestedForm xmlns:px="urn:panax" xml:lang="es" dbId="Demo" fullPath="" version="Beta_12" pageSize="0" pageIndex="1" foreignReference="Id" Schema="TestSchema" Name="NestedForm" Table_Name="NestedForm" Table_Schema="TestSchema" Base_Type="TABLE" primaryKey="Id" dataType="table" controlType="formView" filtersBehavior="append" headerText="Nested Form" filters="id=1" mode="edit" supportsInsert="1" disableInsert="0" supportsUpdate="1" disableUpdate="0" supportsDelete="1" disableDelete="0">' +
+                '       <px:fields>' +
+                '         <NestedGrid fieldId="ID01" fieldName="NestedGrid" controlType="gridView" Name="NestedGrid" Column_Name="NestedGrid" dataType="foreignTable" relationshipType="hasMany" foreignSchema="TestSchema" foreignTable="NestedGrid" foreignReference="FkId" headerText="Nested Grid" mode="inherit">' +
+                '           <NestedGrid xmlns:px="urn:panax" xml:lang="es" dbId="Demo" version="Beta_12" pageSize="0" pageIndex="1" foreignReference="FkId" Schema="TestSchema" Name="NestedGrid" Table_Name="NestedGrid" Table_Schema="TestSchema" Base_Type="TABLE" primaryKey="Id" supportsInsert="1" disableInsert="0" supportsUpdate="1" disableUpdate="0" supportsDelete="1" disableDelete="0" dataType="table" controlType="gridView" filtersBehavior="append" headerText="CONTROLS Grid" filters="id=1" mode="edit">' +
+                '             <px:fields>' +
+                '               <FieldA fieldId="IDA" fieldName="FieldA" />' +
+                '             </px:fields>' +
+                '             <px:layout>' +
+                '               <px:field fieldId="IDA" />' +
+                '             </px:layout>' +
+                '           </NestedGrid>' +
+                '         </NestedGrid>' +
+                '       </px:fields>' +
+                '       <px:layout>' +
+                '         <px:field fieldId="ID01" />' +
+                '       </px:layout>' +
+                '     </NestedForm>' +
+                '   </NestedForm>' +
+                ' </px:fields>' +
+                ' <px:layout>' +
+                '   <px:field fieldId="ID00" />' +
+                ' </px:layout>' +
+                '</Entity>';
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Fields.Transform(Entity);
+
+      expect(result).to.deep.equal(
+        [
+          {
+            "type": "fieldset",
+            "fields": [
+              { 
+                "key": "NestedForm", 
+                "type": "form", 
+                "templateOptions": { 
+                  "label": "Nested Form", 
+                  "placeholder": "" 
+                },
+                "data": {
+                  "fields": [
+                    {
+                      "type": "fieldset",
+                      "fields": [
+                        {
+                          "key": "NestedGrid",
+                          "type": "grid",
+                          "templateOptions": {
+                            "label": "Nested Grid",
+                            "placeholder": ""
+                          },
+                          "data": {
+                            "fields": {
+                              "columnDefs": [
+                                {"field": "FieldA", "displayName": "", "type": "object"}
+                              ]
+                            },
+                            "catalog": {
+                              "dbId": 'Demo',
+                              "catalogName": 'TestSchema.NestedGrid',
+                              "schemaName": 'TestSchema',
+                              "tableName": 'NestedGrid',
+                              "mode": 'edit',
+                              "controlType": 'gridView',
+                              "lang": 'es',
+                              "primaryKey": 'Id',
+                              "identityKey": undefined,
+                              "foreignReference": 'FkId',
+                              "totalItems": undefined,
+                              "pageSize": 0,
+                              "pageIndex": 1,
+                              "metadata": {
+                                "supportsInsert": '1',
+                                "supportsUpdate": '1',
+                                "supportsDelete": '1',
+                                "disableInsert": '0',
+                                "disableUpdate": '0',
+                                "disableDelete": '0'
+                              },
+                              "customAttrs": {}
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "catalog": {
+                    "dbId": 'Demo',
+                    "catalogName": 'TestSchema.NestedForm',
+                    "schemaName": 'TestSchema',
+                    "tableName": 'NestedForm',
+                    "mode": 'edit',
+                    "controlType": 'formView',
+                    "lang": 'es',
+                    "primaryKey": 'Id',
+                    "identityKey": undefined,
+                    "foreignReference": 'Id',
+                    "totalItems": undefined,
+                    "pageSize": 0,
+                    "pageIndex": 1,
+                    "metadata": {
+                      "supportsInsert": '1',
+                      "supportsUpdate": '1',
+                      "supportsDelete": '1',
+                      "disableInsert": '0',
+                      "disableUpdate": '0',
+                      "disableDelete": '0'
+                    },
+                    "customAttrs": {}
+                  }
+                } 
+              }
+            ]
+          }
+        ]
+      );
+    });
+
+    it('hasMany (deeply nested CardsView)');
 		
 	});
 

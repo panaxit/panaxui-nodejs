@@ -1,35 +1,27 @@
-var libxmljs = require('libxslt').libxmljs;
-var _ = require('lodash');
-
 /*
 Helpers
  */
 var _attr = require('../helpers').attr;
 var _el = require('../helpers').el;
-var _keyIndex = require('../helpers').keyIndex;
+var $_keys = require('../helpers').$keys;
 
 /*
 Transformers
  */
 var _Catalog = require('./json.catalog.js');
+var _PxGrid = require('./json.fields.px-grid');
+var _PxCards = require('./json.fields.px-cards');
 
 /*
-Keys Indexes
- */
-var $_FieldsIndex = {};
-var $_DataIndex = {};
-
-/*
-Main entry point
+Main namespace
  */
 var _Main = exports;
 
+/*
+Process PxForm Fields
+ */
 _Main.Transform = function(Entity) {
 	var Layout = _el.get(Entity, 'px:layout');
-
-  // Extend key indexes progressively
-  _.assign($_FieldsIndex, _keyIndex(Entity, "px:fields//*[@fieldId]", 'fieldId'));
-  _.assign($_DataIndex, _keyIndex(Entity, "px:data/px:dataRow//*[@fieldId]", 'fieldId'));
 
 	return _Main.Layout(Layout);
 };
@@ -98,7 +90,7 @@ _Main.Tab = function(Tab) {
 
 _Main.Field = function(Field) {
 	var fieldId = _attr.val(Field, 'fieldId');
-	var Metadata = $_FieldsIndex[fieldId];
+	var Metadata = $_keys['Fields'][fieldId];
   var fieldName = _attr.val(Metadata, 'fieldName');
   var dataType = _attr.val(Metadata, 'dataType');
   var controlType = _attr.val(Metadata, 'controlType');
@@ -106,6 +98,7 @@ _Main.Field = function(Field) {
   var isNullable = _attr.val(Metadata, 'isNullable');
   var length = _attr.val(Metadata, 'length');
   var headerText = _attr.val(Metadata, 'headerText');
+  var relationshipType = _attr.val(Metadata, 'relationshipType');
 
 	var field = {
 		"key": fieldName, // _el.name(Metadata)
@@ -132,7 +125,7 @@ _Main.Field = function(Field) {
      */
     field.templateOptions.options = _Main.Options(Metadata);
     if(controlType === 'default' || controlType === 'combobox') {
-      var Data = _el.get($_DataIndex[fieldId], '*[1]');
+      var Data = _el.get( $_keys['Data'][fieldId], '*[1]');
       field.templateOptions.params = _Main.Params(_el.get(Metadata, '*[1]'), Data);
       field.className = 'flex-1';
       // ToDo: Template headerText
@@ -143,24 +136,32 @@ _Main.Field = function(Field) {
       };
     }
   } else if (dataType === 'foreignTable') {
-    var relationshipType = _attr.val(Metadata, 'relationshipType');
-    var Entity = _el.get(Metadata, '*[1]');
     /*
     foreignTable
      */
+    var Entity = _el.get(Metadata, '*[1]');
     if(relationshipType === 'hasOne') {
       /*
       hasOne
        */
-      field.data = {
-        "fields": _Main.Transform(Entity), //!!DANGER!! Overwrites Key Indexes
-        "catalog": _Catalog.Transform(Entity)
-      };
+      field.data.fields  = _Main.Transform(Entity); //!!DANGER!! Overwrites Key Indexes
+      field.data.catalog = _Catalog.Transform(Entity);
     } else if(relationshipType === 'hasMany') {
       /*
       hasMany
        */
-       // ToDo
+      switch(controlType) {
+        case 'default':
+        case 'formView':
+        default:
+          break;
+        case 'gridView':
+          field.data.fields = _PxGrid.Transform(Entity);
+          break;
+        case 'cardsView':
+          break;
+      }
+      field.data.catalog = _Catalog.Transform(Entity);
     }
   }
 

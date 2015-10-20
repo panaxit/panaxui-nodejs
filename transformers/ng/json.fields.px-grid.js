@@ -1,46 +1,34 @@
-var libxmljs = require('libxslt').libxmljs;
-var _ = require('lodash');
-
 /*
 Helpers
  */
 var _attr = require('../helpers').attr;
 var _el = require('../helpers').el;
-var _keyIndex = require('../helpers').keyIndex;
+var $_keys = require('../helpers').$keys;
 
 /*
-Keys & Indexes
- */
-var $_FieldsIndex = {};
-
-/*
-Main entry point
+Main namespace
  */
 var _Main = exports;
 
+/*
+Process PxGrid Fields
+ */
 _Main.Transform = function(Entity) {
-	var Layout = _el.get(Entity, 'px:layout');
+  var Fields = _el.find(Entity, 'px:layout//px:field');
 
-	_.assign($_FieldsIndex, _keyIndex(Entity, "px:fields//*[@fieldId]", 'fieldId'));
-
-	return _Main.Layout(Layout);
-};
-
-_Main.Layout = function(Layout) {
-	var Fields = _el.find(Layout, '//px:field');
-	return {
-		"columnDefs": _Main.Fields(Fields)
-	};
+  return {
+    "columnDefs": _Main.Fields(Fields)
+  };
 };
 
 _Main.Fields = function(Fields) {
 	columnDefs = [];
 	Fields.forEach(function (Field, index) {
 		var fieldId = _attr.val(Field, 'fieldId');
-		var Metadata = $_FieldsIndex[fieldId];
+		var Metadata = $_keys['Fields'][fieldId];
 		var column = {
 			"field": _attr.val(Metadata, 'fieldName'), // _el.name(Metadata)
-			"displayName": _attr.val(Metadata, 'headerText'),
+			"displayName": _attr.val(Metadata, 'headerText') || '',
 			/*
 			ToDo: Not necesary to include type?
 			...Add this only if the grid guessing is not to your satisfaction...

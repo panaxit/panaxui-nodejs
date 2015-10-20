@@ -1,5 +1,3 @@
-var libxmljs = require('libxslt').libxmljs;
-
 /*
 Helpers
  */
@@ -7,21 +5,14 @@ var _attr = require('../helpers').attr;
 var _el = require('../helpers').el;
 
 /*
-Main entry point
+Main namespace
  */
 var _Main = exports;
-
-_Main.Transform = function(XML) {
-	var Doc = libxmljs.parseXmlString(XML);
-	var Entity = Doc.root();
-
-	return _Main.Catalog(Entity);
-};
 
 /*
 Process Catalog
  */
-_Main.Catalog = function(Entity) {
+_Main.Transform = function(Entity) {
 	var attrs = _el.customAttrs(Entity);
 
   var totalRecords = parseInt(attrs['totalRecords']),

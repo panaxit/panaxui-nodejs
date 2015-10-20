@@ -1,5 +1,6 @@
 var expect = require('chai').expect;
-var Catalog = require('../../../../transformers/ng/json.catalog');
+var libxmljs = require('libxslt').libxmljs;
+var _Catalog = require('../../../../transformers/ng/json.catalog');
 
 describe('JSON Catalog', function() {
 
@@ -28,7 +29,11 @@ describe('JSON Catalog', function() {
 							'		custom:descField2="Direccion" ' +
 							'>' +
 							'</Entity>';
-		var result = Catalog.Transform(xml);
+
+    var Doc = libxmljs.parseXmlString(xml);
+    var Entity = Doc.root();
+    var result = _Catalog.Transform(Entity);
+
 		expect(result).to.be.ok;
 		expect(result).to.to.deep.equal({
 			"dbId": 'Demo',

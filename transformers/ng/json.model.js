@@ -1,38 +1,25 @@
-var libxmljs = require('libxslt').libxmljs;
-var _ = require('lodash');
-
 /*
 Helpers
  */
 var _attr = require('../helpers').attr;
 var _el = require('../helpers').el;
-var _keyIndex = require('../helpers').keyIndex;
+var $_keys = require('../helpers').$keys;
 
 /*
-Keys Indexes
+Globals
  */
 var $primaryKey;
 var $identityKey;
-var $_FieldsIndex = {};
 
 /*
-Main entry point
+Main namespace
  */
 var _Main = exports;
-
-_Main.Transform = function(XML) {
-	var Doc = libxmljs.parseXmlString(XML);
-	var Entity = Doc.root();
-
-	_.assign($_FieldsIndex, _keyIndex(Entity, "px:fields//*[@fieldId]", 'fieldId'));
-
-	return _Main.Model(Entity);
-};
 
 /*
 Process Model
  */
-_Main.Model = function(Entity) {
+_Main.Transform = function(Entity) {
 	var Data = _el.get(Entity, 'px:data');
 
 	var opts = {};
@@ -92,7 +79,7 @@ _Main.Value = function(Field) {
 	var fieldId = _attr.val(Field, 'fieldId');
 	var value = _attr.val(Field, 'value');
 
-	var Metadata = $_FieldsIndex[fieldId];
+	var Metadata = $_keys['Fields'][fieldId];
 	var dataType = _attr.val(Metadata, 'dataType');
 	var controlType = _attr.val(Metadata, 'controlType');
 	var relationshipType = _attr.val(Metadata, 'relationshipType');
@@ -122,7 +109,7 @@ _Main.Value = function(Field) {
 		case 'foreignTable': {
 			// Recursively get model of children
 			var children = _el.get(Field, '*');
-			return _Main.Model(children);
+			return _Main.Transform(children);
 		}
 		case 'junctionTable': {
 			// ToDo

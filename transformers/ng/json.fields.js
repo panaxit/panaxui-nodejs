@@ -1,38 +1,35 @@
-var libxmljs = require('libxslt').libxmljs;
-
 /*
 Helpers
  */
 var _attr = require('../helpers').attr;
-var _el = require('../helpers').el;
 
 /*
 Includes
  */
-var PxGrid = require('./json.fields.px-grid');
-var PxCards = require('./json.fields.px-cards');
-var PxForm = require('./json.fields.px-form');
+var _PxGrid = require('./json.fields.px-grid');
+var _PxCards = require('./json.fields.px-cards');
+var _PxForm = require('./json.fields.px-form');
 
 /*
-Main entry point
+Main namespace
  */
 var _Main = exports;
 
-_Main.Transform = function(XML) {
-	var Doc = libxmljs.parseXmlString(XML);
-	var Entity = Doc.root();
-
+/*
+Process Fields
+ */
+_Main.Transform = function(Entity) {
 	switch(_attr.val(Entity, 'controlType')) {
 		case 'gridView': 
-			return PxGrid.Transform(Entity);
+			return _PxGrid.Transform(Entity);
 		case 'cardsView': 
-			return PxCards.Transform(Entity);
+			return _PxCards.Transform(Entity);
 		case 'formView':
-			return PxForm.Transform(Entity);
+			return _PxForm.Transform(Entity);
 		case 'masterDetail':
 			return {
-				"grid": PxGrid.Transform(Entity),
-				"form": PxForm.Transform(Entity)
+				"grid": _PxGrid.Transform(Entity),
+				"form": _PxForm.Transform(Entity)
 			};
 	}
 }

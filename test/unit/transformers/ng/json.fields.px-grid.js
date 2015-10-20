@@ -1,5 +1,7 @@
 var expect = require('chai').expect;
-var Fields = require('../../../../transformers/ng/json.fields');
+var libxmljs = require('libxslt').libxmljs;
+var _initKeyIndexes = require('../../../../transformers/ng/json').initKeyIndexes;
+var _Fields = require('../../../../transformers/ng/json.fields');
 
 describe('px-grid', function() {
 
@@ -8,7 +10,12 @@ describe('px-grid', function() {
 							'	<px:layout>' +
 							'	</px:layout>' +
 							'</Entity>';
-		var result = Fields.Transform(xml);
+
+    var Doc = libxmljs.parseXmlString(xml);
+    var Entity = Doc.root();
+    _initKeyIndexes(Entity);
+		var result = _Fields.Transform(Entity);
+
 		expect(result).to.deep.equal({
 			"columnDefs": []
 		});
@@ -49,7 +56,12 @@ describe('px-grid', function() {
 							'		<px:field fieldId="ID13"/>' +
 							'	</px:layout>' +
 							'</Entity>';
-		var result = Fields.Transform(xml);
+
+    var Doc = libxmljs.parseXmlString(xml);
+    var Entity = Doc.root();
+    _initKeyIndexes(Entity);
+    var result = _Fields.Transform(Entity);
+
 		expect(result).to.deep.equal({
 			"columnDefs": [
 				{"field": "VarChar", "displayName": "", "type": "string"},
