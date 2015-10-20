@@ -24,6 +24,10 @@ Process Catalog
 _Main.Catalog = function(Entity) {
 	var attrs = _el.customAttrs(Entity);
 
+  var totalRecords = parseInt(attrs['totalRecords']),
+      pageSize = parseInt(attrs['pageSize']),
+      pageIndex = parseInt(attrs['pageIndex']);
+
 	return {
 		/* Basic Catalog Metadata */
 		"dbId": attrs['dbId'],
@@ -38,9 +42,9 @@ _Main.Catalog = function(Entity) {
 		"identityKey": attrs['identityKey'],
 		"foreignReference": attrs['foreignReference'],
 		/* Pagination _attributes */
-		"totalItems": parseInt(attrs['totalRecords']),
-		"pageSize": parseInt(attrs['pageSize']),
-		"pageIndex": parseInt(attrs['pageIndex']),
+		"totalItems": !isNaN(totalRecords) ? totalRecords : undefined,
+		"pageSize": !isNaN(pageSize) ? pageSize : undefined,
+		"pageIndex": !isNaN(pageIndex) ? pageIndex : undefined,
 		/* Data Access Metadata */
 		"metadata": {
 			"supportsInsert": attrs['supportsInsert'],

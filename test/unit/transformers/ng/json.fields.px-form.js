@@ -409,17 +409,87 @@ describe('px-form', function() {
 
 	describe('foreign table', function() {
 
-		describe('hasOne', function() {
+    it('hasOne', function() {
+      var xml = '<Entity xmlns:px="urn:panax" controlType="formView">' +
+                ' <px:fields>' +
+                '   <NestedForm fieldId="ID00" fieldName="NestedForm" dataType="foreignTable" relationshipType="hasOne" foreignSchema="TestSchema" foreignTable="NestedForm" foreignReference="Id" headerText="Nested Form" mode="inherit" controlType="formView">' +
+                '     <NestedForm xmlns:px="urn:panax" xml:lang="es" dbId="Demo" fullPath="" version="Beta_12" pageSize="0" pageIndex="1" foreignReference="Id" Schema="TestSchema" Name="NestedForm" Table_Name="NestedForm" Table_Schema="TestSchema" Base_Type="TABLE" primaryKey="Id" dataType="table" controlType="formView" filtersBehavior="append" headerText="Nested Form" filters="id=1" mode="edit" supportsInsert="1" disableInsert="0" supportsUpdate="1" disableUpdate="0" supportsDelete="1" disableDelete="0">' +
+                '       <px:fields>' +
+                '         <FieldA fieldId="IDA" fieldName="FieldA" />' +
+                '       </px:fields>' +
+                '       <px:layout>' +
+                '         <px:field fieldId="IDA" />' +
+                '       </px:layout>' +
+                '     </NestedForm>' +
+                '   </NestedForm>' +
+                ' </px:fields>' +
+                ' <px:layout>' +
+                '   <px:field fieldId="ID00" />' +
+                ' </px:layout>' +
+                '</Entity>';
+      var result = Fields.Transform(xml);
+      expect(result).to.deep.equal(
+        [
+          {
+            "type": "fieldset",
+            "fields": [
+              { 
+                "key": "NestedForm", 
+                "type": "form", 
+                "templateOptions": { 
+                  "label": "Nested Form", 
+                  "placeholder": "" 
+                },
+                "data": {
+                  "fields": [
+                    {
+                      "type": "fieldset",
+                      "fields": [
+                        {
+                          "key": "FieldA",
+                          "type": "default",
+                          "templateOptions": {
+                            "label": "",
+                            "placeholder": ""
+                          },
+                          "data": {}
+                        }
+                      ]
+                    }
+                  ],
+                  "catalog": {
+                    "dbId": 'Demo',
+                    "catalogName": 'TestSchema.NestedForm',
+                    "schemaName": 'TestSchema',
+                    "tableName": 'NestedForm',
+                    "mode": 'edit',
+                    "controlType": 'formView',
+                    "lang": 'es',
+                    "primaryKey": 'Id',
+                    "identityKey": undefined,
+                    "foreignReference": 'Id',
+                    "totalItems": undefined,
+                    "pageSize": 0,
+                    "pageIndex": 1,
+                    "metadata": {
+                      "supportsInsert": '1',
+                      "supportsUpdate": '1',
+                      "supportsDelete": '1',
+                      "disableInsert": '0',
+                      "disableUpdate": '0',
+                      "disableDelete": '0'
+                    },
+                    "customAttrs": {}
+                  }
+                } 
+              }
+            ]
+          }
+        ]
+      );
+    });
 
-			it('PENDING');
-			
-		});
-
-		describe('hasMany', function() {
-
-			it('PENDING');
-			
-		});
+		it('hasMany');
 		
 	});
 

@@ -1,4 +1,5 @@
 var libxmljs = require('libxslt').libxmljs;
+var _ = require('lodash');
 
 /*
 Helpers
@@ -8,10 +9,15 @@ var _el = require('../helpers').el;
 var _keyIndex = require('../helpers').keyIndex;
 
 /*
-Keys & Indexes
+Transformers
  */
-var $_FieldsIndex;
-var $_DataIndex;
+var _Catalog = require('./json.catalog.js');
+
+/*
+Keys Indexes
+ */
+var $_FieldsIndex = {};
+var $_DataIndex = {};
 
 /*
 Main entry point
@@ -21,8 +27,9 @@ var _Main = exports;
 _Main.Transform = function(Entity) {
 	var Layout = _el.get(Entity, 'px:layout');
 
-  $_FieldsIndex = _keyIndex(Entity, "px:fields//*[@fieldId]", 'fieldId');
-  $_DataIndex = _keyIndex(Entity, "px:data/px:dataRow//*[@fieldId]", 'fieldId');
+  // Extend key indexes progressively
+  _.assign($_FieldsIndex, _keyIndex(Entity, "px:fields//*[@fieldId]", 'fieldId'));
+  _.assign($_DataIndex, _keyIndex(Entity, "px:data/px:dataRow//*[@fieldId]", 'fieldId'));
 
 	return _Main.Layout(Layout);
 };
@@ -118,7 +125,11 @@ _Main.Field = function(Field) {
     field.templateOptions.required = true;
   if(length)
     field.templateOptions.maxLength = parseInt(length);
+
   if(dataType === 'foreignKey') {
+    /*
+    foreignKey
+     */
     field.templateOptions.options = _Main.Options(Metadata);
     if(controlType === 'default' || controlType === 'combobox') {
       var Data = _el.get($_DataIndex[fieldId], '*[1]');
@@ -130,6 +141,26 @@ _Main.Field = function(Field) {
         //"label": headerText
         "fieldGroup": _Main.Cascaded(_el.get(Metadata, '*[1]/*[1]'), _el.get(Data, '*[1]'), [field])
       };
+    }
+  } else if (dataType === 'foreignTable') {
+    var relationshipType = _attr.val(Metadata, 'relationshipType');
+    var Entity = _el.get(Metadata, '*[1]');
+    /*
+    foreignTable
+     */
+    if(relationshipType === 'hasOne') {
+      /*
+      hasOne
+       */
+      field.data = {
+        "fields": _Main.Transform(Entity), //!!DANGER!! Overwrites Key Indexes
+        "catalog": _Catalog.Transform(Entity)
+      };
+    } else if(relationshipType === 'hasMany') {
+      /*
+      hasMany
+       */
+       // ToDo
     }
   }
 

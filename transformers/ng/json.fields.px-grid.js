@@ -1,4 +1,5 @@
 var libxmljs = require('libxslt').libxmljs;
+var _ = require('lodash');
 
 /*
 Helpers
@@ -10,7 +11,7 @@ var _keyIndex = require('../helpers').keyIndex;
 /*
 Keys & Indexes
  */
-var $_FieldsIndex;
+var $_FieldsIndex = {};
 
 /*
 Main entry point
@@ -20,7 +21,7 @@ var _Main = exports;
 _Main.Transform = function(Entity) {
 	var Layout = _el.get(Entity, 'px:layout');
 
-	$_FieldsIndex = _keyIndex(Entity, "px:fields//*[@fieldId]", 'fieldId');
+	_.assign($_FieldsIndex, _keyIndex(Entity, "px:fields//*[@fieldId]", 'fieldId'));
 
 	return _Main.Layout(Layout);
 };

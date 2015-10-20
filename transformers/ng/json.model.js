@@ -1,4 +1,5 @@
 var libxmljs = require('libxslt').libxmljs;
+var _ = require('lodash');
 
 /*
 Helpers
@@ -8,11 +9,11 @@ var _el = require('../helpers').el;
 var _keyIndex = require('../helpers').keyIndex;
 
 /*
-Keys & Indexes
+Keys Indexes
  */
 var $primaryKey;
 var $identityKey;
-var $_FieldsIndex;
+var $_FieldsIndex = {};
 
 /*
 Main entry point
@@ -23,7 +24,7 @@ _Main.Transform = function(XML) {
 	var Doc = libxmljs.parseXmlString(XML);
 	var Entity = Doc.root();
 
-	$_FieldsIndex = _keyIndex(Entity, "px:fields//*[@fieldId]", 'fieldId');
+	_.assign($_FieldsIndex, _keyIndex(Entity, "px:fields//*[@fieldId]", 'fieldId'));
 
 	return _Main.Model(Entity);
 };
