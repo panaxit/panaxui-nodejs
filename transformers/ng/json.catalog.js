@@ -23,17 +23,7 @@ _Main.Transform = function(Entity) {
 		"tableName": attrs['Table_Name'],
 		"mode": attrs['mode'],
 		"controlType": attrs['controlType'],
-		"lang": attrs['lang'],
-		/* Data Access Metadata */
-		"metadata": {
-			"supportsInsert": attrs['supportsInsert'],
-			"supportsUpdate": attrs['supportsUpdate'],
-			"supportsDelete": attrs['supportsDelete'],
-			"disableInsert": attrs['disableInsert'],
-			"disableUpdate": attrs['disableUpdate'],
-			"disableDelete": attrs['disableDelete']
-		},
-		"customAttrs": attrs.customAttrs
+		"lang": attrs['lang']
 	};
 
   /* Pagination _attributes */
@@ -53,6 +43,20 @@ _Main.Transform = function(Entity) {
   if(primaryKey) result['primaryKey'] = primaryKey;
   if(identityKey) result['identityKey'] = identityKey;
   if(foreignReference) result['foreignReference'] = foreignReference;
+
+  /* Custom Attributes */
+  if(Object.keys(attrs.customAttrs).length)
+    result["customAttrs"] = attrs.customAttrs;
+
+  /* Data Access Metadata */
+  result["metadata"] = {
+    "supportsInsert": attrs['supportsInsert'],
+    "supportsUpdate": attrs['supportsUpdate'],
+    "supportsDelete": attrs['supportsDelete'],
+    "disableInsert": attrs['disableInsert'],
+    "disableUpdate": attrs['disableUpdate'],
+    "disableDelete": attrs['disableDelete']
+  };
 
   return result;
 };

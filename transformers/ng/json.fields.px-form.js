@@ -114,7 +114,7 @@ _Main.Field = function(Field) {
     field.templateOptions.hide = true;
   // if(mode && mode === 'readonly')
   //   field.templateOptions.disabled = true;
-  if(!(isNullable || isNullable !== '1'))
+  if(isNullable && isNullable === '0')
     field.templateOptions.required = true;
   if(length)
     field.templateOptions.maxLength = parseInt(length);

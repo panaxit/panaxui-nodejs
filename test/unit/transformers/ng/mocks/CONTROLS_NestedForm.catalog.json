@@ -18,8 +18,5 @@
     "disableInsert":"0",
     "disableUpdate":"0",
     "disableDelete":"0"
-  },
-  "customAttrs":{  
-
   }
 }

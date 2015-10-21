@@ -6,9 +6,9 @@
         "key":"TextLimit10Chars",
         "type":"input",
         "templateOptions":{  
+          "maxLength":10,
           "label":"Text Limit10Chars",
-          "placeholder":"",
-          "maxLength":10
+          "placeholder":""
         },
         "data":{  
 
@@ -30,9 +30,9 @@
                   "key":"TextLimit255",
                   "type":"input",
                   "templateOptions":{  
+                    "maxLength":255,
                     "label":"Text Limit255",
-                    "placeholder":"",
-                    "maxLength":255
+                    "placeholder":""
                   },
                   "data":{  
 
@@ -52,11 +52,12 @@
                         "fields":[  
                           {  
                             "key":"Id",
-                            "type":"default",
+                            "type":"number",
                             "templateOptions":{  
+                              "required":true,
+                              "maxLength":10,
                               "label":"Id",
-                              "placeholder":"",
-                              "maxLength":10
+                              "placeholder":""
                             },
                             "data":{  
 
@@ -66,9 +67,9 @@
                             "key":"Name",
                             "type":"input",
                             "templateOptions":{  
+                              "maxLength":255,
                               "label":"Name",
-                              "placeholder":"",
-                              "maxLength":255
+                              "placeholder":""
                             },
                             "data":{  
 
@@ -78,9 +79,9 @@
                             "key":"Field1",
                             "type":"input",
                             "templateOptions":{  
+                              "maxLength":10,
                               "label":"Field1",
-                              "placeholder":"",
-                              "maxLength":10
+                              "placeholder":""
                             },
                             "data":{  
 
@@ -90,9 +91,9 @@
                             "key":"Field2",
                             "type":"input",
                             "templateOptions":{  
+                              "maxLength":10,
                               "label":"Field2",
-                              "placeholder":"",
-                              "maxLength":10
+                              "placeholder":""
                             },
                             "data":{  
 
@@ -102,9 +103,9 @@
                             "key":"Image",
                             "type":"input",
                             "templateOptions":{  
+                              "maxLength":255,
                               "label":"Image",
-                              "placeholder":"",
-                              "maxLength":255
+                              "placeholder":""
                             },
                             "data":{  
 
@@ -114,6 +115,12 @@
                       }
                     ],
                     "catalog":{  
+                      "customAttrs":{  
+                        "descField1":"Field1",
+                        "descField2":"Field2",
+                        "iconField":"Image",
+                        "titleField":"Name"
+                      },
                       "dbId":"Demo",
                       "catalogName":"dbo.CONTROLS_Grid",
                       "schemaName":"dbo",
@@ -127,17 +134,11 @@
                       "pageIndex":1,
                       "metadata":{  
                         "supportsInsert":"1",
-                        "supportsUpdate":"1",
-                        "supportsDelete":"1",
                         "disableInsert":"0",
+                        "supportsUpdate":"1",
                         "disableUpdate":"0",
+                        "supportsDelete":"1",
                         "disableDelete":"0"
-                      },
-                      "customAttrs":{  
-                        "descField1":"Field1",
-                        "descField2":"Field2",
-                        "iconField":"Image",
-                        "titleField":"Name"
                       }
                     }
                   }
@@ -159,14 +160,11 @@
             "pageIndex":1,
             "metadata":{  
               "supportsInsert":"1",
-              "supportsUpdate":"1",
-              "supportsDelete":"1",
               "disableInsert":"0",
+              "supportsUpdate":"1",
               "disableUpdate":"0",
+              "supportsDelete":"1",
               "disableDelete":"0"
-            },
-            "customAttrs":{  
-
             }
           }
         }

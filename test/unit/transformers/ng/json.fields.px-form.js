@@ -528,8 +528,7 @@ describe('px-form', function() {
                       "disableInsert": '0',
                       "disableUpdate": '0',
                       "disableDelete": '0'
-                    },
-                    "customAttrs": {}
+                    }
                   }
                 } 
               }
@@ -621,8 +620,7 @@ describe('px-form', function() {
                                 "disableInsert": '0',
                                 "disableUpdate": '0',
                                 "disableDelete": '0'
-                              },
-                              "customAttrs": {}
+                              }
                             }
                           }
                         }
@@ -648,8 +646,7 @@ describe('px-form', function() {
                       "disableInsert": '0',
                       "disableUpdate": '0',
                       "disableDelete": '0'
-                    },
-                    "customAttrs": {}
+                    }
                   }
                 } 
               }
@@ -737,8 +734,7 @@ describe('px-form', function() {
                                 "disableInsert": '0',
                                 "disableUpdate": '0',
                                 "disableDelete": '0'
-                              },
-                              "customAttrs": {}
+                              }
                             }
                           }
                         }
@@ -764,8 +760,7 @@ describe('px-form', function() {
                       "disableInsert": '0',
                       "disableUpdate": '0',
                       "disableDelete": '0'
-                    },
-                    "customAttrs": {}
+                    }
                   }
                 } 
               }

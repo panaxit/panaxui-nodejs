@@ -61,14 +61,16 @@ Process Fields
  */
 _Main.Fields = function(Fields, opts) {
 	var column = {};
+  
 	Fields.forEach(function (Field, index) {
-		if(opts.primaryValue)
-			column[opts.primaryKey] = opts.primaryValue;
-		if(opts.identity)
-			column[opts.identityKey] = opts.identity;
-
-		column[_el.name(Field)] = _Main.Value(Field);
+    column[_el.name(Field)] = _Main.Value(Field);
 	});
+    
+  if(opts.primaryValue && !column[opts.primaryKey])
+    column[opts.primaryKey] = opts.primaryValue;
+  if(opts.identity && !column[opts.identityKey])
+    column[opts.identityKey] = opts.identity;
+
 	return column;
 };
 
