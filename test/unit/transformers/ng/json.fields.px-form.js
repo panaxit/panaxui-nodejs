@@ -518,9 +518,7 @@ describe('px-form', function() {
                     "controlType": 'formView',
                     "lang": 'es',
                     "primaryKey": 'Id',
-                    "identityKey": undefined,
                     "foreignReference": 'Id',
-                    "totalItems": undefined,
                     "pageSize": 0,
                     "pageIndex": 1,
                     "metadata": {
@@ -613,9 +611,7 @@ describe('px-form', function() {
                               "controlType": 'gridView',
                               "lang": 'es',
                               "primaryKey": 'Id',
-                              "identityKey": undefined,
                               "foreignReference": 'FkId',
-                              "totalItems": undefined,
                               "pageSize": 0,
                               "pageIndex": 1,
                               "metadata": {
@@ -642,9 +638,7 @@ describe('px-form', function() {
                     "controlType": 'formView',
                     "lang": 'es',
                     "primaryKey": 'Id',
-                    "identityKey": undefined,
                     "foreignReference": 'Id',
-                    "totalItems": undefined,
                     "pageSize": 0,
                     "pageIndex": 1,
                     "metadata": {
@@ -733,9 +727,7 @@ describe('px-form', function() {
                               "controlType": 'cardsView',
                               "lang": 'es',
                               "primaryKey": 'Id',
-                              "identityKey": undefined,
                               "foreignReference": 'FkId',
-                              "totalItems": undefined,
                               "pageSize": 0,
                               "pageIndex": 1,
                               "metadata": {
@@ -762,9 +754,7 @@ describe('px-form', function() {
                     "controlType": 'formView',
                     "lang": 'es',
                     "primaryKey": 'Id',
-                    "identityKey": undefined,
                     "foreignReference": 'Id',
-                    "totalItems": undefined,
                     "pageSize": 0,
                     "pageIndex": 1,
                     "metadata": {

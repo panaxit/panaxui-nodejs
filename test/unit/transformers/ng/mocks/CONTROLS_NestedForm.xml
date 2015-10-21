@@ -1,0 +1,87 @@
+<CONTROLS_NestedForm xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" xml:lang="es" session:IdUser="-1" session:profileId="[-1]" dbId="Demo" fullPath="" version="Beta_12" pageSize="1" pageIndex="1" totalRecords="1" Schema="dbo" Name="CONTROLS_NestedForm" Table_Name="CONTROLS_NestedForm" Table_Schema="dbo" Base_Type="TABLE" identityKey="Id" primaryKey="Id" supportsInsert="1" disableInsert="0" supportsUpdate="1" disableUpdate="0" supportsDelete="1" disableDelete="0" dataType="table" controlType="formView" output="json" filtersBehavior="append" headerText="CONTROLS NestedForm" filters="$identity=1" mode="edit">
+  <px:fields xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
+    <Id fieldId="ID0EZ" fieldName="Id" Name="Id" Column_Name="Id" isPrimaryKey="1" isIdentity="1" dataType="identity" length="10" isNullable="0" supportsInsert="1" supportsUpdate="1" headerText="Id" controlType="default" />
+    <TextLimit10Chars fieldId="ID0EGB" fieldName="TextLimit10Chars" Name="TextLimit10Chars" Column_Name="TextLimit10Chars" isPrimaryKey="0" isIdentity="0" dataType="nchar" length="10" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Text Limit10Chars" controlType="default" />
+    <CONTROLS_NestedGrid fieldId="ID0ETB" fieldName="CONTROLS_NestedGrid" Name="CONTROLS_NestedGrid" Column_Name="CONTROLS_NestedGrid" dataType="foreignTable" relationshipType="hasOne" foreignSchema="dbo" foreignTable="CONTROLS_NestedGrid" foreignReference="Id" headerText="CONTROLS Nested Grid" mode="inherit" controlType="formView" debug:controlType="55133412001">
+      <CONTROLS_NestedGrid xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" xml:lang="es" session:IdUser="-1" session:profileId="[-1]" dbId="Demo" fullPath="" version="Beta_12" pageSize="0" pageIndex="1" foreignReference="Id" Schema="dbo" Name="CONTROLS_NestedGrid" Table_Name="CONTROLS_NestedGrid" Table_Schema="dbo" Base_Type="TABLE" primaryKey="Id" supportsInsert="1" disableInsert="0" supportsUpdate="1" disableUpdate="0" supportsDelete="1" disableDelete="0" dataType="table" controlType="formView" filtersBehavior="append" headerText="CONTROLS NestedGrid" filters="$identity=1" mode="edit">
+        <px:fields xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
+          <TextLimit255 fieldId="ID0END" fieldName="TextLimit255" Name="TextLimit255" Column_Name="TextLimit255" isPrimaryKey="0" isIdentity="0" dataType="nvarchar" length="255" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Text Limit255" controlType="default" mode="inherit" debug:mode="146150162721" scaffold="true" debug:scaffold="146150162722" />
+          <CONTROLS_Grid fieldId="ID0E5D" fieldName="CONTROLS_Grid" Name="CONTROLS_Grid" Column_Name="CONTROLS_Grid" dataType="foreignTable" relationshipType="hasMany" foreignSchema="dbo" foreignTable="CONTROLS_Grid" foreignReference="FkId" headerText="CONTROLS Grid" mode="inherit" debug:mode="146150162703" scaffold="true" debug:scaffold="146150162704" controlType="formView" debug:controlType="146150162701">
+            <CONTROLS_Grid xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" xml:lang="es" session:IdUser="-1" session:profileId="[-1]" dbId="Demo" fullPath="" version="Beta_12" pageSize="0" pageIndex="1" foreignReference="FkId" Schema="dbo" Name="CONTROLS_Grid" Table_Name="CONTROLS_Grid" Table_Schema="dbo" Base_Type="TABLE" primaryKey="Id" supportsInsert="1" disableInsert="0" supportsUpdate="1" disableUpdate="0" supportsDelete="1" disableDelete="0" dataType="table" controlType="gridView" filtersBehavior="append" custom:descField1="Field1" debug:custom_descField1="26067721801" custom:descField2="Field2" debug:custom_descField2="26067721802" custom:iconField="Image" debug:custom_iconField="26067721803" custom:titleField="Name" debug:custom_titleField="26067721804" headerText="CONTROLS Grid" filters="$identity=1" mode="edit">
+              <px:fields xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
+                <Id fieldId="ID0EKF" fieldName="Id" Name="Id" Column_Name="Id" isPrimaryKey="1" isIdentity="0" dataType="int" length="10" isNullable="0" supportsInsert="1" supportsUpdate="1" headerText="Id" controlType="default" />
+                <Name fieldId="ID0ESG" fieldName="Name" Name="Name" Column_Name="Name" isPrimaryKey="0" isIdentity="0" dataType="nvarchar" length="255" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Name" controlType="default" mode="inherit" debug:mode="26067721831" />
+                <Field1 fieldId="ID0EBH" fieldName="Field1" Name="Field1" Column_Name="Field1" isPrimaryKey="0" isIdentity="0" dataType="nchar" length="10" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Field1" controlType="default" mode="inherit" debug:mode="26067721841" />
+                <Field2 fieldId="ID0EQH" fieldName="Field2" Name="Field2" Column_Name="Field2" isPrimaryKey="0" isIdentity="0" dataType="nchar" length="10" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Field2" controlType="default" mode="inherit" debug:mode="26067721851" />
+                <Image fieldId="ID0EAAAC" fieldName="Image" Name="Image" Column_Name="Image" isPrimaryKey="0" isIdentity="0" dataType="nvarchar" length="255" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Image" controlType="default" mode="inherit" debug:mode="26067721861" />
+              </px:fields>
+              <px:layout xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
+                <px:field fieldId="ID0EKF" fieldName="Id" />
+                <px:field fieldId="ID0ESG" fieldName="Name" />
+                <px:field fieldId="ID0EBH" fieldName="Field1" />
+                <px:field fieldId="ID0EQH" fieldName="Field2" />
+                <px:field fieldId="ID0EAAAC" fieldName="Image" />
+              </px:layout>
+            </CONTROLS_Grid>
+          </CONTROLS_Grid>
+        </px:fields>
+        <px:layout xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
+          <px:field fieldId="ID0END" fieldName="TextLimit255" />
+          <px:field fieldId="ID0E5D" fieldName="CONTROLS_Grid" />
+        </px:layout>
+      </CONTROLS_NestedGrid>
+    </CONTROLS_NestedGrid>
+  </px:fields>
+  <px:layout xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
+    <px:field fieldId="ID0EGB" fieldName="TextLimit10Chars" />
+    <px:field fieldId="ID0ETB" fieldName="CONTROLS_NestedGrid" />
+  </px:layout>
+  <px:data xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
+    <px:dataRow rowNumber="1" identity="1" primaryValue="1" mode="inherit">
+      <TextLimit10Chars fieldId="ID0EGB" value="Example 8" text="Example 8" />
+      <CONTROLS_NestedGrid fieldId="ID0ETB" mode="inherit">
+        <CONTROLS_NestedGrid xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" xml:lang="es" session:IdUser="-1" session:profileId="[-1]" dbId="Demo" fullPath="" version="Beta_12" pageSize="0" pageIndex="1" foreignReference="Id" Schema="dbo" Name="CONTROLS_NestedGrid" Table_Name="CONTROLS_NestedGrid" Table_Schema="dbo" Base_Type="TABLE" primaryKey="Id" supportsInsert="1" disableInsert="0" supportsUpdate="1" disableUpdate="0" supportsDelete="1" disableDelete="0" dataType="table" controlType="formView" filtersBehavior="append" headerText="CONTROLS NestedGrid" filters="$identity=1" mode="edit">
+          <px:data xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
+            <px:dataRow rowNumber="1" primaryValue="1" mode="inherit">
+              <TextLimit255 fieldId="ID0END" value="Example Nested Form 8-1" text="Example Nested Form 8-1" />
+              <CONTROLS_Grid fieldId="ID0E5D" mode="inherit">
+                <CONTROLS_Grid xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" xml:lang="es" session:IdUser="-1" session:profileId="[-1]" dbId="Demo" fullPath="" version="Beta_12" pageSize="0" pageIndex="1" foreignReference="FkId" Schema="dbo" Name="CONTROLS_Grid" Table_Name="CONTROLS_Grid" Table_Schema="dbo" Base_Type="TABLE" primaryKey="Id" supportsInsert="1" disableInsert="0" supportsUpdate="1" disableUpdate="0" supportsDelete="1" disableDelete="0" dataType="table" controlType="gridView" filtersBehavior="append" custom:descField1="Field1" debug:custom_descField1="26067721801" custom:descField2="Field2" debug:custom_descField2="26067721802" custom:iconField="Image" debug:custom_iconField="26067721803" custom:titleField="Name" debug:custom_titleField="26067721804" headerText="CONTROLS Grid" filters="$identity=1" mode="edit">
+                  <px:data xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
+                    <px:dataRow rowNumber="1" primaryValue="1" mode="inherit">
+                      <Id fieldId="ID0EKF" value="1" text="1" />
+                      <Name fieldId="ID0ESG" value="Example 1" text="Example 1" />
+                      <Field1 fieldId="ID0EBH" value="Something" text="Something" />
+                      <Field2 fieldId="ID0EQH" value="" text="" />
+                      <Image fieldId="ID0EAAAC" value="freightIcon.jpg" text="freightIcon.jpg" />
+                    </px:dataRow>
+                    <px:dataRow rowNumber="2" primaryValue="2" mode="inherit">
+                      <Id fieldId="ID0EKF" value="2" text="2" />
+                      <Name fieldId="ID0ESG" value="Example 2-2" text="Example 2-2" />
+                      <Field1 fieldId="ID0EBH" value="" text="" />
+                      <Field2 fieldId="ID0EQH" value="Other" text="Other" />
+                      <Image fieldId="ID0EAAAC" value="freightIcon2.jpg" text="freightIcon2.jpg" />
+                    </px:dataRow>
+                    <px:dataRow rowNumber="3" primaryValue="3" mode="inherit">
+                      <Id fieldId="ID0EKF" value="3" text="3" />
+                      <Name fieldId="ID0ESG" value="Example 3" text="Example 3" />
+                      <Field1 fieldId="ID0EBH" value="" text="" />
+                      <Field2 fieldId="ID0EQH" value="" text="" />
+                      <Image fieldId="ID0EAAAC" value="" text="" />
+                    </px:dataRow>
+                    <px:dataRow rowNumber="4" primaryValue="4" mode="inherit">
+                      <Id fieldId="ID0EKF" value="4" text="4" />
+                      <Name fieldId="ID0ESG" value="Example 4" text="Example 4" />
+                      <Field1 fieldId="ID0EBH" value="" text="" />
+                      <Field2 fieldId="ID0EQH" value="" text="" />
+                      <Image fieldId="ID0EAAAC" value="voluntario3.jpg" text="voluntario3.jpg" />
+                    </px:dataRow>
+                  </px:data>
+                </CONTROLS_Grid>
+              </CONTROLS_Grid>
+            </px:dataRow>
+          </px:data>
+        </CONTROLS_NestedGrid>
+      </CONTROLS_NestedGrid>
+    </px:dataRow>
+  </px:data>
+</CONTROLS_NestedForm>

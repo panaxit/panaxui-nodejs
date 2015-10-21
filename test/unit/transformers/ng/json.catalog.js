@@ -1,5 +1,6 @@
 var expect = require('chai').expect;
 var libxmljs = require('libxslt').libxmljs;
+var fs = require('fs');
 var _Catalog = require('../../../../transformers/ng/json.catalog');
 
 describe('JSON Catalog', function() {
@@ -45,7 +46,6 @@ describe('JSON Catalog', function() {
 			"lang": 'es',
 			"primaryKey": 'Id',
 			"identityKey": 'Id',
-			"foreignReference": undefined,
 			"totalItems": 1,
 			"pageSize": 1,
 			"pageIndex": 1,
@@ -65,5 +65,21 @@ describe('JSON Catalog', function() {
 			}
 		});
 	});
+
+  describe('real mocks', function() {
+
+    it('CONTROLS_NestedForm', function() {
+      var xml = fs.readFileSync(__dirname + '/mocks/CONTROLS_NestedForm.xml');
+      var catalog = JSON.parse(fs.readFileSync(__dirname + '/mocks/CONTROLS_NestedForm.catalog.json'));
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      var result = _Catalog.Transform(Entity);
+
+      expect(result).to.be.ok;
+      expect(result).to.deep.equal(catalog);;
+    });
+
+  });
 
 });

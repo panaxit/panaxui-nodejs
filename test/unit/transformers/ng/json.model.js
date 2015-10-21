@@ -1,5 +1,6 @@
 var expect = require('chai').expect;
 var libxmljs = require('libxslt').libxmljs;
+var fs = require('fs');
 var _initKeyIndexes = require('../../../../transformers/ng/json').initKeyIndexes;
 var _Model = require('../../../../transformers/ng/json.model');
 
@@ -309,5 +310,22 @@ describe('JSON Model', function() {
 		it('PENDING');
 
 	});
+
+  describe('real mocks', function() {
+
+    it('CONTROLS_NestedForm', function() {
+      var xml = fs.readFileSync(__dirname + '/mocks/CONTROLS_NestedForm.xml');
+      var model = JSON.parse(fs.readFileSync(__dirname + '/mocks/CONTROLS_NestedForm.model.json'));
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Model.Transform(Entity);
+
+      expect(result).not.to.be.empty;
+      expect(result[0]).to.deep.equal(model);;
+    });
+
+  });
 
 });

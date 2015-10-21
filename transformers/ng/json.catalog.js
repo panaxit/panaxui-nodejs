@@ -15,11 +15,7 @@ Process Catalog
 _Main.Transform = function(Entity) {
 	var attrs = _el.customAttrs(Entity);
 
-  var totalRecords = parseInt(attrs['totalRecords']),
-      pageSize = parseInt(attrs['pageSize']),
-      pageIndex = parseInt(attrs['pageIndex']);
-
-	return {
+  var result = {
 		/* Basic Catalog Metadata */
 		"dbId": attrs['dbId'],
 		"catalogName": attrs['Table_Schema'] + '.' + attrs['Table_Name'],
@@ -28,14 +24,6 @@ _Main.Transform = function(Entity) {
 		"mode": attrs['mode'],
 		"controlType": attrs['controlType'],
 		"lang": attrs['lang'],
-		/* Keys & References */
-		"primaryKey": attrs['primaryKey'],
-		"identityKey": attrs['identityKey'],
-		"foreignReference": attrs['foreignReference'],
-		/* Pagination _attributes */
-		"totalItems": !isNaN(totalRecords) ? totalRecords : undefined,
-		"pageSize": !isNaN(pageSize) ? pageSize : undefined,
-		"pageIndex": !isNaN(pageIndex) ? pageIndex : undefined,
 		/* Data Access Metadata */
 		"metadata": {
 			"supportsInsert": attrs['supportsInsert'],
@@ -47,4 +35,24 @@ _Main.Transform = function(Entity) {
 		},
 		"customAttrs": attrs.customAttrs
 	};
+
+  /* Pagination _attributes */
+  var totalRecords = parseInt(attrs['totalRecords']),
+      pageSize = parseInt(attrs['pageSize']),
+      pageIndex = parseInt(attrs['pageIndex']);
+
+  if(!isNaN(totalRecords)) result["totalItems"] = totalRecords;
+  if(!isNaN(pageSize)) result["pageSize"] = pageSize;
+  if(!isNaN(pageIndex)) result["pageIndex"] = pageIndex;
+
+  /* Keys & References */
+  var primaryKey = attrs['primaryKey'],
+      identityKey = attrs['identityKey'],
+      foreignReference = attrs['foreignReference'];
+
+  if(primaryKey) result['primaryKey'] = primaryKey;
+  if(identityKey) result['identityKey'] = identityKey;
+  if(foreignReference) result['foreignReference'] = foreignReference;
+
+  return result;
 };
