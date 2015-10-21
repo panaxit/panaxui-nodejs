@@ -14,11 +14,20 @@ var _Main = exports;
 Process PxGrid Fields
  */
 _Main.Transform = function(Entity) {
-  var Fields = _el.find(Entity, 'px:layout//px:field');
+  var Layout = _el.get(Entity, 'px:layout');
 
-  return {
-    "columnDefs": _Main.Fields(Fields)
+  return _Main.Layout(Layout);
+};
+
+_Main.Layout = function(Layout) {
+  var result = {
+    "columnDefs": []
   };
+
+  var Fields = _el.find(Layout, 'descendant::px:field');
+  if(Fields) result.columnDefs = _Main.Fields(Fields);
+
+  return result;
 };
 
 _Main.Fields = function(Fields) {

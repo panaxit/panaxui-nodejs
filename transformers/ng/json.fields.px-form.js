@@ -27,8 +27,12 @@ _Main.Transform = function(Entity) {
 };
 
 _Main.Layout = function(Layout) {
+  var result = [];
+
 	var Children = _el.find(Layout, '*');
-	return [_Main.FieldSet(Children)];
+  if(Children) result.push(_Main.FieldSet(Children));
+
+	return result;
 };
 
 _Main.FieldSet = function(Fields) {
