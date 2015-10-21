@@ -53,7 +53,9 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 				return next(err);
 
 			if (catalog.controlType === 'fileTemplate') {
-
+				/*
+				Use Pate for file template
+				 */
 				if(!catalog.fileTemplate)
 					return next({message: "Missing fileTemplate"});
 
@@ -77,7 +79,26 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 						stack: e.stack
 					});
 				}
+			} else if(req.query.gui === 'ng') {
+				/*
+				Use JS Transformers for AngularJS
+				 */
+				var JSONTransformer = require('../transformers/' + req.query.gui + '/' + req.query.output + '.js');
+				JSONTransformer.Transform(xml, function(err, result) {
+					if (err) 
+						return next(err);
+					res.json({
+						success: true,
+						action: "read",
+						gui: req.query.gui,
+						output: req.query.output,
+						data: result
+					});
+				});
 			} else {
+				/*
+				Use XSLT for anything else
+				 */
 				libxslt.parseFile('xsl/' + req.query.gui + '/' + req.query.output + '.xsl', function (err, stylesheet) {
 					if (err)
 						return next(err);
