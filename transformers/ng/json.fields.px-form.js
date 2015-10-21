@@ -144,7 +144,7 @@ _Main.Field = function(Field) {
       /*
       hasOne
        */
-      field.data.fields  = _Main.Transform(Entity); //!!DANGER!! Overwrites Key Indexes
+      field.data.fields  = _Main.Transform(Entity);
       field.data.catalog = _Catalog.Transform(Entity);
     } else if(relationshipType === 'hasMany') {
       /*
@@ -154,11 +154,13 @@ _Main.Field = function(Field) {
         case 'default':
         case 'formView':
         default:
+          field.data.fields  = _Main.Transform(Entity);
           break;
         case 'gridView':
           field.data.fields = _PxGrid.Transform(Entity);
           break;
         case 'cardsView':
+          field.data.fields = _PxCards.Transform(Entity);
           break;
       }
       field.data.catalog = _Catalog.Transform(Entity);
