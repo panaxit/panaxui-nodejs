@@ -7,13 +7,13 @@
   "private": true,
   "license": "Copyright 2015 PanaxIT (R)",
   "scripts": {
-    "start": "set NODE_ENV=development&& node node_modules/nodemon/bin/nodemon.js -i cache ./bin/www",
+    "start": "NODE_ENV=development node node_modules/nodemon/bin/nodemon.js -i cache ./bin/www",
     "start:forever": "node node_modules/forever/bin/forever start ./bin/www",
     "restart:forever": "node node_modules/forever/bin/forever restartall",
     "stop:forever": "node node_modules/forever/bin/forever stopall",
     "debug": "node-debug ./bin/www",
     "test:all": "node ./node_modules/istanbul/lib/cli.js cover -x \"config/*\" ./node_modules/mocha/bin/_mocha",
-    "test": "set NODE_ENV=testing&& npm run test:all"
+    "test": "NODE_ENV=testing npm run test:all"
   },
   "config": {
     "ghooks": {
