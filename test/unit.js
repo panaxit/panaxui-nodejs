@@ -6,7 +6,7 @@ describe('Unit tests', function() {
 	
 	});
 
-	describe.only('JS Transformers', function() {
+	describe('JS Transformers', function() {
 
 		require('./unit/transformers/helpers');
 
