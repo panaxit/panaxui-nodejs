@@ -24,7 +24,6 @@ describe('read', function() {
 
 			api.get('/api/read?' + query)
 			.set('Accept', 'application/json')
-			.set('Cookie', cookie) // Pass session cookie with each request
 			.expect(401)
 			.expect('Content-Type', /json/)
 			.end(function(err, res) {
@@ -42,7 +41,6 @@ describe('read', function() {
 
 			api.get('/api/options?' + query)
 			.set('Accept', 'application/json')
-			.set('Cookie', cookie) // Pass session cookie with each request
 			.expect(401)
 			.expect('Content-Type', /json/)
 			.end(function(err, res) {
