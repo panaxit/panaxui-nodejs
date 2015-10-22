@@ -30,23 +30,10 @@ _Main.Layout = function(Layout) {
   var result = [];
 
 	var Children = _el.find(Layout, '*');
-  if(Children) result.push(_Main.FieldSet(Children));
+  if(Children) result = _Main.Fields(Children);
 
 	return result;
 };
-
-_Main.FieldSet = function(Fields) {
-	return {
-		"type": "fieldset",
-		"fields": _Main.Fields(Fields)
-	};
-};
-
-/*
-ToDo:
-@fieldContainer (fieldGroup?)
-		.orentation = horizontal / vertical
- */
 
 _Main.Fields = function(Fields) {
 	var fields = [];
@@ -59,12 +46,22 @@ _Main.Fields = function(Fields) {
 			case 'tabPanel':
 				fields.push(_Main.TabPanel(Field));
 				break;
+      /*
+      ToDo: @fieldContainer .orentation = horizontal / vertical
+      */
 			default:
 				fields.push({});
 				break;
 		};
 	});
 	return fields;
+};
+
+_Main.FieldSet = function(Fields) {
+  return {
+    "type": "fieldset",
+    "fields": _Main.Fields(Fields)
+  };
 };
 
 _Main.TabPanel = function(TabPanel) {
@@ -87,7 +84,7 @@ _Main.Tab = function(Tab) {
 	var Children = _el.find(Tab, '*');
 	return {
 		"type": "tab",
-		"name": _attr.val(Tab, 'name'),
+		"title": _attr.val(Tab, 'name'),
 		"fields": _Main.Fields(Children)
 	};
 };

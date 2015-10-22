@@ -7,7 +7,7 @@ describe('px-form', function() {
 
 	describe('basic', function() {
 
-		it('empty layout should return array with empty fieldset', function() {
+		it('empty layout should return array with empty fields', function() {
 			var xml = '<Entity xmlns:px="urn:panax" controlType="formView">' +
 								'	<px:layout>' +
 								'	</px:layout>' +
@@ -18,19 +18,12 @@ describe('px-form', function() {
       _initKeyIndexes(Entity);
       var result = _Fields.Transform(Entity);
 
-			expect(result).to.deep.equal(
-				[
-					{
-						"type": "fieldset",
-						"fields": []
-					}
-				]
-			);
+			expect(result).to.deep.equal([]);
 		});
 		
 	});
 
-	describe('fieldset / fieldContainer', function() {
+	describe('fieldset (fieldContainer)', function() {
 		
 		it('PENDING');
 
@@ -54,13 +47,8 @@ describe('px-form', function() {
 			expect(result).to.deep.equal(
 				[
 					{
-						"type": "fieldset",
-						"fields": [
-							{
-								"type": "tabPanel",
-								"tabs": []
-							}
-						]
+						"type": "tabPanel",
+						"tabs": []
 					}
 				]
 			);
@@ -86,15 +74,10 @@ describe('px-form', function() {
 			expect(result).to.deep.equal(
 				[
 					{
-						"type": "fieldset",
-						"fields": [
-							{
-								"type": "tabPanel",
-								"tabs": [
-									{"type": "tab", "name": "Tab 1", "fields": []},
-									{"type": "tab", "name": "Tab 2", "fields": []}
-								]
-							}
+						"type": "tabPanel",
+						"tabs": [
+							{"type": "tab", "title": "Tab 1", "fields": []},
+							{"type": "tab", "title": "Tab 2", "fields": []}
 						]
 					}
 				]
@@ -129,34 +112,29 @@ describe('px-form', function() {
 			expect(result).to.deep.equal(
 				[
 					{
-						"type": "fieldset",
-						"fields": [
+						"type": "tabPanel",
+						"tabs": [
 							{
-								"type": "tabPanel",
-								"tabs": [
+								"type": "tab", 
+								"title": "Tab", 
+								"fields": [
 									{
-										"type": "tab", 
-										"name": "Tab", 
-										"fields": [
-											{
-												"key": "FieldA",
-												"type": "default",
-												"templateOptions": {
-													"label": "",
-													"placeholder": ""
-												},
-												"data": {}
-											},
-											{
-												"key": "FieldB",
-												"type": "default",
-												"templateOptions": {
-													"label": "",
-													"placeholder": ""
-												},
-												"data": {}
-											}
-										]
+										"key": "FieldA",
+										"type": "default",
+										"templateOptions": {
+											"label": "",
+											"placeholder": ""
+										},
+										"data": {}
+									},
+									{
+										"key": "FieldB",
+										"type": "default",
+										"templateOptions": {
+											"label": "",
+											"placeholder": ""
+										},
+										"data": {}
 									}
 								]
 							}
@@ -203,21 +181,16 @@ describe('px-form', function() {
 
 			expect(result).to.deep.equal(
 				[
-					{
-						"type": "fieldset",
-						"fields": [
-							{ "key": "ShortTextField", "type": "input", "templateOptions": { "label": "Short Text Field", "placeholder": "", "maxLength": 255 }, "data": {} },
-							{ "key": "IntegerReq", "type": "number", "templateOptions": { "label": "Integer Req", "placeholder": "", "maxLength": 10 }, "data": {} },
-							{ "key": "Float", "type": "number", "templateOptions": { "label": "Float", "placeholder": "" }, "data": {} },
-							{ "key": "Boolean", "type": "checkbox", "templateOptions": { "label": "Boolean", "placeholder": "" }, "data": {} },
-							{ "key": "Money", "type": "money", "templateOptions": { "label": "Money", "placeholder": "", "maxLength": 15 }, "data": {} },
-							{ "key": "Date", "type": "date", "templateOptions": { "label": "Date", "placeholder": "" }, "data": {} },
-							{ "key": "Datetime", "type": "datetime", "templateOptions": { "label": "Datetime", "placeholder": "" }, "data": {} },
-							{ "key": "Time", "type": "time", "templateOptions": { "label": "Time", "placeholder": "" }, "data": {} },
-							{ "key": "LongText", "type": "textarea", "templateOptions": { "label": "Long Text", "placeholder": "", "maxLength": 2147483647 }, "data": {} }
-						]
-					}
-				]
+					{ "key": "ShortTextField", "type": "input", "templateOptions": { "label": "Short Text Field", "placeholder": "", "maxLength": 255 }, "data": {} },
+					{ "key": "IntegerReq", "type": "number", "templateOptions": { "label": "Integer Req", "placeholder": "", "maxLength": 10 }, "data": {} },
+					{ "key": "Float", "type": "number", "templateOptions": { "label": "Float", "placeholder": "" }, "data": {} },
+					{ "key": "Boolean", "type": "checkbox", "templateOptions": { "label": "Boolean", "placeholder": "" }, "data": {} },
+					{ "key": "Money", "type": "money", "templateOptions": { "label": "Money", "placeholder": "", "maxLength": 15 }, "data": {} },
+					{ "key": "Date", "type": "date", "templateOptions": { "label": "Date", "placeholder": "" }, "data": {} },
+					{ "key": "Datetime", "type": "datetime", "templateOptions": { "label": "Datetime", "placeholder": "" }, "data": {} },
+					{ "key": "Time", "type": "time", "templateOptions": { "label": "Time", "placeholder": "" }, "data": {} },
+					{ "key": "LongText", "type": "textarea", "templateOptions": { "label": "Long Text", "placeholder": "", "maxLength": 2147483647 }, "data": {} }
+        ]
 			);
 		});
 
@@ -246,16 +219,11 @@ describe('px-form', function() {
 
 			expect(result).to.deep.equal(
 				[
-					{
-						"type": "fieldset",
-						"fields": [
-							{ "key": "EMail", "type": "email", "templateOptions": { "label": "E Mail", "placeholder": "", "maxLength": 255 }, "data": {} },
-							{ "key": "Color", "type": "color", "templateOptions": { "label": "Color", "placeholder": "", "maxLength": 7 }, "data": {} },
-							{ "key": "PxFile", "type": "file", "templateOptions": { "label": "Px File", "placeholder": "", "maxLength": 255 }, "data": {} },
-							{ "key": "PxPicture", "type": "file", "templateOptions": { "label": "Px Picture", "placeholder": "", "maxLength": 255 }, "data": {} },
-							{ "key": "PxPassword", "type": "password", "templateOptions": { "label": "Px Password", "placeholder": "", "maxLength": 32 }, "data": {} }
-						]
-					}
+					{ "key": "EMail", "type": "email", "templateOptions": { "label": "E Mail", "placeholder": "", "maxLength": 255 }, "data": {} },
+					{ "key": "Color", "type": "color", "templateOptions": { "label": "Color", "placeholder": "", "maxLength": 7 }, "data": {} },
+					{ "key": "PxFile", "type": "file", "templateOptions": { "label": "Px File", "placeholder": "", "maxLength": 255 }, "data": {} },
+					{ "key": "PxPicture", "type": "file", "templateOptions": { "label": "Px Picture", "placeholder": "", "maxLength": 255 }, "data": {} },
+					{ "key": "PxPassword", "type": "password", "templateOptions": { "label": "Px Password", "placeholder": "", "maxLength": 32 }, "data": {} }
 				]
 			);
 		});
@@ -287,20 +255,15 @@ describe('px-form', function() {
 
       expect(result).to.deep.equal(
         [
-          {
-            "type": "fieldset",
-            "fields": [
-              { "key": "RadioGroup", "type": "radio", "templateOptions": { 
-                "label": "Radio Group", 
-                "placeholder": "",
-                "maxLength": 10,
-                "options": [
-                  {"name": "A", "value": "1"},
-                  {"name": "B", "value": "2"}
-                ]
-              }, "data": {} }
+          { "key": "RadioGroup", "type": "radio", "templateOptions": { 
+            "label": "Radio Group", 
+            "placeholder": "",
+            "maxLength": 10,
+            "options": [
+              {"name": "A", "value": "1"},
+              {"name": "B", "value": "2"}
             ]
-          }
+          }, "data": {} }
         ]
       );
     });
@@ -324,30 +287,25 @@ describe('px-form', function() {
 
       expect(result).to.deep.equal(
         [
+          // {
+          //   "template": "Combo box"
+          // },
           {
-            "type": "fieldset",
-            "fields": [
-              // {
-              //   "template": "Combo box"
-              // },
-              {
-                "className": "display-flex",
-                "fieldGroup": [
-                  { "className": "flex-1",
-                    "key": "Combobox", "type": "async_select", "templateOptions": { 
-                    "label": "Combo box", 
-                    "placeholder": "",
-                    "maxLength": 2,
-                    "options": [],
-                    "params": {
-                      "catalogName": "TestSchema.Options",
-                      "valueColumn": "RTRIM([Id])",
-                      "textColumn": "RTRIM(Name)",
-                      "dependantEntity": "Combobox"
-                    }
-                  }, "data": {} }
-                ]
-              }
+            "className": "display-flex",
+            "fieldGroup": [
+              { "className": "flex-1",
+                "key": "Combobox", "type": "async_select", "templateOptions": { 
+                "label": "Combo box", 
+                "placeholder": "",
+                "maxLength": 2,
+                "options": [],
+                "params": {
+                  "catalogName": "TestSchema.Options",
+                  "valueColumn": "RTRIM([Id])",
+                  "textColumn": "RTRIM(Name)",
+                  "dependantEntity": "Combobox"
+                }
+              }, "data": {} }
             ]
           }
         ]
@@ -388,64 +346,59 @@ describe('px-form', function() {
 
       expect(result).to.deep.equal(
         [
+          // {
+          //   "template": "Birth Place"
+          // },
           {
-            "type": "fieldset",
-            "fields": [
-              // {
-              //   "template": "Birth Place"
-              // },
-              {
-                "className": "display-flex",
-                "fieldGroup": [
-                  { "className": "flex-1",
-                    "key": "Country", "type": "async_select",
-                    "model": "formState", "templateOptions": {
-                      "label": "Country", 
-                      "placeholder": "",
-                      "options": [],
-                      "params": {
-                        "catalogName": "TestSchema.Country",
-                        "valueColumn": "RTRIM([Id])",
-                        "textColumn": "RTRIM(Country)",
-                        "dependantEntity": "State"
-                      }
-                    }
-                  },
-                  { "className": "flex-1",
-                    "key": "State", "type": "async_select",
-                    "model": "formState", "templateOptions": {
-                      "label": "State", 
-                      "placeholder": "",
-                      "options": [],
-                      "params": {
-                        "catalogName": "TestSchema.State",
-                        "valueColumn": "RTRIM([Id])",
-                        "textColumn": "RTRIM(State)",
-                        "foreignEntity": "Country",
-                        "foreignKey": "fk",
-                        "foreignValue": "MX",
-                        "dependantEntity": "City"
-                      }
-                    }
-                  },
-                  { "className": "flex-1",
-                    "key": "BirthPlace", "type": "async_select", "templateOptions": { 
-                    "label": "Birth Place", 
-                    "placeholder": "",
-                    "maxLength": 5,
-                    "options": [],
-                    "params": {
-                      "catalogName": "TestSchema.City",
-                      "valueColumn": "RTRIM([Id])",
-                      "textColumn": "RTRIM(City)",
-                      "foreignEntity": "State",
-                      "foreignKey": "fk",
-                      "foreignValue": "01",
-                      "dependantEntity": "BirthPlace"
-                    }
-                  }, "data": {} }
-                ]
-              }
+            "className": "display-flex",
+            "fieldGroup": [
+              { "className": "flex-1",
+                "key": "Country", "type": "async_select",
+                "model": "formState", "templateOptions": {
+                  "label": "Country", 
+                  "placeholder": "",
+                  "options": [],
+                  "params": {
+                    "catalogName": "TestSchema.Country",
+                    "valueColumn": "RTRIM([Id])",
+                    "textColumn": "RTRIM(Country)",
+                    "dependantEntity": "State"
+                  }
+                }
+              },
+              { "className": "flex-1",
+                "key": "State", "type": "async_select",
+                "model": "formState", "templateOptions": {
+                  "label": "State", 
+                  "placeholder": "",
+                  "options": [],
+                  "params": {
+                    "catalogName": "TestSchema.State",
+                    "valueColumn": "RTRIM([Id])",
+                    "textColumn": "RTRIM(State)",
+                    "foreignEntity": "Country",
+                    "foreignKey": "fk",
+                    "foreignValue": "MX",
+                    "dependantEntity": "City"
+                  }
+                }
+              },
+              { "className": "flex-1",
+                "key": "BirthPlace", "type": "async_select", "templateOptions": { 
+                "label": "Birth Place", 
+                "placeholder": "",
+                "maxLength": 5,
+                "options": [],
+                "params": {
+                  "catalogName": "TestSchema.City",
+                  "valueColumn": "RTRIM([Id])",
+                  "textColumn": "RTRIM(City)",
+                  "foreignEntity": "State",
+                  "foreignKey": "fk",
+                  "foreignValue": "01",
+                  "dependantEntity": "BirthPlace"
+                }
+              }, "data": {} }
             ]
           }
         ]
@@ -482,57 +435,47 @@ describe('px-form', function() {
 
       expect(result).to.deep.equal(
         [
-          {
-            "type": "fieldset",
-            "fields": [
-              { 
-                "key": "NestedForm", 
-                "type": "form", 
-                "templateOptions": { 
-                  "label": "Nested Form", 
-                  "placeholder": "" 
-                },
-                "data": {
-                  "fields": [
-                    {
-                      "type": "fieldset",
-                      "fields": [
-                        {
-                          "key": "FieldA",
-                          "type": "default",
-                          "templateOptions": {
-                            "label": "",
-                            "placeholder": ""
-                          },
-                          "data": {}
-                        }
-                      ]
-                    }
-                  ],
-                  "catalog": {
-                    "dbId": 'Demo',
-                    "catalogName": 'TestSchema.NestedForm',
-                    "schemaName": 'TestSchema',
-                    "tableName": 'NestedForm',
-                    "mode": 'edit',
-                    "controlType": 'formView',
-                    "lang": 'es',
-                    "primaryKey": 'Id',
-                    "foreignReference": 'Id',
-                    "pageSize": 0,
-                    "pageIndex": 1,
-                    "metadata": {
-                      "supportsInsert": '1',
-                      "supportsUpdate": '1',
-                      "supportsDelete": '1',
-                      "disableInsert": '0',
-                      "disableUpdate": '0',
-                      "disableDelete": '0'
-                    }
-                  }
-                } 
+          { 
+            "key": "NestedForm", 
+            "type": "form", 
+            "templateOptions": { 
+              "label": "Nested Form", 
+              "placeholder": "" 
+            },
+            "data": {
+              "fields": [
+                {
+                  "key": "FieldA",
+                  "type": "default",
+                  "templateOptions": {
+                    "label": "",
+                    "placeholder": ""
+                  },
+                  "data": {}
+                }
+              ],
+              "catalog": {
+                "dbId": 'Demo',
+                "catalogName": 'TestSchema.NestedForm',
+                "schemaName": 'TestSchema',
+                "tableName": 'NestedForm',
+                "mode": 'edit',
+                "controlType": 'formView',
+                "lang": 'es',
+                "primaryKey": 'Id',
+                "foreignReference": 'Id',
+                "pageSize": 0,
+                "pageIndex": 1,
+                "metadata": {
+                  "supportsInsert": '1',
+                  "supportsUpdate": '1',
+                  "supportsDelete": '1',
+                  "disableInsert": '0',
+                  "disableUpdate": '0',
+                  "disableDelete": '0'
+                }
               }
-            ]
+            } 
           }
         ]
       );
@@ -573,84 +516,74 @@ describe('px-form', function() {
 
       expect(result).to.deep.equal(
         [
-          {
-            "type": "fieldset",
-            "fields": [
-              { 
-                "key": "NestedForm", 
-                "type": "form", 
-                "templateOptions": { 
-                  "label": "Nested Form", 
-                  "placeholder": "" 
-                },
-                "data": {
-                  "fields": [
-                    {
-                      "type": "fieldset",
-                      "fields": [
-                        {
-                          "key": "NestedGrid",
-                          "type": "grid",
-                          "templateOptions": {
-                            "label": "Nested Grid",
-                            "placeholder": ""
-                          },
-                          "data": {
-                            "fields": {
-                              "columnDefs": [
-                                {"field": "FieldA", "displayName": "", "type": "object"}
-                              ]
-                            },
-                            "catalog": {
-                              "dbId": 'Demo',
-                              "catalogName": 'TestSchema.NestedGrid',
-                              "schemaName": 'TestSchema',
-                              "tableName": 'NestedGrid',
-                              "mode": 'edit',
-                              "controlType": 'gridView',
-                              "lang": 'es',
-                              "primaryKey": 'Id',
-                              "foreignReference": 'FkId',
-                              "pageSize": 0,
-                              "pageIndex": 1,
-                              "metadata": {
-                                "supportsInsert": '1',
-                                "supportsUpdate": '1',
-                                "supportsDelete": '1',
-                                "disableInsert": '0',
-                                "disableUpdate": '0',
-                                "disableDelete": '0'
-                              }
-                            }
-                          }
-                        }
+          { 
+            "key": "NestedForm", 
+            "type": "form", 
+            "templateOptions": { 
+              "label": "Nested Form", 
+              "placeholder": "" 
+            },
+            "data": {
+              "fields": [
+                {
+                  "key": "NestedGrid",
+                  "type": "grid",
+                  "templateOptions": {
+                    "label": "Nested Grid",
+                    "placeholder": ""
+                  },
+                  "data": {
+                    "fields": {
+                      "columnDefs": [
+                        {"field": "FieldA", "displayName": "", "type": "object"}
                       ]
-                    }
-                  ],
-                  "catalog": {
-                    "dbId": 'Demo',
-                    "catalogName": 'TestSchema.NestedForm',
-                    "schemaName": 'TestSchema',
-                    "tableName": 'NestedForm',
-                    "mode": 'edit',
-                    "controlType": 'formView',
-                    "lang": 'es',
-                    "primaryKey": 'Id',
-                    "foreignReference": 'Id',
-                    "pageSize": 0,
-                    "pageIndex": 1,
-                    "metadata": {
-                      "supportsInsert": '1',
-                      "supportsUpdate": '1',
-                      "supportsDelete": '1',
-                      "disableInsert": '0',
-                      "disableUpdate": '0',
-                      "disableDelete": '0'
+                    },
+                    "catalog": {
+                      "dbId": 'Demo',
+                      "catalogName": 'TestSchema.NestedGrid',
+                      "schemaName": 'TestSchema',
+                      "tableName": 'NestedGrid',
+                      "mode": 'edit',
+                      "controlType": 'gridView',
+                      "lang": 'es',
+                      "primaryKey": 'Id',
+                      "foreignReference": 'FkId',
+                      "pageSize": 0,
+                      "pageIndex": 1,
+                      "metadata": {
+                        "supportsInsert": '1',
+                        "supportsUpdate": '1',
+                        "supportsDelete": '1',
+                        "disableInsert": '0',
+                        "disableUpdate": '0',
+                        "disableDelete": '0'
+                      }
                     }
                   }
-                } 
+                }
+              ],
+              "catalog": {
+                "dbId": 'Demo',
+                "catalogName": 'TestSchema.NestedForm',
+                "schemaName": 'TestSchema',
+                "tableName": 'NestedForm',
+                "mode": 'edit',
+                "controlType": 'formView',
+                "lang": 'es',
+                "primaryKey": 'Id',
+                "foreignReference": 'Id',
+                "pageSize": 0,
+                "pageIndex": 1,
+                "metadata": {
+                  "supportsInsert": '1',
+                  "supportsUpdate": '1',
+                  "supportsDelete": '1',
+                  "disableInsert": '0',
+                  "disableUpdate": '0',
+                  "disableDelete": '0'
+                }
               }
-            ]
+            } 
           }
         ]
       );
@@ -691,80 +624,70 @@ describe('px-form', function() {
 
       expect(result).to.deep.equal(
         [
-          {
-            "type": "fieldset",
-            "fields": [
-              { 
-                "key": "NestedForm", 
-                "type": "form", 
-                "templateOptions": { 
-                  "label": "Nested Form", 
-                  "placeholder": "" 
-                },
-                "data": {
-                  "fields": [
-                    {
-                      "type": "fieldset",
-                      "fields": [
-                        {
-                          "key": "NestedCards",
-                          "type": "cards",
-                          "templateOptions": {
-                            "label": "Nested Cards",
-                            "placeholder": ""
-                          },
-                          "data": {
-                            "fields": {},
-                            "catalog": {
-                              "dbId": 'Demo',
-                              "catalogName": 'TestSchema.NestedCards',
-                              "schemaName": 'TestSchema',
-                              "tableName": 'NestedCards',
-                              "mode": 'edit',
-                              "controlType": 'cardsView',
-                              "lang": 'es',
-                              "primaryKey": 'Id',
-                              "foreignReference": 'FkId',
-                              "pageSize": 0,
-                              "pageIndex": 1,
-                              "metadata": {
-                                "supportsInsert": '1',
-                                "supportsUpdate": '1',
-                                "supportsDelete": '1',
-                                "disableInsert": '0',
-                                "disableUpdate": '0',
-                                "disableDelete": '0'
-                              }
-                            }
-                          }
-                        }
-                      ]
-                    }
-                  ],
-                  "catalog": {
-                    "dbId": 'Demo',
-                    "catalogName": 'TestSchema.NestedForm',
-                    "schemaName": 'TestSchema',
-                    "tableName": 'NestedForm',
-                    "mode": 'edit',
-                    "controlType": 'formView',
-                    "lang": 'es',
-                    "primaryKey": 'Id',
-                    "foreignReference": 'Id',
-                    "pageSize": 0,
-                    "pageIndex": 1,
-                    "metadata": {
-                      "supportsInsert": '1',
-                      "supportsUpdate": '1',
-                      "supportsDelete": '1',
-                      "disableInsert": '0',
-                      "disableUpdate": '0',
-                      "disableDelete": '0'
+          { 
+            "key": "NestedForm", 
+            "type": "form", 
+            "templateOptions": { 
+              "label": "Nested Form", 
+              "placeholder": "" 
+            },
+            "data": {
+              "fields": [
+                {
+                  "key": "NestedCards",
+                  "type": "cards",
+                  "templateOptions": {
+                    "label": "Nested Cards",
+                    "placeholder": ""
+                  },
+                  "data": {
+                    "fields": {},
+                    "catalog": {
+                      "dbId": 'Demo',
+                      "catalogName": 'TestSchema.NestedCards',
+                      "schemaName": 'TestSchema',
+                      "tableName": 'NestedCards',
+                      "mode": 'edit',
+                      "controlType": 'cardsView',
+                      "lang": 'es',
+                      "primaryKey": 'Id',
+                      "foreignReference": 'FkId',
+                      "pageSize": 0,
+                      "pageIndex": 1,
+                      "metadata": {
+                        "supportsInsert": '1',
+                        "supportsUpdate": '1',
+                        "supportsDelete": '1',
+                        "disableInsert": '0',
+                        "disableUpdate": '0',
+                        "disableDelete": '0'
+                      }
                     }
                   }
-                } 
+                }
+              ],
+              "catalog": {
+                "dbId": 'Demo',
+                "catalogName": 'TestSchema.NestedForm',
+                "schemaName": 'TestSchema',
+                "tableName": 'NestedForm',
+                "mode": 'edit',
+                "controlType": 'formView',
+                "lang": 'es',
+                "primaryKey": 'Id',
+                "foreignReference": 'Id',
+                "pageSize": 0,
+                "pageIndex": 1,
+                "metadata": {
+                  "supportsInsert": '1',
+                  "supportsUpdate": '1',
+                  "supportsDelete": '1',
+                  "disableInsert": '0',
+                  "disableUpdate": '0',
+                  "disableDelete": '0'
+                }
               }
-            ]
+            } 
           }
         ]
       );
