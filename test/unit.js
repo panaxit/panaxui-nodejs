@@ -6,18 +6,22 @@ describe('Unit tests', function() {
 	
 	});
 
-	describe('JS Transformers', function() {
+  describe('JS Transformers', function() {
 
-		require('./unit/transformers/helpers');
+    describe('AngularJS', function() {
 
-		describe('JSON', function() {
+  		require('./unit/transformers/helpers');
 
-			require('./unit/transformers/ng/json.catalog');
-			require('./unit/transformers/ng/json.model');
-			require('./unit/transformers/ng/json.fields');
+  		describe('JSON', function() {
 
-		});
-	
-	});
+  			require('./unit/transformers/ng/json.catalog');
+  			require('./unit/transformers/ng/json.model');
+  			require('./unit/transformers/ng/json.fields');
+
+  		});
+    
+    });
+  
+  });
 
 });
