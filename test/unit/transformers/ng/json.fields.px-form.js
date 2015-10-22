@@ -24,8 +24,30 @@ describe('px-form', function() {
 	});
 
 	describe('fieldset (fieldContainer)', function() {
-		
-		it('PENDING');
+
+    it('empty fieldcontainer should return empty fieldgroup', function() {
+      var xml = '<Entity xmlns:px="urn:panax" controlType="formView">' +
+                ' <px:layout>' +
+                '   <px:fieldContainer>' +
+                '   </px:fieldContainer>' +
+                ' </px:layout>' +
+                '</Entity>';
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Fields.Transform(Entity);
+
+      expect(result).to.deep.equal(
+        [
+          {
+            "fieldgroup": []
+          }
+        ]
+      );
+    });
+    
+    it('PENDING Orientation');
 
 	});
 

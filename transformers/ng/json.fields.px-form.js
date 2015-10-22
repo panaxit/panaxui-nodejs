@@ -46,9 +46,9 @@ _Main.Fields = function(Fields) {
 			case 'tabPanel':
 				fields.push(_Main.TabPanel(Field));
 				break;
-      /*
-      ToDo: @fieldContainer .orentation = horizontal / vertical
-      */
+      case 'fieldContainer':
+        fields.push(_Main.FieldSet(Field));
+        break;
 			default:
 				fields.push({});
 				break;
@@ -57,10 +57,13 @@ _Main.Fields = function(Fields) {
 	return fields;
 };
 
-_Main.FieldSet = function(Fields) {
+_Main.FieldSet = function(Field) {
+  var Fields = _el.find(Field, '*');
   return {
-    "type": "fieldset",
-    "fields": _Main.Fields(Fields)
+    "fieldgroup": _Main.Fields(Fields)
+    // ToDo: wrapper https://github.com/formly-js/angular-formly/issues/486
+    // ToDo: .orentation = horizontal / vertical (see cascaded)
+    // Alternative: Use custom type with <fieldset> as wrapper
   };
 };
 
