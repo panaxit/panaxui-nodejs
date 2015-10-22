@@ -1,0 +1,63 @@
+<CONTROLS_Basic xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" xml:lang="es" session:IdUser="-1" session:profileId="[-1]" dbId="Demo" fullPath="" version="Beta_12" pageSize="1" pageIndex="1" totalRecords="50" Schema="dbo" Name="CONTROLS_Basic" Table_Name="CONTROLS_Basic" Table_Schema="dbo" Base_Type="TABLE" identityKey="Id" primaryKey="Id" supportsInsert="1" disableInsert="0" supportsUpdate="1" disableUpdate="0" supportsDelete="1" disableDelete="0" dataType="table" controlType="formView" output="json" filtersBehavior="append" headerText="CONTROLS Basic" mode="edit">
+  <px:fields xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
+    <Id fieldId="ID0EZ" fieldName="Id" Name="Id" Column_Name="Id" isPrimaryKey="1" isIdentity="1" dataType="identity" length="10" isNullable="0" supportsInsert="1" supportsUpdate="1" headerText="Id" controlType="default" />
+    <ShortTextField fieldId="ID0EGB" fieldName="ShortTextField" Name="ShortTextField" Column_Name="ShortTextField" isPrimaryKey="0" isIdentity="0" dataType="nvarchar" length="255" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Short Text Field" controlType="default" debug:tab="40871360023" debug:tabPanel="40871360024" />
+    <IntegerReq fieldId="ID0EXB" fieldName="IntegerReq" Name="IntegerReq" Column_Name="IntegerReq" isPrimaryKey="0" isIdentity="0" dataType="int" length="10" isNullable="0" supportsInsert="1" supportsUpdate="1" headerText="Integer Req" controlType="default" />
+    <Float fieldId="ID0EEC" fieldName="Float" Name="Float" Column_Name="Float" isPrimaryKey="0" isIdentity="0" dataType="float" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Float" controlType="default" />
+    <RadioGroup fieldId="ID0EQC" fieldName="RadioGroup" Name="RadioGroup" Column_Name="RadioGroup" isPrimaryKey="0" isIdentity="0" dataType="foreignKey" relationshipType="belongsTo" length="10" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Radio Group" controlType="radiogroup" debug:controlType="40871360061" debug:moveBefore="40871360062">
+      <Sexo xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0ECD" fieldName="RadioGroup" sortOrder="0" text="- -" dataText="RTRIM([Sexo])" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Sexo" Table_Schema="dbo" Schema="dbo" Table_Name="Sexo" Name="Sexo" controlType="default" supportsInsert="1" supportsUpdate="1" supportsDelete="1" filtersBehavior="append" />
+      <px:data>
+        <Sexo xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0ECD" fieldName="RadioGroup" sortOrder="0" text="- -" />
+        <Sexo xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0ECD" fieldName="RadioGroup" sortOrder="1" text="Femenino" value="2" />
+        <Sexo xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0ECD" fieldName="RadioGroup" sortOrder="2" text="Masculino" value="1" />
+      </px:data>
+    </RadioGroup>
+    <Combobox fieldId="ID0EOD" fieldName="Combobox" Name="Combobox" Column_Name="Combobox" isPrimaryKey="0" isIdentity="0" dataType="foreignKey" relationshipType="belongsTo" length="2" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Combobox" controlType="combobox" debug:controlType="40871360051">
+      <Pais xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0E5D" fieldName="Combobox" sortOrder="0" text="- -" dataText="RTRIM(Pais)" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Pais" Table_Schema="CatalogosSistema" Schema="CatalogosSistema" Table_Name="Pais" Name="Pais" controlType="default" disableInsert="true" supportsInsert="1" supportsUpdate="1" supportsDelete="1" filtersBehavior="append" />
+    </Combobox>
+    <Boolean fieldId="ID0ELE" fieldName="Boolean" Name="Boolean" Column_Name="Boolean" isPrimaryKey="0" isIdentity="0" dataType="bit" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Boolean" controlType="default" />
+    <Money fieldId="ID0EXE" fieldName="Money" Name="Money" Column_Name="Money" isPrimaryKey="0" isIdentity="0" dataType="money" length="15" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Money" controlType="default" debug:tab="40871360081" />
+    <Date fieldId="ID0EGF" fieldName="Date" Name="Date" Column_Name="Date" isPrimaryKey="0" isIdentity="0" dataType="date" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Date" controlType="default" />
+    <Datetime fieldId="ID0ESF" fieldName="Datetime" Name="Datetime" Column_Name="Datetime" isPrimaryKey="0" isIdentity="0" dataType="datetime" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Datetime" controlType="default" />
+    <Time fieldId="ID0E5F" fieldName="Time" Name="Time" Column_Name="Time" isPrimaryKey="0" isIdentity="0" dataType="time" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Time" controlType="default" />
+    <LongText fieldId="ID0EKG" fieldName="LongText" Name="LongText" Column_Name="LongText" isPrimaryKey="0" isIdentity="0" dataType="text" length="2147483647" isNullable="1" supportsInsert="1" supportsUpdate="1" defaultValue="('default loooong text')" headerText="Long Text" controlType="default" />
+  </px:fields>
+  <px:layout xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
+    <px:tabPanel name="General">
+      <px:tab name="General">
+        <px:field fieldId="ID0EGB" fieldName="ShortTextField" />
+        <px:field fieldId="ID0EXB" fieldName="IntegerReq" />
+        <px:field fieldId="ID0EEC" fieldName="Float" />
+        <px:field fieldId="ID0EQC" fieldName="RadioGroup" />
+        <px:field fieldId="ID0EOD" fieldName="Combobox" />
+        <px:field fieldId="ID0ELE" fieldName="Boolean" />
+      </px:tab>
+      <px:tab name="Otros">
+        <px:field fieldId="ID0EXE" fieldName="Money" />
+        <px:field fieldId="ID0EGF" fieldName="Date" />
+        <px:field fieldId="ID0ESF" fieldName="Datetime" />
+        <px:field fieldId="ID0E5F" fieldName="Time" />
+        <px:field fieldId="ID0EKG" fieldName="LongText" />
+      </px:tab>
+    </px:tabPanel>
+  </px:layout>
+  <px:data xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
+    <px:dataRow rowNumber="1" identity="218" primaryValue="218" mode="inherit">
+      <ShortTextField fieldId="ID0EGB" value="Prueba 218" text="Prueba 218" />
+      <IntegerReq fieldId="ID0EXB" value="1" text="1" />
+      <Float fieldId="ID0EEC" value="" text="" />
+      <RadioGroup fieldId="ID0EQC" value="0" text="- -">
+        <Sexo xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0ECD" fieldName="RadioGroup" sortOrder="0" text="- -" dataText="RTRIM([Sexo])" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Sexo" Table_Schema="dbo" Schema="dbo" Table_Name="Sexo" Name="Sexo" controlType="default" supportsInsert="1" supportsUpdate="1" supportsDelete="1" filtersBehavior="append" />
+      </RadioGroup>
+      <Combobox fieldId="ID0EOD" value="" text="- -">
+        <Pais xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0E5D" fieldName="Combobox" sortOrder="0" text="- -" dataText="RTRIM(Pais)" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Pais" Table_Schema="CatalogosSistema" Schema="CatalogosSistema" Table_Name="Pais" Name="Pais" controlType="default" disableInsert="true" supportsInsert="1" supportsUpdate="1" supportsDelete="1" filtersBehavior="append" />
+      </Combobox>
+      <Boolean fieldId="ID0ELE" value="" text="" />
+      <Money fieldId="ID0EXE" value="0.00" />
+      <Date fieldId="ID0EGF" value="" text="" />
+      <Datetime fieldId="ID0ESF" value="" text="" />
+      <Time fieldId="ID0E5F" value="" />
+      <LongText fieldId="ID0EKG" value="default loooong text" text="default loooong text" />
+    </px:dataRow>
+  </px:data>
+</CONTROLS_Basic>

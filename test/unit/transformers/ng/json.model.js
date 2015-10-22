@@ -6,6 +6,30 @@ var _Model = require('../../../../transformers/ng/json.model');
 
 describe('JSON Model', function() {
 
+  describe('real mocks', function() {
+
+    var mocks = [
+      'CONTROLS_NestedForm',
+      'CONTROLS_Basic'
+    ];
+
+    mocks.forEach(function (mock, index) {
+      it(mock, function() {
+        var xml = fs.readFileSync(__dirname + '/mocks/' + mock + '.xml');
+        var model = JSON.parse(fs.readFileSync(__dirname + '/mocks/' + mock + '.model.json'));
+
+        var Doc = libxmljs.parseXmlString(xml);
+        var Entity = Doc.root();
+        _initKeyIndexes(Entity);
+        var result = _Model.Transform(Entity);
+
+        expect(result).not.to.be.empty;
+        expect(result[0]).to.deep.equal(model);
+      });
+    });
+
+  });
+
 	describe('table', function() {
 
 		describe('basic', function() {
@@ -310,22 +334,5 @@ describe('JSON Model', function() {
 		it('PENDING');
 
 	});
-
-  describe('real mocks', function() {
-
-    it('CONTROLS_NestedForm', function() {
-      var xml = fs.readFileSync(__dirname + '/mocks/CONTROLS_NestedForm.xml');
-      var model = JSON.parse(fs.readFileSync(__dirname + '/mocks/CONTROLS_NestedForm.model.json'));
-
-      var Doc = libxmljs.parseXmlString(xml);
-      var Entity = Doc.root();
-      _initKeyIndexes(Entity);
-      var result = _Model.Transform(Entity);
-
-      expect(result).not.to.be.empty;
-      expect(result[0]).to.deep.equal(model);;
-    });
-
-  });
 
 });

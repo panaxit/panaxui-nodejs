@@ -88,10 +88,10 @@ _Main.Value = function(Field) {
 	
 	switch(dataType) {
 		case 'int':
-			return parseInt(value) || null;
+			return isNaN(parseInt(value)) ? null : parseInt(value);
 		case 'float':
 		case 'money':
-			return parseFloat(value) || null;
+			return isNaN(parseFloat(value)) ? null : parseFloat(value);
 		case 'bit':
 			return (value === '1' || value.toLowerCase() === 'true') ? true : false;
 		case 'date':
