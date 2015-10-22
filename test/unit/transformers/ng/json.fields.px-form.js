@@ -69,8 +69,10 @@ describe('px-form', function() {
 			expect(result).to.deep.equal(
 				[
 					{
-						"type": "tabPanel",
-						"tabs": []
+						"type": "tabpanel",
+            "data": {
+              "tabs": []
+            }
 					}
 				]
 			);
@@ -96,11 +98,13 @@ describe('px-form', function() {
 			expect(result).to.deep.equal(
 				[
 					{
-						"type": "tabPanel",
-						"tabs": [
-							{"type": "tab", "title": "Tab 1", "fields": []},
-							{"type": "tab", "title": "Tab 2", "fields": []}
-						]
+						"type": "tabpanel",
+            "data": {
+              "tabs": [
+                {"type": "tab", "title": "Tab 1", "fields": []},
+                {"type": "tab", "title": "Tab 2", "fields": []}
+              ]
+            }
 					}
 				]
 			);
@@ -134,33 +138,35 @@ describe('px-form', function() {
 			expect(result).to.deep.equal(
 				[
 					{
-						"type": "tabPanel",
-						"tabs": [
-							{
-								"type": "tab", 
-								"title": "Tab", 
-								"fields": [
-									{
-										"key": "FieldA",
-										"type": "default",
-										"templateOptions": {
-											"label": "",
-											"placeholder": ""
-										},
-										"data": {}
-									},
-									{
-										"key": "FieldB",
-										"type": "default",
-										"templateOptions": {
-											"label": "",
-											"placeholder": ""
-										},
-										"data": {}
-									}
-								]
-							}
-						]
+						"type": "tabpanel",
+            "data": {
+              "tabs": [
+                {
+                  "type": "tab", 
+                  "title": "Tab", 
+                  "fields": [
+                    {
+                      "key": "FieldA",
+                      "type": "default",
+                      "templateOptions": {
+                        "label": "",
+                        "placeholder": ""
+                      },
+                      "data": {}
+                    },
+                    {
+                      "key": "FieldB",
+                      "type": "default",
+                      "templateOptions": {
+                        "label": "",
+                        "placeholder": ""
+                      },
+                      "data": {}
+                    }
+                  ]
+                }
+              ]
+            }
 					}
 				]
 			);

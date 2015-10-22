@@ -1,170 +1,172 @@
 [  
   {  
-    "type":"tabPanel",
-    "tabs":[  
-      {  
-        "type":"tab",
-        "title":"General",
-        "fields":[  
-          {  
-            "key":"ShortTextField",
-            "type":"input",
-            "templateOptions":{  
-              "maxLength":255,
-              "label":"Short Text Field",
-              "placeholder":""
-            },
-            "data":{  
+    "type":"tabpanel",
+    "data": {
+      "tabs":[  
+        {  
+          "type":"tab",
+          "title":"General",
+          "fields":[  
+            {  
+              "key":"ShortTextField",
+              "type":"input",
+              "templateOptions":{  
+                "maxLength":255,
+                "label":"Short Text Field",
+                "placeholder":""
+              },
+              "data":{  
 
-            }
-          },
-          {  
-            "key":"IntegerReq",
-            "type":"number",
-            "templateOptions":{  
-              "required":true,
-              "maxLength":10,
-              "label":"Integer Req",
-              "placeholder":""
-            },
-            "data":{  
-
-            }
-          },
-          {  
-            "key":"Float",
-            "type":"number",
-            "templateOptions":{  
-              "label":"Float",
-              "placeholder":""
-            },
-            "data":{  
-
-            }
-          },
-          {  
-            "key":"RadioGroup",
-            "type":"radio",
-            "templateOptions":{  
-              "options":[  
-                {  
-                  "value":"2",
-                  "name":"Femenino"
-                },
-                {  
-                  "value":"1",
-                  "name":"Masculino"
-                }
-              ],
-              "maxLength":10,
-              "label":"Radio Group",
-              "placeholder":""
-            },
-            "data":{  
-
-            }
-          },
-          {  
-            "className":"display-flex",
-            "fieldGroup":[  
-              {  
-                "className":"flex-1",
-                "key":"Combobox",
-                "type":"async_select",
-                "templateOptions":{  
-                  "options":[  
-
-                  ],
-                  "params":{  
-                    "catalogName":"CatalogosSistema.Pais",
-                    "valueColumn":"RTRIM([Id])",
-                    "textColumn":"RTRIM(Pais)",
-                    "dependantEntity":"Combobox"
-                  },
-                  "maxLength":2,
-                  "label":"Combobox",
-                  "placeholder":""
-                },
-                "data": {}
               }
-            ]
-          },
-          {  
-            "key":"Boolean",
-            "type":"checkbox",
-            "templateOptions":{  
-              "label":"Boolean",
-              "placeholder":""
             },
-            "data":{  
+            {  
+              "key":"IntegerReq",
+              "type":"number",
+              "templateOptions":{  
+                "required":true,
+                "maxLength":10,
+                "label":"Integer Req",
+                "placeholder":""
+              },
+              "data":{  
 
-            }
-          }
-        ]
-      },
-      {  
-        "type":"tab",
-        "title":"Otros",
-        "fields":[  
-          {  
-            "key":"Money",
-            "type":"money",
-            "templateOptions":{  
-              "maxLength":15,
-              "label":"Money",
-              "placeholder":""
+              }
             },
-            "data":{  
+            {  
+              "key":"Float",
+              "type":"number",
+              "templateOptions":{  
+                "label":"Float",
+                "placeholder":""
+              },
+              "data":{  
 
-            }
-          },
-          {  
-            "key":"Date",
-            "type":"date",
-            "templateOptions":{  
-              "label":"Date",
-              "placeholder":""
+              }
             },
-            "data":{  
+            {  
+              "key":"RadioGroup",
+              "type":"radio",
+              "templateOptions":{  
+                "options":[  
+                  {  
+                    "value":"2",
+                    "name":"Femenino"
+                  },
+                  {  
+                    "value":"1",
+                    "name":"Masculino"
+                  }
+                ],
+                "maxLength":10,
+                "label":"Radio Group",
+                "placeholder":""
+              },
+              "data":{  
 
-            }
-          },
-          {  
-            "key":"Datetime",
-            "type":"datetime",
-            "templateOptions":{  
-              "label":"Datetime",
-              "placeholder":""
+              }
             },
-            "data":{  
+            {  
+              "className":"display-flex",
+              "fieldGroup":[  
+                {  
+                  "className":"flex-1",
+                  "key":"Combobox",
+                  "type":"async_select",
+                  "templateOptions":{  
+                    "options":[  
 
-            }
-          },
-          {  
-            "key":"Time",
-            "type":"time",
-            "templateOptions":{  
-              "label":"Time",
-              "placeholder":""
+                    ],
+                    "params":{  
+                      "catalogName":"CatalogosSistema.Pais",
+                      "valueColumn":"RTRIM([Id])",
+                      "textColumn":"RTRIM(Pais)",
+                      "dependantEntity":"Combobox"
+                    },
+                    "maxLength":2,
+                    "label":"Combobox",
+                    "placeholder":""
+                  },
+                  "data": {}
+                }
+              ]
             },
-            "data":{  
+            {  
+              "key":"Boolean",
+              "type":"checkbox",
+              "templateOptions":{  
+                "label":"Boolean",
+                "placeholder":""
+              },
+              "data":{  
 
+              }
             }
-          },
-          {  
-            "key":"LongText",
-            "type":"textarea",
-            "templateOptions":{  
-              "maxLength":2147483647,
-              "label":"Long Text",
-              "placeholder":""
+          ]
+        },
+        {  
+          "type":"tab",
+          "title":"Otros",
+          "fields":[  
+            {  
+              "key":"Money",
+              "type":"money",
+              "templateOptions":{  
+                "maxLength":15,
+                "label":"Money",
+                "placeholder":""
+              },
+              "data":{  
+
+              }
             },
-            "data":{  
+            {  
+              "key":"Date",
+              "type":"date",
+              "templateOptions":{  
+                "label":"Date",
+                "placeholder":""
+              },
+              "data":{  
 
+              }
+            },
+            {  
+              "key":"Datetime",
+              "type":"datetime",
+              "templateOptions":{  
+                "label":"Datetime",
+                "placeholder":""
+              },
+              "data":{  
+
+              }
+            },
+            {  
+              "key":"Time",
+              "type":"time",
+              "templateOptions":{  
+                "label":"Time",
+                "placeholder":""
+              },
+              "data":{  
+
+              }
+            },
+            {  
+              "key":"LongText",
+              "type":"textarea",
+              "templateOptions":{  
+                "maxLength":2147483647,
+                "label":"Long Text",
+                "placeholder":""
+              },
+              "data":{  
+
+              }
             }
-          }
-        ]
-      }
-    ]
+          ]
+        }
+      ]
+    }
   }
 ]

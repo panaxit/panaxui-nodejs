@@ -70,8 +70,10 @@ _Main.FieldSet = function(Field) {
 _Main.TabPanel = function(TabPanel) {
 	var Tabs = _el.find(TabPanel, 'px:tab');
 	return {
-		"type": "tabPanel",
-		"tabs": _Main.Tabs(Tabs)
+		"type": "tabpanel",
+    "data": {
+      "tabs": _Main.Tabs(Tabs)
+    }
 	};
 };
 
