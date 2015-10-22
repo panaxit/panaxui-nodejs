@@ -115,7 +115,7 @@ describe('px-form', function() {
 	describe('fields', function() {
 
 		it('layout with fields should return array of field objects', function() {
-			var xml = '<Entity xmlns:px="urn:panax" controlType="formView">' +
+			var xml = '<Entity xmlns:px="urn:panax" controlType="formView" mode="readonly">' +
 								'	<px:fields>' +
 								'		<FieldA fieldId="IDA" fieldName="FieldA" />' +
 								'		<FieldB fieldId="IDB" fieldName="FieldB" />' +
@@ -150,7 +150,8 @@ describe('px-form', function() {
                       "type": "default",
                       "templateOptions": {
                         "label": "",
-                        "placeholder": ""
+                        "placeholder": "",
+                        "disabled": true
                       },
                       "data": {}
                     },
@@ -159,7 +160,8 @@ describe('px-form', function() {
                       "type": "default",
                       "templateOptions": {
                         "label": "",
-                        "placeholder": ""
+                        "placeholder": "",
+                        "disabled": true
                       },
                       "data": {}
                     }

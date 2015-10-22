@@ -61,9 +61,9 @@ _Main.FieldSet = function(Field) {
   var Fields = _el.find(Field, '*');
   return {
     "fieldgroup": _Main.Fields(Fields)
-    // ToDo: wrapper https://github.com/formly-js/angular-formly/issues/486
-    // ToDo: .orentation = horizontal / vertical (see cascaded)
-    // Alternative: Use custom type with <fieldset> as wrapper
+    // ToDo: wrapper panel: https://github.com/formly-js/angular-formly/issues/486
+    // ToDo: orentation = horizontal / vertical (see cascaded)
+    // Alternative: Use custom type with '<fieldset>...</fieldset>' template
   };
 };
 
@@ -105,6 +105,9 @@ _Main.Field = function(Field) {
   var length = _attr.val(Metadata, 'length');
   var headerText = _attr.val(Metadata, 'headerText');
   var relationshipType = _attr.val(Metadata, 'relationshipType');
+  var ParentEntity = _el.get(Metadata, '../..');
+  var ParentEntityMode = _attr.val(ParentEntity, 'mode');
+
 
 	var field = {
 		"key": fieldName, // _el.name(Metadata)
@@ -118,8 +121,8 @@ _Main.Field = function(Field) {
 
   if(!!(isIdentity && isIdentity === '1'))
     field.templateOptions.hide = true;
-  // if(mode && mode === 'readonly')
-  //   field.templateOptions.disabled = true;
+  if(ParentEntityMode && ParentEntityMode === 'readonly')
+    field.templateOptions.disabled = true;
   if(isNullable && isNullable === '0')
     field.templateOptions.required = true;
   if(length)
@@ -176,6 +179,10 @@ _Main.Field = function(Field) {
   return field;
 };
 
+/*
+async_select
+ToDo: panel wrapper, headerText from parent Metadata
+ */
 _Main.Cascaded = function(Metadata, Data, cascaded) {
   if(Metadata) {
     var headerText = _attr.val(Metadata, 'headerText');
