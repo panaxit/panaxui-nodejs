@@ -18,6 +18,7 @@ describe('Unit tests', function() {
   			require('./unit/transformers/ng/json.model');
   			require('./unit/transformers/ng/json.fields');
         require('./unit/transformers/ng/sitemap');
+        require('./unit/transformers/ng/options');
 
       });
     
