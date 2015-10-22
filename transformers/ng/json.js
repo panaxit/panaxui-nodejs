@@ -1,8 +1,14 @@
 var libxmljs = require('libxslt').libxmljs;
 
+/*
+Helpers
+ */
 var _helpers = require('../helpers');
 var $_keys = _helpers.$keys;
 
+/*
+Transformers
+ */
 var _Model = require('./json.model.js');
 var _Fields = require('./json.fields.js');
 var _Catalog = require('./json.catalog.js');
@@ -13,7 +19,7 @@ Main namespace
 var _Main = exports;
 
 /*
-Key Indexes
+Initialize Key Indexes
  */
 _Main.initKeyIndexes = function initKeyIndexes(Entity) {
   $_keys['Fields'] = _helpers.createKeyIndex(Entity, "//px:fields/*[@fieldId]", 'fieldId');
@@ -21,7 +27,7 @@ _Main.initKeyIndexes = function initKeyIndexes(Entity) {
 }
 
 /*
-Main function
+Main async function
  */
 _Main.Transform = function(XMLEntity, callback) {
 	if(!XMLEntity)

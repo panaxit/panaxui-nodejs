@@ -83,30 +83,50 @@ router.get('/sitemap', auth.requiredAuth, function sitemap(req, res, next) {
 		if(err)
 			return next(err);
 
-		libxslt.parseFile('xsl/' + req.query.gui + '/sitemap.xsl', function (err, stylesheet) {
-			if (err)
-				return next(err);
+    if(req.query.gui === 'ng') {
+      /*
+      Use JS Transformers for AngularJS
+       */
+        var JSTransformer = require('../transformers/' + req.query.gui + '/sitemap.js');
+        JSTransformer.Transform(xml, function(err, result) {
+          if (err) 
+            return next(err);
+          res.json({
+            success: true,
+            action: "sitemap",
+            gui: req.query.gui,
+            data: result
+          });
+        });
+    } else {
+      /*
+      Use XSLT for anything else
+       */
+      libxslt.parseFile('xsl/' + req.query.gui + '/sitemap.xsl', function (err, stylesheet) {
+        if (err)
+          return next(err);
 
-			stylesheet.apply(xml, function (err, result) {
-				if (err)
-					return next(err);
-				
-				try {
-					res.json({
-						success: true,
-						action: "sitemap",
-						gui: req.query.gui,
-						data: JSON.parse(util.sanitizeJSONString(result))
-					});
-				} catch (e) {
-					return next({
-						message: '[Server Exception] ' + e.name + ': ' + e.message,
-						stack: e.stack,
-						result: result.replace(/\n/g, '').replace(/\t/g, '')
-					});
-				}
-			});
-		});
+        stylesheet.apply(xml, function (err, result) {
+          if (err)
+            return next(err);
+          
+          try {
+            res.json({
+              success: true,
+              action: "sitemap",
+              gui: req.query.gui,
+              data: JSON.parse(util.sanitizeJSONString(result))
+            });
+          } catch (e) {
+            return next({
+              message: '[Server Exception] ' + e.name + ': ' + e.message,
+              stack: e.stack,
+              result: result.replace(/\n/g, '').replace(/\t/g, '')
+            });
+          }
+        });
+      });
+    }
 	});
 });
 

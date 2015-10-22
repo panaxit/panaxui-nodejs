@@ -12,13 +12,14 @@ describe('Unit tests', function() {
 
   		require('./unit/transformers/helpers');
 
-  		describe('JSON', function() {
+      describe('Read', function() {
 
   			require('./unit/transformers/ng/json.catalog');
   			require('./unit/transformers/ng/json.model');
   			require('./unit/transformers/ng/json.fields');
+        require('./unit/transformers/ng/sitemap');
 
-  		});
+      });
     
     });
   

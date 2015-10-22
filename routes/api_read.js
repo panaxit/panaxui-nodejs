@@ -83,8 +83,8 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 				/*
 				Use JS Transformers for AngularJS
 				 */
-				var JSONTransformer = require('../transformers/' + req.query.gui + '/' + req.query.output + '.js');
-				JSONTransformer.Transform(xml, function(err, result) {
+				var JSTransformer = require('../transformers/' + req.query.gui + '/' + req.query.output + '.js');
+				JSTransformer.Transform(xml, function(err, result) {
 					if (err) 
 						return next(err);
 					res.json({
