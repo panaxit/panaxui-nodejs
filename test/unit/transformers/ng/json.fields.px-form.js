@@ -724,11 +724,5 @@ describe('px-form', function() {
     });
 		
 	});
-
-	describe('junction table', function() {
-
-		it('PENDING');
-		
-	});
 	
 });

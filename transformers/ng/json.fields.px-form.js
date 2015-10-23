@@ -11,6 +11,7 @@ Transformers
 var _Catalog = require('./json.catalog.js');
 var _PxGrid = require('./json.fields.px-grid');
 var _PxCards = require('./json.fields.px-cards');
+var _PxAgGrid = require('./json.fields.px-ag-grid');
 
 /*
 Main namespace
@@ -170,6 +171,24 @@ _Main.Field = function(Field) {
           break;
         case 'cardsView':
           field.data.fields = _PxCards.Transform(Entity);
+          break;
+      }
+      field.data.catalog = _Catalog.Transform(Entity);
+    }
+  } else if (dataType === 'junctionTable') {
+    /*
+    junctionTable
+     */
+    var Entity = _el.get(Metadata, '*[1]');
+    if(relationshipType === 'hasMany') {
+      /*
+      hasMany
+       */
+      switch(controlType) {
+        case 'default':
+        case 'gridView':
+        default:
+          field.data.fields = _PxAgGrid.Transform(Entity);
           break;
       }
       field.data.catalog = _Catalog.Transform(Entity);
