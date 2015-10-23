@@ -9,7 +9,8 @@ describe('JSON Catalog', function() {
 
     var mocks = [
       'CONTROLS_NestedForm',
-      'CONTROLS_Basic'
+      'CONTROLS_Basic',
+      'CONTROLS_Advanced'
     ];
 
     mocks.forEach(function (mock, index) {

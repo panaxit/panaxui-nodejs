@@ -1,0 +1,22 @@
+{  
+  "dbId":"Demo",
+  "catalogName":"dbo.CONTROLS_Advanced",
+  "schemaName":"dbo",
+  "tableName":"CONTROLS_Advanced",
+  "mode":"edit",
+  "controlType":"formView",
+  "lang":"es",
+  "totalItems":6,
+  "pageSize":1,
+  "pageIndex":1,
+  "primaryKey":"Id",
+  "identityKey":"Id",
+  "metadata":{  
+    "supportsInsert":"1",
+    "supportsUpdate":"1",
+    "supportsDelete":"1",
+    "disableInsert":"0",
+    "disableUpdate":"0",
+    "disableDelete":"0"
+  }
+}
