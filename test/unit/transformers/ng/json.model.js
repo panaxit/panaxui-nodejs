@@ -24,7 +24,7 @@ describe('JSON Model', function() {
         var result = _Model.Transform(Entity);
 
         expect(result).not.to.be.empty;
-        expect(result[0]).to.deep.equal(model);
+        expect(result).to.deep.equal(model);
       });
     });
 

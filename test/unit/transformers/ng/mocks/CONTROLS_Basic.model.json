@@ -1,14 +1,16 @@
-{  
-  "Id":"218",
-  "ShortTextField":"Prueba 218",
-  "IntegerReq":1,
-  "Float":null,
-  "RadioGroup":"0",
-  "Combobox":"",
-  "Boolean":false,
-  "Money":0,
-  "Date":"",
-  "Datetime":"",
-  "Time":"",
-  "LongText":"default loooong text"
-}
+[
+  {  
+    "Id":"218",
+    "ShortTextField":"Prueba 218",
+    "IntegerReq":1,
+    "Float":null,
+    "RadioGroup":"0",
+    "Combobox":"",
+    "Boolean":false,
+    "Money":0,
+    "Date":"",
+    "Datetime":"",
+    "Time":"",
+    "LongText":"default loooong text"
+  }
+]

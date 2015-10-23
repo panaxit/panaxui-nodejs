@@ -1,40 +1,42 @@
-{  
-  "Id":"1",
-  "TextLimit10Chars":"Example 8",
-  "CONTROLS_NestedGrid":[  
-    {  
-      "Id":"1",
-      "TextLimit255":"Example Nested Form 8-1",
-      "CONTROLS_Grid":[  
-        {  
-          "Id":1,
-          "Name":"Example 1",
-          "Field1":"Something",
-          "Field2":"",
-          "Image":"freightIcon.jpg"
-        },
-        {  
-          "Id":2,
-          "Name":"Example 2-2",
-          "Field1":"",
-          "Field2":"Other",
-          "Image":"freightIcon2.jpg"
-        },
-        {  
-          "Id":3,
-          "Name":"Example 3",
-          "Field1":"",
-          "Field2":"",
-          "Image":""
-        },
-        {  
-          "Id":4,
-          "Name":"Example 4",
-          "Field1":"",
-          "Field2":"",
-          "Image":"voluntario3.jpg"
-        }
-      ]
-    }
-  ]
-}
+[
+  {  
+    "Id":"1",
+    "TextLimit10Chars":"Example 8",
+    "CONTROLS_NestedGrid":[  
+      {  
+        "Id":"1",
+        "TextLimit255":"Example Nested Form 8-1",
+        "CONTROLS_Grid":[  
+          {  
+            "Id":1,
+            "Name":"Example 1",
+            "Field1":"Something",
+            "Field2":"",
+            "Image":"freightIcon.jpg"
+          },
+          {  
+            "Id":2,
+            "Name":"Example 2-2",
+            "Field1":"",
+            "Field2":"Other",
+            "Image":"freightIcon2.jpg"
+          },
+          {  
+            "Id":3,
+            "Name":"Example 3",
+            "Field1":"",
+            "Field2":"",
+            "Image":""
+          },
+          {  
+            "Id":4,
+            "Name":"Example 4",
+            "Field1":"",
+            "Field2":"",
+            "Image":"voluntario3.jpg"
+          }
+        ]
+      }
+    ]
+  }
+]
