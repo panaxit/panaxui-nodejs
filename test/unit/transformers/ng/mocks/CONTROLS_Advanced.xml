@@ -12,9 +12,11 @@
           <IdProfile fieldId="ID0EGF" fieldName="IdProfile" Name="IdProfile" Column_Name="IdProfile" isPrimaryKey="1" isIdentity="0" dataType="foreignKey" relationshipType="belongsTo" length="10" isNullable="0" supportsInsert="1" supportsUpdate="1" headerText="Profile" controlType="default">
             <Profiles xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0EUF" fieldName="IdProfile" sortOrder="0" text="- -" foreignKey="IdParent" referencesItself="true" dataText="RTRIM([Name])" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Profiles" Table_Schema="dbo" Schema="dbo" Table_Name="Profiles" Name="Profiles" controlType="default" supportsInsert="1" supportsUpdate="1" supportsDelete="1" filtersBehavior="append" />
           </IdProfile>
+          <Comments fieldId="ID0EEH" fieldName="Comments" Name="Comments" Column_Name="Comments" isPrimaryKey="0" isIdentity="0" dataType="nvarchar" length="255" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Comments" controlType="default" />
         </px:fields>
         <px:layout xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
           <px:field fieldId="ID0EGF" fieldName="IdProfile" />
+          <px:field fieldId="ID0EEH" fieldName="Comments" />
         </px:layout>
       </CONTROLS_Profiles>
     </CONTROLS_Profiles>
@@ -41,36 +43,55 @@
               <IdProfile fieldId="ID0EGF" value="6" text="Backend Programmer">
                 <Profiles xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0EUF" fieldName="IdProfile" sortOrder="1" text="Backend Programmer" value="6" foreignValue="2" foreignKey="IdParent" referencesItself="true" dataText="RTRIM([Name])" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Profiles" Table_Schema="dbo" Schema="dbo" Table_Name="Profiles" Name="Profiles" controlType="default" supportsInsert="1" supportsUpdate="1" supportsDelete="1" filtersBehavior="append" />
               </IdProfile>
+              <Comments fieldId="ID0EEH" value="" text="" />
             </px:dataRow>
             <px:dataRow rowNumber="2" primaryValue="1 3" mode="inherit">
               <IdProfile fieldId="ID0EGF" value="3" text="Business Analyst">
                 <Profiles xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0EUF" fieldName="IdProfile" sortOrder="1" text="Business Analyst" value="3" foreignValue="2" foreignKey="IdParent" referencesItself="true" dataText="RTRIM([Name])" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Profiles" Table_Schema="dbo" Schema="dbo" Table_Name="Profiles" Name="Profiles" controlType="default" supportsInsert="1" supportsUpdate="1" supportsDelete="1" filtersBehavior="append" />
               </IdProfile>
+              <Comments fieldId="ID0EEH" value="" text="" />
             </px:dataRow>
-            <px:dataRow rowNumber="3" mode="inherit">
+            <px:dataRow rowNumber="3" primaryValue="1 9" mode="inherit">
+              <IdProfile fieldId="ID0EGF" value="9" text="Chief Executive Officer">
+                <Profiles xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0EUF" fieldName="IdProfile" sortOrder="1" text="Chief Executive Officer" value="9" foreignKey="IdParent" referencesItself="true" dataText="RTRIM([Name])" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Profiles" Table_Schema="dbo" Schema="dbo" Table_Name="Profiles" Name="Profiles" controlType="default" supportsInsert="1" supportsUpdate="1" supportsDelete="1" filtersBehavior="append" />
+              </IdProfile>
+              <Comments fieldId="ID0EEH" value="El mero mero" text="El mero mero" />
+            </px:dataRow>
+            <px:dataRow rowNumber="4" mode="inherit">
+              <IdProfile fieldId="ID0EGF" value="8" text="Chief Financial Officer">
+                <Profiles xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0EUF" fieldName="IdProfile" sortOrder="1" text="Chief Financial Officer" value="8" foreignKey="IdParent" referencesItself="true" dataText="RTRIM([Name])" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Profiles" Table_Schema="dbo" Schema="dbo" Table_Name="Profiles" Name="Profiles" controlType="default" supportsInsert="1" supportsUpdate="1" supportsDelete="1" filtersBehavior="append" />
+              </IdProfile>
+              <Comments fieldId="ID0EEH" value="" text="" />
+            </px:dataRow>
+            <px:dataRow rowNumber="5" mode="inherit">
               <IdProfile fieldId="ID0EGF" value="1" text="Chief Technology Officer">
                 <Profiles xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0EUF" fieldName="IdProfile" sortOrder="1" text="Chief Technology Officer" value="1" foreignKey="IdParent" referencesItself="true" dataText="RTRIM([Name])" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Profiles" Table_Schema="dbo" Schema="dbo" Table_Name="Profiles" Name="Profiles" controlType="default" supportsInsert="1" supportsUpdate="1" supportsDelete="1" filtersBehavior="append" />
               </IdProfile>
+              <Comments fieldId="ID0EEH" value="" text="" />
             </px:dataRow>
-            <px:dataRow rowNumber="4" primaryValue="1 4" mode="inherit">
+            <px:dataRow rowNumber="6" primaryValue="1 4" mode="inherit">
               <IdProfile fieldId="ID0EGF" value="4" text="Data Modeller">
                 <Profiles xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0EUF" fieldName="IdProfile" sortOrder="1" text="Data Modeller" value="4" foreignValue="5" foreignKey="IdParent" referencesItself="true" dataText="RTRIM([Name])" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Profiles" Table_Schema="dbo" Schema="dbo" Table_Name="Profiles" Name="Profiles" controlType="default" supportsInsert="1" supportsUpdate="1" supportsDelete="1" filtersBehavior="append" />
               </IdProfile>
+              <Comments fieldId="ID0EEH" value="" text="" />
             </px:dataRow>
-            <px:dataRow rowNumber="5" primaryValue="1 5" mode="inherit">
+            <px:dataRow rowNumber="7" primaryValue="1 5" mode="inherit">
               <IdProfile fieldId="ID0EGF" value="5" text="Database Administrator">
                 <Profiles xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0EUF" fieldName="IdProfile" sortOrder="1" text="Database Administrator" value="5" foreignValue="2" foreignKey="IdParent" referencesItself="true" dataText="RTRIM([Name])" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Profiles" Table_Schema="dbo" Schema="dbo" Table_Name="Profiles" Name="Profiles" controlType="default" supportsInsert="1" supportsUpdate="1" supportsDelete="1" filtersBehavior="append" />
               </IdProfile>
+              <Comments fieldId="ID0EEH" value="" text="" />
             </px:dataRow>
-            <px:dataRow rowNumber="6" mode="inherit">
+            <px:dataRow rowNumber="8" mode="inherit">
               <IdProfile fieldId="ID0EGF" value="7" text="Frontend Programmer">
                 <Profiles xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0EUF" fieldName="IdProfile" sortOrder="1" text="Frontend Programmer" value="7" foreignValue="2" foreignKey="IdParent" referencesItself="true" dataText="RTRIM([Name])" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Profiles" Table_Schema="dbo" Schema="dbo" Table_Name="Profiles" Name="Profiles" controlType="default" supportsInsert="1" supportsUpdate="1" supportsDelete="1" filtersBehavior="append" />
               </IdProfile>
+              <Comments fieldId="ID0EEH" value="" text="" />
             </px:dataRow>
-            <px:dataRow rowNumber="7" mode="inherit">
+            <px:dataRow rowNumber="9" mode="inherit">
               <IdProfile fieldId="ID0EGF" value="2" text="Project Manager">
                 <Profiles xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0EUF" fieldName="IdProfile" sortOrder="1" text="Project Manager" value="2" foreignValue="1" foreignKey="IdParent" referencesItself="true" dataText="RTRIM([Name])" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Profiles" Table_Schema="dbo" Schema="dbo" Table_Name="Profiles" Name="Profiles" controlType="default" supportsInsert="1" supportsUpdate="1" supportsDelete="1" filtersBehavior="append" />
               </IdProfile>
+              <Comments fieldId="ID0EEH" value="" text="" />
             </px:dataRow>
           </px:data>
         </CONTROLS_Profiles>

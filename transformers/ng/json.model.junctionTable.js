@@ -123,10 +123,8 @@ _Main.Fields = function(Fields, opts) {
 Process FieldData
  */
 _Main.FieldData = function(Field) {
-  var Entity = _el.get(Field, '*');
-
   return {
-    "text": _attr.val(Entity, 'text'),
-    "value": _attr.val(Entity, 'value')
+    "text": _attr.val(Field, 'text'),
+    "value": _attr.val(Field, 'value')
   };
 };

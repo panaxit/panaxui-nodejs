@@ -71,6 +71,10 @@
         {
           "field": "IdProfile",
           "headerName": "Profile"
+        },
+        {
+          "field": "Comments",
+          "headerName": "Comments"
         }
       ],
       "catalog":{  

@@ -330,10 +330,12 @@ describe('JSON Model', function() {
 
 	});
 
-	describe('junction table', function() {
+  describe('junction table (nested PxAgGrid)', function() {
 
-		it('PENDING');
+    it('to plain table');
 
-	});
+    it('to self-referenced table');
+
+  });
 
 });

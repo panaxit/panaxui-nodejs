@@ -7,6 +7,35 @@
     "Px.Password":"ovnitron",
     "CONTROLS_Profiles":[
       {
+        "group": false,
+        "data": {
+          "IdControl": "1",
+          "IdControl,IdProfile": "1 9",
+          "IdProfile": {
+            "text": "Chief Executive Officer",
+            "value": "9"
+          },
+          "Comments": {
+            "text": "El mero mero",
+            "value": "El mero mero"
+          }
+        }
+      },
+      {
+        "group": false,
+        "data": {
+          "IdControl": "1",
+          "IdProfile": {
+            "text": "Chief Financial Officer",
+            "value": "8"
+          },
+          "Comments": {
+            "text": "",
+            "value": ""
+          }
+        }
+      },
+      {
         "group": true,
         "expanded": true,
         "data": {
@@ -14,6 +43,10 @@
           "IdProfile": {
             "text": "Chief Technology Officer",
             "value": "1"
+          },
+          "Comments": {
+            "text": "",
+            "value": ""
           }
         },
         "children": [
@@ -25,6 +58,10 @@
               "IdProfile": {
                 "text": "Project Manager",
                 "value": "2"
+              },
+              "Comments": {
+                "text": "",
+                "value": ""
               }
             },
             "children": [
@@ -35,6 +72,10 @@
                   "IdProfile": {
                     "text": "Backend Programmer",
                     "value": "6"
+                  },
+                  "Comments": {
+                    "text": "",
+                    "value": ""
                   }
                 }
               },
@@ -46,6 +87,10 @@
                   "IdProfile": {
                     "text": "Business Analyst",
                     "value": "3"
+                  },
+                  "Comments": {
+                    "text": "",
+                    "value": ""
                   }
                 }
               },
@@ -58,17 +103,25 @@
                   "IdProfile": {
                     "text": "Database Administrator",
                     "value": "5"
+                  },
+                  "Comments": {
+                    "text": "",
+                    "value": ""
                   }
                 },
                 "children": [
                   {
                     "group": false,
                     "data": {
-                    "IdControl": "1",
-                    "IdControl,IdProfile": "1 4",
+                      "IdControl": "1",
+                      "IdControl,IdProfile": "1 4",
                       "IdProfile": {
                         "text": "Data Modeller",
                         "value": "4"
+                      },
+                      "Comments": {
+                        "text": "",
+                        "value": ""
                       }
                     }
                   }
@@ -81,6 +134,10 @@
                   "IdProfile": {
                     "text": "Frontend Programmer",
                     "value": "7"
+                  },
+                  "Comments": {
+                    "text": "",
+                    "value": ""
                   }
                 }
               }
