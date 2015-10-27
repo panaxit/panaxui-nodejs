@@ -96,10 +96,61 @@
 	</xsl:template>
 
 	<xsl:template match="px:data" mode="model.junction">
-		[ <xsl:apply-templates select="px:dataRow" mode="model.junction" /> ]
+		<xsl:choose>
+			<xsl:when test="key('fields',../../@fieldId)/*[1]/*[1]/*[1]/*[1]/@referencesItself='true'">
+				[ <xsl:apply-templates select="px:dataRow[not(*/*/@foreignValue)]" mode="model.junctionTree" /> ]
+			</xsl:when>
+			<xsl:otherwise>
+				[ <xsl:apply-templates select="px:dataRow" mode="model.junctionLeaf" /> ]
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
-	<xsl:template match="px:dataRow" mode="model.junction">
+	<!--
+		Children Key
+	-->
+
+	<xsl:key name="junctionChildren" match="px:dataRow/*/*" use="@foreignValue" />
+
+	<!--
+		Tree
+	-->
+
+	<xsl:template match="px:dataRow" mode="model.junctionTree">
+		<xsl:variable name="primaryKey" select="../../@primaryKey" />
+		<xsl:variable name="identityKey" select="../../@identityKey" />
+		<xsl:variable name="foreignReference" select="../../@foreignReference" />
+		<xsl:variable name="foreignPrimaryValue" select="../../../../@primaryValue" />
+		<xsl:variable name="foreignIdentity" select="../../../../@identity" />
+		<xsl:if test="position()&gt;1">,</xsl:if>
+		{
+			<!-- "rowNumber": "<xsl:value-of select="@rowNumber"/>", -->
+			"group": true,
+			"expanded": true,
+			"data": {
+				<xsl:if test="@primaryValue">
+					"<xsl:value-of select="$primaryKey"/>": "<xsl:value-of select="@primaryValue"/>",
+				</xsl:if>
+				<xsl:if test="@identity">
+					"<xsl:value-of select="$identityKey"/>": "<xsl:value-of select="@identity"/>",
+				</xsl:if>
+				<xsl:if test="$foreignReference and ($foreignIdentity or $foreignPrimaryValue)">
+					"<xsl:value-of select="$foreignReference"/>": "<xsl:value-of select="$foreignIdentity"/>",
+					"<xsl:value-of select="$foreignReference"/>": "<xsl:value-of select="$foreignPrimaryValue"/>",
+				</xsl:if>
+				<xsl:apply-templates select="*" mode="model.junction.pair" />
+				},
+			"children": [
+				<xsl:apply-templates select="key('junctionChildren',*[1]/@value)/../.." mode="model.junction"/>
+			]
+		}
+	</xsl:template>
+
+	<!--
+		Leaf
+	-->
+
+	<xsl:template match="px:dataRow" mode="model.junctionLeaf">
 		<xsl:variable name="primaryKey" select="../../@primaryKey" />
 		<xsl:variable name="identityKey" select="../../@identityKey" />
 		<xsl:variable name="foreignReference" select="../../@foreignReference" />
@@ -123,26 +174,25 @@
 				</xsl:if>
 				<xsl:apply-templates select="*" mode="model.junction.pair" />
 				},
-				"children": []
+			"children": []
 		}
 	</xsl:template>
 
+	<!--
+		Pair (Key, Value)
+	-->
+
 	<xsl:template match="*" mode="model.junction.pair">
-		<xsl:variable name="dataType" select="key('fields',@fieldId)/@dataType" />
-		<xsl:variable name="controlType" select="key('fields',@fieldId)/@controlType" />
-		<xsl:variable name="relationshipType" select="key('fields',@fieldId)/@relationshipType" />
 		<xsl:if test="position()&gt;1">,</xsl:if>
 		"<xsl:value-of select="name()"/>":
-		<xsl:choose>
-			<xsl:when test="$dataType='foreignKey'">
-				<xsl:if test="$relationshipType='belongsTo' and $controlType='default'">
-					{
-						"value": "<xsl:value-of select="@value"/>",
-						"text": "<xsl:value-of select="@text"/>"
-					}
-				</xsl:if>
-			</xsl:when>
-		</xsl:choose>
+		<xsl:apply-templates select="*" mode="model.junction.pair.values" />
+	</xsl:template>
+
+	<xsl:template match="*" mode="model.junction.pair.values">
+		{
+			"value": "<xsl:value-of select="@value"/>",
+			"text": "<xsl:value-of select="@text"/>"
+		}
 	</xsl:template>
 
 </xsl:stylesheet>
