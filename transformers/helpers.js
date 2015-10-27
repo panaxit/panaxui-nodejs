@@ -62,7 +62,7 @@ Key Index helper
 module.exports.createKeyIndex = function(el, xpath, use) {
 	var index = {};
 	el.find(xpath, namespaces).forEach(function(child, ix) {
-		index[child.attr(use).value()] = child;
+		if(child) index[child.attr(use).value()] = child;
 	});
 	return index;
 }

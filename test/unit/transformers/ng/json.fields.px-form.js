@@ -724,5 +724,13 @@ describe('px-form', function() {
     });
 		
 	});
+
+  describe('junction table (nested PxAgGrid', function() {
+
+    it('to plain table');
+
+    it('to self-referenced table');
+
+  });
 	
 });

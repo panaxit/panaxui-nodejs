@@ -6,10 +6,9 @@ var _el = require('../helpers').el;
 var $_keys = require('../helpers').$keys;
 
 /*
-Globals
+Transformers
  */
-var $primaryKey;
-var $identityKey;
+var _JunctionTable = require('./json.model.junctionTable');
 
 /*
 Main namespace
@@ -110,12 +109,12 @@ _Main.Value = function(Field) {
 		}
 		case 'foreignTable': {
 			// Recursively get model of children
-			var children = _el.get(Field, '*');
-			return _Main.Transform(children);
+			var Entity = _el.get(Field, '*');
+			return _Main.Transform(Entity);
 		}
 		case 'junctionTable': {
-			// ToDo
-			return ''; //require('./json.model.junction.js')(.....);
+      var Entity = _el.get(Field, '*');
+			return _JunctionTable.Transform(Entity);
 		}
 		default:
 			return value || '';

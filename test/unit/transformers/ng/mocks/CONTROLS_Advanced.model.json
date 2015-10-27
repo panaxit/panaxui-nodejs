@@ -1,0 +1,94 @@
+[  
+  {  
+    "EMail":"a@a.com",
+    "Color":"#FF00E0",
+    "Px.File":"",
+    "Px.Picture":"ben.jpg",
+    "Px.Password":"ovnitron",
+    "CONTROLS_Profiles":[
+      {
+        "group": true,
+        "expanded": true,
+        "data": {
+          "IdControl": "1",
+          "IdProfile": {
+            "text": "Chief Technology Officer",
+            "value": "1"
+          }
+        },
+        "children": [
+          {
+            "group": true,
+            "expanded": true,
+            "data": {
+              "IdControl": "1",
+              "IdProfile": {
+                "text": "Project Manager",
+                "value": "2"
+              }
+            },
+            "children": [
+              {
+                "group": false,
+                "data": {
+                  "IdControl": "1",
+                  "IdProfile": {
+                    "text": "Backend Programmer",
+                    "value": "6"
+                  }
+                }
+              },
+              {
+                "group": false,
+                "data": {
+                  "IdControl": "1",
+                  "IdControl,IdProfile": "1 3",
+                  "IdProfile": {
+                    "text": "Business Analyst",
+                    "value": "3"
+                  }
+                }
+              },
+              {
+                "group": true,
+                "expanded": true,
+                "data": {
+                  "IdControl": "1",
+                  "IdControl,IdProfile": "1 5",
+                  "IdProfile": {
+                    "text": "Database Administrator",
+                    "value": "5"
+                  }
+                },
+                "children": [
+                  {
+                    "group": false,
+                    "data": {
+                    "IdControl": "1",
+                    "IdControl,IdProfile": "1 4",
+                      "IdProfile": {
+                        "text": "Data Modeller",
+                        "value": "4"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "group": false,
+                "data": {
+                  "IdControl": "1",
+                  "IdProfile": {
+                    "text": "Frontend Programmer",
+                    "value": "7"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "Id":"1"
+  }
+]
