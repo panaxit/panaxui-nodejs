@@ -465,23 +465,22 @@ describe('px-form', function() {
         [
           { 
             "key": "NestedForm", 
-            "type": "form", 
+            "wrapper": "panel", 
             "templateOptions": { 
-              "label": "Nested Form", 
-              "placeholder": "" 
+              "title": "Nested Form"
             },
+            "fieldGroup": [
+              {
+                "key": "FieldA",
+                "type": "default",
+                "templateOptions": {
+                  "label": "",
+                  "placeholder": ""
+                },
+                "data": {}
+              }
+            ],
             "data": {
-              "fields": [
-                {
-                  "key": "FieldA",
-                  "type": "default",
-                  "templateOptions": {
-                    "label": "",
-                    "placeholder": ""
-                  },
-                  "data": {}
-                }
-              ],
               "catalog": {
                 "dbId": 'Demo',
                 "catalogName": 'TestSchema.NestedForm',
@@ -546,50 +545,48 @@ describe('px-form', function() {
         [
           { 
             "key": "NestedForm", 
-            "type": "form", 
+            "wrapper": "panel", 
             "templateOptions": { 
-              "label": "Nested Form", 
-              "placeholder": "" 
+              "title": "Nested Form"
             },
-            "data": {
-              "fields": [
-                {
-                  "key": "NestedGrid",
-                  "type": "grid",
-                  "templateOptions": {
-                    "label": "Nested Grid",
-                    "placeholder": ""
+            "fieldGroup": [
+              {
+                "key": "NestedGrid",
+                "type": "grid",
+                "templateOptions": {
+                  "title": "Nested Grid"
+                },
+                "data": {
+                  "fields": {
+                    "columnDefs": [
+                      {"field": "FieldA", "displayName": "", "type": "object"}
+                    ]
                   },
-                  "data": {
-                    "fields": {
-                      "columnDefs": [
-                        {"field": "FieldA", "displayName": "", "type": "object"}
-                      ]
-                    },
-                    "catalog": {
-                      "dbId": 'Demo',
-                      "catalogName": 'TestSchema.NestedGrid',
-                      "schemaName": 'TestSchema',
-                      "tableName": 'NestedGrid',
-                      "mode": 'edit',
-                      "controlType": 'gridView',
-                      "lang": 'es',
-                      "primaryKey": 'Id',
-                      "foreignReference": 'FkId',
-                      "pageSize": 0,
-                      "pageIndex": 1,
-                      "metadata": {
-                        "supportsInsert": '1',
-                        "supportsUpdate": '1',
-                        "supportsDelete": '1',
-                        "disableInsert": '0',
-                        "disableUpdate": '0',
-                        "disableDelete": '0'
-                      }
+                  "catalog": {
+                    "dbId": 'Demo',
+                    "catalogName": 'TestSchema.NestedGrid',
+                    "schemaName": 'TestSchema',
+                    "tableName": 'NestedGrid',
+                    "mode": 'edit',
+                    "controlType": 'gridView',
+                    "lang": 'es',
+                    "primaryKey": 'Id',
+                    "foreignReference": 'FkId',
+                    "pageSize": 0,
+                    "pageIndex": 1,
+                    "metadata": {
+                      "supportsInsert": '1',
+                      "supportsUpdate": '1',
+                      "supportsDelete": '1',
+                      "disableInsert": '0',
+                      "disableUpdate": '0',
+                      "disableDelete": '0'
                     }
                   }
                 }
-              ],
+              }
+            ],
+            "data": {
               "catalog": {
                 "dbId": 'Demo',
                 "catalogName": 'TestSchema.NestedForm',
@@ -654,46 +651,44 @@ describe('px-form', function() {
         [
           { 
             "key": "NestedForm", 
-            "type": "form", 
+            "wrapper": "panel", 
             "templateOptions": { 
-              "label": "Nested Form", 
-              "placeholder": "" 
+              "title": "Nested Form"
             },
-            "data": {
-              "fields": [
-                {
-                  "key": "NestedCards",
-                  "type": "cards",
-                  "templateOptions": {
-                    "label": "Nested Cards",
-                    "placeholder": ""
-                  },
-                  "data": {
-                    "fields": {},
-                    "catalog": {
-                      "dbId": 'Demo',
-                      "catalogName": 'TestSchema.NestedCards',
-                      "schemaName": 'TestSchema',
-                      "tableName": 'NestedCards',
-                      "mode": 'edit',
-                      "controlType": 'cardsView',
-                      "lang": 'es',
-                      "primaryKey": 'Id',
-                      "foreignReference": 'FkId',
-                      "pageSize": 0,
-                      "pageIndex": 1,
-                      "metadata": {
-                        "supportsInsert": '1',
-                        "supportsUpdate": '1',
-                        "supportsDelete": '1',
-                        "disableInsert": '0',
-                        "disableUpdate": '0',
-                        "disableDelete": '0'
-                      }
+            "fieldGroup": [
+              {
+                "key": "NestedCards",
+                "type": "cards",
+                "templateOptions": {
+                  "title": "Nested Cards"
+                },
+                "data": {
+                  "fields": {},
+                  "catalog": {
+                    "dbId": 'Demo',
+                    "catalogName": 'TestSchema.NestedCards',
+                    "schemaName": 'TestSchema',
+                    "tableName": 'NestedCards',
+                    "mode": 'edit',
+                    "controlType": 'cardsView',
+                    "lang": 'es',
+                    "primaryKey": 'Id',
+                    "foreignReference": 'FkId',
+                    "pageSize": 0,
+                    "pageIndex": 1,
+                    "metadata": {
+                      "supportsInsert": '1',
+                      "supportsUpdate": '1',
+                      "supportsDelete": '1',
+                      "disableInsert": '0',
+                      "disableUpdate": '0',
+                      "disableDelete": '0'
                     }
                   }
                 }
-              ],
+              }
+            ],
+            "data": {
               "catalog": {
                 "dbId": 'Demo',
                 "catalogName": 'TestSchema.NestedForm',

@@ -6,7 +6,7 @@ var _Fields = require('../../../../transformers/ng/json.fields');
 
 describe('JSON Fields', function() {
 
-  describe('real mocks', function() {
+  describe.skip('real mocks', function() {
 
     var mocks = [
       'CONTROLS_NestedForm',

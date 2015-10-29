@@ -274,28 +274,30 @@ _Main.Field_ForeignTable = function(Field) {
 
   var field = {
     "key": fieldName, // _el.name(Metadata)
-    "type": _Main.Type(Metadata),
     "templateOptions": {
-      "label": headerText || '',
-      "placeholder": ""
+      "title": headerText || ''
     },
     "data": {}
   };
 
   if(relationshipType === 'hasOne') {
-    field.data.fields  = _Main.Transform(Entity);
+    field.wrapper = 'panel';
+    field.fieldGroup  = _Main.Transform(Entity);
     field.data.catalog = _Catalog.Transform(Entity);
   } else if(relationshipType === 'hasMany') {
     switch(controlType) {
       case 'default':
       case 'formView':
       default:
-        field.data.fields  = _Main.Transform(Entity);
+        field.wrapper = 'panel';
+        field.fieldGroup  = _Main.Transform(Entity);
         break;
       case 'gridView':
+        field.type = _Main.Type(Metadata);
         field.data.fields = _PxGrid.Transform(Entity);
         break;
       case 'cardsView':
+        field.type = _Main.Type(Metadata);
         field.data.fields = _PxCards.Transform(Entity);
         break;
     }
@@ -428,6 +430,7 @@ _Main.regularFieldsTypes = function(Metadata) {
   }
 };
 
+// ToDo: DEPRECATED
 _Main.foreignTableTypes = function(Metadata) {
   var relationshipType = _attr.val(Metadata, 'relationshipType');
   var controlType = _attr.val(Metadata, 'controlType');
