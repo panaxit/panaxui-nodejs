@@ -82,7 +82,6 @@
                       "textColumn":"RTRIM(Pais)",
                       "dependantEntity":"Combobox"
                     },
-                    "maxLength":2,
                     "label":"Combobox",
                     "placeholder":""
                   },

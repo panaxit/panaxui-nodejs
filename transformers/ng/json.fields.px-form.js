@@ -61,10 +61,8 @@ _Main.Fields = function(Fields) {
 _Main.FieldSet = function(Field) {
   var Fields = _el.find(Field, '*');
   return {
-    "fieldgroup": _Main.Fields(Fields)
-    // ToDo: wrapper panel: https://github.com/formly-js/angular-formly/issues/486
+    "fieldGroup": _Main.Fields(Fields)
     // ToDo: orentation = horizontal / vertical (see cascaded)
-    // Alternative: Use custom type with '<fieldset>...</fieldset>' template
   };
 };
 
@@ -98,101 +96,93 @@ _Main.Tab = function(Tab) {
 _Main.Field = function(Field) {
 	var fieldId = _attr.val(Field, 'fieldId');
 	var Metadata = $_keys['Fields'][fieldId];
-  var fieldName = _attr.val(Metadata, 'fieldName');
   var dataType = _attr.val(Metadata, 'dataType');
-  var controlType = _attr.val(Metadata, 'controlType');
-  var isIdentity = _attr.val(Metadata, 'isIdentity');
-  var isNullable = _attr.val(Metadata, 'isNullable');
-  var length = _attr.val(Metadata, 'length');
-  var headerText = _attr.val(Metadata, 'headerText');
-  var relationshipType = _attr.val(Metadata, 'relationshipType');
-  var ParentEntity = _el.get(Metadata, '../..');
-  var ParentEntityMode = _attr.val(ParentEntity, 'mode');
-
-
-	var field = {
-		"key": fieldName, // _el.name(Metadata)
-		"type": _Main.Type(Metadata),
-		"templateOptions": {
-			"label": headerText || '',
-			"placeholder": ""
-		},
-		"data": {}
-	};
-
-  if(!!(isIdentity && isIdentity === '1'))
-    field.templateOptions.hide = true;
-  if(ParentEntityMode && ParentEntityMode === 'readonly')
-    field.templateOptions.disabled = true;
-  if(isNullable && isNullable === '0')
-    field.templateOptions.required = true;
-  if(length)
-    field.templateOptions.maxLength = parseInt(length);
 
   if(dataType === 'foreignKey') {
-    /*
-    foreignKey
-     */
-    field.templateOptions.options = _Main.Options(Metadata);
-    if(controlType === 'default' || controlType === 'combobox') {
-      var Data = _el.get( $_keys['Data'][fieldId], '*[1]');
-      field.templateOptions.params = _Main.Params(_el.get(Metadata, '*[1]'), Data);
-      field.className = 'flex-1';
-      // ToDo: Template headerText
-      field = {
-        "className": "display-flex",
-        //"label": headerText
-        "fieldGroup": _Main.Cascaded(_el.get(Metadata, '*[1]/*[1]'), _el.get(Data, '*[1]'), [field])
-      };
-    }
+    field = _Main.Field_ForeignKey(Field);
   } else if (dataType === 'foreignTable') {
-    /*
-    foreignTable
-     */
-    var Entity = _el.get(Metadata, '*[1]');
-    if(relationshipType === 'hasOne') {
-      /*
-      hasOne
-       */
-      field.data.fields  = _Main.Transform(Entity);
-      field.data.catalog = _Catalog.Transform(Entity);
-    } else if(relationshipType === 'hasMany') {
-      /*
-      hasMany
-       */
-      switch(controlType) {
-        case 'default':
-        case 'formView':
-        default:
-          field.data.fields  = _Main.Transform(Entity);
-          break;
-        case 'gridView':
-          field.data.fields = _PxGrid.Transform(Entity);
-          break;
-        case 'cardsView':
-          field.data.fields = _PxCards.Transform(Entity);
-          break;
-      }
-      field.data.catalog = _Catalog.Transform(Entity);
-    }
+    field = _Main.Field_ForeignTable(Field);
   } else if (dataType === 'junctionTable') {
-    /*
-    junctionTable
-     */
-    var Entity = _el.get(Metadata, '*[1]');
-    if(relationshipType === 'hasMany') {
-      /*
-      hasMany
-       */
-      switch(controlType) {
-        case 'default':
-        case 'gridView':
-        default:
-          field.data.fields = _PxAgGrid.Transform(Entity);
-          break;
-      }
-      field.data.catalog = _Catalog.Transform(Entity);
-    }
+    field = _Main.Field_JunctionTable(Field);
+  } else {
+    field = _Main.Field_Regular(Field);
+  }
+
+  if(field.templateOptions) {
+    var isIdentity = _attr.val(Metadata, 'isIdentity');
+    var isNullable = _attr.val(Metadata, 'isNullable');
+    var length = _attr.val(Metadata, 'length');
+    var ParentEntity = _el.get(Metadata, '../..');
+    var ParentEntityMode = _attr.val(ParentEntity, 'mode');
+  
+    if(!!(isIdentity && isIdentity === '1'))
+      field.templateOptions.hide = true;
+    if(ParentEntityMode && ParentEntityMode === 'readonly')
+      field.templateOptions.disabled = true;
+    if(isNullable && isNullable === '0')
+      field.templateOptions.required = true;
+    if(length)
+      field.templateOptions.maxLength = parseInt(length);
+  }
+
+  return field;
+};
+
+/**
+ * Regular Field
+ */
+
+_Main.Field_Regular = function(Field) {
+  var fieldId = _attr.val(Field, 'fieldId');
+  var Metadata = $_keys['Fields'][fieldId];
+  var fieldName = _attr.val(Metadata, 'fieldName');
+  var headerText = _attr.val(Metadata, 'headerText');
+
+  var field = {
+    "key": fieldName, // _el.name(Metadata)
+    "type": _Main.Type(Metadata),
+    "templateOptions": {
+      "label": headerText || '',
+      "placeholder": ""
+    },
+    "data": {}
+  };
+
+  return field;
+}
+
+/**
+ * Foreign Key Field
+ */
+
+_Main.Field_ForeignKey = function(Field) {
+  var fieldId = _attr.val(Field, 'fieldId');
+  var Metadata = $_keys['Fields'][fieldId];
+  var controlType = _attr.val(Metadata, 'controlType');
+  var fieldName = _attr.val(Metadata, 'fieldName');
+  var headerText = _attr.val(Metadata, 'headerText');
+
+  var field = {
+    "key": fieldName, // _el.name(Metadata)
+    "type": _Main.Type(Metadata),
+    "templateOptions": {
+      "label": headerText || '',
+      "placeholder": ""
+    },
+    "data": {}
+  };
+
+  field.templateOptions.options = _Main.Options(Metadata);
+  if(controlType === 'default' || controlType === 'combobox') {
+    var Data = _el.get( $_keys['Data'][fieldId], '*[1]');
+    field.templateOptions.params = _Main.Params(_el.get(Metadata, '*[1]'), Data);
+    field.className = 'flex-1';
+    // ToDo: Template headerText
+    field = {
+      "className": "display-flex",
+      //"label": headerText
+      "fieldGroup": _Main.Cascaded(_el.get(Metadata, '*[1]/*[1]'), _el.get(Data, '*[1]'), [field])
+    };
   }
 
   return field;
@@ -229,134 +219,6 @@ _Main.Cascaded = function(Metadata, Data, cascaded) {
   }
   return cascaded;
 }
-
-_Main.Type = function(Metadata) {
-	var dataType = _attr.val(Metadata, 'dataType');
-
-	switch(dataType) {
-		default:
-			return _Main.regularFieldsTypes(Metadata);
-		case 'foreignTable':
-			return _Main.foreignTableTypes(Metadata);
-		case 'junctionTable':
-			return _Main.junctionTableTypes(Metadata);
-	}
-};
-
-_Main.regularFieldsTypes = function(Metadata) {
-	var dataType = _attr.val(Metadata, 'dataType');
-	var controlType = _attr.val(Metadata, 'controlType');
-	var length = _attr.val(Metadata, 'length');
-
-	switch(controlType) {
-		case 'email':
-			return 'email';
-		case 'password':
-			return 'password';
-		case 'color':
-			return 'color';
-		case 'picture':
-		case 'file':
-			return 'file';
-		default:
-			return 'default';
-		case 'radiogroup': {
-			switch(dataType) {
-				case 'foreignKey':
-					return 'radio';
-				default:
-					return 'radio';
-			}
-		}
-		case 'combobox': {
-			switch(dataType) {
-				case 'foreignKey':
-					return 'async_select';
-				default:
-					return 'async_select';
-			}
-		}
-		case 'default': {
-			switch(dataType) {
-				case 'char':
-					return 'input';
-				case 'varchar':
-				case 'nvarchar':
-				case 'nchar':
-				case 'text': {
-					if(!length || parseInt(length)<=255)
-						return 'input';
-					else
-						return 'textarea';
-				}
-				case 'int':
-				case 'tinyint':
-				case 'float':
-					return 'number';
-				case 'money':
-					return 'money';
-				case 'date':
-					return 'date';
-				case 'time':
-					return 'time';
-				case 'datetime':
-					return 'datetime';
-				case 'bit':
-					return 'checkbox';
-				case 'foreignKey':
-					return 'async_select';
-				default:
-					return 'default';
-			}
-		}
-	}
-};
-
-_Main.foreignTableTypes = function(Metadata) {
-	var relationshipType = _attr.val(Metadata, 'relationshipType');
-	var controlType = _attr.val(Metadata, 'controlType');
-
-	switch(relationshipType) {
-		default:
-		case 'hasOne': {
-			switch(controlType) {
-				case 'default':
-				case 'formView':
-				default:
-					return 'form';
-			}
-		}
-		case 'hasMany': {
-			switch(controlType) {
-				case 'default':
-				case 'gridView':
-				default:
-					return 'grid';
-				case 'cardsView':
-					return 'cards';
-				case 'formView':
-					return 'form';
-			}
-		}
-	}
-};
-
-_Main.junctionTableTypes = function(Metadata) {
-	var relationshipType = _attr.val(Metadata, 'relationshipType');
-	var controlType = _attr.val(Metadata, 'controlType');
-
-	switch(relationshipType) {
-		default:
-		case 'hasMany': {
-			switch(controlType) {
-				case 'default':
-				case 'gridView':
-				default:
-					return 'junction';
-			}
-		}
-	}
-};
 
 _Main.Options = function(Metadata) {
   var options = [];
@@ -395,4 +257,219 @@ _Main.Params = function(Metadata, Data) {
   }
 
   return result;
+};
+
+/**
+ * Foreign Table Field
+ */
+
+_Main.Field_ForeignTable = function(Field) {
+  var fieldId = _attr.val(Field, 'fieldId');
+  var Metadata = $_keys['Fields'][fieldId];
+  var Entity = _el.get(Metadata, '*[1]');
+  var relationshipType = _attr.val(Metadata, 'relationshipType');
+  var controlType = _attr.val(Metadata, 'controlType');
+  var fieldName = _attr.val(Metadata, 'fieldName');
+  var headerText = _attr.val(Metadata, 'headerText');
+
+  var field = {
+    "key": fieldName, // _el.name(Metadata)
+    "type": _Main.Type(Metadata),
+    "templateOptions": {
+      "label": headerText || '',
+      "placeholder": ""
+    },
+    "data": {}
+  };
+
+  if(relationshipType === 'hasOne') {
+    field.data.fields  = _Main.Transform(Entity);
+    field.data.catalog = _Catalog.Transform(Entity);
+  } else if(relationshipType === 'hasMany') {
+    switch(controlType) {
+      case 'default':
+      case 'formView':
+      default:
+        field.data.fields  = _Main.Transform(Entity);
+        break;
+      case 'gridView':
+        field.data.fields = _PxGrid.Transform(Entity);
+        break;
+      case 'cardsView':
+        field.data.fields = _PxCards.Transform(Entity);
+        break;
+    }
+    field.data.catalog = _Catalog.Transform(Entity);
+  }
+
+  return field;
+};
+
+/**
+ * Junction Table Field
+ */
+
+_Main.Field_JunctionTable = function(Field) {
+  var fieldId = _attr.val(Field, 'fieldId');
+  var Metadata = $_keys['Fields'][fieldId];
+  var Entity = _el.get(Metadata, '*[1]');
+  var relationshipType = _attr.val(Metadata, 'relationshipType');
+  var controlType = _attr.val(Metadata, 'controlType');
+  var fieldName = _attr.val(Metadata, 'fieldName');
+  var headerText = _attr.val(Metadata, 'headerText');
+
+  var field = {
+    "key": fieldName, // _el.name(Metadata)
+    "type": _Main.Type(Metadata),
+    "templateOptions": {
+      "label": headerText || '',
+      "placeholder": ""
+    },
+    "data": {}
+  };
+
+  if(relationshipType === 'hasMany') {
+    switch(controlType) {
+      case 'default':
+      case 'gridView':
+      default:
+        field.data.fields = _PxAgGrid.Transform(Entity);
+        break;
+    }
+    field.data.catalog = _Catalog.Transform(Entity);
+  }
+
+  return field;
+};
+
+/**
+ * Types
+ */
+
+_Main.Type = function(Metadata) {
+  var dataType = _attr.val(Metadata, 'dataType');
+
+  switch(dataType) {
+    default:
+      return _Main.regularFieldsTypes(Metadata);
+    case 'foreignTable':
+      return _Main.foreignTableTypes(Metadata);
+    case 'junctionTable':
+      return _Main.junctionTableTypes(Metadata);
+  }
+};
+
+_Main.regularFieldsTypes = function(Metadata) {
+  var dataType = _attr.val(Metadata, 'dataType');
+  var controlType = _attr.val(Metadata, 'controlType');
+  var length = _attr.val(Metadata, 'length');
+
+  switch(controlType) {
+    case 'email':
+      return 'email';
+    case 'password':
+      return 'password';
+    case 'color':
+      return 'color';
+    case 'picture':
+    case 'file':
+      return 'file';
+    default:
+      return 'default';
+    case 'radiogroup': {
+      switch(dataType) {
+        case 'foreignKey':
+          return 'radio';
+        default:
+          return 'radio';
+      }
+    }
+    case 'combobox': {
+      switch(dataType) {
+        case 'foreignKey':
+          return 'async_select';
+        default:
+          return 'async_select';
+      }
+    }
+    case 'default': {
+      switch(dataType) {
+        case 'char':
+          return 'input';
+        case 'varchar':
+        case 'nvarchar':
+        case 'nchar':
+        case 'text': {
+          if(!length || parseInt(length)<=255)
+            return 'input';
+          else
+            return 'textarea';
+        }
+        case 'int':
+        case 'tinyint':
+        case 'float':
+          return 'number';
+        case 'money':
+          return 'money';
+        case 'date':
+          return 'date';
+        case 'time':
+          return 'time';
+        case 'datetime':
+          return 'datetime';
+        case 'bit':
+          return 'checkbox';
+        case 'foreignKey':
+          return 'async_select';
+        default:
+          return 'default';
+      }
+    }
+  }
+};
+
+_Main.foreignTableTypes = function(Metadata) {
+  var relationshipType = _attr.val(Metadata, 'relationshipType');
+  var controlType = _attr.val(Metadata, 'controlType');
+
+  switch(relationshipType) {
+    default:
+    case 'hasOne': {
+      switch(controlType) {
+        case 'default':
+        case 'formView':
+        default:
+          return 'form';
+      }
+    }
+    case 'hasMany': {
+      switch(controlType) {
+        case 'default':
+        case 'gridView':
+        default:
+          return 'grid';
+        case 'cardsView':
+          return 'cards';
+        case 'formView':
+          return 'form';
+      }
+    }
+  }
+};
+
+_Main.junctionTableTypes = function(Metadata) {
+  var relationshipType = _attr.val(Metadata, 'relationshipType');
+  var controlType = _attr.val(Metadata, 'controlType');
+
+  switch(relationshipType) {
+    default:
+    case 'hasMany': {
+      switch(controlType) {
+        case 'default':
+        case 'gridView':
+        default:
+          return 'junction';
+      }
+    }
+  }
 };

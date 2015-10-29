@@ -25,7 +25,7 @@ describe('px-form', function() {
 
 	describe('fieldset (fieldContainer)', function() {
 
-    it('empty fieldcontainer should return empty fieldgroup', function() {
+    it('empty fieldcontainer should return empty fieldGroup', function() {
       var xml = '<Entity xmlns:px="urn:panax" controlType="formView">' +
                 ' <px:layout>' +
                 '   <px:fieldContainer>' +
@@ -41,7 +41,7 @@ describe('px-form', function() {
       expect(result).to.deep.equal(
         [
           {
-            "fieldgroup": []
+            "fieldGroup": []
           }
         ]
       );
@@ -327,7 +327,6 @@ describe('px-form', function() {
                 "key": "Combobox", "type": "async_select", "templateOptions": { 
                 "label": "Combo box", 
                 "placeholder": "",
-                "maxLength": 2,
                 "options": [],
                 "params": {
                   "catalogName": "TestSchema.Options",
@@ -417,7 +416,6 @@ describe('px-form', function() {
                 "key": "BirthPlace", "type": "async_select", "templateOptions": { 
                 "label": "Birth Place", 
                 "placeholder": "",
-                "maxLength": 5,
                 "options": [],
                 "params": {
                   "catalogName": "TestSchema.City",
