@@ -64,7 +64,9 @@
     "type":"junction",
     "templateOptions":{  
       "label":"Profiles (Junction Table)",
-      "placeholder":""
+      "placeholder":"",
+      "minSelections": 3,
+      "maxSelections": 5
     },
     "data":{  
       "fields": [

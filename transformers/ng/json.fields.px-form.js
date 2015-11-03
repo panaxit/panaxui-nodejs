@@ -328,6 +328,14 @@ _Main.Field_JunctionTable = function(Field) {
     "data": {}
   };
 
+  // @minSelections & @maxSelections
+  var minSelections = _attr.val(Metadata, 'minSelections');
+  if(minSelections && !isNaN(parseInt(minSelections)))
+    field.templateOptions.minSelections = parseInt(minSelections);
+  var maxSelections = _attr.val(Metadata, 'maxSelections');
+  if(maxSelections && !isNaN(parseInt(maxSelections)))
+    field.templateOptions.maxSelections = parseInt(maxSelections);
+
   if(relationshipType === 'hasMany') {
     switch(controlType) {
       case 'default':
