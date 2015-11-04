@@ -725,9 +725,13 @@ describe('px-form', function() {
 
   describe('junction table (nested PxAgGrid)', function() {
 
-    it('to plain table');
+    it('to plain table (hasMany)');
 
-    it('to self-referenced table');
+    it('to plain table (hasOne)');
+
+    it('to self-referenced table (hasMany)');
+
+    it('to self-referenced table (hasOne)');
 
   });
 	

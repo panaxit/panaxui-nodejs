@@ -20,6 +20,20 @@
         </px:layout>
       </CONTROLS_Profiles>
     </CONTROLS_Profiles>
+    <CONTROLS_UKProfile fieldId="ID0EUK" fieldName="CONTROLS_UKProfile" Name="CONTROLS_UKProfile" Column_Name="CONTROLS_UKProfile" dataType="junctionTable" relationshipType="hasOne" foreignSchema="dbo" foreignTable="CONTROLS_UKProfile" foreignReference="IdControl" controlType="default" headerText="Profiles (Junction Table)" debug:headerText="173114630402" maxSelections="5" minSelections="3" scaffold="true" debug:scaffold="173114630403">
+      <CONTROLS_UKProfile xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" xml:lang="es" session:IdUser="-1" session:profileId="[-1]" dbId="Demo" fullPath="" version="Beta_12" pageSize="0" pageIndex="1" foreignReference="IdControl" Schema="dbo" Name="CONTROLS_UKProfile" Table_Name="CONTROLS_UKProfile" Table_Schema="dbo" Base_Type="TABLE" primaryKey="IdControl,IdProfile" supportsInsert="1" disableInsert="0" supportsUpdate="1" disableUpdate="0" supportsDelete="1" disableDelete="0" dataType="table" controlType="gridView" filtersBehavior="append" headerText="CONTROLS Profiles" mode="edit">
+        <px:fields xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
+          <IdProfile fieldId="ID0EGF" fieldName="IdProfile" Name="IdProfile" Column_Name="IdProfile" isPrimaryKey="1" isIdentity="0" dataType="foreignKey" relationshipType="belongsTo" length="10" isNullable="0" supportsInsert="1" supportsUpdate="1" headerText="Profile" controlType="default">
+            <Profiles xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax" fieldId="ID0EUF" fieldName="IdProfile" sortOrder="0" text="- -" foreignKey="IdParent" referencesItself="true" dataText="RTRIM([Name])" dataValue="RTRIM([Id])" primaryKey="Id" headerText="Profiles" Table_Schema="dbo" Schema="dbo" Table_Name="Profiles" Name="Profiles" controlType="default" supportsInsert="1" supportsUpdate="1" supportsDelete="1" filtersBehavior="append" />
+          </IdProfile>
+          <Comments fieldId="ID0EEH" fieldName="Comments" Name="Comments" Column_Name="Comments" isPrimaryKey="0" isIdentity="0" dataType="nvarchar" length="255" isNullable="1" supportsInsert="1" supportsUpdate="1" headerText="Comments" controlType="default" />
+        </px:fields>
+        <px:layout xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
+          <px:field fieldId="ID0EGF" fieldName="IdProfile" />
+          <px:field fieldId="ID0EEH" fieldName="Comments" />
+        </px:layout>
+      </CONTROLS_UKProfile>
+    </CONTROLS_UKProfile>
   </px:fields>
   <px:layout xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
     <px:field fieldId="ID0EGB" fieldName="EMail" />
@@ -28,6 +42,7 @@
     <px:field fieldId="ID0EPC" fieldName="Px.Picture" />
     <px:field fieldId="ID0E3C" fieldName="Px.Password" />
     <px:field fieldId="ID0EJD" fieldName="CONTROLS_Profiles" />
+    <px:field fieldId="ID0EUK" fieldName="CONTROLS_UKProfile" />
   </px:layout>
   <px:data xmlns:extjs="http://www.panaxit.com/extjs" xmlns:debug="http://www.panaxit.com/debug" xmlns:custom="http://www.panaxit.com/custom" xmlns:session="urn:session" xmlns:px="urn:panax">
     <px:dataRow rowNumber="1" identity="1" primaryValue="1" mode="inherit">
@@ -96,6 +111,7 @@
           </px:data>
         </CONTROLS_Profiles>
       </CONTROLS_Profiles>
+      <!-- <CONTROLS_UKProfile fieldId="ID0EUK"> No data, just for testing hasOne junction Tables -->
     </px:dataRow>
   </px:data>
 </CONTROLS_Advanced>

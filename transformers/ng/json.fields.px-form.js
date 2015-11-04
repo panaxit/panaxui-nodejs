@@ -328,23 +328,27 @@ _Main.Field_JunctionTable = function(Field) {
     "data": {}
   };
 
-  // @minSelections & @maxSelections
-  var minSelections = _attr.val(Metadata, 'minSelections');
-  if(minSelections && !isNaN(parseInt(minSelections)))
-    field.templateOptions.minSelections = parseInt(minSelections);
-  var maxSelections = _attr.val(Metadata, 'maxSelections');
-  if(maxSelections && !isNaN(parseInt(maxSelections)))
-    field.templateOptions.maxSelections = parseInt(maxSelections);
+  switch(controlType) {
+    case 'default':
+    case 'gridView':
+    default:
+      field.data.fields = _PxAgGrid.Transform(Entity);
+      break;
+  }
+  field.data.catalog = _Catalog.Transform(Entity);
 
+  // @minSelections & @maxSelections
   if(relationshipType === 'hasMany') {
-    switch(controlType) {
-      case 'default':
-      case 'gridView':
-      default:
-        field.data.fields = _PxAgGrid.Transform(Entity);
-        break;
-    }
-    field.data.catalog = _Catalog.Transform(Entity);
+    // 1:N
+    var minSelections = _attr.val(Metadata, 'minSelections');
+    if(minSelections && !isNaN(parseInt(minSelections)))
+      field.templateOptions.minSelections = parseInt(minSelections);
+    var maxSelections = _attr.val(Metadata, 'maxSelections');
+    if(maxSelections && !isNaN(parseInt(maxSelections)))
+      field.templateOptions.maxSelections = parseInt(maxSelections);
+  } else if(relationshipType === 'hasOne') {
+    // 1:1 (has unique key)
+    field.templateOptions.maxSelections = 1;
   }
 
   return field;
