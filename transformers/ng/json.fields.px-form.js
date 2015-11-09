@@ -99,7 +99,19 @@ _Main.Field = function(Field) {
   var dataType = _attr.val(Metadata, 'dataType');
 
   if(dataType === 'foreignKey') {
-    field = _Main.Field_ForeignKey(Field);
+    var Entity = _el.get(Metadata, '*[1]');
+    var referencesItself = Entity && _attr.val(Entity, 'referencesItself') || undefined;
+    if(referencesItself && referencesItself === 'true') {
+      /*
+      Foreign Key to self-ref table = Junction Table
+       */
+      field = _Main.Field_JunctionTable(Field);
+    } else {
+      /*
+      Foreign Key to regular table
+       */
+      field = _Main.Field_ForeignKey(Field);
+    }
   } else if (dataType === 'foreignTable') {
     field = _Main.Field_ForeignTable(Field);
   } else if (dataType === 'junctionTable') {
@@ -328,12 +340,23 @@ _Main.Field_JunctionTable = function(Field) {
     "data": {}
   };
 
-  switch(controlType) {
-    case 'default':
-    case 'gridView':
-    default:
-      field.data.fields = _PxAgGrid.Transform(Entity);
-      break;
+  if(relationshipType === 'belongsTo') {
+    /*
+    dataType == 'foreignKey'
+    rendered as junction Table
+     */
+    field.data.fields = _PxAgGrid.Fields([Field]);
+  } else {
+    /*
+    dataType == 'junctionTable'
+     */
+    switch(controlType) {
+      case 'default':
+      case 'gridView':
+      default:
+        field.data.fields = _PxAgGrid.Transform(Entity);
+        break;
+    }
   }
   field.data.catalog = _Catalog.Transform(Entity);
 
@@ -346,8 +369,9 @@ _Main.Field_JunctionTable = function(Field) {
     var maxSelections = _attr.val(Metadata, 'maxSelections');
     if(maxSelections && !isNaN(parseInt(maxSelections)))
       field.templateOptions.maxSelections = parseInt(maxSelections);
-  } else if(relationshipType === 'hasOne') {
-    // 1:1 (has unique key)
+  } else {
+    // - 'hasOne' 1:1 (has unique key)
+    // - 'belongsTo'
     field.templateOptions.maxSelections = 1;
   }
 
@@ -364,6 +388,8 @@ _Main.Type = function(Metadata) {
   switch(dataType) {
     default:
       return _Main.regularFieldsTypes(Metadata);
+    case 'foreignKey':
+      return _Main.foreignKeyTypes(Metadata);
     case 'foreignTable':
       return _Main.foreignTableTypes(Metadata);
     case 'junctionTable':
@@ -388,22 +414,10 @@ _Main.regularFieldsTypes = function(Metadata) {
       return 'file';
     default:
       return 'default';
-    case 'radiogroup': {
-      switch(dataType) {
-        case 'foreignKey':
-          return 'radio';
-        default:
-          return 'radio';
-      }
-    }
-    case 'combobox': {
-      switch(dataType) {
-        case 'foreignKey':
-          return 'async_select';
-        default:
-          return 'async_select';
-      }
-    }
+    case 'radiogroup':
+      return 'radio';
+    case 'combobox':
+      return 'select';
     case 'default': {
       switch(dataType) {
         case 'char':
@@ -431,11 +445,33 @@ _Main.regularFieldsTypes = function(Metadata) {
           return 'datetime';
         case 'bit':
           return 'checkbox';
-        case 'foreignKey':
-          return 'async_select';
         default:
           return 'default';
       }
+    }
+  }
+};
+
+_Main.foreignKeyTypes = function(Metadata) {
+  var controlType = _attr.val(Metadata, 'controlType');
+  var Entity = _el.get(Metadata, '*[1]');
+  var referencesItself = Entity && _attr.val(Entity, 'referencesItself') || undefined;
+
+  if(referencesItself && referencesItself === 'true') {
+    /*
+    Foreign Key to self-ref table = Junction Table
+     */
+    return 'junction';
+  } else {
+    /*
+    Foreign Key to regular table
+     */
+    switch(controlType) {
+      default:
+      case 'combobox':
+        return 'async_select';
+      case 'radiogroup':
+        return 'radio';
     }
   }
 };

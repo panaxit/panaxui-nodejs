@@ -5,6 +5,98 @@
     "Px.File":"",
     "Px.Picture":"ben.jpg",
     "Px.Password":"ovnitron",
+    "IdProfile":[
+      {
+        "group": false,
+        "data": {
+          "IdProfile": {
+            "text": "Chief Executive Officer",
+            "value": "9"
+          }
+        }
+      },
+      {
+        "group": false,
+        "data": {
+          "IdProfile": {
+            "text": "Chief Financial Officer",
+            "value": "8"
+          }
+        }
+      },
+      {
+        "group": true,
+        "expanded": true,
+        "data": {
+          "IdProfile": {
+            "text": "Chief Technology Officer",
+            "value": "1"
+          }
+        },
+        "children": [
+          {
+            "group": true,
+            "expanded": true,
+            "data": {
+              "IdProfile": {
+                "text": "Project Manager",
+                "value": "2"
+              }
+            },
+            "children": [
+              {
+                "group": false,
+                "data": {
+                  "IdProfile": {
+                    "text": "Backend Programmer",
+                    "value": "6"
+                  }
+                }
+              },
+              {
+                "group": false,
+                "data": {
+                  "IdProfile": {
+                    "text": "Business Analyst",
+                    "value": "3"
+                  }
+                }
+              },
+              {
+                "group": true,
+                "expanded": true,
+                "data": {
+                  "IdProfile": {
+                    "text": "Database Administrator",
+                    "value": "5"
+                  }
+                },
+                "children": [
+                  {
+                    "group": false,
+                    "data": {
+                      "IdProfile": {
+                        "text": "Data Modeller",
+                        "value": "4"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "group": false,
+                "data": {
+                  "IdProfile": {
+                    "text": "Frontend Programmer",
+                    "value": "7"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "CONTROLS_Profiles":[
       {
         "group": false,

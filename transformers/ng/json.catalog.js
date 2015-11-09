@@ -14,18 +14,25 @@ Process Catalog
  */
 _Main.Transform = function(Entity) {
 	var attrs = _el.customAttrs(Entity);
+  var result = {};
 
-  var result = {
-		/* Basic Catalog Metadata */
-		"dbId": attrs['dbId'],
-		"catalogName": attrs['Table_Schema'] + '.' + attrs['Table_Name'],
-		"schemaName": attrs['Table_Schema'],
-		"tableName": attrs['Table_Name'],
-		"mode": attrs['mode'],
-		"controlType": attrs['controlType'],
-		"lang": attrs['lang']
-	};
+  /* Basic Catalog Metadata */
+  var dbId = attrs['dbId'],
+      catalogName = attrs['Table_Schema'] + '.' + attrs['Table_Name'],
+      schemaName = attrs['Table_Schema'],
+      tableName = attrs['Table_Name'],
+      mode = attrs['mode'],
+      controlType = attrs['controlType'],
+      lang = attrs['lang'];
 
+  if(dbId) result['dbId'] = dbId;
+  if(catalogName) result['catalogName'] = catalogName;
+  if(schemaName) result['schemaName'] = schemaName;
+  if(tableName) result['tableName'] = tableName;
+  if(mode) result['mode'] = mode;
+  if(controlType) result['controlType'] = controlType;
+  if(lang) result['lang'] = lang;	
+  
   /* Pagination _attributes */
   var totalRecords = parseInt(attrs['totalRecords']),
       pageSize = parseInt(attrs['pageSize']),
@@ -49,14 +56,21 @@ _Main.Transform = function(Entity) {
     result["customAttrs"] = attrs.customAttrs;
 
   /* Data Access Metadata */
-  result["metadata"] = {
-    "supportsInsert": attrs['supportsInsert'],
-    "supportsUpdate": attrs['supportsUpdate'],
-    "supportsDelete": attrs['supportsDelete'],
-    "disableInsert": attrs['disableInsert'],
-    "disableUpdate": attrs['disableUpdate'],
-    "disableDelete": attrs['disableDelete']
-  };
+  result['metadata'] = {};
+
+  var supportsInsert = attrs['supportsInsert'],
+      supportsUpdate = attrs['supportsUpdate'],
+      supportsDelete = attrs['supportsDelete'],
+      disableInsert = attrs['disableInsert'],
+      disableUpdate = attrs['disableUpdate'],
+      disableDelete = attrs['disableDelete'];
+
+  if(supportsInsert) result['metadata']['supportsInsert'] = supportsInsert;
+  if(supportsUpdate) result['metadata']['supportsUpdate'] = supportsUpdate;
+  if(supportsDelete) result['metadata']['supportsDelete'] = supportsDelete;
+  if(disableInsert) result['metadata']['disableInsert'] = disableInsert;
+  if(disableUpdate) result['metadata']['disableUpdate'] = disableUpdate;
+  if(disableDelete) result['metadata']['disableDelete'] = disableDelete;
 
   return result;
 };

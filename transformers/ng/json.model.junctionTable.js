@@ -32,6 +32,10 @@ _Main.Transform = function(Entity, opts) {
     opts.foreignReference = _attr.val(Entity, 'foreignReference');
     opts.foreignValue = foreignIdentity || foreignPrimaryValue;
   }
+  var referencesItself = _el.find(Entity, "//*[@referencesItself='true']");
+  if(referencesItself) {
+    opts.referencesItself = true;
+  }
 
   return _Main.Data(Data, opts);
 };
@@ -40,19 +44,17 @@ _Main.Transform = function(Entity, opts) {
 Process Data
  */
 _Main.Data = function(Data, opts) {
-  var referencesItself = _el.find(Data, "//*[@referencesItself='true']")
-
-  if(!referencesItself) {
+  if(!opts.referencesItself) {
     /*
     Plain
      */
-    var DataRows = _el.find(Data, 'px:dataRow');
+    var DataRows = _el.find(Data, '*');
     return _Main.DataRows(DataRows, opts);
   } else {
     /*
     Self-referencing
      */
-    var RootDataRows = _el.find(Data, 'px:dataRow[not(.//@foreignValue)]');
+    var RootDataRows = _el.find(Data, '*[not(.//@foreignValue)]');
     return _Main.TreeDataRows(RootDataRows, opts);
   }
 };
@@ -79,18 +81,24 @@ _Main.TreeDataRows = function(DataRows, opts) {
   var records = [];
   DataRows.forEach(function (DataRow, index) {
     var Fields = _el.find(DataRow, '*');
-    var ownValue = _attr.val(Fields[0], 'value');
-    var ChildrenDataRows = _el.find(DataRow, "../px:dataRow[.//@foreignValue='" + ownValue + "']")
-    var hasChildrens = (ChildrenDataRows.length > 0);
-    var obj = {
-      "group": hasChildrens,
-      "data": _Main.Fields(Fields, opts)
-    };
-    if(hasChildrens) {
-      obj.expanded = true;
-      obj.children = _Main.TreeDataRows(ChildrenDataRows, opts)
+    // If no children Fields, then it's a foreignKey-kind junctionTable:
+    if(!Fields.length) {
+      Fields = [DataRow];
     }
-    records.push(obj);
+    var ownValue = _attr.val(Fields[0], 'value');
+    if(ownValue) {
+      var ChildrenDataRows = _el.find(DataRow, "../*[.//@foreignValue='" + ownValue + "']")
+      var hasChildrens = (ChildrenDataRows.length > 0);
+      var obj = {
+        "group": hasChildrens,
+        "data": _Main.Fields(Fields, opts)
+      };
+      if(hasChildrens) {
+        obj.expanded = true;
+        obj.children = _Main.TreeDataRows(ChildrenDataRows, opts)
+      }
+      records.push(obj);
+    }
   });
   return records;
 };
@@ -102,7 +110,8 @@ _Main.Fields = function(Fields, opts) {
   var column = {};
   
   Fields.forEach(function (Field, index) {
-    column[_el.name(Field)] = _Main.FieldData(Field);
+    var fieldName = _attr.val(Field, 'fieldName') || _el.name(Field);
+    column[fieldName] = _Main.FieldData(Field);
   });
 
   var ParentDataRow = _el.get(Fields[0], '..');

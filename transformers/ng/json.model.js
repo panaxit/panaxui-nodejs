@@ -98,14 +98,26 @@ _Main.Value = function(Field) {
 		case 'datetime':
 			return value || ''; // ToDo: Parse date/time (use moments.js?)
 		case 'foreignKey': {
-			switch(controlType) {
-				case 'default':
-				case 'combobox':
-				default:
-					return value || '';
-				case 'radiogroup':
-					return value || '';
-			}
+      var Entity = _el.get(Metadata, '*[1]');
+      var referencesItself = Entity && _attr.val(Entity, 'referencesItself') || undefined;
+      if(referencesItself && referencesItself === 'true') {
+        /*
+        Foreign Key to self-ref table = Junction Table
+         */
+        return _JunctionTable.Transform(Field, {});
+      } else {;
+        /*
+        Foreign Key to regular table
+         */
+        switch(controlType) {
+          case 'default':
+          case 'combobox':
+          default:
+            return value || '';
+          case 'radiogroup':
+            return value || '';
+        }
+      }
 		}
 		case 'foreignTable': {
 			// Recursively get model of children

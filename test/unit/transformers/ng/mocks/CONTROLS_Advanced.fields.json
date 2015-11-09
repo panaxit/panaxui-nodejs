@@ -60,6 +60,36 @@
     }
   },
   {  
+    "key":"IdProfile",
+    "type":"junction",
+    "templateOptions":{  
+      "label": "Profile",
+      "placeholder":"",
+      "maxLength":10,
+      "maxSelections": 1
+    },
+    "data":{  
+      "fields": [
+        {
+          "field": "IdProfile",
+          "headerName": "Profile"
+        }
+      ],
+      "catalog":{  
+        "catalogName":"dbo.Profiles",
+        "schemaName":"dbo",
+        "tableName":"Profiles",
+        "controlType":"default",
+        "primaryKey":"Id",
+        "metadata":{  
+          "supportsInsert":"1",
+          "supportsUpdate":"1",
+          "supportsDelete":"1"
+        }
+      }
+    }
+  },
+  {  
     "key":"CONTROLS_Profiles",
     "type":"junction",
     "templateOptions":{  
