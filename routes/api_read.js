@@ -34,7 +34,8 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 	/**
 	 * PanaxJS
 	 */
-	var panaxdb = new PanaxJS.Connection(panax_config.instances[panax_config.default_instance], req.query);
+  var panax_instance = panax_config.instances[panax_config.default_instance];
+	var panaxdb = new PanaxJS.Connection(panax_instance, req.query);
 
 	panaxdb.setParam('userId', req.session.userId);
 	panaxdb.setParam('tableName', req.query.catalogName);
@@ -61,7 +62,9 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 
 				try {
 					pate.parse({
-						tpl: fs.readFileSync('templates/' + req.query.catalogName + '/' + catalog.fileTemplate),
+						tpl: fs.readFileSync('templates/' + panax_instance.db.database + '/' 
+                                 + req.query.catalogName + '/' 
+                                 + catalog.fileTemplate),
 						xml: xml,
 						xpath: '/*/px:data/px:dataRow',
 						ns: {
