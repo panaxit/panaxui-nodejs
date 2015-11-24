@@ -1,9 +1,10 @@
 config
 node_modules
 cache
-templates
+templates/*
 *.tmp
 coverage
+public/uploads
 
 #########################################
 # https://gist.github.com/octocat/9257657

@@ -410,6 +410,7 @@ _Main.regularFieldsTypes = function(Metadata) {
     case 'color':
       return 'color';
     case 'picture':
+      return 'picture';
     case 'file':
       return 'file';
     default:

@@ -18,6 +18,7 @@ var api_create = require('./routes/api_create');
 var api_update = require('./routes/api_update');
 var api_delete = require('./routes/api_delete');
 var api_filters = require('./routes/api_filters');
+var api_upload = require('./routes/api_upload');
 
 var app = express();
 
@@ -40,6 +41,8 @@ app.use(session({
         //secure: true // Requires https
     }
 }));
+
+// Public Path
 app.use(express.static(path.join(__dirname, 'public')));
 
 //GUIs static webserver
@@ -66,6 +69,7 @@ app.use('/api/create', api_create);
 app.use('/api/update', api_update);
 app.use('/api/delete', api_delete);
 app.use('/api/filters', api_filters);
+app.use('/api/upload', api_upload);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

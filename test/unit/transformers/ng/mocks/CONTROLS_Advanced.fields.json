@@ -37,7 +37,7 @@
   },
   {  
     "key":"Px.Picture",
-    "type":"file",
+    "type":"picture",
     "templateOptions":{  
       "label":"Px.Picture",
       "placeholder":"",

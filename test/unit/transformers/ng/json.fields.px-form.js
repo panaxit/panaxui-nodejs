@@ -252,7 +252,7 @@ describe('px-form', function() {
 					{ "key": "EMail", "type": "email", "templateOptions": { "label": "E Mail", "placeholder": "", "maxLength": 255 }, "data": {} },
 					{ "key": "Color", "type": "color", "templateOptions": { "label": "Color", "placeholder": "", "maxLength": 7 }, "data": {} },
 					{ "key": "PxFile", "type": "file", "templateOptions": { "label": "Px File", "placeholder": "", "maxLength": 255 }, "data": {} },
-					{ "key": "PxPicture", "type": "file", "templateOptions": { "label": "Px Picture", "placeholder": "", "maxLength": 255 }, "data": {} },
+					{ "key": "PxPicture", "type": "picture", "templateOptions": { "label": "Px Picture", "placeholder": "", "maxLength": 255 }, "data": {} },
 					{ "key": "PxPassword", "type": "password", "templateOptions": { "label": "Px Password", "placeholder": "", "maxLength": 32 }, "data": {} }
 				]
 			);

@@ -28,7 +28,7 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 				"Available: " + panax_config.enabled_guis.toString().split(',').join(', ') });
 
 	req.query.output = (req.query.output || 'json').toLowerCase(); // JSON is default output
-	if (req.query.output != 'json' && req.query.output != 'html')
+	if (req.query.output != 'json' && req.query.output != 'html' && req.query.output != 'pate')
 		return next({message: "Unsupported output '" + req.query.output + "'."});
 
 	/**
@@ -52,7 +52,7 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 			if(err)
 				return next(err);
 
-			if (catalog.controlType === 'fileTemplate') {
+			if (req.query.output === 'pate' && catalog.controlType === 'fileTemplate') {
 				/*
 				Use Pate for file template
 				 */
