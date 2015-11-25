@@ -35,19 +35,31 @@ describe('JSON Model', function() {
 
 		describe('basic', function() {
 
-			it('empty data should return an empty array', function() {
-				var xml = '<Entity xmlns:px="urn:panax">' +
-									'	<px:data>' +
-									'	</px:data>' +
-									'</Entity>';
+      it('no data should return an empty array', function() {
+        var xml = '<Entity xmlns:px="urn:panax">' +
+                  '</Entity>';
 
         var Doc = libxmljs.parseXmlString(xml);
         var Entity = Doc.root();
         _initKeyIndexes(Entity);
-				var result = _Model.Transform(Entity);
+        var result = _Model.Transform(Entity);
 
-				expect(result).to.be.empty;
-			});
+        expect(result).to.be.empty;
+      });
+
+      it('empty data should return an empty array', function() {
+        var xml = '<Entity xmlns:px="urn:panax">' +
+                  ' <px:data>' +
+                  ' </px:data>' +
+                  '</Entity>';
+
+        var Doc = libxmljs.parseXmlString(xml);
+        var Entity = Doc.root();
+        _initKeyIndexes(Entity);
+        var result = _Model.Transform(Entity);
+
+        expect(result).to.be.empty;
+      });
 
 			it('empty dataRow should return an empty object', function() {
 				var xml = '<Entity xmlns:px="urn:panax">' +

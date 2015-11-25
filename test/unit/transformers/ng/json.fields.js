@@ -31,6 +31,24 @@ describe('JSON Fields', function() {
 
   });
 
+  describe('basic', function() {
+
+    it('empty fields should return an empty array', function() {
+      var xml = '<Entity xmlns:px="urn:panax">' +
+                ' <px:fields>' +
+                ' </px:fields>' +
+                '</Entity>';
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Fields.Transform(Entity);
+
+      expect(result).to.be.empty;
+    });
+
+  });
+
 	require('./json.fields.px-grid');
 	require('./json.fields.px-cards');
 	require('./json.fields.px-form');

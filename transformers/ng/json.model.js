@@ -34,8 +34,12 @@ _Main.Transform = function(Entity) {
 Process Data
  */
 _Main.Data = function(Data, opts) {
+  var result = [];
+
 	var DataRows = _el.find(Data, 'px:dataRow');
-	return _Main.DataRows(DataRows, opts);
+	if(DataRows) result = _Main.DataRows(DataRows, opts);
+
+  return result;
 };
 
 /*
