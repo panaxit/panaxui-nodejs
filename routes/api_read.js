@@ -5,6 +5,7 @@ var PanaxJS = require('panaxjs');
 var panax_config = require('../config/panax.js');
 
 var fs = require('fs');
+var mime = require('mime');
 var entities = require("entities");
 var pate = require('node-pate');
 var formatter = require('../lib/format');
@@ -60,11 +61,13 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 				if(!catalog.fileTemplate)
 					return next({message: "Missing fileTemplate"});
 
+        var template_path = 'templates/' + panax_instance.db.database + '/' 
+                            + req.query.catalogName + '/' 
+                            + catalog.fileTemplate;
+
 				try {
 					pate.parse({
-						tpl: fs.readFileSync('templates/' + panax_instance.db.database + '/' 
-                                 + req.query.catalogName + '/' 
-                                 + catalog.fileTemplate),
+						tpl: fs.readFileSync(template_path),
 						xml: xml,
 						xpath: '/*/px:data/px:dataRow',
 						ns: {
@@ -72,8 +75,7 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 						},
 						format_lib: formatter
 					}, function (err, result) {
-						// ToDo: Should handle content-type according to template file (ex. SVG)
-						res.set('Content-Type', 'text/html');
+						res.header('Content-Type', mime.lookup(template_path));
 						res.send(result);
 					});
 				} catch (e) {
