@@ -1,6 +1,6 @@
 {  
   "dbId":"Demo",
-  "catalogName":"dbo.CONTROLS_Advanced",
+  "catalogName":"[dbo].[CONTROLS_Advanced]",
   "schemaName":"dbo",
   "tableName":"CONTROLS_Advanced",
   "mode":"edit",

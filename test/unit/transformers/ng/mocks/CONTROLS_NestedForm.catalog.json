@@ -1,6 +1,6 @@
 {  
   "dbId":"Demo",
-  "catalogName":"dbo.CONTROLS_NestedForm",
+  "catalogName":"[dbo].[CONTROLS_NestedForm]",
   "schemaName":"dbo",
   "tableName":"CONTROLS_NestedForm",
   "mode":"edit",

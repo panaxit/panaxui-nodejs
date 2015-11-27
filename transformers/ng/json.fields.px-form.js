@@ -255,7 +255,8 @@ _Main.Params = function(Metadata, Data) {
   var foreignKey = _attr.val(Metadata, 'foreignKey');
 
   var result = {
-    'catalogName': _attr.val(Metadata, 'Table_Schema') + '.' + _attr.val(Metadata, 'Table_Name'),
+    'catalogName': '[' + _attr.val(Metadata, 'Table_Schema') + ']' + '.' + 
+                   '[' + _attr.val(Metadata, 'Table_Name') + ']',
     'valueColumn': _attr.val(Metadata, 'dataValue'),
     'textColumn': _attr.val(Metadata, 'dataText'),
     'dependantEntity': _el.name(Parent)

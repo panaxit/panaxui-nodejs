@@ -62,7 +62,7 @@ describe('JSON Catalog', function() {
     expect(result).to.be.ok;
     expect(result).to.to.deep.equal({
       "dbId": 'Demo',
-      "catalogName": 'TestSchema.TestTable',
+      "catalogName": '[TestSchema].[TestTable]',
       "schemaName": 'TestSchema',
       "tableName": 'TestTable',
       "mode": 'edit',

@@ -111,7 +111,7 @@
                 "titleField":"Name"
               },
               "dbId":"Demo",
-              "catalogName":"dbo.CONTROLS_Grid",
+              "catalogName":"[dbo].[CONTROLS_Grid]",
               "schemaName":"dbo",
               "tableName":"CONTROLS_Grid",
               "mode":"edit",
@@ -135,7 +135,7 @@
       ],
       "catalog":{  
         "dbId":"Demo",
-        "catalogName":"dbo.CONTROLS_NestedGrid",
+        "catalogName":"[dbo].[CONTROLS_NestedGrid]",
         "schemaName":"dbo",
         "tableName":"CONTROLS_NestedGrid",
         "mode":"edit",

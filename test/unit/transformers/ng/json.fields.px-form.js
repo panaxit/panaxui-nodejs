@@ -329,7 +329,7 @@ describe('px-form', function() {
                 "placeholder": "",
                 "options": [],
                 "params": {
-                  "catalogName": "TestSchema.Options",
+                  "catalogName": "[TestSchema].[Options]",
                   "valueColumn": "RTRIM([Id])",
                   "textColumn": "RTRIM(Name)",
                   "dependantEntity": "Combobox"
@@ -388,7 +388,7 @@ describe('px-form', function() {
                   "placeholder": "",
                   "options": [],
                   "params": {
-                    "catalogName": "TestSchema.Country",
+                    "catalogName": "[TestSchema].[Country]",
                     "valueColumn": "RTRIM([Id])",
                     "textColumn": "RTRIM(Country)",
                     "dependantEntity": "State"
@@ -402,7 +402,7 @@ describe('px-form', function() {
                   "placeholder": "",
                   "options": [],
                   "params": {
-                    "catalogName": "TestSchema.State",
+                    "catalogName": "[TestSchema].[State]",
                     "valueColumn": "RTRIM([Id])",
                     "textColumn": "RTRIM(State)",
                     "foreignEntity": "Country",
@@ -418,7 +418,7 @@ describe('px-form', function() {
                 "placeholder": "",
                 "options": [],
                 "params": {
-                  "catalogName": "TestSchema.City",
+                  "catalogName": "[TestSchema].[City]",
                   "valueColumn": "RTRIM([Id])",
                   "textColumn": "RTRIM(City)",
                   "foreignEntity": "State",
@@ -484,7 +484,7 @@ describe('px-form', function() {
               ],
               "catalog": {
                 "dbId": 'Demo',
-                "catalogName": 'TestSchema.NestedForm',
+                "catalogName": '[TestSchema].[NestedForm]',
                 "schemaName": 'TestSchema',
                 "tableName": 'NestedForm',
                 "mode": 'edit',
@@ -568,7 +568,7 @@ describe('px-form', function() {
                     },
                     "catalog": {
                       "dbId": 'Demo',
-                      "catalogName": 'TestSchema.NestedGrid',
+                      "catalogName": '[TestSchema].[NestedGrid]',
                       "schemaName": 'TestSchema',
                       "tableName": 'NestedGrid',
                       "mode": 'edit',
@@ -592,7 +592,7 @@ describe('px-form', function() {
               ],
               "catalog": {
                 "dbId": 'Demo',
-                "catalogName": 'TestSchema.NestedForm',
+                "catalogName": '[TestSchema].[NestedForm]',
                 "schemaName": 'TestSchema',
                 "tableName": 'NestedForm',
                 "mode": 'edit',
@@ -672,7 +672,7 @@ describe('px-form', function() {
                     "fields": {},
                     "catalog": {
                       "dbId": 'Demo',
-                      "catalogName": 'TestSchema.NestedCards',
+                      "catalogName": '[TestSchema].[NestedCards]',
                       "schemaName": 'TestSchema',
                       "tableName": 'NestedCards',
                       "mode": 'edit',
@@ -696,7 +696,7 @@ describe('px-form', function() {
               ],
               "catalog": {
                 "dbId": 'Demo',
-                "catalogName": 'TestSchema.NestedForm',
+                "catalogName": '[TestSchema].[NestedForm]',
                 "schemaName": 'TestSchema',
                 "tableName": 'NestedForm',
                 "mode": 'edit',

@@ -77,7 +77,7 @@
 
                     ],
                     "params":{  
-                      "catalogName":"CatalogosSistema.Pais",
+                      "catalogName":"[CatalogosSistema].[Pais]",
                       "valueColumn":"RTRIM([Id])",
                       "textColumn":"RTRIM(Pais)",
                       "dependantEntity":"Combobox"

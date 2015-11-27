@@ -18,7 +18,7 @@ _Main.Transform = function(Entity) {
 
   /* Basic Catalog Metadata */
   var dbId = attrs['dbId'],
-      catalogName = attrs['Table_Schema'] + '.' + attrs['Table_Name'],
+      catalogName = '[' + attrs['Table_Schema'] + ']' + '.' + '[' + attrs['Table_Name'] + ']',
       schemaName = attrs['Table_Schema'],
       tableName = attrs['Table_Name'],
       mode = attrs['mode'],
