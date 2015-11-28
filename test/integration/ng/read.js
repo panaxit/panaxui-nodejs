@@ -19,7 +19,7 @@ describe('read', function() {
 			var query = querystring.stringify({
 				gui: 'ng',
 				output: "json",
-				catalogName: "TestSchema.CONTROLS_Basic"
+				catalogName: "[TestSchema].[CONTROLS_Basic]"
 			});
 
 			api.get('/api/read?' + query)
@@ -36,7 +36,7 @@ describe('read', function() {
 		it('should fail to read options of an entity', function(done) {
 			var query = querystring.stringify({
 				gui: 'ng',
-				catalogName: "TestSchema.Pais"
+				catalogName: "[TestSchema].[Pais]"
 			});
 
 			api.get('/api/options?' + query)
@@ -75,7 +75,7 @@ describe('read', function() {
 			var query = querystring.stringify({
 				gui: 'ng',
 				output: "json",
-				catalogName: "TestSchema.CONTROLS_Basic",
+				catalogName: "[TestSchema].[CONTROLS_Basic]",
 				controlType: 'gridView',
 				mode: 'readonly',
 				pageSize: '5',
@@ -96,7 +96,7 @@ describe('read', function() {
 				expect(res.body.data.model.length).to.equal(42-(5*(Math.floor((42/5))))); // totalRecords-(pageSize*(Math.floor((total/pageSize))))
 				expect(res.body.data.catalog.totalItems).to.equal(42);
 				expect(res.body.data.catalog.dbId).to.equal(panax_instance.db.database);
-				expect(res.body.data.catalog.catalogName).to.equal('TestSchema.CONTROLS_Basic');
+				expect(res.body.data.catalog.catalogName).to.equal('[TestSchema].[CONTROLS_Basic]');
 				expect(res.body.data.catalog.controlType).to.equal('gridView');
 				expect(res.body.data.catalog.mode).to.equal('readonly');
 				expect(res.body.data.catalog.primaryKey).to.equal('Id');
@@ -109,7 +109,7 @@ describe('read', function() {
 			var query = querystring.stringify({
 				gui: 'ng',
 				output: "json",
-				catalogName: "TestSchema.CONTROLS_Basic",
+				catalogName: "[TestSchema].[CONTROLS_Basic]",
 				controlType: 'cardsView',
 				mode: 'readonly'
 			});
@@ -128,7 +128,7 @@ describe('read', function() {
 				expect(res.body.data.model.length).to.equal(42);
 				expect(res.body.data.catalog.totalItems).to.equal(42);
 				expect(res.body.data.catalog.dbId).to.equal(panax_instance.db.database);
-				expect(res.body.data.catalog.catalogName).to.equal('TestSchema.CONTROLS_Basic');
+				expect(res.body.data.catalog.catalogName).to.equal('[TestSchema].[CONTROLS_Basic]');
 				expect(res.body.data.catalog.controlType).to.equal('cardsView');
 				expect(res.body.data.catalog.mode).to.equal('readonly');
 				expect(res.body.data.catalog.primaryKey).to.equal('Id');
@@ -142,7 +142,7 @@ describe('read', function() {
 				gui: 'ng',
 				output: "json",
 				filters: "'id=1'",
-				catalogName: "TestSchema.CONTROLS_Basic",
+				catalogName: "[TestSchema].[CONTROLS_Basic]",
 				controlType: 'formView',
 				mode: 'readonly'
 			});
@@ -161,7 +161,7 @@ describe('read', function() {
 				expect(res.body.data.model.length).to.equal(1);
 				expect(res.body.data.catalog.totalItems).to.equal(1);
 				expect(res.body.data.catalog.dbId).to.equal(panax_instance.db.database);
-				expect(res.body.data.catalog.catalogName).to.equal('TestSchema.CONTROLS_Basic');
+				expect(res.body.data.catalog.catalogName).to.equal('[TestSchema].[CONTROLS_Basic]');
 				expect(res.body.data.catalog.controlType).to.equal('formView');
 				expect(res.body.data.catalog.mode).to.equal('readonly');
 				//expect(res.body.data.catalog.primaryKey).to.equal('Id');
@@ -174,7 +174,7 @@ describe('read', function() {
 			var query = querystring.stringify({
 				gui: 'ng',
 				//array: true, // to skip headers
-				catalogName: "TestSchema.Pais",
+				catalogName: "[TestSchema].[Pais]",
 				valueColumn: "Id",
 				textColumn: "Pais"
 			});
