@@ -204,9 +204,9 @@ describe('persistance (create, update, delete)', function() {
 					expect(res.body.data[0].tableName).to.equal('[TestSchema].[CONTROLS_NestedForm]');
 					expect(res.body.data[0].identity).to.be.ok;
 					identityValue = res.body.data[0].identity;
-					expect(res.body.data[0].fields[1].status).to.equal('success');
-					expect(res.body.data[0].fields[1].action).to.equal('insert');
-					expect(res.body.data[0].fields[1].tableName).to.equal('[TestSchema].[CONTROLS_NestedGrid]');
+					expect(res.body.data[0].fields[0].status).to.equal('success');
+					expect(res.body.data[0].fields[0].action).to.equal('insert');
+					expect(res.body.data[0].fields[0].tableName).to.equal('[TestSchema].[CONTROLS_NestedGrid]');
 					done();
 				});
 	  	});
@@ -244,9 +244,9 @@ describe('persistance (create, update, delete)', function() {
 					expect(res.body.data[0].status).to.equal('success');
 					expect(res.body.data[0].action).to.equal('update');
 					expect(res.body.data[0].tableName).to.equal('[TestSchema].[CONTROLS_NestedForm]');
-					expect(res.body.data[0].fields[1].status).to.equal('success');
-					expect(res.body.data[0].fields[1].action).to.equal('update');
-					expect(res.body.data[0].fields[1].tableName).to.equal('[TestSchema].[CONTROLS_NestedGrid]');
+					expect(res.body.data[0].fields[0].status).to.equal('success');
+					expect(res.body.data[0].fields[0].action).to.equal('update');
+					expect(res.body.data[0].fields[0].tableName).to.equal('[TestSchema].[CONTROLS_NestedGrid]');
 					done();
 				});
 	  	});
