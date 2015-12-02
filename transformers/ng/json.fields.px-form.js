@@ -489,6 +489,8 @@ _Main.foreignTableTypes = function(Metadata) {
         case 'default':
         case 'formView':
           return 'form';
+        case 'fileTemplate':
+          return 'template';
         default:
           return 'default';
       }
