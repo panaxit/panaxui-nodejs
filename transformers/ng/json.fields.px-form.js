@@ -500,6 +500,8 @@ _Main.foreignTableTypes = function(Metadata) {
           return 'grid';
         case 'cardsView':
           return 'cards';
+        case 'fileTemplate':
+          return 'template';
         case 'formView':
           return 'form';
         default:
