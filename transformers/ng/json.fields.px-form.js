@@ -488,20 +488,22 @@ _Main.foreignTableTypes = function(Metadata) {
       switch(controlType) {
         case 'default':
         case 'formView':
-        default:
           return 'form';
+        default:
+          return 'default';
       }
     }
     case 'hasMany': {
       switch(controlType) {
         case 'default':
         case 'gridView':
-        default:
           return 'grid';
         case 'cardsView':
           return 'cards';
         case 'formView':
           return 'form';
+        default:
+          return 'default';
       }
     }
   }
