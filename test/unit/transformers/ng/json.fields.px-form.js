@@ -482,7 +482,7 @@ describe('px-form', function() {
                   "data": {}
                 }
               ],
-              "catalog": {
+              "metadata": {
                 "dbId": 'Demo',
                 "catalogName": '[TestSchema].[NestedForm]',
                 "schemaName": 'TestSchema',
@@ -494,7 +494,7 @@ describe('px-form', function() {
                 "foreignReference": 'Id',
                 "pageSize": 0,
                 "pageIndex": 1,
-                "metadata": {
+                "permissions": {
                   "supportsInsert": '1',
                   "supportsUpdate": '1',
                   "supportsDelete": '1',
@@ -566,7 +566,7 @@ describe('px-form', function() {
                         {"field": "FieldA", "displayName": "", "type": "object"}
                       ]
                     },
-                    "catalog": {
+                    "metadata": {
                       "dbId": 'Demo',
                       "catalogName": '[TestSchema].[NestedGrid]',
                       "schemaName": 'TestSchema',
@@ -578,7 +578,7 @@ describe('px-form', function() {
                       "foreignReference": 'FkId',
                       "pageSize": 0,
                       "pageIndex": 1,
-                      "metadata": {
+                      "permissions": {
                         "supportsInsert": '1',
                         "supportsUpdate": '1',
                         "supportsDelete": '1',
@@ -590,7 +590,7 @@ describe('px-form', function() {
                   }
                 }
               ],
-              "catalog": {
+              "metadata": {
                 "dbId": 'Demo',
                 "catalogName": '[TestSchema].[NestedForm]',
                 "schemaName": 'TestSchema',
@@ -602,7 +602,7 @@ describe('px-form', function() {
                 "foreignReference": 'Id',
                 "pageSize": 0,
                 "pageIndex": 1,
-                "metadata": {
+                "permissions": {
                   "supportsInsert": '1',
                   "supportsUpdate": '1',
                   "supportsDelete": '1',
@@ -670,7 +670,7 @@ describe('px-form', function() {
                   },
                   "data": {
                     "fields": {},
-                    "catalog": {
+                    "metadata": {
                       "dbId": 'Demo',
                       "catalogName": '[TestSchema].[NestedCards]',
                       "schemaName": 'TestSchema',
@@ -682,7 +682,7 @@ describe('px-form', function() {
                       "foreignReference": 'FkId',
                       "pageSize": 0,
                       "pageIndex": 1,
-                      "metadata": {
+                      "permissions": {
                         "supportsInsert": '1',
                         "supportsUpdate": '1',
                         "supportsDelete": '1',
@@ -694,7 +694,7 @@ describe('px-form', function() {
                   }
                 }
               ],
-              "catalog": {
+              "metadata": {
                 "dbId": 'Demo',
                 "catalogName": '[TestSchema].[NestedForm]',
                 "schemaName": 'TestSchema',
@@ -706,7 +706,7 @@ describe('px-form', function() {
                 "foreignReference": 'Id',
                 "pageSize": 0,
                 "pageIndex": 1,
-                "metadata": {
+                "permissions": {
                   "supportsInsert": '1',
                   "supportsUpdate": '1',
                   "supportsDelete": '1',

@@ -1,22 +1,22 @@
 {  
   "dbId":"Demo",
-  "catalogName":"[dbo].[CONTROLS_Advanced]",
+  "catalogName":"[dbo].[CONTROLS_Basic]",
   "schemaName":"dbo",
-  "tableName":"CONTROLS_Advanced",
+  "tableName":"CONTROLS_Basic",
   "mode":"edit",
   "controlType":"formView",
   "lang":"es",
-  "totalItems":6,
-  "pageSize":1,
-  "pageIndex":1,
   "primaryKey":"Id",
   "identityKey":"Id",
-  "metadata":{  
+  "totalItems":50,
+  "pageSize":1,
+  "pageIndex":1,
+  "permissions":{  
     "supportsInsert":"1",
-    "supportsUpdate":"1",
-    "supportsDelete":"1",
     "disableInsert":"0",
+    "supportsUpdate":"1",
     "disableUpdate":"0",
+    "supportsDelete":"1",
     "disableDelete":"0"
   }
 }

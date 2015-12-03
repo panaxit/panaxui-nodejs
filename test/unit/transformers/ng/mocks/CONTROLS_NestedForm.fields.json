@@ -103,7 +103,7 @@
                 }
               }
             ],
-            "catalog":{  
+            "metadata":{  
               "customAttrs":{  
                 "descField1":"Field1",
                 "descField2":"Field2",
@@ -121,7 +121,7 @@
               "foreignReference":"FkId",
               "pageSize":0,
               "pageIndex":1,
-              "metadata":{  
+              "permissions":{  
                 "supportsInsert":"1",
                 "disableInsert":"0",
                 "supportsUpdate":"1",
@@ -133,7 +133,7 @@
           }
         }
       ],
-      "catalog":{  
+      "metadata":{  
         "dbId":"Demo",
         "catalogName":"[dbo].[CONTROLS_NestedGrid]",
         "schemaName":"dbo",
@@ -145,7 +145,7 @@
         "foreignReference":"Id",
         "pageSize":0,
         "pageIndex":1,
-        "metadata":{  
+        "permissions":{  
           "supportsInsert":"1",
           "disableInsert":"0",
           "supportsUpdate":"1",

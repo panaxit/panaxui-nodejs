@@ -32,10 +32,10 @@ _Main.Fields = function(Fields) {
   result = [];
   Fields.forEach(function (Field, index) {
     var fieldId = _attr.val(Field, 'fieldId');
-    var Metadata = $_keys['Fields'][fieldId];
+    var FieldMetadata = $_keys['Fields'][fieldId];
     var column = {
-      "field": _attr.val(Metadata, 'fieldName'), // _el.name(Metadata)
-      "headerName": _attr.val(Metadata, 'headerText') || ''
+      "field": _attr.val(FieldMetadata, 'fieldName'), // _el.name(FieldMetadata)
+      "headerName": _attr.val(FieldMetadata, 'headerText') || ''
     };
     result.push(column);
   });

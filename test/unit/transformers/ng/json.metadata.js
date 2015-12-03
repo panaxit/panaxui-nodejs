@@ -1,9 +1,9 @@
 var expect = require('chai').expect;
 var libxmljs = require('libxslt').libxmljs;
 var fs = require('fs');
-var _Catalog = require('../../../../transformers/ng/json.catalog');
+var _Metadata = require('../../../../transformers/ng/json.metadata');
 
-describe('JSON Catalog', function() {
+describe('JSON: Entity\'s Metadata', function() {
 
   describe('real mocks', function() {
 
@@ -16,20 +16,20 @@ describe('JSON Catalog', function() {
     mocks.forEach(function (mock, index) {
       it(mock, function() {
         var xml = fs.readFileSync(__dirname + '/mocks/' + mock + '.xml');
-        var catalog = JSON.parse(fs.readFileSync(__dirname + '/mocks/' + mock + '.catalog.json'));
+        var metadata = JSON.parse(fs.readFileSync(__dirname + '/mocks/' + mock + '.metadata.json'));
 
         var Doc = libxmljs.parseXmlString(xml);
         var Entity = Doc.root();
-        var result = _Catalog.Transform(Entity);
+        var result = _Metadata.Transform(Entity);
 
         expect(result).to.be.ok;
-        expect(result).to.deep.equal(catalog);
+        expect(result).to.deep.equal(metadata);
       });
     });
 
   });
 
-  it('should get catalog attributes', function() {
+  it('should get metadata attributes', function() {
     var xml = '<Entity xmlns:px="urn:panax" xmlns:custom="http://www.panaxit.com/custom"' +
               '   xml:lang="es" ' + 
               '   dbId="Demo" ' +
@@ -57,7 +57,7 @@ describe('JSON Catalog', function() {
 
     var Doc = libxmljs.parseXmlString(xml);
     var Entity = Doc.root();
-    var result = _Catalog.Transform(Entity);
+    var result = _Metadata.Transform(Entity);
 
     expect(result).to.be.ok;
     expect(result).to.to.deep.equal({
@@ -73,7 +73,7 @@ describe('JSON Catalog', function() {
       "totalItems": 1,
       "pageSize": 1,
       "pageIndex": 1,
-      "metadata": {
+      "permissions": {
         "supportsInsert": '1',
         "supportsUpdate": '1',
         "supportsDelete": '1',

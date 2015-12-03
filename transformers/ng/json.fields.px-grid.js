@@ -34,16 +34,16 @@ _Main.Fields = function(Fields) {
 	columnDefs = [];
 	Fields.forEach(function (Field, index) {
 		var fieldId = _attr.val(Field, 'fieldId');
-		var Metadata = $_keys['Fields'][fieldId];
+		var FieldMetadata = $_keys['Fields'][fieldId];
 		var column = {
-			"field": _attr.val(Metadata, 'fieldName'), // _el.name(Metadata)
-			"displayName": _attr.val(Metadata, 'headerText') || '',
+			"field": _attr.val(FieldMetadata, 'fieldName'), // _el.name(FieldMetadata)
+			"displayName": _attr.val(FieldMetadata, 'headerText') || '',
 			/*
 			ToDo: Not necesary to include type?
 			...Add this only if the grid guessing is not to your satisfaction...
 			http://ui-grid.info/docs/#/api/ui.grid.class:GridOptions.columnDef#type
 			 */
-			"type": _Main.Type(Metadata)
+			"type": _Main.Type(FieldMetadata)
 		};
 		columnDefs.push(column);
 	});
@@ -53,9 +53,9 @@ _Main.Fields = function(Fields) {
 /*
 http://ui-grid.info/docs/#/api/ui.grid.class:GridOptions.columnDef
  */
-_Main.Type = function(Metadata) {
-	var dataType = _attr.val(Metadata, 'dataType');
-	var controlType = _attr.val(Metadata, 'controlType');
+_Main.Type = function(FieldMetadata) {
+	var dataType = _attr.val(FieldMetadata, 'dataType');
+	var controlType = _attr.val(FieldMetadata, 'controlType');
 
 	switch(dataType) {
 		case 'varchar':

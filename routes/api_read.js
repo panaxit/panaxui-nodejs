@@ -50,20 +50,20 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 		if(err)
 			return next(err);
 
-		PanaxJS.Util.parseCatalog(xml, function (err, catalog) {
+		PanaxJS.Util.parseMetadata(xml, function (err, metadata) {
 			if(err)
 				return next(err);
 
-			if (req.query.output === 'pate' && catalog.controlType === 'fileTemplate') {
+			if (req.query.output === 'pate' && metadata.controlType === 'fileTemplate') {
 				/*
 				Use Pate for file template
 				 */
-				if(!catalog.fileTemplate)
+				if(!metadata.fileTemplate)
 					return next({message: "Missing fileTemplate"});
 
         var template_path = 'templates/' + panax_instance.db.database + '/' 
                             + req.query.catalogName + '/' 
-                            + catalog.fileTemplate;
+                            + metadata.fileTemplate;
 
 				try {
 					pate.parse({

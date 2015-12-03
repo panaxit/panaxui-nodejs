@@ -4,7 +4,7 @@ var fs = require('fs');
 var _initKeyIndexes = require('../../../../transformers/ng/json').initKeyIndexes;
 var _Fields = require('../../../../transformers/ng/json.fields');
 
-describe('JSON Fields', function() {
+describe('JSON: Entity\'s Fields', function() {
 
   describe('real mocks', function() {
 

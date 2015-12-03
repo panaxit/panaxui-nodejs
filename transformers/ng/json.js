@@ -11,7 +11,7 @@ Transformers
  */
 var _Model = require('./json.model.js');
 var _Fields = require('./json.fields.js');
-var _Catalog = require('./json.catalog.js');
+var _Metadata = require('./json.metadata.js');
 
 /*
 Main namespace
@@ -41,6 +41,6 @@ _Main.Transform = function(XMLEntity, callback) {
 	return callback(null, {
 		"model": _Model.Transform(Entity),
 		"fields": _Fields.Transform(Entity),
-		"catalog": _Catalog.Transform(Entity)
+		"metadata": _Metadata.Transform(Entity)
 	});
 };

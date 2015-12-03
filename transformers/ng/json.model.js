@@ -84,10 +84,10 @@ _Main.Value = function(Field) {
 	var fieldId = _attr.val(Field, 'fieldId');
 	var value = _attr.val(Field, 'value');
 
-	var Metadata = $_keys['Fields'][fieldId];
-	var dataType = _attr.val(Metadata, 'dataType');
-	var controlType = _attr.val(Metadata, 'controlType');
-	var relationshipType = _attr.val(Metadata, 'relationshipType');
+	var FieldMetadata = $_keys['Fields'][fieldId];
+	var dataType = _attr.val(FieldMetadata, 'dataType');
+	var controlType = _attr.val(FieldMetadata, 'controlType');
+	var relationshipType = _attr.val(FieldMetadata, 'relationshipType');
 	
 	switch(dataType) {
 		case 'int':
@@ -102,7 +102,7 @@ _Main.Value = function(Field) {
 		case 'datetime':
 			return value || ''; // ToDo: Parse date/time (use moments.js?)
 		case 'foreignKey': {
-      var Entity = _el.get(Metadata, '*[1]');
+      var Entity = _el.get(FieldMetadata, '*[1]');
       var referencesItself = Entity && _attr.val(Entity, 'referencesItself') || undefined;
       if(referencesItself && referencesItself === 'true') {
         /*

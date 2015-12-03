@@ -10,13 +10,13 @@ Main namespace
 var _Main = exports;
 
 /*
-Process Catalog
+Process _Metadata
  */
 _Main.Transform = function(Entity) {
 	var attrs = _el.customAttrs(Entity);
   var result = {};
 
-  /* Basic Catalog Metadata */
+  /* BasicMetadata */
   var dbId = attrs['dbId'],
       catalogName = '[' + attrs['Table_Schema'] + ']' + '.' + '[' + attrs['Table_Name'] + ']',
       schemaName = attrs['Table_Schema'],
@@ -55,8 +55,8 @@ _Main.Transform = function(Entity) {
   if(Object.keys(attrs.customAttrs).length)
     result["customAttrs"] = attrs.customAttrs;
 
-  /* Data Access Metadata */
-  result['metadata'] = {};
+  /* Data Access FieldMetadata */
+  result['permissions'] = {};
 
   var supportsInsert = attrs['supportsInsert'],
       supportsUpdate = attrs['supportsUpdate'],
@@ -65,12 +65,12 @@ _Main.Transform = function(Entity) {
       disableUpdate = attrs['disableUpdate'],
       disableDelete = attrs['disableDelete'];
 
-  if(supportsInsert) result['metadata']['supportsInsert'] = supportsInsert;
-  if(supportsUpdate) result['metadata']['supportsUpdate'] = supportsUpdate;
-  if(supportsDelete) result['metadata']['supportsDelete'] = supportsDelete;
-  if(disableInsert) result['metadata']['disableInsert'] = disableInsert;
-  if(disableUpdate) result['metadata']['disableUpdate'] = disableUpdate;
-  if(disableDelete) result['metadata']['disableDelete'] = disableDelete;
+  if(supportsInsert) result['permissions']['supportsInsert'] = supportsInsert;
+  if(supportsUpdate) result['permissions']['supportsUpdate'] = supportsUpdate;
+  if(supportsDelete) result['permissions']['supportsDelete'] = supportsDelete;
+  if(disableInsert) result['permissions']['disableInsert'] = disableInsert;
+  if(disableUpdate) result['permissions']['disableUpdate'] = disableUpdate;
+  if(disableDelete) result['permissions']['disableDelete'] = disableDelete;
 
   return result;
 };

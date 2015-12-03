@@ -8,7 +8,7 @@ var $_keys = require('../helpers').$keys;
 /*
 Transformers
  */
-var _Catalog = require('./json.catalog.js');
+var _Metadata = require('./json.metadata.js');
 var _PxGrid = require('./json.fields.px-grid');
 var _PxCards = require('./json.fields.px-cards');
 var _PxAgGrid = require('./json.fields.px-ag-grid');
@@ -95,11 +95,11 @@ _Main.Tab = function(Tab) {
 
 _Main.Field = function(Field) {
 	var fieldId = _attr.val(Field, 'fieldId');
-	var Metadata = $_keys['Fields'][fieldId];
-  var dataType = _attr.val(Metadata, 'dataType');
+	var FieldMetadata = $_keys['Fields'][fieldId];
+  var dataType = _attr.val(FieldMetadata, 'dataType');
 
   if(dataType === 'foreignKey') {
-    var Entity = _el.get(Metadata, '*[1]');
+    var Entity = _el.get(FieldMetadata, '*[1]');
     var referencesItself = Entity && _attr.val(Entity, 'referencesItself') || undefined;
     if(referencesItself && referencesItself === 'true') {
       /*
@@ -121,10 +121,10 @@ _Main.Field = function(Field) {
   }
 
   if(field.templateOptions) {
-    var isIdentity = _attr.val(Metadata, 'isIdentity');
-    var isNullable = _attr.val(Metadata, 'isNullable');
-    var length = _attr.val(Metadata, 'length');
-    var ParentEntity = _el.get(Metadata, '../..');
+    var isIdentity = _attr.val(FieldMetadata, 'isIdentity');
+    var isNullable = _attr.val(FieldMetadata, 'isNullable');
+    var length = _attr.val(FieldMetadata, 'length');
+    var ParentEntity = _el.get(FieldMetadata, '../..');
     var ParentEntityMode = _attr.val(ParentEntity, 'mode');
   
     if(!!(isIdentity && isIdentity === '1'))
@@ -146,13 +146,13 @@ _Main.Field = function(Field) {
 
 _Main.Field_Regular = function(Field) {
   var fieldId = _attr.val(Field, 'fieldId');
-  var Metadata = $_keys['Fields'][fieldId];
-  var fieldName = _attr.val(Metadata, 'fieldName');
-  var headerText = _attr.val(Metadata, 'headerText');
+  var FieldMetadata = $_keys['Fields'][fieldId];
+  var fieldName = _attr.val(FieldMetadata, 'fieldName');
+  var headerText = _attr.val(FieldMetadata, 'headerText');
 
   var field = {
-    "key": fieldName, // _el.name(Metadata)
-    "type": _Main.Type(Metadata),
+    "key": fieldName, // _el.name(FieldMetadata)
+    "type": _Main.Type(FieldMetadata),
     "templateOptions": {
       "label": headerText || '',
       "placeholder": ""
@@ -169,14 +169,14 @@ _Main.Field_Regular = function(Field) {
 
 _Main.Field_ForeignKey = function(Field) {
   var fieldId = _attr.val(Field, 'fieldId');
-  var Metadata = $_keys['Fields'][fieldId];
-  var controlType = _attr.val(Metadata, 'controlType');
-  var fieldName = _attr.val(Metadata, 'fieldName');
-  var headerText = _attr.val(Metadata, 'headerText');
+  var FieldMetadata = $_keys['Fields'][fieldId];
+  var controlType = _attr.val(FieldMetadata, 'controlType');
+  var fieldName = _attr.val(FieldMetadata, 'fieldName');
+  var headerText = _attr.val(FieldMetadata, 'headerText');
 
   var field = {
-    "key": fieldName, // _el.name(Metadata)
-    "type": _Main.Type(Metadata),
+    "key": fieldName, // _el.name(FieldMetadata)
+    "type": _Main.Type(FieldMetadata),
     "templateOptions": {
       "label": headerText || '',
       "placeholder": ""
@@ -184,16 +184,16 @@ _Main.Field_ForeignKey = function(Field) {
     "data": {}
   };
 
-  field.templateOptions.options = _Main.Options(Metadata);
+  field.templateOptions.options = _Main.Options(FieldMetadata);
   if(controlType === 'default' || controlType === 'combobox') {
     var Data = _el.get( $_keys['Data'][fieldId], '*[1]');
-    field.templateOptions.params = _Main.Params(_el.get(Metadata, '*[1]'), Data);
+    field.templateOptions.params = _Main.Params(_el.get(FieldMetadata, '*[1]'), Data);
     field.className = 'flex-1';
     // ToDo: Template headerText
     field = {
       "className": "display-flex",
       //"label": headerText
-      "fieldGroup": _Main.Cascaded(_el.get(Metadata, '*[1]/*[1]'), _el.get(Data, '*[1]'), [field])
+      "fieldGroup": _Main.Cascaded(_el.get(FieldMetadata, '*[1]/*[1]'), _el.get(Data, '*[1]'), [field])
     };
   }
 
@@ -202,14 +202,14 @@ _Main.Field_ForeignKey = function(Field) {
 
 /*
 async_select
-ToDo: panel wrapper, headerText from parent Metadata
+ToDo: panel wrapper, headerText from parent FieldMetadata
  */
-_Main.Cascaded = function(Metadata, Data, cascaded) {
-  if(Metadata) {
-    var headerText = _attr.val(Metadata, 'headerText');
+_Main.Cascaded = function(FieldMetadata, Data, cascaded) {
+  if(FieldMetadata) {
+    var headerText = _attr.val(FieldMetadata, 'headerText');
     cascaded = [{
       "className": "flex-1",
-      "key": _el.name(Metadata),
+      "key": _el.name(FieldMetadata),
       "type": "async_select",
       /*
       formState as model tells angular-formly to treat the field only as ui support,
@@ -220,11 +220,11 @@ _Main.Cascaded = function(Metadata, Data, cascaded) {
       "templateOptions": {
         "label": headerText || '',
         "placeholder": "",
-        "options": _Main.Options(Metadata),
-        "params":  _Main.Params(Metadata, Data)
+        "options": _Main.Options(FieldMetadata),
+        "params":  _Main.Params(FieldMetadata, Data)
       }
     }].concat(cascaded);
-    var Child = _el.get(Metadata, '*[1]');
+    var Child = _el.get(FieldMetadata, '*[1]');
     if(Child) {
       cascaded = _Main.Cascaded(Child, _el.get(Data, '*[1]'), []).concat(cascaded);
     }
@@ -232,12 +232,12 @@ _Main.Cascaded = function(Metadata, Data, cascaded) {
   return cascaded;
 }
 
-_Main.Options = function(Metadata) {
+_Main.Options = function(FieldMetadata) {
   var options = [];
-  var controlType = _attr.val(Metadata, 'controlType');
+  var controlType = _attr.val(FieldMetadata, 'controlType');
 
   if(controlType === 'radiogroup') {
-    var Rows = _el.find(Metadata, 'px:data/*[@value and @text]');
+    var Rows = _el.find(FieldMetadata, 'px:data/*[@value and @text]');
     Rows.forEach(function (Row, index) {
       options.push({
         "name": _attr.val(Row, 'text'),
@@ -249,16 +249,16 @@ _Main.Options = function(Metadata) {
   return options;
 };
 
-_Main.Params = function(Metadata, Data) {
-  var Parent = _el.get(Metadata, 'parent::*[1]');
-  var Child = _el.get(Metadata, '*[1]');
-  var foreignKey = _attr.val(Metadata, 'foreignKey');
+_Main.Params = function(FieldMetadata, Data) {
+  var Parent = _el.get(FieldMetadata, 'parent::*[1]');
+  var Child = _el.get(FieldMetadata, '*[1]');
+  var foreignKey = _attr.val(FieldMetadata, 'foreignKey');
 
   var result = {
-    'catalogName': '[' + _attr.val(Metadata, 'Table_Schema') + ']' + '.' + 
-                   '[' + _attr.val(Metadata, 'Table_Name') + ']',
-    'valueColumn': _attr.val(Metadata, 'dataValue'),
-    'textColumn': _attr.val(Metadata, 'dataText'),
+    'catalogName': '[' + _attr.val(FieldMetadata, 'Table_Schema') + ']' + '.' + 
+                   '[' + _attr.val(FieldMetadata, 'Table_Name') + ']',
+    'valueColumn': _attr.val(FieldMetadata, 'dataValue'),
+    'textColumn': _attr.val(FieldMetadata, 'dataText'),
     'dependantEntity': _el.name(Parent)
   };
 
@@ -278,16 +278,16 @@ _Main.Params = function(Metadata, Data) {
 
 _Main.Field_ForeignTable = function(Field) {
   var fieldId = _attr.val(Field, 'fieldId');
-  var Metadata = $_keys['Fields'][fieldId];
-  var Entity = _el.get(Metadata, '*[1]');
-  var relationshipType = _attr.val(Metadata, 'relationshipType');
-  var controlType = _attr.val(Metadata, 'controlType');
-  var fieldName = _attr.val(Metadata, 'fieldName');
-  var headerText = _attr.val(Metadata, 'headerText');
+  var FieldMetadata = $_keys['Fields'][fieldId];
+  var Entity = _el.get(FieldMetadata, '*[1]');
+  var relationshipType = _attr.val(FieldMetadata, 'relationshipType');
+  var controlType = _attr.val(FieldMetadata, 'controlType');
+  var fieldName = _attr.val(FieldMetadata, 'fieldName');
+  var headerText = _attr.val(FieldMetadata, 'headerText');
 
   var field = {
-    "key": fieldName, // _el.name(Metadata)
-    "type": _Main.Type(Metadata),
+    "key": fieldName, // _el.name(FieldMetadata)
+    "type": _Main.Type(FieldMetadata),
     "templateOptions": {
       "label": headerText || '',
       "placeholder": ""
@@ -297,7 +297,7 @@ _Main.Field_ForeignTable = function(Field) {
 
   if(relationshipType === 'hasOne') {
     field.data.fields  = _Main.Transform(Entity);
-    field.data.catalog = _Catalog.Transform(Entity);
+    field.data.metadata = _Metadata.Transform(Entity);
   } else if(relationshipType === 'hasMany') {
     switch(controlType) {
       case 'default':
@@ -312,7 +312,7 @@ _Main.Field_ForeignTable = function(Field) {
         field.data.fields = _PxCards.Transform(Entity);
         break;
     }
-    field.data.catalog = _Catalog.Transform(Entity);
+    field.data.metadata = _Metadata.Transform(Entity);
   }
 
   return field;
@@ -324,16 +324,16 @@ _Main.Field_ForeignTable = function(Field) {
 
 _Main.Field_JunctionTable = function(Field) {
   var fieldId = _attr.val(Field, 'fieldId');
-  var Metadata = $_keys['Fields'][fieldId];
-  var Entity = _el.get(Metadata, '*[1]');
-  var relationshipType = _attr.val(Metadata, 'relationshipType');
-  var controlType = _attr.val(Metadata, 'controlType');
-  var fieldName = _attr.val(Metadata, 'fieldName');
-  var headerText = _attr.val(Metadata, 'headerText');
+  var FieldMetadata = $_keys['Fields'][fieldId];
+  var Entity = _el.get(FieldMetadata, '*[1]');
+  var relationshipType = _attr.val(FieldMetadata, 'relationshipType');
+  var controlType = _attr.val(FieldMetadata, 'controlType');
+  var fieldName = _attr.val(FieldMetadata, 'fieldName');
+  var headerText = _attr.val(FieldMetadata, 'headerText');
 
   var field = {
-    "key": fieldName, // _el.name(Metadata)
-    "type": _Main.Type(Metadata),
+    "key": fieldName, // _el.name(FieldMetadata)
+    "type": _Main.Type(FieldMetadata),
     "templateOptions": {
       "label": headerText || '',
       "placeholder": ""
@@ -359,15 +359,15 @@ _Main.Field_JunctionTable = function(Field) {
         break;
     }
   }
-  field.data.catalog = _Catalog.Transform(Entity);
+  field.data.metadata = _Metadata.Transform(Entity);
 
   // @minSelections & @maxSelections
   if(relationshipType === 'hasMany') {
     // 1:N
-    var minSelections = _attr.val(Metadata, 'minSelections');
+    var minSelections = _attr.val(FieldMetadata, 'minSelections');
     if(minSelections && !isNaN(parseInt(minSelections)))
       field.templateOptions.minSelections = parseInt(minSelections);
-    var maxSelections = _attr.val(Metadata, 'maxSelections');
+    var maxSelections = _attr.val(FieldMetadata, 'maxSelections');
     if(maxSelections && !isNaN(parseInt(maxSelections)))
       field.templateOptions.maxSelections = parseInt(maxSelections);
   } else {
@@ -383,25 +383,25 @@ _Main.Field_JunctionTable = function(Field) {
  * Types
  */
 
-_Main.Type = function(Metadata) {
-  var dataType = _attr.val(Metadata, 'dataType');
+_Main.Type = function(FieldMetadata) {
+  var dataType = _attr.val(FieldMetadata, 'dataType');
 
   switch(dataType) {
     default:
-      return _Main.regularFieldsTypes(Metadata);
+      return _Main.regularFieldsTypes(FieldMetadata);
     case 'foreignKey':
-      return _Main.foreignKeyTypes(Metadata);
+      return _Main.foreignKeyTypes(FieldMetadata);
     case 'foreignTable':
-      return _Main.foreignTableTypes(Metadata);
+      return _Main.foreignTableTypes(FieldMetadata);
     case 'junctionTable':
-      return _Main.junctionTableTypes(Metadata);
+      return _Main.junctionTableTypes(FieldMetadata);
   }
 };
 
-_Main.regularFieldsTypes = function(Metadata) {
-  var dataType = _attr.val(Metadata, 'dataType');
-  var controlType = _attr.val(Metadata, 'controlType');
-  var length = _attr.val(Metadata, 'length');
+_Main.regularFieldsTypes = function(FieldMetadata) {
+  var dataType = _attr.val(FieldMetadata, 'dataType');
+  var controlType = _attr.val(FieldMetadata, 'controlType');
+  var length = _attr.val(FieldMetadata, 'length');
 
   switch(controlType) {
     case 'email':
@@ -454,9 +454,9 @@ _Main.regularFieldsTypes = function(Metadata) {
   }
 };
 
-_Main.foreignKeyTypes = function(Metadata) {
-  var controlType = _attr.val(Metadata, 'controlType');
-  var Entity = _el.get(Metadata, '*[1]');
+_Main.foreignKeyTypes = function(FieldMetadata) {
+  var controlType = _attr.val(FieldMetadata, 'controlType');
+  var Entity = _el.get(FieldMetadata, '*[1]');
   var referencesItself = Entity && _attr.val(Entity, 'referencesItself') || undefined;
 
   if(referencesItself && referencesItself === 'true') {
@@ -478,9 +478,9 @@ _Main.foreignKeyTypes = function(Metadata) {
   }
 };
 
-_Main.foreignTableTypes = function(Metadata) {
-  var relationshipType = _attr.val(Metadata, 'relationshipType');
-  var controlType = _attr.val(Metadata, 'controlType');
+_Main.foreignTableTypes = function(FieldMetadata) {
+  var relationshipType = _attr.val(FieldMetadata, 'relationshipType');
+  var controlType = _attr.val(FieldMetadata, 'controlType');
 
   switch(relationshipType) {
     default:
@@ -513,9 +513,9 @@ _Main.foreignTableTypes = function(Metadata) {
   }
 };
 
-_Main.junctionTableTypes = function(Metadata) {
-  var relationshipType = _attr.val(Metadata, 'relationshipType');
-  var controlType = _attr.val(Metadata, 'controlType');
+_Main.junctionTableTypes = function(FieldMetadata) {
+  var relationshipType = _attr.val(FieldMetadata, 'relationshipType');
+  var controlType = _attr.val(FieldMetadata, 'controlType');
 
   switch(relationshipType) {
     default:
