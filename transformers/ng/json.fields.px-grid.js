@@ -20,12 +20,10 @@ _Main.Transform = function(Entity) {
 };
 
 _Main.Layout = function(Layout) {
-  var result = {
-    "columnDefs": []
-  };
+  var result = [];
 
   var Fields = _el.find(Layout, 'descendant::px:field');
-  if(Fields) result.columnDefs = _Main.Fields(Fields);
+  if(Fields) result = _Main.Fields(Fields);
 
   return result;
 };

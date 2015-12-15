@@ -561,11 +561,9 @@ describe('px-form', function() {
                     "placeholder": ""
                   },
                   "data": {
-                    "fields": {
-                      "columnDefs": [
-                        {"field": "FieldA", "displayName": "", "type": "object"}
-                      ]
-                    },
+                    "fields": [
+                      {"field": "FieldA", "displayName": "", "type": "object"}
+                    ],
                     "metadata": {
                       "dbId": 'Demo',
                       "catalogName": '[TestSchema].[NestedGrid]',

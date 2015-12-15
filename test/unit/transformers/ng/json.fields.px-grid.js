@@ -16,9 +16,7 @@ describe('px-grid', function() {
     _initKeyIndexes(Entity);
 		var result = _Fields.Transform(Entity);
 
-		expect(result).to.deep.equal({
-			"columnDefs": []
-		});
+		expect(result).to.deep.equal([]);
 	});
 
 	it('empty layout should return multiple columnDefs with dataTypes', function() {
@@ -62,24 +60,22 @@ describe('px-grid', function() {
     _initKeyIndexes(Entity);
     var result = _Fields.Transform(Entity);
 
-		expect(result).to.deep.equal({
-			"columnDefs": [
-				{"field": "VarChar", "displayName": "", "type": "string"},
-				{"field": "NVarChar", "displayName": "", "type": "string"},
-				{"field": "NChar", "displayName": "", "type": "string"},
-				{"field": "Char", "displayName": "", "type": "string"},
-				{"field": "Text", "displayName": "", "type": "string"},
-				{"field": "Int", "displayName": "", "type": "number"},
-				{"field": "TinyInt", "displayName": "", "type": "number"},
-				{"field": "Float", "displayName": "", "type": "number"},
-				{"field": "Money", "displayName": "", "type": "number"},
-				{"field": "Bit", "displayName": "", "type": "boolean"},
-				{"field": "Date", "displayName": "", "type": "date"},
-				{"field": "Time", "displayName": "", "type": "date"},
-				{"field": "DateTime", "displayName": "", "type": "date"},
-				{"field": "Unknown", "displayName": "", "type": "object"}
-			]
-		});
+		expect(result).to.deep.equal([
+			{"field": "VarChar", "displayName": "", "type": "string"},
+			{"field": "NVarChar", "displayName": "", "type": "string"},
+			{"field": "NChar", "displayName": "", "type": "string"},
+			{"field": "Char", "displayName": "", "type": "string"},
+			{"field": "Text", "displayName": "", "type": "string"},
+			{"field": "Int", "displayName": "", "type": "number"},
+			{"field": "TinyInt", "displayName": "", "type": "number"},
+			{"field": "Float", "displayName": "", "type": "number"},
+			{"field": "Money", "displayName": "", "type": "number"},
+			{"field": "Bit", "displayName": "", "type": "boolean"},
+			{"field": "Date", "displayName": "", "type": "date"},
+			{"field": "Time", "displayName": "", "type": "date"},
+			{"field": "DateTime", "displayName": "", "type": "date"},
+			{"field": "Unknown", "displayName": "", "type": "object"}
+		]);
 	});
 	
 });
