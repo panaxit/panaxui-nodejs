@@ -4,11 +4,8 @@ var libxslt = require('libxslt');
 var PanaxJS = require('panaxjs');
 var panax_config = require('../config/panax.js');
 
-var fs = require('fs');
-var mime = require('mime');
 var entities = require("entities");
-var pate = require('node-pate');
-var formatter = require('../lib/format');
+var pateWrapper = require('../lib/pateWrapper');
 var util = require('../lib/util.js');
 var auth = require('../lib/auth.js');
 
@@ -65,25 +62,13 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
                             + req.query.catalogName + '/' 
                             + metadata.fileTemplate;
 
-				try {
-					pate.parse({
-						tpl: fs.readFileSync(template_path),
-						xml: xml,
-						xpath: '/*/px:data/px:dataRow',
-						ns: {
-							px: 'urn:panax'
-						},
-						format_lib: formatter
-					}, function (err, result) {
-						res.header('Content-Type', mime.lookup(template_path));
-						res.send(result);
-					});
-				} catch (e) {
-					return next({
-						message: '[Server Exception] ' + e.name + ': ' + e.message,
-						stack: e.stack
-					});
-				}
+        pateWrapper.parse(xml, template_path, function(err, result, mimeType) {
+          if(err)
+            return next(err);
+
+          res.header('Content-Type', mimeType);
+          res.send(result);
+        });
 			} else if(req.query.gui === 'ng') {
 				/*
 				Use JS Transformers for AngularJS
