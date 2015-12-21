@@ -718,6 +718,110 @@ describe('px-form', function() {
         ]
       );
     });
+
+    it('hasMany (deeply nested FileTemplate)', function() {
+      var xml = '<Entity xmlns:px="urn:panax" controlType="formView" >' +
+                ' <px:fields>' +
+                '   <NestedForm fieldId="ID00" fieldName="NestedForm" dataType="foreignTable" relationshipType="hasOne" foreignSchema="TestSchema" foreignTable="NestedForm" foreignReference="Id" headerText="Nested Form" mode="inherit" controlType="formView">' +
+                '     <NestedForm xmlns:px="urn:panax" xml:lang="es" dbId="Demo" fullPath="" version="Beta_12" pageSize="0" pageIndex="1" foreignReference="Id" Schema="TestSchema" Name="NestedForm" Table_Name="NestedForm" Table_Schema="TestSchema" Base_Type="TABLE" primaryKey="Id" dataType="table" controlType="formView" filtersBehavior="append" headerText="Nested Form" filters="id=1" mode="edit" supportsInsert="1" disableInsert="0" supportsUpdate="1" disableUpdate="0" supportsDelete="1" disableDelete="0">' +
+                '       <px:fields>' +
+                '         <NestedTemplate fieldId="ID01" fieldName="NestedTemplate" controlType="fileTemplate" Name="NestedTemplate" Column_Name="NestedTemplate" dataType="foreignTable" relationshipType="hasMany" foreignSchema="TestSchema" foreignTable="NestedTemplate" foreignReference="FkId" headerText="Nested Template" mode="inherit">' +
+                '           <NestedTemplate xmlns:px="urn:panax" xml:lang="es" dbId="Demo" version="Beta_12" pageSize="0" pageIndex="1" foreignReference="FkId" Schema="TestSchema" Name="NestedTemplate" Table_Name="NestedTemplate" Table_Schema="TestSchema" Base_Type="TABLE" primaryKey="Id" supportsInsert="1" disableInsert="0" supportsUpdate="1" disableUpdate="0" supportsDelete="1" disableDelete="0" dataType="table" controlType="fileTemplate" filtersBehavior="append" headerText="Nested Template" filters="id=1" mode="edit">' +
+                '             <px:fields>' +
+                '               <FieldA fieldId="IDA" fieldName="FieldA" />' +
+                '             </px:fields>' +
+                '             <px:layout>' +
+                '               <px:field fieldId="IDA" />' +
+                '             </px:layout>' +
+                '           </NestedTemplate>' +
+                '         </NestedTemplate>' +
+                '       </px:fields>' +
+                '       <px:layout>' +
+                '         <px:field fieldId="ID01" />' +
+                '       </px:layout>' +
+                '     </NestedForm>' +
+                '   </NestedForm>' +
+                ' </px:fields>' +
+                ' <px:layout>' +
+                '   <px:field fieldId="ID00" />' +
+                ' </px:layout>' +
+                '</Entity>';
+
+      var Doc = libxmljs.parseXmlString(xml);
+      var Entity = Doc.root();
+      _initKeyIndexes(Entity);
+      var result = _Fields.Transform(Entity);
+
+      expect(result).to.deep.equal(
+        [
+          { 
+            "key": "NestedForm", 
+            "type": "form", 
+            "templateOptions": { 
+              "label": "Nested Form", 
+              "placeholder": "" 
+            },
+            "data": {
+              "fields": [
+                {
+                  "key": "NestedTemplate",
+                  "type": "template",
+                  "templateOptions": {
+                    "label": "Nested Template",
+                    "placeholder": ""
+                  },
+                  "data": {
+                    "fields": {},
+                    "metadata": {
+                      "dbId": 'Demo',
+                      "catalogName": '[TestSchema].[NestedTemplate]',
+                      "schemaName": 'TestSchema',
+                      "tableName": 'NestedTemplate',
+                      "mode": 'edit',
+                      "controlType": 'fileTemplate',
+                      "lang": 'es',
+                      "primaryKey": 'Id',
+                      "foreignReference": 'FkId',
+                      "pageSize": 0,
+                      "pageIndex": 1,
+                      "permissions": {
+                        "supportsInsert": '1',
+                        "supportsUpdate": '1',
+                        "supportsDelete": '1',
+                        "disableInsert": '0',
+                        "disableUpdate": '0',
+                        "disableDelete": '0'
+                      }
+                    }
+                  }
+                }
+              ],
+              "metadata": {
+                "dbId": 'Demo',
+                "catalogName": '[TestSchema].[NestedForm]',
+                "schemaName": 'TestSchema',
+                "tableName": 'NestedForm',
+                "mode": 'edit',
+                "controlType": 'formView',
+                "lang": 'es',
+                "primaryKey": 'Id',
+                "foreignReference": 'Id',
+                "pageSize": 0,
+                "pageIndex": 1,
+                "permissions": {
+                  "supportsInsert": '1',
+                  "supportsUpdate": '1',
+                  "supportsDelete": '1',
+                  "disableInsert": '0',
+                  "disableUpdate": '0',
+                  "disableDelete": '0'
+                }
+              }
+            } 
+          }
+        ]
+      );
+    });
 		
 	});
 

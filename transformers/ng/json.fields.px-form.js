@@ -300,7 +300,6 @@ _Main.Field_ForeignTable = function(Field) {
     field.data.metadata = _Metadata.Transform(Entity);
   } else if(relationshipType === 'hasMany') {
     switch(controlType) {
-      case 'default':
       case 'formView':
       default:
         field.data.fields  = _Main.Transform(Entity);
@@ -310,6 +309,10 @@ _Main.Field_ForeignTable = function(Field) {
         break;
       case 'cardsView':
         field.data.fields = _PxCards.Transform(Entity);
+        break;
+      case 'default':
+      case 'fileTemplate':
+        field.data.fields = {};
         break;
     }
     field.data.metadata = _Metadata.Transform(Entity);
