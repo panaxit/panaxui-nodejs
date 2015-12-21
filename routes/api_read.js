@@ -51,25 +51,7 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 			if(err)
 				return next(err);
 
-			if (req.query.output === 'pate' && metadata.controlType === 'fileTemplate') {
-				/*
-				Use Pate for file template
-				 */
-				if(!metadata.fileTemplate)
-					return next({message: "Missing fileTemplate"});
-
-        var template_path = 'templates/' + panax_instance.db.database + '/' 
-                            + req.query.catalogName + '/' 
-                            + metadata.fileTemplate;
-
-        pateWrapper.parse(xml, template_path, function(err, result, mimeType) {
-          if(err)
-            return next(err);
-
-          res.header('Content-Type', mimeType);
-          res.send(result);
-        });
-			} else if(req.query.gui === 'ng') {
+			if(req.query.gui === 'ng') {
 				/*
 				Use JS Transformers for AngularJS
 				 */
@@ -77,13 +59,51 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
 				JSTransformer.Transform(xml, function(err, result) {
 					if (err) 
 						return next(err);
-					res.json({
-						success: true,
-						action: "read",
-						gui: req.query.gui,
-						output: req.query.output,
-						data: result
-					});
+
+          if (req.query.output === 'pate' && metadata.controlType === 'fileTemplate') {
+            /*
+            Use Pate for file template
+             */
+            if(!metadata.fileTemplate)
+              return next({message: "Missing fileTemplate"});
+
+            var template_path = 'templates/' + panax_instance.db.database + '/' 
+                                + req.query.catalogName + '/' 
+                                + metadata.fileTemplate;
+
+            pateWrapper.parse(xml, template_path, function(err, template, mimeType) {
+              if(err)
+                return next(err);
+
+              if(req.query.asFile === true) {
+                res.header('Content-Type', mimeType);
+                res.send(template);
+              } else {
+                res.json({
+                  success: true,
+                  action: "read",
+                  gui: req.query.gui,
+                  output: req.query.output,
+                  data: result, 
+                  template: {
+                    template: template,
+                    contentType: mimeType
+                  }
+                });
+              }
+            });
+          } else if (req.query.output === 'json') {
+            /*
+            Plain JSON response for other calls
+             */
+            res.json({
+              success: true,
+              action: "read",
+              gui: req.query.gui,
+              output: req.query.output,
+              data: result
+            });
+          }
 				});
 			} else {
 				/*
