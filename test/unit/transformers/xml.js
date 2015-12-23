@@ -118,6 +118,44 @@ describe('xml #dataTable', function() {
 
   describe('case 4: nested (1:1)', function() {
 
+    describe('basic', function() {
+
+      it('should not include nested entities with no rows', function() {
+        var payload = {
+          "tableName":"[Inmuebles].[Inmueble]",
+          "primaryKey":"Id",
+          "identityKey":"Id",
+          "updateRows":[{
+            "Nombre":"M12  L17a",
+            "Valores":{
+              "tableName":
+              "[Inmuebles].[Valores]",
+              "primaryKey":"IdInmueble",
+              "foreignReference":"IdInmueble",
+              "updateRows":[{
+                // NOTHING / Empty Obj
+              }]
+            },
+            "Id":"1"
+          }]
+        };
+
+        var output = '<?xml version="1.0" encoding="UTF-8"?>' +
+          '<dataTable name="[Inmuebles].[Inmueble]" identityKey="Id">' +
+            '<updateRow identityValue="1">' + 
+              '<field name="Nombre">\'\'M12  L17a\'\'</field>' + 
+            '</updateRow>' +
+          '</dataTable>';
+
+        var xml_doc = libxmljs.parseXml(xml.dataTable(payload));
+        var xmlOutput = libxmljs.parseXml(output);
+
+        expect(xml_doc.toString()).to.equal(xmlOutput.toString());
+
+      });
+
+    });
+
   	it('should create a nested entity', function() {
   		var payload = {
 		  	tableName: 'dbo.CONTROLS_NestedForm',

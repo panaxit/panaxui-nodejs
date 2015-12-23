@@ -10,19 +10,11 @@ exports.dataTable = function(dataTable) {
   
   // iterate through insertRows / updateRows / deleteRows
   var dataRowIterator = function (dataTable, type, XMLDataTable) {
-    var dataRows;
-    if(type === 'insertRow')
-      dataRows = dataTable.insertRows;
-    else if(type === 'updateRow')
-      dataRows = dataTable.updateRows;
-    else if(type === 'deleteRow')
-      dataRows = dataTable.deleteRows;
-    else if(type === 'dataRow')
-      dataRows = dataTable.dataRows;
+    var dataRows = dataTable[type];
 
     dataRows.forEach(function (dataRow) {
       // dataRow XML node
-      var XMLDataRow = XMLDataTable.node(type);
+      var XMLDataRow = XMLDataTable.node(type.slice(0, -1));
       // add add identity value if present
       if (dataRow[dataTable.identityKey]) {
         XMLDataRow.attr({ identityValue: dataRow[dataTable.identityKey] });
@@ -97,14 +89,17 @@ exports.dataTable = function(dataTable) {
     if (dataTable.identityKey) {
       XMLDataTable.attr({ identityKey: dataTable.identityKey });
     }
-    if(dataTable.insertRows)
-      dataRowIterator(dataTable, 'insertRow', XMLDataTable);
-    if(dataTable.updateRows)
-      dataRowIterator(dataTable, 'updateRow', XMLDataTable);
-    if(dataTable.deleteRows)
-      dataRowIterator(dataTable, 'deleteRow', XMLDataTable);
-    if(dataTable.dataRows)
-      dataRowIterator(dataTable, 'dataRow', XMLDataTable);
+    // Generate data rows for each possible type
+    var hasRows = false;
+    ['insertRows', 'updateRows', 'deleteRows', 'dataRows'].forEach(function(type) {
+      // Check for non-empty-ish array
+      if(dataTable[type] && dataTable[type].length && Object.keys(dataTable[type][0]).length) {
+        dataRowIterator(dataTable, type, XMLDataTable);
+        hasRows = true;
+      }
+    });
+    // Remove datatable completely if no rows present
+    if(!hasRows) XMLDataTable.remove();
   }
   // XML document
   var xml_doc = new libxmljs.Document();
