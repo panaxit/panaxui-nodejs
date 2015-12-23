@@ -4,7 +4,7 @@ var PanaxJS = require('panaxjs');
 var panax_config = require('../config/panax.js');
 
 var auth = require('../lib/auth.js');
-var xml = require('../lib/xml.js');
+var xml = require('../transformers/xml.js');
 
 module.exports = router;
 
@@ -24,7 +24,7 @@ router.put('/', auth.requiredAuth, function read(req, res, next) {
 	/**
 	 * Build dataTable XML
 	 */
-	var updateXML = xml.buildXMLDataTable(req.body);
+	var updateXML = xml.dataTable(req.body);
 
 	/**
 	 * PanaxJS

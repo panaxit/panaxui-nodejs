@@ -1,12 +1,8 @@
 describe('Unit tests', function() {
 
-	describe('Utilities', function() {
-
-		require('./unit/xml');
-	
-	});
-
   describe('JS Transformers', function() {
+
+    require('./unit/transformers/xml');
 
     describe('AngularJS', function() {
 

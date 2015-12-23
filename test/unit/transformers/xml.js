@@ -2,10 +2,10 @@
 ToDo: As tests Payloads are the same as integration/persist.js, make mock files (after sql mocks)
  */
 var expect = require('chai').expect;
-var xml = require('../../lib/xml.js');
+var xml = require('../../../transformers/xml.js');
 var libxmljs = require('libxslt').libxmljs;
 
-describe('xml #buildXMLDataTable', function() {
+describe('xml #dataTable', function() {
 
   describe('case 1: with primaryKey', function() {
 
@@ -55,7 +55,7 @@ describe('xml #buildXMLDataTable', function() {
 				  '</insertRow>' + 
 				'</dataTable>';
 
-		  var xml_doc = libxmljs.parseXml(xml.buildXMLDataTable(payload));
+		  var xml_doc = libxmljs.parseXml(xml.dataTable(payload));
 		  var xmlOutput = libxmljs.parseXml(output);
 
 		  expect(xml_doc.toString()).to.equal(xmlOutput.toString());
@@ -78,7 +78,7 @@ describe('xml #buildXMLDataTable', function() {
 				  '</updateRow>' +
 				'</dataTable>';
 
-		  var xml_doc = libxmljs.parseXml(xml.buildXMLDataTable(payload));
+		  var xml_doc = libxmljs.parseXml(xml.dataTable(payload));
 		  var xmlOutput = libxmljs.parseXml(output);
 
 		  expect(xml_doc.toString()).to.equal(xmlOutput.toString());
@@ -98,7 +98,7 @@ describe('xml #buildXMLDataTable', function() {
 				  '<deleteRow identityValue="1"/>' +
 				'</dataTable>';
 
-		  var xml_doc = libxmljs.parseXml(xml.buildXMLDataTable(payload));
+		  var xml_doc = libxmljs.parseXml(xml.dataTable(payload));
 		  var xmlOutput = libxmljs.parseXml(output);
 
 		  expect(xml_doc.toString()).to.equal(xmlOutput.toString());
@@ -149,7 +149,7 @@ describe('xml #buildXMLDataTable', function() {
   				'</insertRow>' +
   			'</dataTable>';
 
-		  var xml_doc = libxmljs.parseXml(xml.buildXMLDataTable(payload));
+		  var xml_doc = libxmljs.parseXml(xml.dataTable(payload));
 		  var xmlOutput = libxmljs.parseXml(output);
 
 		  expect(xml_doc.toString()).to.equal(xmlOutput.toString());
@@ -187,7 +187,7 @@ describe('xml #buildXMLDataTable', function() {
   				'</updateRow>' +
   			'</dataTable>';
 
-		  var xml_doc = libxmljs.parseXml(xml.buildXMLDataTable(payload));
+		  var xml_doc = libxmljs.parseXml(xml.dataTable(payload));
 		  var xmlOutput = libxmljs.parseXml(output);
 
 		  expect(xml_doc.toString()).to.equal(xmlOutput.toString());
@@ -209,7 +209,7 @@ describe('xml #buildXMLDataTable', function() {
   				'</deleteRow>' +
   			'</dataTable>';
 
-		  var xml_doc = libxmljs.parseXml(xml.buildXMLDataTable(payload));
+		  var xml_doc = libxmljs.parseXml(xml.dataTable(payload));
 		  var xmlOutput = libxmljs.parseXml(output);
 
 		  expect(xml_doc.toString()).to.equal(xmlOutput.toString());
