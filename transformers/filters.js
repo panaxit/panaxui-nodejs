@@ -14,7 +14,7 @@ var _Main = exports;
 /*
 Main async function
  */
-_Main.Transform = function(XMLFilters, DataTable) {
+_Main.Transform = function(XMLFilters, callback) {
   if(!XMLFilters)
     return callback({ message: "Error: No XMLFilters provided" });
 

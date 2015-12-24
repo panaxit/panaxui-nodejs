@@ -32,24 +32,20 @@ router.post('/', auth.requiredAuth, function read(req, res, next) {
 
 	panaxdb.setParam('userId', req.session.userId);
 
-	libxslt.parseFile('xsl/filters.xsl', function (err, stylesheet) {
-		if (err)
-			return next(err);
+  var JSTransformer = require('../transformers/filters.js');
+  JSTransformer.Transform(filtersXML, function(err, result) {
+    if (err) 
+      return next(err);
 
-		stylesheet.apply(filtersXML, function (err, result) {
-			if (err) 
-				return next(err);
+    panaxdb.filters(result, function (err, filters) {
+      if(err)
+        return next(err);
 
-			panaxdb.filters(result, function (err, filters) {
-				if(err)
-					return next(err);
-
-				res.json({
-					success: true,
-					action: 'filters',
-					data: filters
-				});
-			});
-		});
-	});
+      res.json({
+        success: true,
+        action: 'filters',
+        data: filters
+      });
+    });
+  });
 });
