@@ -23,6 +23,15 @@ module.exports.attr.name = function(el, name) {
 	return el && el.attr(name) ? el.attr(name).name() : undefined;
 };
 
+// copy attributes between two XML Elements
+module.exports.attr.copyAll = function(Src, Dst) {
+  Src.attrs().forEach(function (attr) {
+    var attrObj = {};
+    attrObj[attr.name()] = attr.value();
+    Dst.attr(attrObj);
+  });
+};
+
 /*
 Element helpers
  */

@@ -7,7 +7,13 @@ var libxmljs = require('libxslt').libxmljs;
 
 describe('xml #dataTable', function() {
 
-  describe('case 1: with primaryKey', function() {
+  describe('basic', function() {
+
+    it('should not include data table with no rows');
+
+  });
+
+  describe('with primaryKey', function() {
 
   	it('should create multiple (2) entities');
 
@@ -17,7 +23,7 @@ describe('xml #dataTable', function() {
 
   });
 
-	describe('case 2: with identityKey', function() {
+	describe('with identityKey', function() {
 
 		it('should create multiple (2) entities', function() {
 		  var payload = {
@@ -106,7 +112,7 @@ describe('xml #dataTable', function() {
 
 	});
 
-  describe('case 3: with primaryKey & identityKey', function() {
+  describe('with primaryKey & identityKey', function() {
 
   	it('should create multiple (2) entities');
 
@@ -116,7 +122,7 @@ describe('xml #dataTable', function() {
 
   });
 
-  describe('case 4: nested (1:1)', function() {
+  describe('nested (1:1)', function() {
 
     describe('basic', function() {
 
