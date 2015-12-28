@@ -12,8 +12,9 @@
     "restart:forever": "node node_modules/forever/bin/forever restartall",
     "stop:forever": "node node_modules/forever/bin/forever stopall",
     "debug": "node-debug ./bin/www",
-    "test:all": "node ./node_modules/istanbul/lib/cli.js cover -x \"config/*\" ./node_modules/mocha/bin/_mocha",
-    "test": "NODE_ENV=testing npm run test:all"
+    "test:remote": "node ./node_modules/istanbul/lib/cli.js cover -x \"config/*\" ./node_modules/mocha/bin/_mocha",
+    "test:local": "NODE_ENV=testing npm run test:remote",
+    "test": "npm run test:local"
   },
   "config": {
     "ghooks": {
