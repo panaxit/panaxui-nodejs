@@ -14,11 +14,13 @@
     "debug": "node-debug ./bin/www",
     "test:remote": "node ./node_modules/istanbul/lib/cli.js cover -x \"config/*\" ./node_modules/mocha/bin/_mocha",
     "test:local": "NODE_ENV=testing npm run test:remote",
-    "test": "npm run test:local"
+    "test": "npm run test:local",
+    "eslint": "node node_modules/.bin/eslint -c .eslintrc *.js {lib,routes,transformers}/*.js",
+    "eslint:fix": "node node_modules/.bin/eslint --fix -c .eslintrc *.js {lib,routes,transformers}/*.js"
   },
   "config": {
     "ghooks": {
-      "pre-commit": "npm test"
+      "pre-commit": "npm run eslint && npm test"
     }
   },
   "repository": {
@@ -46,6 +48,7 @@
   },
   "devDependencies": {
     "chai": "^3.0.0",
+    "eslint": "^1.10.3",
     "forever": "^0.14.1",
     "ghooks": "^0.3.2",
     "i-promise": "^1.1.0",
