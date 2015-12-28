@@ -1,6 +1,6 @@
 // ToDo
 describe('Helpers', function() {
 
-	it('PENDING');
+  it('PENDING')
 
 });

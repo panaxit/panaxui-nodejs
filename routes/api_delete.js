@@ -1,12 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var PanaxJS = require('panaxjs');
-var panax_config = require('../config/panax.js');
+var express = require('express')
+var router = express.Router() // eslint-disable-line new-cap
+var PanaxJS = require('panaxjs')
+var panaxConfig = require('../config/panax.js')
 
-var auth = require('../lib/auth.js');
-var xml = require('../transformers/xml.js');
+var auth = require('../lib/auth.js')
+var xml = require('../transformers/xml.js')
 
-module.exports = router;
+module.exports = router
 
 /**
  * DELETE /api/delete
@@ -14,38 +14,51 @@ module.exports = router;
  * Delete Entity
  */
 router.delete('/', auth.requiredAuth, function read(req, res, next) {
-	if (!req.body.tableName)
-		return next({message: "No tableName supplied"});
-	if (!req.body.primaryKey && !req.body.identityKey)
-		return next({message: "No primaryKey or identityKey supplied"});
-	if (!req.body.deleteRows || !req.body.deleteRows.length || req.body.deleteRows.length===0)
-		return next({message: "No deleteRows supplied"});
+  var panaxdb, deleteXML
 
-	/**
-	 * Build dataTable XML
-	 */
-	var deleteXML = xml.dataTable(req.body);
+  if (!req.body.tableName) {
+    return next({
+      message: 'No tableName supplied',
+    })
+  }
+  if (!req.body.primaryKey && !req.body.identityKey) {
+    return next({
+      message: 'No primaryKey or identityKey supplied',
+    })
+  }
+  if (!req.body.deleteRows || !req.body.deleteRows.length || req.body.deleteRows.length === 0) {
+    return next({
+      message: 'No deleteRows supplied',
+    })
+  }
 
-	/**
-	 * PanaxJS
-	 */
-	var panaxdb = new PanaxJS.Connection(panax_config.instances[panax_config.default_instance]);
+  /**
+   * Build dataTable XML
+   */
+  deleteXML = xml.dataTable(req.body)
 
-	panaxdb.setParam('userId', req.session.userId);
+  /**
+   * PanaxJS
+   */
+  panaxdb = new PanaxJS.Connection(panaxConfig.instances[panaxConfig.default_instance])
 
-	panaxdb.persist(deleteXML, function (err, xml) {
-		if(err)
-			return next(err);
+  panaxdb.setParam('userId', req.session.userId)
 
-		PanaxJS.Util.parseResults(xml, function (err, results) {
-			if(err)
-				return next(err);
+  panaxdb.persist(deleteXML, function(err, xml) {
+    if (err) {
+      return next(err)
+    }
 
-			res.json({
-				success: true,
-				action: 'delete',
-				data: results
-			});
-		});
-	});
-});
+    PanaxJS.Util.parseResults(xml, function(err, results) {
+      if (err) {
+        return next(err)
+      }
+
+      res.json({
+        success: true,
+        action: 'delete',
+        data: results,
+      })
+    })
+  })
+})

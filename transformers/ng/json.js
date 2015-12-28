@@ -1,46 +1,51 @@
-var libxmljs = require('libxslt').libxmljs;
+var libxmljs = require('libxslt').libxmljs
 
 /*
 Helpers
  */
-var _helpers = require('../helpers');
-var $_keys = _helpers.$keys;
+var _helpers = require('../helpers')
+var $keys = _helpers.$keys
 
 /*
 Transformers
  */
-var _Model = require('./json.model.js');
-var _Fields = require('./json.fields.js');
-var _Metadata = require('./json.metadata.js');
+var _Model = require('./json.model.js')
+var _Fields = require('./json.fields.js')
+var _Metadata = require('./json.metadata.js')
 
 /*
 Main namespace
  */
-var _Main = exports;
+var _Main = exports
 
 /*
 Initialize Key Indexes
  */
 _Main.initKeyIndexes = function initKeyIndexes(Entity) {
-  $_keys['Fields'] = _helpers.createKeyIndex(Entity, "//px:fields/*[@fieldId]", 'fieldId');
-  $_keys['Data'] = _helpers.createKeyIndex(Entity, "//px:data/px:dataRow//*[@fieldId]", 'fieldId');
+  $keys.Fields = _helpers.createKeyIndex(Entity, '//px:fields/*[@fieldId]', 'fieldId')
+  $keys.Data = _helpers.createKeyIndex(Entity, '//px:data/px:dataRow//*[@fieldId]', 'fieldId')
 }
 
 /*
 Main async function
  */
-_Main.Transform = function(XMLEntity, callback) {
-	if(!XMLEntity)
-		return callback({ message: "Error: No XMLEntity provided" });
+_Main.transform = function(XMLEntity, callback) {
+  var Doc, Entity
 
-  var Doc = libxmljs.parseXmlString(XMLEntity);
-  var Entity = Doc.root();
+  if (!XMLEntity) {
+    return callback({
+      message: 'Error: No XMLEntity provided',
+    })
+  }
 
-	_Main.initKeyIndexes(Entity);
+  Doc = libxmljs.parseXmlString(XMLEntity)
+  Entity = Doc.root()
 
-	return callback(null, {
-		"model": _Model.Transform(Entity),
-		"fields": _Fields.Transform(Entity),
-		"metadata": _Metadata.Transform(Entity)
-	});
-};
+  _Main.initKeyIndexes(Entity)
+
+  return callback(null, {
+    model: _Model.transform(Entity),
+    fields: _Fields.transform(Entity),
+    metadata: _Metadata.transform(Entity),
+  })
+}

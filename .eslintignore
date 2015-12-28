@@ -3,6 +3,5 @@ node_modules
 coverage
 bin
 public
-test
 spec
 dist

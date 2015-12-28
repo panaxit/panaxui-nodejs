@@ -1,7 +1,7 @@
-var expect = require('chai').expect;
-var libxmljs = require('libxslt').libxmljs;
-var fs = require('fs');
-var _Metadata = require('../../../../transformers/ng/json.metadata');
+var expect = require('chai').expect
+var libxmljs = require('libxslt').libxmljs
+var fs = require('fs')
+var _Metadata = require('../../../../transformers/ng/json.metadata')
 
 describe('JSON: Entity\'s Metadata', function() {
 
@@ -11,83 +11,83 @@ describe('JSON: Entity\'s Metadata', function() {
       'CONTROLS_NestedForm',
       'CONTROLS_Basic',
       'CONTROLS_Advanced'
-    ];
+    ]
 
-    mocks.forEach(function (mock, index) {
+    mocks.forEach(function(mock, index) {
       it(mock, function() {
-        var xml = fs.readFileSync(__dirname + '/mocks/' + mock + '.xml');
-        var metadata = JSON.parse(fs.readFileSync(__dirname + '/mocks/' + mock + '.metadata.json'));
+        var xml = fs.readFileSync(__dirname + '/mocks/' + mock + '.xml')
+        var metadata = JSON.parse(fs.readFileSync(__dirname + '/mocks/' + mock + '.metadata.json'))
 
-        var Doc = libxmljs.parseXmlString(xml);
-        var Entity = Doc.root();
-        var result = _Metadata.Transform(Entity);
+        var Doc = libxmljs.parseXmlString(xml)
+        var Entity = Doc.root()
+        var result = _Metadata.transform(Entity)
 
-        expect(result).to.be.ok;
-        expect(result).to.deep.equal(metadata);
-      });
-    });
+        expect(result).to.be.ok
+        expect(result).to.deep.equal(metadata)
+      })
+    })
 
-  });
+  })
 
   it('should get metadata attributes', function() {
     var xml = '<Entity xmlns:px="urn:panax" xmlns:custom="http://www.panaxit.com/custom"' +
-              '   xml:lang="es" ' + 
-              '   dbId="Demo" ' +
-              '   pageSize="1" ' +
-              '   pageIndex="1" ' +
-              '   totalRecords="1" ' +
-              '   Table_Name="TestTable" ' +
-              '   Table_Schema="TestSchema" ' +
-              '   identityKey="Id" ' +
-              '   primaryKey="Id" ' +
-              '   supportsInsert="1" ' +
-              '   disableInsert="0" ' +
-              '   supportsUpdate="1" ' +
-              '   disableUpdate="0" ' +
-              '   supportsDelete="1" ' +
-              '   disableDelete="0" ' +
-              '   controlType="formView" ' +
-              '   mode="edit" ' +
-              '   custom:titleField="Nombre" ' +
-              '   custom:iconField="Imagen" ' +
-              '   custom:descField1="Tipo" ' +
-              '   custom:descField2="Direccion" ' +
-              '>' +
-              '</Entity>';
+      '   xml:lang="es" ' +
+      '   dbId="Demo" ' +
+      '   pageSize="1" ' +
+      '   pageIndex="1" ' +
+      '   totalRecords="1" ' +
+      '   Table_Name="TestTable" ' +
+      '   Table_Schema="TestSchema" ' +
+      '   identityKey="Id" ' +
+      '   primaryKey="Id" ' +
+      '   supportsInsert="1" ' +
+      '   disableInsert="0" ' +
+      '   supportsUpdate="1" ' +
+      '   disableUpdate="0" ' +
+      '   supportsDelete="1" ' +
+      '   disableDelete="0" ' +
+      '   controlType="formView" ' +
+      '   mode="edit" ' +
+      '   custom:titleField="Nombre" ' +
+      '   custom:iconField="Imagen" ' +
+      '   custom:descField1="Tipo" ' +
+      '   custom:descField2="Direccion" ' +
+      '>' +
+      '</Entity>'
 
-    var Doc = libxmljs.parseXmlString(xml);
-    var Entity = Doc.root();
-    var result = _Metadata.Transform(Entity);
+    var Doc = libxmljs.parseXmlString(xml)
+    var Entity = Doc.root()
+    var result = _Metadata.transform(Entity)
 
-    expect(result).to.be.ok;
+    expect(result).to.be.ok
     expect(result).to.to.deep.equal({
-      "dbId": 'Demo',
-      "catalogName": '[TestSchema].[TestTable]',
-      "schemaName": 'TestSchema',
-      "tableName": 'TestTable',
-      "mode": 'edit',
-      "controlType": 'formView',
-      "lang": 'es',
-      "primaryKey": 'Id',
-      "identityKey": 'Id',
-      "totalItems": 1,
-      "pageSize": 1,
-      "pageIndex": 1,
-      "permissions": {
-        "supportsInsert": '1',
-        "supportsUpdate": '1',
-        "supportsDelete": '1',
-        "disableInsert": '0',
-        "disableUpdate": '0',
-        "disableDelete": '0'
+      'dbId': 'Demo',
+      'catalogName': '[TestSchema].[TestTable]',
+      'schemaName': 'TestSchema',
+      'tableName': 'TestTable',
+      'mode': 'edit',
+      'controlType': 'formView',
+      'lang': 'es',
+      'primaryKey': 'Id',
+      'identityKey': 'Id',
+      'totalItems': 1,
+      'pageSize': 1,
+      'pageIndex': 1,
+      'permissions': {
+        'supportsInsert': '1',
+        'supportsUpdate': '1',
+        'supportsDelete': '1',
+        'disableInsert': '0',
+        'disableUpdate': '0',
+        'disableDelete': '0'
       },
-      "customAttrs": {
-        "titleField": "Nombre",
-        "iconField": "Imagen",
-        "descField1": "Tipo",
-        "descField2": "Direccion"
+      'customAttrs': {
+        'titleField': 'Nombre',
+        'iconField': 'Imagen',
+        'descField1': 'Tipo',
+        'descField2': 'Direccion'
       }
-    });
-  });
+    })
+  })
 
 });

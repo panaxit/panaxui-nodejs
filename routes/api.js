@@ -1,11 +1,13 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router() // eslint-disable-line new-cap
 
-module.exports = router;
+module.exports = router
 
 /**
  * GET /api
  */
-router.get('/', function (req, res, next) {
-  res.render('api', { title: 'PanaxUI API Description' });
-});
+router.get('/', function(req, res, next) { // eslint-disable-line no-unused-vars
+  res.render('api', {
+    title: 'PanaxUI API Description',
+  })
+})

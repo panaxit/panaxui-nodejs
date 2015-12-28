@@ -1,23 +1,22 @@
 /*
 Helpers
  */
-var _attr = require('../helpers').attr;
-var _el = require('../helpers').el;
+var _el = require('../helpers').el
 
 /*
 Main namespace
  */
-var _Main = exports;
+var _Main = exports
 
 /*
 Process PxCards Fields
  */
-_Main.Transform = function(Entity) {
-  var Layout = _el.get(Entity, 'px:layout');
+_Main.transform = function(Entity) {
+  var Layout = _el.get(Entity, 'px:layout')
 
-  return _Main.Layout(Layout);
-};
+  return _Main.layout(Layout)
+}
 
-_Main.Layout = function(Layout) {
-	return {};
-};
+_Main.layout = function() {
+  return {}
+}

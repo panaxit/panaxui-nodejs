@@ -1,13 +1,12 @@
-var express = require('express');
-var router = express.Router();
-var libxslt = require('libxslt');
-var PanaxJS = require('panaxjs');
-var panax_config = require('../config/panax.js');
+var express = require('express')
+var router = express.Router() // eslint-disable-line new-cap
+var PanaxJS = require('panaxjs')
+var panaxConfig = require('../config/panax.js')
 
-var auth = require('../lib/auth.js');
-var xml = require('../transformers/xml.js');
+var auth = require('../lib/auth.js')
+var xml = require('../transformers/xml.js')
 
-module.exports = router;
+module.exports = router
 
 /**
  * POST /api/filters
@@ -15,37 +14,47 @@ module.exports = router;
  * Get Filters
  */
 router.post('/', auth.requiredAuth, function read(req, res, next) {
-	if (!req.body.tableName)
-		return next({message: "No tableName supplied"});
-	if (!req.body.dataRows || !req.body.dataRows.length || req.body.dataRows.length===0)
-		return next({message: "No dataRows supplied"});
+  var panaxdb, filtersXML, jsTransformer
 
-	/**
-	 * Build dataTable XML
-	 */
-	var filtersXML = xml.dataTable(req.body);
+  if (!req.body.tableName) {
+    return next({
+      message: 'No tableName supplied',
+    })
+  }
+  if (!req.body.dataRows || !req.body.dataRows.length || req.body.dataRows.length === 0) {
+    return next({
+      message: 'No dataRows supplied',
+    })
+  }
 
-	/**
-	 * PanaxJS
-	 */
-	var panaxdb = new PanaxJS.Connection(panax_config.instances[panax_config.default_instance]);
+  /**
+   * Build dataTable XML
+   */
+  filtersXML = xml.dataTable(req.body)
 
-	panaxdb.setParam('userId', req.session.userId);
+  /**
+   * PanaxJS
+   */
+  panaxdb = new PanaxJS.Connection(panaxConfig.instances[panaxConfig.default_instance])
 
-  var JSTransformer = require('../transformers/filters.js');
-  JSTransformer.Transform(filtersXML, function(err, result) {
-    if (err) 
-      return next(err);
+  panaxdb.setParam('userId', req.session.userId)
 
-    panaxdb.filters(result, function (err, filters) {
-      if(err)
-        return next(err);
+  jsTransformer = require('../transformers/filters.js')
+  jsTransformer.transform(filtersXML, function(err, result) {
+    if (err) {
+      return next(err)
+    }
+
+    panaxdb.filters(result, function(err, filters) {
+      if (err) {
+        return next(err)
+      }
 
       res.json({
         success: true,
         action: 'filters',
-        data: filters
-      });
-    });
-  });
-});
+        data: filters,
+      })
+    })
+  })
+})

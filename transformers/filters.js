@@ -1,83 +1,90 @@
-var libxmljs = require('libxslt').libxmljs;
+var libxmljs = require('libxslt').libxmljs
 
 /*
 Helpers
  */
-var _attr = require('./helpers').attr;
-var _el = require('./helpers').el;
+var _attr = require('./helpers').attr
+var _el = require('./helpers').el
 
 /*
 Main namespace
  */
-var _Main = exports;
+var _Main = exports
 
 /*
 Main async function
  */
-_Main.Transform = function(XMLFilters, callback) {
-  if(!XMLFilters)
-    return callback({ message: "Error: No XMLFilters provided" });
+_Main.transform = function(XMLFilters, callback) {
+  var Doc, DataTable
 
-  var Doc = libxmljs.parseXmlString(XMLFilters);
-  var DataTable = Doc.root();
+  if (!XMLFilters) {
+    return callback({
+      message: 'Error: No XMLFilters provided',
+    })
+  }
 
-  return callback(null, _Main.Filters(DataTable));
-};
+  Doc = libxmljs.parseXmlString(XMLFilters)
+  DataTable = Doc.root()
 
-_Main.Filters = function(DataTable) {
-  var xml_doc = new libxmljs.Document();
-  var dataTable = xml_doc.node('dataTable');
+  return callback(null, _Main.filters(DataTable))
+}
 
-  // Copy all attrs 
-  _attr.copyAll(DataTable, dataTable);
+_Main.filters = function(DataTable) {
+  var xmlDoc = new libxmljs.Document()
+  var dataTable = xmlDoc.node('dataTable')
+  var DataRows = _el.find(DataTable, '*')
+
+  // Copy all attrs
+  _attr.copyAll(DataTable, dataTable)
 
   // Add Data Rows
-  var DataRows = _el.find(DataTable, '*');
-  DataRows.forEach(function(DataRow, index) {
-    dataTable.addChild(_Main.DataRow(xml_doc, DataRow));
-  });
+  DataRows.forEach(function(DataRow) {
+    dataTable.addChild(_Main.dataRow(xmlDoc, DataRow))
+  })
 
-  return xml_doc.toString();
-};
+  return xmlDoc.toString()
+}
 
-_Main.DataRow = function(xml_doc, DataRow) {
-  var Fields = _el.find(DataRow, '*');
+_Main.dataRow = function(xmlDoc, DataRow) {
+  var Fields = _el.find(DataRow, '*')
+  var filterGroup = new libxmljs.Element(xmlDoc, 'filterGroup')
+  
+  filterGroup.attr({
+    operator: 'AND',
+  })
 
-  var filterGroup = new libxmljs.Element(xml_doc, 'filterGroup');
-  filterGroup.attr({'operator': 'AND'});
+  Fields.forEach(function(Field) {
+    filterGroup.addChild(_Main.dataField(xmlDoc, Field))
+  })
 
-  Fields.forEach(function(Field, index) {
-    filterGroup.addChild(_Main.DataField(xml_doc, Field));
-  });
+  return filterGroup
+}
 
-  return filterGroup;
-};
+_Main.dataField = function(xmlDoc, DataField) {
+  var dataField = new libxmljs.Element(xmlDoc, 'dataField')
+  var value = DataField.text()
+  var filterGroup = new libxmljs.Element(xmlDoc, 'filterGroup')
+  var attrObject = {}
 
-_Main.DataField = function(xml_doc, DataField) {
-  var dataField = new libxmljs.Element(xml_doc, 'dataField');
-  var value = DataField.text();
-  var filterGroup = new libxmljs.Element(xml_doc, 'filterGroup');
-  var attrObject = {};
-
-  // Copy all attrs 
-  _attr.copyAll(DataField, dataField);
+  // Copy all attrs
+  _attr.copyAll(DataField, dataField)
 
   // string or number?
-  attrObject.operator = value.indexOf("''") === 0 ? 'LIKE' : '=';
-  filterGroup.attr(attrObject);
+  attrObject.operator = value.indexOf("''") === 0 ? 'LIKE' : '='
+  filterGroup.attr(attrObject)
 
-  filterGroup.addChild(_Main.DataValue(xml_doc, DataField));
+  filterGroup.addChild(_Main.dataValue(xmlDoc, DataField))
 
-  dataField.addChild(filterGroup);
+  dataField.addChild(filterGroup)
 
-  return dataField;
-};
+  return dataField
+}
 
-_Main.DataValue = function(xml_doc, DataField) {
-  var dataValue = new libxmljs.Element(xml_doc, 'dataValue');
-  var value = DataField.text();
+_Main.dataValue = function(xmlDoc, DataField) {
+  var dataValue = new libxmljs.Element(xmlDoc, 'dataValue')
+  var value = DataField.text()
 
-  dataValue.text(value);
+  dataValue.text(value)
 
-  return dataValue;
-};
+  return dataValue
+}

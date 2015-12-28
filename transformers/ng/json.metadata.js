@@ -1,76 +1,107 @@
 /*
 Helpers
  */
-var _attr = require('../helpers').attr;
-var _el = require('../helpers').el;
+var _ = require('lodash')
+var _el = require('../helpers').el
 
 /*
 Main namespace
  */
-var _Main = exports;
+var _Main = exports
 
 /*
 Process _Metadata
  */
-_Main.Transform = function(Entity) {
-	var attrs = _el.customAttrs(Entity);
-  var result = {};
+_Main.transform = function(Entity) {
+  var attrs = _el.customAttrs(Entity)
+  var result = {}
 
-  /* BasicMetadata */
-  var dbId = attrs['dbId'],
-      catalogName = '[' + attrs['Table_Schema'] + ']' + '.' + '[' + attrs['Table_Name'] + ']',
-      schemaName = attrs['Table_Schema'],
-      tableName = attrs['Table_Name'],
-      mode = attrs['mode'],
-      controlType = attrs['controlType'],
-      lang = attrs['lang'];
+  _.assign(result,
+    _Main.basicMetadata(attrs),
+    _Main.paginationMetadata(attrs),
+    _Main.keysRefsMetadata(attrs),
+    _Main.cutomAttributesMetadata(attrs)
+  )
 
-  if(dbId) result['dbId'] = dbId;
-  if(catalogName) result['catalogName'] = catalogName;
-  if(schemaName) result['schemaName'] = schemaName;
-  if(tableName) result['tableName'] = tableName;
-  if(mode) result['mode'] = mode;
-  if(controlType) result['controlType'] = controlType;
-  if(lang) result['lang'] = lang;	
-  
-  /* Pagination _attributes */
-  var totalRecords = parseInt(attrs['totalRecords']),
-      pageSize = parseInt(attrs['pageSize']),
-      pageIndex = parseInt(attrs['pageIndex']);
+  result.permissions = _Main.dataAccessMetadata(attrs)
 
-  if(!isNaN(totalRecords)) result["totalItems"] = totalRecords;
-  if(!isNaN(pageSize)) result["pageSize"] = pageSize;
-  if(!isNaN(pageIndex)) result["pageIndex"] = pageIndex;
+  return result
+}
 
-  /* Keys & References */
-  var primaryKey = attrs['primaryKey'],
-      identityKey = attrs['identityKey'],
-      foreignReference = attrs['foreignReference'];
+/*
+Basic Metadata
+ */
+_Main.basicMetadata = function(attrs) {
+  var result = {}
 
-  if(primaryKey) result['primaryKey'] = primaryKey;
-  if(identityKey) result['identityKey'] = identityKey;
-  if(foreignReference) result['foreignReference'] = foreignReference;
+  _.assign(result, _.pick(attrs, [
+    'dbId', 'mode', 'controlType', 'lang',
+  ]), {
+    catalogName: '[' + attrs.Table_Schema + ']' + '.' + '[' + attrs.Table_Name + ']',
+    schemaName: attrs.Table_Schema,
+    tableName: attrs.Table_Name,
+  })
 
-  /* Custom Attributes */
-  if(Object.keys(attrs.customAttrs).length)
-    result["customAttrs"] = attrs.customAttrs;
+  return result
+}
 
-  /* Data Access FieldMetadata */
-  result['permissions'] = {};
+/*
+Pagination Metadata
+ */
+_Main.paginationMetadata = function(attrs) {
+  var result = {}
 
-  var supportsInsert = attrs['supportsInsert'],
-      supportsUpdate = attrs['supportsUpdate'],
-      supportsDelete = attrs['supportsDelete'],
-      disableInsert = attrs['disableInsert'],
-      disableUpdate = attrs['disableUpdate'],
-      disableDelete = attrs['disableDelete'];
+  _.assign(result, _.pick({
+    totalItems: parseInt(attrs.totalRecords, 10),
+    pageSize: parseInt(attrs.pageSize, 10),
+    pageIndex: parseInt(attrs.pageIndex, 10),
+  }, function(val) {
+    return !isNaN(val)
+  }))
 
-  if(supportsInsert) result['permissions']['supportsInsert'] = supportsInsert;
-  if(supportsUpdate) result['permissions']['supportsUpdate'] = supportsUpdate;
-  if(supportsDelete) result['permissions']['supportsDelete'] = supportsDelete;
-  if(disableInsert) result['permissions']['disableInsert'] = disableInsert;
-  if(disableUpdate) result['permissions']['disableUpdate'] = disableUpdate;
-  if(disableDelete) result['permissions']['disableDelete'] = disableDelete;
+  return result
+}
 
-  return result;
-};
+/*
+Keys & References
+ */
+_Main.keysRefsMetadata = function(attrs) {
+  var result = {}
+
+  _.assign(result, _.pick(_.pick(attrs, [
+    'primaryKey', 'identityKey', 'foreignReference',
+  ]), function(val) {
+    return val !== undefined
+  }))
+
+  return result
+}
+
+/*
+Custom Attributes
+ */
+_Main.cutomAttributesMetadata = function(attrs) {
+  var result = {}
+
+  if (Object.keys(attrs.customAttrs).length) {
+    result.customAttrs = attrs.customAttrs
+  }
+
+  return result
+}
+
+/*
+Data Access Metadata
+ */
+_Main.dataAccessMetadata = function(attrs) {
+  var result = {}
+
+  _.assign(result, _.pick(_.pick(attrs, [
+    'supportsInsert', 'supportsUpdate', 'supportsDelete',
+    'disableInsert', 'disableUpdate', 'disableDelete',
+  ]), function(val) {
+    return val !== undefined
+  }))
+
+  return result
+}

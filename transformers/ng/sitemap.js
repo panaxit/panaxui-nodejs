@@ -1,75 +1,82 @@
-var libxmljs = require('libxslt').libxmljs;
+var libxmljs = require('libxslt').libxmljs
 
 /*
 Helpers
  */
-var _attr = require('../helpers').attr;
-var _el = require('../helpers').el;
+var _attr = require('../helpers').attr
+var _el = require('../helpers').el
 
 /*
 Main namespace
  */
-var _Main = exports;
+var _Main = exports
 
 /*
 Main async function
  */
-_Main.Transform = function(XMLSitemap, callback) {
-  if(!XMLSitemap)
-    return callback({ message: "Error: No XMLSitemap provided" });
+_Main.transform = function(XMLSitemap, callback) {
+  var Doc, Sitemap
 
-  var Doc = libxmljs.parseXmlString(XMLSitemap);
-  var Sitemap = Doc.root();
-
-  return callback(null, _Main.Sitemap(Sitemap));
-};
-
-_Main.Sitemap = function(Sitemap) {
-  var Children = _el.find(Sitemap, '*');
-  return _Main.Children(Children);
-};
-
-_Main.Children = function(Children) {
-  var sitemap = [];
-
-  Children.forEach(function (Child, index) {
-    sitemap.push(_Main.Child(Child));
-  });
-
-  return sitemap;
-};
-
-_Main.Child = function(Child) {
-  var result = {
-    "label": _attr.val(Child, 'title'),
-    "data": _Main.Attributes(Child)
-  };
-
-  var expanded = _attr.val(Child, 'expanded');
-  if(expanded)
-    result.expanded = _Main.BoolValue(expanded);
-  var expandable = _attr.val(Child, 'expandable');
-  if(expandable)
-    result.expandable = _Main.BoolValue(expandable);
-
-  if(_el.name(Child) === 'menu') {
-    var Children = _el.find(Child, '*');
-    result.children = _Main.Children(Children);
+  if (!XMLSitemap) {
+    return callback({
+      message: 'Error: No XMLSitemap provided',
+    })
   }
-  if(_el.name(Child) === 'catalog') {
+
+  Doc = libxmljs.parseXmlString(XMLSitemap)
+  Sitemap = Doc.root()
+
+  return callback(null, _Main.sitemap(Sitemap))
+}
+
+_Main.sitemap = function(Sitemap) {
+  var Children = _el.find(Sitemap, '*')
+  return _Main.children(Children)
+}
+
+_Main.children = function(Children) {
+  var sitemap = []
+
+  Children.forEach(function(Child) {
+    sitemap.push(_Main.child(Child))
+  })
+
+  return sitemap
+}
+
+_Main.child = function(Child) {
+  var result = {
+    label: _attr.val(Child, 'title'),
+    data: _Main.attributes(Child),
+  }
+  var expanded = _attr.val(Child, 'expanded')
+  var expandable = _attr.val(Child, 'expandable')
+  var Children
+
+  if (expanded) {
+    result.expanded = _Main.boolValue(expanded)
+  }
+  if (expandable) {
+    result.expandable = _Main.boolValue(expandable)
+  }
+  if (_el.name(Child) === 'menu') {
+    Children = _el.find(Child, '*')
+    result.children = _Main.children(Children)
+  }
+  if (_el.name(Child) === 'catalog') {
     // var lang = _attr(Child.get('ancestor-or-self::*[@xml:lang]'), 'lang');
     // result.lang = lang;
   }
 
-  return result;
-};
+  return result
+}
 
-_Main.Attributes = function(Child) {
-  var result = {};
+_Main.attributes = function(Child) {
+  var result = {}
   var integerAttrs = [
-    'pageSize', 
-    'pageIndex'
-  ];
+    'pageSize',
+    'pageIndex',
+  ]
   var stringAttrs = [
     'catalogName',
     'mode',
@@ -79,26 +86,26 @@ _Main.Attributes = function(Child) {
     'primaryKey',
     'identityKey',
     'id',
-    'filters'
-  ];
+    'filters',
+  ]
 
-  Child.attrs().forEach(function (attr, index) {
-    var name = attr.name();
-    var value = attr.value();
-    if(integerAttrs.indexOf(name) >= 0) {
-      result[name] = _Main.IntValue(value)
-    } else if(stringAttrs.indexOf(name) >= 0) {
-      result[name] = value;
+  Child.attrs().forEach(function(attr) {
+    var name = attr.name()
+    var value = attr.value()
+    if (integerAttrs.indexOf(name) >= 0) {
+      result[name] = _Main.intValue(value)
+    } else if (stringAttrs.indexOf(name) >= 0) {
+      result[name] = value
     }
-  });
+  })
 
-  return result;
+  return result
 }
 
-_Main.IntValue = function(value) {
-  return isNaN(parseInt(value)) ? null : parseInt(value);
+_Main.intValue = function(value) {
+  return isNaN(parseInt(value, 10)) ? null : parseInt(value, 10)
 }
 
-_Main.BoolValue = function(value) {
-  return value === "true";
+_Main.boolValue = function(value) {
+  return value === 'true'
 }
