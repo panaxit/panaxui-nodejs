@@ -7,6 +7,7 @@
   "private": true,
   "license": "Copyright 2015 PanaxIT (R)",
   "scripts": {
+    "commit": "git-cz",
     "start": "NODE_ENV=development node node_modules/nodemon/bin/nodemon.js -i cache ./bin/www",
     "start:forever": "node node_modules/forever/bin/forever start ./bin/www",
     "restart:forever": "node node_modules/forever/bin/forever restartall",
@@ -21,6 +22,9 @@
   "config": {
     "ghooks": {
       "pre-commit": "npm run eslint && npm test"
+    },
+    "commitizen" :{
+      "path": "node_modules/cz-conventional-changelog"
     }
   },
   "repository": {
@@ -49,6 +53,8 @@
   },
   "devDependencies": {
     "chai": "^3.0.0",
+    "commitizen": "^2.4.6",
+    "cz-conventional-changelog": "^1.1.5",
     "eslint": "^1.10.3",
     "forever": "^0.14.1",
     "ghooks": "^0.3.2",
