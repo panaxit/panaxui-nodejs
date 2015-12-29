@@ -15,8 +15,8 @@
     "test:remote": "node ./node_modules/istanbul/lib/cli.js cover -x \"config/*\" ./node_modules/mocha/bin/_mocha",
     "test:local": "NODE_ENV=testing npm run test:remote",
     "test": "npm run test:local",
-    "eslint": "node node_modules/.bin/eslint -c .eslintrc *.js {lib,routes,transformers}/**/*.js",
-    "eslint:fix": "node node_modules/.bin/eslint --fix -c .eslintrc *.js {lib,routes,transformers}/**/*.js"
+    "eslint": "node node_modules/.bin/eslint -c .eslintrc *.js {lib,routes,transformers}/",
+    "eslint:fix": "node node_modules/.bin/eslint --fix -c .eslintrc *.js {lib,routes,transformers}/"
   },
   "config": {
     "ghooks": {
