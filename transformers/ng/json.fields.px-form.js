@@ -213,7 +213,7 @@ _Main.fieldForeignKey = function(Field) {
   return field
 }
 
-//async_select
+//asyncSelect
 // ToDo: panel wrapper, headerText from parent FieldMetadata
 _Main.cascaded = function(FieldMetadata, Data, cascaded) {
   var headerText, Child
@@ -223,7 +223,7 @@ _Main.cascaded = function(FieldMetadata, Data, cascaded) {
     cascaded = [{
       className: 'flex-1',
       key: _el.name(FieldMetadata),
-      type: 'async_select',
+      type: 'asyncSelect',
       /*
       formState as model tells angular-formly to treat the field only as ui support,
       not part of regular model
@@ -481,7 +481,7 @@ _Main.foreignKeyTypes = function(FieldMetadata) {
     switch (controlType) {
       default:
       case 'combobox':
-        return 'async_select'
+        return 'asyncSelect'
       case 'radiogroup':
         return 'radio'
     }

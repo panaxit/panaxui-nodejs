@@ -401,7 +401,7 @@ describe('px-form', function() {
       )
     })
 
-    it('async_select', function() {
+    it('asyncSelect', function() {
       var xml = '<Entity xmlns:px="urn:panax" controlType="formView">' +
         ' <px:fields>' +
         '   <Combobox fieldId="ID00" fieldName="Combobox" headerText="Combo box" dataType="foreignKey" relationshipType="belongsTo" length="2" controlType="combobox">' +
@@ -428,7 +428,7 @@ describe('px-form', function() {
             'fieldGroup': [{
               'className': 'flex-1',
               'key': 'Combobox',
-              'type': 'async_select',
+              'type': 'asyncSelect',
               'templateOptions': {
                 'label': 'Combo box',
                 'placeholder': '',
@@ -489,7 +489,7 @@ describe('px-form', function() {
             'fieldGroup': [{
               'className': 'flex-1',
               'key': 'Country',
-              'type': 'async_select',
+              'type': 'asyncSelect',
               'model': 'formState',
               'templateOptions': {
                 'label': 'Country',
@@ -505,7 +505,7 @@ describe('px-form', function() {
             }, {
               'className': 'flex-1',
               'key': 'State',
-              'type': 'async_select',
+              'type': 'asyncSelect',
               'model': 'formState',
               'templateOptions': {
                 'label': 'State',
@@ -524,7 +524,7 @@ describe('px-form', function() {
             }, {
               'className': 'flex-1',
               'key': 'BirthPlace',
-              'type': 'async_select',
+              'type': 'asyncSelect',
               'templateOptions': {
                 'label': 'Birth Place',
                 'placeholder': '',

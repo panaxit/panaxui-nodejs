@@ -71,7 +71,7 @@
                 {  
                   "className":"flex-1",
                   "key":"Combobox",
-                  "type":"async_select",
+                  "type":"asyncSelect",
                   "templateOptions":{  
                     "options":[  
 
