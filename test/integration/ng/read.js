@@ -258,6 +258,29 @@ describe('read', function() {
           })
       })
 
+      it('should fail to read fileTemplate [asFile]', function(done) {
+        var query = querystring.stringify({
+          gui: 'ng',
+          output: 'pate',
+          filters: "'id=1'",
+          catalogName: '[TestSchema].[Pais]', // has no fileTemplate defined
+          controlType: 'fileTemplate',
+          mode: 'readonly',
+          asFile: true
+        })
+
+        api.get('/api/read?' + query)
+          .set('Accept', 'application/json')
+          .set('Cookie', cookie) // Pass session cookie with each request
+          .expect(500)
+          .expect('Content-Type', /json/)
+          .end(function(err, res) {
+            if (err) return done(err)
+            expect(res.body.success).to.be.false
+            done()
+          })
+      })
+
     })
 
   })
