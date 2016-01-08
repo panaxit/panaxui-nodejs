@@ -202,6 +202,62 @@ describe('read', function() {
 
     describe('output: pate', function() {
 
+      it('should read fileTemplate', function(done) {
+        var query = querystring.stringify({
+          gui: 'ng',
+          output: 'pate',
+          filters: "'id=1'",
+          catalogName: '[TestSchema].[CONTROLS_Basic]',
+          controlType: 'fileTemplate',
+          mode: 'readonly'
+        })
+
+        api.get('/api/read?' + query)
+          .set('Accept', 'application/json')
+          .set('Cookie', cookie) // Pass session cookie with each request
+          .expect(200)
+          .expect('Content-Type', /json/)
+          .end(function(err, res) {
+            if (err) return done(err)
+            expect(res.body.success).to.be.true
+            expect(res.body.action).to.equal('read')
+            expect(res.body.gui).to.equal('ng')
+            expect(res.body.output).to.equal('pate')
+            expect(res.body.template).to.exist
+            expect(res.body.template.contentType).to.exist
+            expect(res.body.template.template).to.exist
+            expect(res.body.data.metadata.totalItems).to.equal(1)
+            expect(res.body.data.metadata.dbId).to.equal(panax_instance.db.database)
+            expect(res.body.data.metadata.catalogName).to.equal('[TestSchema].[CONTROLS_Basic]')
+            expect(res.body.data.metadata.controlType).to.equal('fileTemplate')
+            expect(res.body.data.metadata.mode).to.equal('readonly')
+            done()
+          })
+      })
+
+      it('should read fileTemplate [asFile]', function(done) {
+        var query = querystring.stringify({
+          gui: 'ng',
+          output: 'pate',
+          filters: "'id=1'",
+          catalogName: '[TestSchema].[CONTROLS_Basic]',
+          controlType: 'fileTemplate',
+          mode: 'readonly',
+          asFile: true
+        })
+
+        api.get('/api/read?' + query)
+          .set('Accept', 'application/json')
+          .set('Cookie', cookie) // Pass session cookie with each request
+          .expect(200)
+          .expect('Content-Type', /html/)
+          .end(function(err, res) {
+            if (err) return done(err)
+            expect(res.body).to.be.ok
+            done()
+          })
+      })
+
     })
 
   })

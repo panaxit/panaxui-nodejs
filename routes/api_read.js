@@ -96,8 +96,7 @@ router.get('/', auth.requiredAuth, function read(req, res, next) {
               if (err) {
                 return next(err)
               }
-
-              if (req.query.asFile === true) {
+              if (req.query.asFile) {
                 res.header('Content-Type', mimeType)
                 res.send(template)
               } else {

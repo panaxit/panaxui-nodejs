@@ -106,6 +106,8 @@ EXEC sys.sp_addextendedproperty @name=N'@moveBefore', @value=N'Combobox' , @leve
 GO
 EXEC sys.sp_addextendedproperty @name=N'@tab', @value=N'Otros' , @level0type=N'SCHEMA',@level0name=N'TestSchema', @level1type=N'TABLE',@level1name=N'CONTROLS_Basic', @level2type=N'COLUMN',@level2name=N'Money'
 GO
+EXEC sys.sp_addextendedproperty @name=N'@fileTemplate', @value=N'example.html' , @level0type=N'SCHEMA',@level0name=N'TestSchema', @level1type=N'TABLE',@level1name=N'CONTROLS_Basic'
+GO
 EXEC sys.sp_addextendedproperty @name=N'[CONTROLS_Grid]@mode', @value=N'inherit' , @level0type=N'SCHEMA',@level0name=N'TestSchema', @level1type=N'TABLE',@level1name=N'CONTROLS_NestedGrid'
 GO
 EXEC sys.sp_addextendedproperty @name=N'[CONTROLS_Grid]scaffold', @value=N'true' , @level0type=N'SCHEMA',@level0name=N'TestSchema', @level1type=N'TABLE',@level1name=N'CONTROLS_NestedGrid'
