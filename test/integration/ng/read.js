@@ -69,132 +69,140 @@ describe('read', function() {
 
   describe('while logged in', function() {
 
-    it('should read gridView/readonly', function(done) {
-      var query = querystring.stringify({
-        gui: 'ng',
-        output: 'json',
-        catalogName: '[TestSchema].[CONTROLS_Basic]',
-        controlType: 'gridView',
-        mode: 'readonly',
-        pageSize: '5',
-        pageIndex: '9'
+    describe('output: json', function() {
+
+      it('should read gridView/readonly', function(done) {
+        var query = querystring.stringify({
+          gui: 'ng',
+          output: 'json',
+          catalogName: '[TestSchema].[CONTROLS_Basic]',
+          controlType: 'gridView',
+          mode: 'readonly',
+          pageSize: '5',
+          pageIndex: '9'
+        })
+
+        api.get('/api/read?' + query)
+          .set('Accept', 'application/json')
+          .set('Cookie', cookie) // Pass session cookie with each request
+          .expect(200)
+          .expect('Content-Type', /json/)
+          .end(function(err, res) {
+            if (err) return done(err)
+            expect(res.body.success).to.be.true
+            expect(res.body.action).to.equal('read')
+            expect(res.body.gui).to.equal('ng')
+            expect(res.body.output).to.equal('json')
+            expect(res.body.data.model.length).to.equal(42 - (5 * (Math.floor((42 / 5))))) // totalRecords-(pageSize*(Math.floor((total/pageSize))))
+            expect(res.body.data.metadata.totalItems).to.equal(42)
+            expect(res.body.data.metadata.dbId).to.equal(panax_instance.db.database)
+            expect(res.body.data.metadata.catalogName).to.equal('[TestSchema].[CONTROLS_Basic]')
+            expect(res.body.data.metadata.controlType).to.equal('gridView')
+            expect(res.body.data.metadata.mode).to.equal('readonly')
+            expect(res.body.data.metadata.primaryKey).to.equal('Id')
+            expect(res.body.data.metadata.identityKey).to.equal('Id')
+            done()
+          })
       })
 
-      api.get('/api/read?' + query)
-        .set('Accept', 'application/json')
-        .set('Cookie', cookie) // Pass session cookie with each request
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if (err) return done(err)
-          expect(res.body.success).to.be.true
-          expect(res.body.action).to.equal('read')
-          expect(res.body.gui).to.equal('ng')
-          expect(res.body.output).to.equal('json')
-          expect(res.body.data.model.length).to.equal(42 - (5 * (Math.floor((42 / 5))))) // totalRecords-(pageSize*(Math.floor((total/pageSize))))
-          expect(res.body.data.metadata.totalItems).to.equal(42)
-          expect(res.body.data.metadata.dbId).to.equal(panax_instance.db.database)
-          expect(res.body.data.metadata.catalogName).to.equal('[TestSchema].[CONTROLS_Basic]')
-          expect(res.body.data.metadata.controlType).to.equal('gridView')
-          expect(res.body.data.metadata.mode).to.equal('readonly')
-          expect(res.body.data.metadata.primaryKey).to.equal('Id')
-          expect(res.body.data.metadata.identityKey).to.equal('Id')
-          done()
+      it('should read cardsView/readonly', function(done) {
+        var query = querystring.stringify({
+          gui: 'ng',
+          output: 'json',
+          catalogName: '[TestSchema].[CONTROLS_Basic]',
+          controlType: 'cardsView',
+          mode: 'readonly'
         })
-    })
 
-    it('should read cardsView/readonly', function(done) {
-      var query = querystring.stringify({
-        gui: 'ng',
-        output: 'json',
-        catalogName: '[TestSchema].[CONTROLS_Basic]',
-        controlType: 'cardsView',
-        mode: 'readonly'
+        api.get('/api/read?' + query)
+          .set('Accept', 'application/json')
+          .set('Cookie', cookie) // Pass session cookie with each request
+          .expect(200)
+          .expect('Content-Type', /json/)
+          .end(function(err, res) {
+            if (err) return done(err)
+            expect(res.body.success).to.be.true
+            expect(res.body.action).to.equal('read')
+            expect(res.body.gui).to.equal('ng')
+            expect(res.body.output).to.equal('json')
+            expect(res.body.data.model.length).to.equal(42)
+            expect(res.body.data.metadata.totalItems).to.equal(42)
+            expect(res.body.data.metadata.dbId).to.equal(panax_instance.db.database)
+            expect(res.body.data.metadata.catalogName).to.equal('[TestSchema].[CONTROLS_Basic]')
+            expect(res.body.data.metadata.controlType).to.equal('cardsView')
+            expect(res.body.data.metadata.mode).to.equal('readonly')
+            expect(res.body.data.metadata.primaryKey).to.equal('Id')
+            expect(res.body.data.metadata.identityKey).to.equal('Id')
+            done()
+          })
       })
 
-      api.get('/api/read?' + query)
-        .set('Accept', 'application/json')
-        .set('Cookie', cookie) // Pass session cookie with each request
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if (err) return done(err)
-          expect(res.body.success).to.be.true
-          expect(res.body.action).to.equal('read')
-          expect(res.body.gui).to.equal('ng')
-          expect(res.body.output).to.equal('json')
-          expect(res.body.data.model.length).to.equal(42)
-          expect(res.body.data.metadata.totalItems).to.equal(42)
-          expect(res.body.data.metadata.dbId).to.equal(panax_instance.db.database)
-          expect(res.body.data.metadata.catalogName).to.equal('[TestSchema].[CONTROLS_Basic]')
-          expect(res.body.data.metadata.controlType).to.equal('cardsView')
-          expect(res.body.data.metadata.mode).to.equal('readonly')
-          expect(res.body.data.metadata.primaryKey).to.equal('Id')
-          expect(res.body.data.metadata.identityKey).to.equal('Id')
-          done()
+      it('should read formView/readonly', function(done) {
+        var query = querystring.stringify({
+          gui: 'ng',
+          output: 'json',
+          filters: "'id=1'",
+          catalogName: '[TestSchema].[CONTROLS_Basic]',
+          controlType: 'formView',
+          mode: 'readonly'
         })
-    })
 
-    it('should read formView/readonly', function(done) {
-      var query = querystring.stringify({
-        gui: 'ng',
-        output: 'json',
-        filters: "'id=1'",
-        catalogName: '[TestSchema].[CONTROLS_Basic]',
-        controlType: 'formView',
-        mode: 'readonly'
+        api.get('/api/read?' + query)
+          .set('Accept', 'application/json')
+          .set('Cookie', cookie) // Pass session cookie with each request
+          .expect(200)
+          .expect('Content-Type', /json/)
+          .end(function(err, res) {
+            if (err) return done(err)
+            expect(res.body.success).to.be.true
+            expect(res.body.action).to.equal('read')
+            expect(res.body.gui).to.equal('ng')
+            expect(res.body.output).to.equal('json')
+            expect(res.body.data.model.length).to.equal(1)
+            expect(res.body.data.metadata.totalItems).to.equal(1)
+            expect(res.body.data.metadata.dbId).to.equal(panax_instance.db.database)
+            expect(res.body.data.metadata.catalogName).to.equal('[TestSchema].[CONTROLS_Basic]')
+            expect(res.body.data.metadata.controlType).to.equal('formView')
+            expect(res.body.data.metadata.mode).to.equal('readonly')
+            //expect(res.body.data.metadata.primaryKey).to.equal('Id');
+            //expect(res.body.data.metadata.identityKey).to.equal('Id');
+            done()
+          })
       })
 
-      api.get('/api/read?' + query)
-        .set('Accept', 'application/json')
-        .set('Cookie', cookie) // Pass session cookie with each request
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if (err) return done(err)
-          expect(res.body.success).to.be.true
-          expect(res.body.action).to.equal('read')
-          expect(res.body.gui).to.equal('ng')
-          expect(res.body.output).to.equal('json')
-          expect(res.body.data.model.length).to.equal(1)
-          expect(res.body.data.metadata.totalItems).to.equal(1)
-          expect(res.body.data.metadata.dbId).to.equal(panax_instance.db.database)
-          expect(res.body.data.metadata.catalogName).to.equal('[TestSchema].[CONTROLS_Basic]')
-          expect(res.body.data.metadata.controlType).to.equal('formView')
-          expect(res.body.data.metadata.mode).to.equal('readonly')
-          //expect(res.body.data.metadata.primaryKey).to.equal('Id');
-          //expect(res.body.data.metadata.identityKey).to.equal('Id');
-          done()
+      it('should read options', function(done) {
+        var query = querystring.stringify({
+          gui: 'ng',
+          //array: true, // to skip headers
+          catalogName: '[TestSchema].[Pais]',
+          valueColumn: 'Id',
+          textColumn: 'Pais'
         })
-    })
 
-    it('should read options', function(done) {
-      var query = querystring.stringify({
-        gui: 'ng',
-        //array: true, // to skip headers
-        catalogName: '[TestSchema].[Pais]',
-        valueColumn: 'Id',
-        textColumn: 'Pais'
+        api.get('/api/options?' + query)
+          .set('Accept', 'application/json')
+          .set('Cookie', cookie) // Pass session cookie with each request
+          .expect(200)
+          .expect('Content-Type', /json/)
+          .end(function(err, res) {
+            if (err) return done(err)
+            expect(res.body.success).to.be.true
+            expect(res.body.action).to.equal('options')
+            expect(res.body.gui).to.equal('ng')
+            expect(res.body.data.length).to.be.above(0)
+            done()
+          })
       })
 
-      api.get('/api/options?' + query)
-        .set('Accept', 'application/json')
-        .set('Cookie', cookie) // Pass session cookie with each request
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end(function(err, res) {
-          if (err) return done(err)
-          expect(res.body.success).to.be.true
-          expect(res.body.action).to.equal('options')
-          expect(res.body.gui).to.equal('ng')
-          expect(res.body.data.length).to.be.above(0)
-          done()
-        })
+      it('should read nested form')
+
+      it('should read nested grid')
+
     })
 
-    it('should read nested form')
+    describe('output: pate', function() {
 
-    it('should read nested grid')
+    })
 
   })
 
