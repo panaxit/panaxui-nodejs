@@ -23,7 +23,7 @@
     "ghooks": {
       "pre-commit": "npm run eslint && npm test"
     },
-    "commitizen" :{
+    "commitizen": {
       "path": "node_modules/cz-conventional-changelog"
     }
   },
