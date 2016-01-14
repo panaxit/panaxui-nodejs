@@ -28,7 +28,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://benoror@bitbucket.org/benoror/panaxui-nodejs.git"
+    "url": "https://github.com/panaxit/panaxui-nodejs.git"
   },
   "dependencies": {
     "body-parser": "~1.14.1",
@@ -47,7 +47,7 @@
     "morgan": "1.6.1",
     "multer": "^1.1.0",
     "node-pate": "0.0.6",
-    "panaxjs": "git+https://benoror@bitbucket.org/panaxit/panaxjs.git",
+    "panaxjs": "git+https://github.com/panaxit/panaxjs.git",
     "serve-favicon": "~2.2.0"
   },
   "devDependencies": {
