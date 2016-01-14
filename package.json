@@ -4,8 +4,7 @@
   "author": "Benjamin Orozco <benoror@gmail.com>",
   "description": "PanaxUI API Backend - Node.js",
   "main": "app.js",
-  "private": true,
-  "license": "Copyright 2015 PanaxIT (R)",
+  "license": "Apache-2.0",
   "scripts": {
     "commit": "git-cz",
     "start": "NODE_ENV=development node node_modules/nodemon/bin/nodemon.js -i cache ./bin/www",
